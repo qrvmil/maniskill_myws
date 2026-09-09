@@ -274,3 +274,99 @@ def test_official_openpi_action_normalization_roundtrip():
     np.testing.assert_allclose(recovered,actions,rtol=0,atol=1e-5)
     contract=ActionContract(.5)
     for row in recovered:np.testing.assert_allclose(contract.to_env(np.clip(row,-1,1)),row,atol=1e-5)
+
+
+def test_resident_cpu_optimizer_matches_move_model_adamw():
+    import copy,torch
+    from maniskill_myws.pld.libero_cpu_sft import ResidentCPUOptimizer,cpu_optimizer_step
+    torch.manual_seed(8)
+    reference=torch.nn.Sequential(torch.nn.Linear(4,8),torch.nn.Tanh(),torch.nn.Linear(8,2))
+    resident=copy.deepcopy(reference)
+    opt=torch.optim.AdamW(reference.parameters(),lr=.001,foreach=False)
+    mirror=ResidentCPUOptimizer(resident,lr=.001,foreach=False)
+    for _ in range(3):
+        x=torch.randn(3,4);target=torch.randn(3,2)
+        for model in [reference,resident]:((model(x)-target)**2).mean().backward()
+        cpu_optimizer_step(reference,opt)
+        mirror.step(resident)
+        for a,b in zip(reference.parameters(),resident.parameters(),strict=True):
+            torch.testing.assert_close(a,b,rtol=0,atol=0)
+    restored=ResidentCPUOptimizer(copy.deepcopy(resident),lr=.001,foreach=False)
+    restored.optimizer.load_state_dict(mirror.optimizer.state_dict())
+    assert len(restored.optimizer.state)==len(mirror.optimizer.state)
+
+
+def test_transfer_summary_preserves_negative_gain_and_rejects_duplicates(tmp_path):
+    from maniskill_myws.pld.libero_protocol import Protocol,file_sha256,paired_summary,task_key
+    from maniskill_myws.pld.libero_summary import gather_transfer_results
+    cfg=json.loads(Path('configs/pld_libero/anchor_bowl.json').read_text());p=Protocol(cfg)
+    run=tmp_path/'run';(run/'eval').mkdir(parents=True)
+    checkpoint=tmp_path/'fixture.pt';checkpoint.write_bytes(b'unit test fixture, not a real checkpoint')
+    alignment=tmp_path/'alignment.json';alignment.write_text('unit test source alignment fixture')
+    cp_hash=file_sha256(checkpoint);base_hash=file_sha256(alignment)
+    checkpoint.with_suffix('.json').write_text(json.dumps(dict(source=p.source,training_seed=0,
+        checkpoint_sha256=cp_hash,alignment_sha256=base_hash,split_hash=p.split_hash,execution_hash=p.execution_hash)))
+    cfg['command_options']=dict(mode='eval',checkpoint=str(checkpoint),alignment_manifest=str(alignment))
+    (run/'config.json').write_text(json.dumps(cfg));(run/'metadata.json').write_text(json.dumps(dict(status='COMPLETED')))
+    base=[dict(seed=3000,reset_hash='a',success=True,length=10),dict(seed=3001,reset_hash='b',success=False,length=10)]
+    residual=[dict(x,success=False) for x in base]
+    row=dict(target=task_key(cfg['source']),checkpoint_sha256=cp_hash,alignment_sha256=base_hash,**paired_summary(base,residual))
+    (run/'eval/summary.json').write_text(json.dumps([row]))
+    (run/'eval'/f"{cfg['source']['name']}_episodes.json").write_text(json.dumps(dict(base=base,residual=residual)))
+    summary=gather_transfer_results([run])
+    assert summary['tasks'][0]['delta_SR']==-.5
+    assert summary['buckets'][0]['mean_gain']==-.5
+    assert len(summary['missing_tasks'][0]['targets'])==8
+    with pytest.raises(ValueError,match='Duplicate'):gather_transfer_results([run,run])
+    (run/'metadata.json').write_text(json.dumps(dict(status='FAILED')))
+    with pytest.raises(ValueError,match='completed'):gather_transfer_results([run])
+
+
+def test_native_post_action_observations_use_next_action_label():
+    from maniskill_myws.pld.libero_alignment import native_observation_action_indices
+    # states after actions 0,1,2 must predict the following action 1,2,3.
+    actions=np.array([10,20,30,40])
+    pairs=[(i,actions[j]) for i,j in native_observation_action_indices(len(actions))]
+    assert pairs==[(0,20),(1,30),(2,40)]
+    with pytest.raises(ValueError):list(native_observation_action_indices(1))
+
+
+def test_official_gpu_sft_final_checkpoint_counts_completed_updates():
+    from dataclasses import dataclass
+    from maniskill_myws.pld.libero_gpu_sft import save_completed_update
+    @dataclass
+    class Config:
+        num_train_steps:int=2
+        save_interval:int=500
+    calls=[]
+    def native_save(model,optimizer,step,config,is_main,data):
+        if (step%config.save_interval==0 and step>0) or step==config.num_train_steps-1:
+            calls.append(step)
+    for step in (1,2):
+        save_completed_update(native_save,None,None,step,Config(),True,None)
+    assert calls==[2]
+
+
+def test_gpu_checkpoint_retention_preserves_weights_and_latest_optimizer(tmp_path):
+    from maniskill_myws.pld.libero_gpu_sft import retain_latest_optimizer
+    for step in (500,1000):
+        p=tmp_path/str(step);p.mkdir()
+        (p/'model.safetensors').write_bytes(b'weights')
+        (p/'optimizer.pt').write_bytes(b'optimizer')
+    removed=retain_latest_optimizer(tmp_path,1000)
+    assert removed==['500/optimizer.pt']
+    assert (tmp_path/'500/model.safetensors').read_bytes()==b'weights'
+    assert (tmp_path/'1000/optimizer.pt').exists()
+    with pytest.raises(ValueError):retain_latest_optimizer(tmp_path,1500)
+
+
+def test_gpu_budget_fraction_is_float_at_full_device_capacity():
+    from maniskill_myws.pld.libero_artifacts import memory_fraction
+    total=80*1024**3
+    for budget in (16,80,100):
+        fraction=memory_fraction(budget,total)
+        assert isinstance(fraction,float)
+        assert 0<fraction<=1
+    assert memory_fraction(16,total)==.2
+    assert memory_fraction(80,total)==1.
+    with pytest.raises(ValueError):memory_fraction(0,total)

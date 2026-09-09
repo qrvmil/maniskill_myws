@@ -11,7 +11,7 @@ os.environ.setdefault('MUJOCO_GL','egl')
 os.environ.setdefault('TORCH_COMPILE_DISABLE','1')
 import numpy as np
 
-from maniskill_myws.pld.libero_artifacts import RunArtifacts, write_json
+from maniskill_myws.pld.libero_artifacts import RunArtifacts, write_json, memory_fraction
 from maniskill_myws.pld.libero_backend import LiberoEnv, ChunkedBasePolicy
 from maniskill_myws.pld.libero_protocol import Protocol
 from maniskill_myws.pld.libero_runner import run_episode, insert_trajectory
@@ -88,6 +88,7 @@ def main():
     p.add_argument('--config',default='configs/pld_libero/anchor_bowl.json')
     p.add_argument('--output',required=True)
     p.add_argument('--episodes',type=int,default=2)
+    p.add_argument('--validation',action='store_true',help='Source base only: use source-validation seeds for alignment selection')
     p.add_argument('--max-steps',type=int,default=None,help='Only truncate non-scientific smoke')
     p.add_argument('--alignment-manifest')
     p.add_argument('--zero-report')
@@ -99,18 +100,21 @@ def main():
     args=p.parse_args()
     cfg=json.loads(Path(args.config).read_text())
     protocol=Protocol(cfg)
+    if args.validation and args.mode!='base':
+        p.error('--validation is only supported for source base evaluation')
     if args.mode != 'smoke':
         protocol.require_alignment(args.alignment_manifest)
         if args.max_steps is not None:
             p.error('Only smoke may override horizon')
-    if args.episodes<1 or args.episodes>len(cfg['eval_seeds']):
+    allowed_seeds=cfg['validation_env_seeds'] if args.mode=='zero' or args.validation else cfg['eval_seeds']
+    if args.episodes<1 or args.episodes>len(allowed_seeds):
         p.error('episodes must be within registered evaluation seed set')
     cfg['command_options']=vars(args)
     with RunArtifacts(args.output,cfg) as run:
         import torch
         if cfg['device'].startswith('cuda'):
             total=torch.cuda.get_device_properties(0).total_memory
-            torch.cuda.set_per_process_memory_fraction(min(1,cfg['gpu_budget_gib']*1024**3/total))
+            torch.cuda.set_per_process_memory_fraction(memory_fraction(cfg['gpu_budget_gib'],total))
         if args.mode=='smoke':
             smoke(cfg,args,run)
         else:

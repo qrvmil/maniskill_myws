@@ -9,7 +9,7 @@ from pathlib import Path
 import sys
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'src'))
-from maniskill_myws.pld.libero_alignment import convert_source_h5,make_openpi_config,verify_dataset_binding
+from maniskill_myws.pld.libero_alignment import convert_source_h5,make_openpi_config,verify_dataset_binding,ALIGNMENT_DATA_VERSION
 from maniskill_myws.pld.libero_protocol import Protocol,file_sha256,directory_manifest
 from maniskill_myws.pld.libero_artifacts import RunArtifacts,write_json
 
@@ -30,15 +30,17 @@ def main():
     p.add_argument('--dataset-root',default='/workspace/datasets/lerobot/local/pld_libero_bowl')
     p.add_argument('--workdir',default='outputs/pld_libero/EXP-001/alignment')
     p.add_argument('--output',required=True)
-    p.add_argument('--method',choices=['full','lora','full_cpu'],default='full')
+    p.add_argument('--method',choices=['full','lora','full_cpu','full_torch'],default='full')
     p.add_argument('--steps',type=int,default=3000)
     p.add_argument('--pytorch-base-checkpoint')
     p.add_argument('--resume-checkpoint')
     p.add_argument('--cpu-threads',type=int,default=16)
+    p.add_argument('--optimizer-storage',choices=['move_model','resident_cpu'],default='move_model')
     args=p.parse_args()
     cfg=json.loads(Path(args.config).read_text());protocol=Protocol(cfg)
     os.environ['HF_LEROBOT_HOME']=str(Path(args.dataset_root).resolve().parents[1])
     with RunArtifacts(args.output,vars(args)) as run:
+        write_json(run.path/'protocol_config.json',cfg)
         if args.mode=='prepare':
             audit=convert_source_h5(args.source_h5,cfg,repo_id=args.repo_id,root=args.dataset_root)
             write_json(Path(args.dataset_root)/'source_audit.json',audit)
@@ -48,6 +50,8 @@ def main():
         audit=json.loads((Path(args.dataset_root)/'source_audit.json').read_text())
         if audit['split_hash']!=protocol.split_hash or file_sha256(args.source_h5)!=audit['sha256']:
             raise ValueError('Dataset source/split checksum mismatch')
+        if audit.get('alignment_data_version')!=ALIGNMENT_DATA_VERSION:
+            raise ValueError('Dataset has obsolete observation/action timing; reconvert before training')
         verify_dataset_binding(audit,repo_id=args.repo_id,root=args.dataset_root)
         train_cfg=make_openpi_config(cfg,repo_id=args.repo_id,workdir=args.workdir,method=args.method,steps=args.steps)
         (run.path/'openpi_config.txt').write_text(repr(train_cfg))
@@ -65,7 +69,10 @@ def main():
             if norm_manifest!=dict(**norm_binding,statistics_sha256=file_sha256(norm_path)):
                 raise ValueError('Normalization producer/data/statistics mismatch')
             # Official JAX trainer, including the official freeze filter for LoRA.
-            if args.method=='full_cpu':
+            if args.method=='full_torch':
+                from maniskill_myws.pld.libero_gpu_sft import train_official_pytorch
+                checkpoint=train_official_pytorch(train_cfg,args,run,load_script('train_pytorch'))
+            elif args.method=='full_cpu':
                 from maniskill_myws.pld.libero_cpu_sft import train_cpu_offload
                 checkpoint=train_cpu_offload(train_cfg,args,run)
             else:
@@ -75,6 +82,7 @@ def main():
             if not checkpoint.exists() or not normalizer.exists():
                 raise RuntimeError('Official trainer did not produce expected checkpoint and statistics')
             manifest={'training_tasks':[protocol.source],'split_hash':protocol.split_hash,
+                      'alignment_data_version':ALIGNMENT_DATA_VERSION,
                       'pretrained_checkpoint':'gs://openpi-assets/checkpoints/pi0_base',
                       'alignment_steps':args.steps,'method':args.method,
                       'aligned_checkpoint':str(checkpoint.resolve()),

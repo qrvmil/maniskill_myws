@@ -1,11 +1,10 @@
 # RESULTS — PLD LIBERO
 
 ## Current headline result
-A two-update source-only aligned pi0 checkpoint now exists for engineering validation. No trained LIBERO residual or transfer conclusion exists yet.
-The repository was absent and has been cloned. Actual GPU is A100 80 GB, not the requested RTX 5080. All scientific success rates remain PENDING.
+LIBERO integration and corrected source-only full-model pi0 SFT smoke runs work. Both corrected CPU-SFT zero-residual pairs matched exactly; the tiny base scored0/2 on source-validation seeds. Official GPU SFT completed2 finite updates on the user-authorized A10080GB, with29.99GiB peak PyTorch allocation. GPU-checkpoint zero validation and the100-step alignment pilot are next. **No learned residual or cross-task transfer conclusion exists.**
 
 ## Base policy
-Source-only full-model SFT completed two real updates under a 16 GiB allocation ceiling (EXP-000 engineering run). Longer scientific alignment, aligned-base evaluation and successful rollout buffer remain PENDING.
+Corrected corpus:50 source demos,5832 observation/action pairs. All earlier same-index checkpoints are excluded from scientific use. Completed2-update checkpoints are engineering fixtures; adequate source alignment and successful frozen-base offline collection remain PENDING. User authorized A100 usage; current experiments no longer impose16GiB.
 
 ## Source residual training
 EXP-002: PENDING. No distillation will be run.
@@ -31,7 +30,7 @@ Torch 2.11.0+cu128; CUDA 12.8; CUDA available. This is not RTX 5080 validation.
 - Requested local checkout absent; resolved by cloning public repository.
 
 ## Open questions / next experiments
-Highest priority: short real source-only full-model SFT with CPU AdamW after successful 12.69 GiB synthetic probe; then aligned-base zero equivalence and source success evaluation. Do not use leaked full-LIBERO checkpoints to bypass this gate.
+Highest priority: validate official GPU SFT on the user-authorized A100, run the registered100-step source-only pilot, then source-validation success and successful-base collection. Do not use leaked full-LIBERO checkpoints to bypass this gate.
 
 ## Append-only experiment ledger
 Entries below are immutable records; corrections are new entries. Summary sections above may be updated.
@@ -222,3 +221,91 @@ Aligned checkpoint loaded, but LIBERO import failed because easydict was missing
 
 ### EXP-000/final OpenPI integration tests / 2026-09-09
 `audit/tests_final_openpi.log`: 16 passed, 3 upstream warnings, 21.53 seconds in torch 2.7.1+cu128/OpenPI environment. This includes actual LIBERO reset/step, camera/state/action contracts, official model normalization round trip, zero-residual numerical checks, replay, finite Cal-QL/SAC, checkpoint determinism and paired-seed/provenance tests.
+
+### EXP-000/aligned-zero-002 / 2026-09-09T20:37:39.699382+00:00
+Completed four real pi0 episodes (two base/zero pairs), seeds2000,2001, D0 source task ID2. All 220 steps per episode. Base successes0/2; zero-residual successes0/2; both SR0, ΔSR0. **This tests an exact zero correction, not a learned residual and not cross-task transfer.** Every RGB/action/full92D-physics maximum absolute pair difference was0. Source SFT initial-state overlap check passed.
+
+Checkpoint `outputs/pld_libero/EXP-000/full-cpu-sft-003/checkpoints/2` (metadata checkpoint null is a logging omission corrected in code; alignment manifest identifies the actual checkpoint). Wall 227.47734304331243 s; allocated 7162114048 bytes (6.67 GiB); reserved 7275020288 bytes; sampled device peak 8179 MiB; peak process RAM 16360914944 bytes. GPUA100, torch2.7.1+cu128. Exact command/config/revision/dirty status in metadata, base-inference timings in logs, per-episode states and pair checks in eval. This metadata episodes=2 counts pairs; actual environment episodes=4.
+
+```sh
+/workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/run_libero.py zero --alignment-manifest outputs/pld_libero/EXP-000/full-cpu-sft-003/alignment_manifest.json --episodes 2 --output outputs/pld_libero/EXP-000/aligned-zero-002
+```
+
+### EXP-001/sft-pilot-100 / RUNNING
+Registered before source success was observed. Supervisor `pld_libero_sft` resumed the two-update checkpoint toward100 total source-only updates; 16CPUthreads, ordinary AdamW unchanged. Final checkpoint/loss/runtime/SR: PENDING. Concrete configuration/command and machine data in `outputs/pld_libero/EXP-001/sft-pilot-100/metadata.json` once initialized.
+
+### EXP-000 / CPU optimizer and summary tests / 2026-09-09
+`audit/cpu_adam_threads.json`: representative 67,108,864-element bf16 CPU AdamW updates averaged 0.1253/0.0747/0.0569/0.0552 seconds at 4/8/16/32 threads. This microbenchmark does not predict full training throughput. Fused CPU AdamW was faster but differed in49/16384 bf16 parameter entries after10 test updates (max7.6294e-6); it was not adopted. The optional resident CPU parameter path passed exact small-model comparisons. `audit/tests_summary_resident.log`:17 passed,1 skipped,7.57s, including negative-gain preservation and duplicate-run rejection. These are synthetic unit fixtures, not experimental transfer numbers.
+
+### EXP-001/sft-pilot-100 / INTERRUPTED — temporal-alignment correction
+Stopped the supervisor job after46 completed updates (44 additional updates after the two-update resume). No100-update checkpoint exists. `metadata_before_stop.json` preserves the original running metadata; `metadata.json` records the explicit interruption, with per-step peak allocation13626460160 bytes and peak reserved13849591808 bytes from actual logs. Device-wide polling history was held in memory and was lost on supervisor termination; no final sampled peak is invented.
+
+The native upstream `scripts/create_dataset.py` calls env.step(action) before storing the observation at the same index. A source-only simulator check at demonstration0 indices10/30/50/70 found stored end-effector positions 0.0061–0.0111m from same-index states but only0.00027–0.00045m from next-index states (`EXP-000/audit/demo_timing_check.json`). This supports the observed one-step offset. The naive native conversion is superseded; all prior SFT/zero runs remain real engineering results but cannot be used as the scientific aligned base. No unseen rollout caused this change.
+
+### EXP-001/prepare-003 / 2026-09-09T20:55:47.564393+00:00
+Corrected native post-action timing:50 source demos,5832 training pairs from5882 raw frames. Dataset local/pld_libero_bowl_v3. Its first-observed-state holdout fingerprints were added from the same SHA-verified source HDF5 before normalization; original audit preserved as source_audit_before_holdout_amendment.json. Metadata, dependency versions and code snapshot in the run directory. Wall 42.479561476036906 seconds. No GPU policy episodes; SR/ΔSR N/A.
+
+### EXP-001/norm-004 / 2026-09-09T20:59:37.001663+00:00
+Official normalization completed on all5832 corrected source-only pairs. Producer manifest binds corrected corpus/data transforms/statistics. Wall 63.48172018863261 seconds; no policy episodes. Exact command/config/commit/dirty state and package versions in run metadata/artifacts.
+
+### EXP-000/safe fast loading / 2026-09-09
+Transformers no_init_weights + official CPU model constructor + explicit restored weight tying passed strict pretrained loading in3.509s. All three registered buffer groups validated, including exact arange vision position IDs; `audit/no_init_load.json`. This avoids the failed meta/to_empty route. Full-model GPU training/inference tests remain separate. `audit/tests_timing_v3.log`:18 passed,1 skipped,7.55s including corrected temporal pairing.
+
+### EXP-000/full-cpu-sft-v3-resident-001 / 2026-09-09T21:01:29.422117+00:00
+Corrected native temporal alignment, same50 source demos/5832 pairs, full-model CPU AdamW with one GPU model and resident CPU optimizer parameters. Both actual updates finite: losses 0.1739734560251236 / 0.1942126452922821; gradient norms 7.129666805267334 / 6.614439964294434. Step times 12.990240005776286 / 12.108901647850871 seconds. All 3501372176 parameters remain eligible. No environment episodes and no scientific SR/ΔSR yet.
+
+Status COMPLETED; wall 148.16044089384377s; allocated 13626460160 bytes; reserved 13849591808 bytes; sampled device peak 13739MiB; process peak RAM 30756507648 bytes. GPUA100, torch2.7.1+cu128, CUDA12.8, training seed0, sourceD0 only. Checkpoint `outputs/pld_libero/EXP-000/full-cpu-sft-v3-resident-001/checkpoints/2`; source/corpus/norm/checkpoint provenance in alignment_manifest.json. Revision `a6274bdabf024ae270689000c39d587d066de311`, dirty tree and code snapshot recorded in run directory.
+
+```sh
+/workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/align_libero.py train --source-h5 /workspace/datasets/libero_seen/pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate_demo.hdf5 --repo-id local/pld_libero_bowl_v3 --dataset-root /workspace/datasets/lerobot/local/pld_libero_bowl_v3 --method full_cpu --steps 2 --optimizer-storage resident_cpu --pytorch-base-checkpoint /workspace/checkpoints/pi0_base_pytorch_v2 --output outputs/pld_libero/EXP-000/full-cpu-sft-v3-resident-001
+```
+
+### EXP-000 / corrected integration tests / 2026-09-09
+`audit/tests_corrected_full.log`:19 passed,3 upstream warnings,12.97s. Command `PLD_LIBERO_INTEGRATION=1 scripts/pld/libero_python.sh -m pytest -q tests/test_pld_libero.py`. Includes actual LIBERO reset/step plus action/camera/proprioception/chunk/zero/replay/finite Cal-QL and SAC/checkpoint/paired-seed/provenance/temporal-conversion/negative-summary tests. Test fixtures do not establish learned-policy transfer.
+
+### EXP-000/full-cpu-sft-v3-move-001 / 2026-09-09T21:07:51.711806+00:00
+Corrected full-model two-update reference with whole-model CPU movement. Losses and gradient norms exactly match resident_cpu; all777 saved tensors match bitwise (`audit/storage_full_model_comparison.json`, comparison1.8596s). Measured update times17.6977/14.6454s; wall162.2897066436708s; allocated13626460160 bytes, reserved13849591808 bytes; sampled device peak14461MiB. The integration test overlapped the checkpoint-save phase and added a renderer context, so this device-wide peak is not an isolated training-only measurement. The resident run's isolated device peak remains13739MiB. CPU RAM peak30674673664 bytes. GPUA100, torch2.7.1+cu128, CUDA12.8, sourceD0/training seed0/no episodes. Checkpoint `outputs/pld_libero/EXP-000/full-cpu-sft-v3-move-001/checkpoints/2`; dirty revision `a6274bdabf024ae270689000c39d587d066de311` and code/config snapshots in run. No scientific success/transfer claim.
+
+```sh
+/workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/align_libero.py train --source-h5 /workspace/datasets/libero_seen/pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate_demo.hdf5 --repo-id local/pld_libero_bowl_v3 --dataset-root /workspace/datasets/lerobot/local/pld_libero_bowl_v3 --method full_cpu --steps 2 --optimizer-storage move_model --pytorch-base-checkpoint /workspace/checkpoints/pi0_base_pytorch_v2 --output outputs/pld_libero/EXP-000/full-cpu-sft-v3-move-001
+```
+
+### EXP-000/aligned-zero-v3-001 / 2026-09-09T21:11:27.368971+00:00
+Corrected-data two-update checkpoint passed both full220-step zero-residual pairs, source-validation seeds2000/2001. All RGB/action/full92D-physics max differences exactly0. Base0/2 successes; zero-residual0/2; bothSR0, ΔSR0. This is an engineering zero-correction test, **not learned residual gain**. Source holdout checks include native first and successor observed states. Four actual environment episodes (metadata episodes2 counts pairs).
+
+Wall160.51728006079793s; allocated7162114048 bytes, reserved7275020288 bytes; sampled device peak8179MiB; CPU RAM15378632704 bytes. GPUA100, torch2.7.1+cu128, CUDA12.8; checkpoint `/workspace/State-Estimation/maniskill_myws/outputs/pld_libero/EXP-000/full-cpu-sft-v3-resident-001/checkpoints/2`; dirty revision `a6274bdabf024ae270689000c39d587d066de311` and exact configuration/code snapshots in run directory.
+
+```sh
+/workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/run_libero.py zero --alignment-manifest outputs/pld_libero/EXP-000/full-cpu-sft-v3-resident-001/alignment_manifest.json --episodes 2 --output outputs/pld_libero/EXP-000/aligned-zero-v3-001
+```
+
+### Hardware scope changed by user / 2026-09-09
+User explicitly instructed us to use the actual A100. Current configurations permit80GiB and upcoming alignment uses pinned official OpenPI PyTorch GPU AdamW. Previous16GiB probes/CPU offload remain historical results; they do not establish RTX5080 compatibility. The scientific split and leakage rules are unchanged. The prepared corrected CPU100-step job was not started; GPU2-step probe then100-step pilot supersede it. No unseen results informed this change.
+
+### EXP-001/norm-005 / 2026-09-09T21:16:20.836347+00:00
+Source-only normalization for official full_torch config, same corrected5832 pairs.
+
+StatusCOMPLETED; wall63.26867847144604s; allocated0 bytes, reserved0 bytes; sampled device peak4MiB; CPU RAM peak1372565504 bytes. A10080GB, torch2.7.1+cu128, CUDA12.8. SourceD0/training seed0; no environment episodes, SR/ΔSR N/A. Checkpoint `None`. Revision `a6274bdabf024ae270689000c39d587d066de311`, dirty tree, source/data/norm provenance and code/config snapshots in run directory. GPU smoke snapshot predates optimizer-retention support; it has one final checkpoint only.
+
+```sh
+/workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/align_libero.py norm --source-h5 /workspace/datasets/libero_seen/pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate_demo.hdf5 --repo-id local/pld_libero_bowl_v3 --dataset-root /workspace/datasets/lerobot/local/pld_libero_bowl_v3 --method full_torch --output outputs/pld_libero/EXP-001/norm-005
+```
+
+### EXP-000/full-gpu-sft-v3-001 / 2026-09-09T21:17:40.001026+00:00
+Official OpenPI GPU train_loop completed2 full-model updates, losses0.1740/0.1942 and gradient norms7.13/6.61 (native logs rounded). Measured intervals1.9/0.8s include data/compute but exclude final save. All3501372176 parameters eligible. Checkpoint2 means2 completed updates; upstream final-save counter corrected by wrapper.
+
+StatusCOMPLETED; wall204.38602709770203s; allocated32200932352 bytes, reserved32621199360 bytes; sampled device peak31641MiB; CPU RAM peak16233443328 bytes. A10080GB, torch2.7.1+cu128, CUDA12.8. SourceD0/training seed0; no environment episodes, SR/ΔSR N/A. Checkpoint `/workspace/State-Estimation/maniskill_myws/outputs/pld_libero/EXP-000/full-gpu-sft-v3-001/checkpoints/pi0_libero_seen_full_torch/EXP-001/2`. Revision `a6274bdabf024ae270689000c39d587d066de311`, dirty tree, source/data/norm provenance and code/config snapshots in run directory. GPU smoke snapshot predates optimizer-retention support; it has one final checkpoint only.
+
+```sh
+/workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/align_libero.py train --source-h5 /workspace/datasets/libero_seen/pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate_demo.hdf5 --repo-id local/pld_libero_bowl_v3 --dataset-root /workspace/datasets/lerobot/local/pld_libero_bowl_v3 --method full_torch --steps 2 --pytorch-base-checkpoint /workspace/checkpoints/pi0_base_pytorch_v2 --output outputs/pld_libero/EXP-000/full-gpu-sft-v3-001
+```
+
+### EXP-000 / official GPU wrapper tests and review / 2026-09-09
+`audit/tests_a100_final.log`:20 passed,1 skipped,7.55s. New regression test verifiesN completed updates saves checkpointN, notN-1; retention test preserves all policy weights and latest optimizer. Static review found no concrete blockers in source/normalizer/pretrained guards or official GPU save callback. Real GPU two-step run separately confirmed finite training/checkpoint output.
+
+### EXP-000/aligned-zero-gpu-v3-001 / 2026-09-09T21:22:24.367570+00:00
+FAILED before model/environment creation: PyTorch rejected integer memory fraction1 when the requested budget reached total device capacity. Replaced with a validated float-valued helper; full-device and over-cap boundaries now tested. No episodes, no SR/ΔSR. Wall0.15152046829462051s; allocated0 bytes, reserved0 bytes; sampled device peak4MiB. A100, torch2.7.1+cu128/CUDA12.8; checkpoint not loaded. Revision/dirty tree/config and traceback in run directory.
+
+```sh
+/workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/run_libero.py zero --alignment-manifest outputs/pld_libero/EXP-000/full-gpu-sft-v3-001/alignment_manifest.json --episodes 2 --output outputs/pld_libero/EXP-000/aligned-zero-gpu-v3-001
+```

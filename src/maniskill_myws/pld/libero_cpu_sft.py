@@ -10,6 +10,34 @@ import shutil
 import time
 
 
+class ResidentCPUOptimizer:
+    """One GPU model, CPU optimizer parameters/states; no second GPU model.
+
+    Preserve the same AdamW math/dtypes while copying gradients down and updated
+    parameters up. Avoid moving the entire module and its buffers each step.
+    """
+    def __init__(self,model,**optimizer_kwargs):
+        import torch
+        self.parameters=[torch.nn.Parameter(p.detach().to('cpu',copy=True),requires_grad=p.requires_grad)
+                         for p in model.parameters()]
+        self.optimizer=torch.optim.AdamW(self.parameters,**optimizer_kwargs)
+
+    def step(self,model,*,grad_clip_norm=1):
+        import torch
+        grad_norm=torch.nn.utils.clip_grad_norm_(model.parameters(),grad_clip_norm) if grad_clip_norm else None
+        if grad_norm is not None and not torch.isfinite(grad_norm):
+            raise FloatingPointError(f'Nonfinite SFT gradients: {grad_norm}')
+        for gpu,cpu in zip(model.parameters(),self.parameters,strict=True):
+            cpu.grad=None if gpu.grad is None else gpu.grad.detach().to('cpu',copy=True)
+        model.zero_grad(set_to_none=True)
+        self.optimizer.step()
+        with torch.no_grad():
+            for gpu,cpu in zip(model.parameters(),self.parameters,strict=True):
+                if cpu.grad is not None:gpu.copy_(cpu)
+        self.optimizer.zero_grad(set_to_none=True)
+        return None if grad_norm is None else float(grad_norm)
+
+
 def cpu_optimizer_step(model, optimizer, *, grad_clip_norm=1):
     import torch
     # Same clipping as official PyTorch trainer; do it before moving gradients.
@@ -29,7 +57,7 @@ def train_cpu_offload(config,args,run):
     import jax
     import torch
     import safetensors.torch
-    from openpi.models_pytorch.pi0_pytorch import PI0Pytorch
+    from .libero_openpi import load_pi0_pytorch
     from openpi.training.data_loader import create_data_loader
     from .libero_artifacts import write_json
     from .libero_protocol import file_sha256
@@ -50,18 +78,16 @@ def train_cpu_offload(config,args,run):
     import numpy as np
     np.random.seed(config.seed)
     total=torch.cuda.get_device_properties(0).total_memory
-    torch.cuda.set_per_process_memory_fraction(min(1,16*1024**3/total))
-    # Use official CPU construction: nonpersistent buffers (e.g. vision
-    # position_ids) are initialized here and are absent from safetensors.
-    # Meta/to_empty would leave those buffers uninitialized.
-    model=PI0Pytorch(config.model)
+    torch.cuda.set_per_process_memory_fraction(min(1.0,16*1024**3/total))
     start_step=0
     weight_root=Path(args.resume_checkpoint or args.pytorch_base_checkpoint)
-    safetensors.torch.load_model(model,str(weight_root/'model.safetensors'),strict=True)
+    model=load_pi0_pytorch(config.model,weight_root/'model.safetensors')
     model.gradient_checkpointing_enable();model.train()
-    optimizer=torch.optim.AdamW(model.parameters(),lr=config.lr_schedule.peak_lr,
+    optimizer_kwargs=dict(lr=config.lr_schedule.peak_lr,
         betas=(config.optimizer.b1,config.optimizer.b2),eps=config.optimizer.eps,
         weight_decay=config.optimizer.weight_decay,foreach=False)
+    resident=ResidentCPUOptimizer(model,**optimizer_kwargs) if args.optimizer_storage=='resident_cpu' else None
+    optimizer=resident.optimizer if resident else torch.optim.AdamW(model.parameters(),**optimizer_kwargs)
     if args.resume_checkpoint:
         saved=torch.load(weight_root.parent/'resume_state.pt',map_location='cpu',weights_only=False)
         if saved['checkpoint']!=str(weight_root.resolve()):
@@ -78,6 +104,7 @@ def train_cpu_offload(config,args,run):
     # iteration/CPU decoding does not consume training's GPU RNG.
     for _ in range(start_step):next(iterator)
     run.meta.update(full_model=True,optimizer_device='cpu',batch_size=config.batch_size,
+        optimizer_storage=args.optimizer_storage,
         parameter_count=sum(p.numel() for p in model.parameters()),
         trainable_parameters=sum(p.numel() for p in model.parameters() if p.requires_grad),
         initial_weights_sha256=file_sha256(Path(args.pytorch_base_checkpoint)/'model.safetensors'))
@@ -105,7 +132,8 @@ def train_cpu_offload(config,args,run):
         value=float(loss.detach());loss.backward()
         torch.cuda.synchronize()
         backward_done=time.perf_counter()
-        grad_norm=cpu_optimizer_step(model,optimizer,grad_clip_norm=config.optimizer.clip_gradient_norm)
+        grad_norm=(resident.step(model,grad_clip_norm=config.optimizer.clip_gradient_norm) if resident else
+                   cpu_optimizer_step(model,optimizer,grad_clip_norm=config.optimizer.clip_gradient_norm))
         del loss,observation,actions
         torch.cuda.synchronize()
         metrics={'step':step+1,'loss':value,'grad_norm':grad_norm,'learning_rate':lr,

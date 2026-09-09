@@ -17,8 +17,12 @@ class AlignedOpenPIModel:
     def __init__(self, cfg, manifest):
         from openpi.policies.policy_config import create_trained_policy
         from openpi.shared.normalize import load
+        import dataclasses
+        from .libero_openpi import fast_loading_config
         train_cfg=make_openpi_config(cfg,repo_id=manifest['repo_id'],workdir=manifest['workdir'],
                                      method=manifest['method'],steps=manifest['alignment_steps'])
+        if Path(manifest['aligned_checkpoint'],'model.safetensors').exists():
+            train_cfg=dataclasses.replace(train_cfg,model=fast_loading_config(train_cfg.model))
         self.policy=create_trained_policy(train_cfg,manifest['aligned_checkpoint'],
             norm_stats=load(Path(manifest['normalization']['path']).parent),
             pytorch_device=cfg['device'])
@@ -64,6 +68,7 @@ def _save_specialist(agent, run, protocol, manifest_path, steps):
     path=run.path/'checkpoints'/f'residual_step_{steps}.pt'
     agent.save(path)
     provenance={'source':protocol.source,'split_hash':protocol.split_hash,
+                'training_seed':protocol.config['training_seed'],
                 'alignment_sha256':file_sha256(manifest_path),'execution_hash':protocol.execution_hash,'training_steps':steps,
                 'checkpoint_sha256':file_sha256(path),'checkpoint_selection':'fixed training budget; no unseen metrics'}
     write_json(path.with_suffix('.json'),provenance)
@@ -74,6 +79,7 @@ def _save_specialist(agent, run, protocol, manifest_path, steps):
 def _load_specialist(path, cfg, protocol, manifest_path):
     meta=json.loads(Path(path).with_suffix('.json').read_text())
     if (meta['source']!=protocol.source or meta['split_hash']!=protocol.split_hash
+            or meta.get('training_seed')!=cfg['training_seed']
             or meta.get('execution_hash')!=protocol.execution_hash
             or meta['alignment_sha256']!=file_sha256(manifest_path)
             or meta['checkpoint_sha256']!=file_sha256(path)):
@@ -98,14 +104,15 @@ def evaluate(cfg,args,run,base,model,protocol):
     audit_path=Path(manifest['source_audit'])
     if file_sha256(audit_path)!=manifest['source_audit_sha256']:
         raise ValueError('Source demonstration audit has changed')
-    demo_states=json.loads(audit_path.read_text())['initial_sim_states']
+    audit=json.loads(audit_path.read_text())
+    demo_states=audit['initial_sim_states']+audit['initial_observation_sim_states']
     zero_checks=[]
     summaries=[]
     for task in tasks:
         env=LiberoEnv(task,render_size=cfg['render_size']);model.prompt=env.prompt
         base_rows=[];residual_rows=[]
         try:
-            seeds=cfg['validation_env_seeds'] if args.mode=='zero' else cfg['eval_seeds']
+            seeds=cfg['validation_env_seeds'] if args.mode=='zero' or args.validation else cfg['eval_seeds']
             for seed in seeds[:args.episodes]:
                 holdout=demo_states if task_key(task)==protocol.source else None
                 row,base_tr=run_episode(env,base,seed=seed,image_size=cfg['rl_image_size'],demonstration_states=holdout)
@@ -132,6 +139,10 @@ def evaluate(cfg,args,run,base,model,protocol):
                         'SR_base':float(np.mean([r['success'] for r in base_rows])),
                         'SR_residual':None,'delta_SR':None}
             summaries.append(dict(source=protocol.source,target=task_key(task),distance=task['distance'],
+                                  training_seed=cfg['training_seed'],
+                                  checkpoint_sha256=file_sha256(args.checkpoint) if args.checkpoint else None,
+                                  alignment_sha256=file_sha256(args.alignment_manifest),
+                                  evaluation_scope='source_validation' if args.mode=='zero' or args.validation else 'held_out_evaluation',
                                   task_id=env.task_id,checkpoint=args.checkpoint,**result))
             write_json(run.path/'eval/summary.json',summaries)
         finally:
@@ -142,7 +153,8 @@ def evaluate(cfg,args,run,base,model,protocol):
         buckets={d:float(np.mean([r['delta_SR'] for r in summaries if r['distance']==d]))
                  for d in sorted({r['distance'] for r in summaries})}
         write_json(run.path/'eval/gain_by_distance.json',buckets)
-    run.meta.update(episodes=sum(s['episodes'] for s in summaries),checkpoint=args.checkpoint)
+    run.meta.update(episodes=sum(s['episodes'] for s in summaries),
+                    checkpoint=args.checkpoint or manifest['aligned_checkpoint'])
 
 
 def collect(cfg,args,run,base,model,protocol):
@@ -180,7 +192,8 @@ def train(cfg,args,run,base,model,protocol):
     shape=(2,cfg['rl_image_size'],cfg['rl_image_size'],3)
     online=ReplayBuffer(cfg['buffer_capacity'],8,7,image_shape=shape)
     agent=ResidualSAC(SACConfig(8,7,action_scale=cfg['residual_scale'],visual_encoder='resnet10',
-        image_shape=shape,calql_n_actions=cfg['calql_n_actions'],otf_backup_actions=cfg['otf_backup_actions']),device=cfg['device'])
+        image_shape=shape,calql_n_actions=cfg['calql_n_actions'],otf_backup_actions=cfg['otf_backup_actions'],
+        target_entropy=cfg.get('target_entropy')),device=cfg['device'])
     log=run.path/'logs/updates.jsonl'
     def update(kind,batch,step):
         t=time.perf_counter()

@@ -5,6 +5,14 @@ from pathlib import Path
 import numpy as np
 from .libero_protocol import Protocol, file_sha256, task_key, directory_manifest, verify_directory
 
+ALIGNMENT_DATA_VERSION='native_post_action_shift_v1'
+
+
+def native_observation_action_indices(length):
+    """Native create_dataset.py records obs after action: use next action label."""
+    if length<2:raise ValueError('Native trajectory needs at least two frames')
+    return zip(range(length-1),range(1,length),strict=True)
+
 
 def audit_source_h5(path, config):
     import h5py
@@ -16,15 +24,18 @@ def audit_source_h5(path, config):
         names=sorted(root.keys(),key=lambda s:int(s.split('_')[-1]))
         lengths=[]
         fingerprints=[]
+        observation_fingerprints=[]
         for name in names:
             actions=root[name]['actions'][:]
             if actions.ndim!=2 or actions.shape[1]!=7 or not np.isfinite(actions).all() or np.max(np.abs(actions))>1:
                 raise ValueError(f'Invalid source actions in {name}')
             lengths.append(len(actions))
             fingerprints.append(root[name]['states'][0].tolist())
+            observation_fingerprints.append(root[name]['states'][1].tolist())
     return {'path':str(Path(path).resolve()),'sha256':file_sha256(path),'task':source,
             'num_demonstrations':len(names),'transitions':sum(lengths),
-            'episode_names':names,'episode_lengths':lengths,'initial_sim_states':fingerprints}
+            'episode_names':names,'episode_lengths':lengths,'initial_sim_states':fingerprints,
+            'initial_observation_sim_states':observation_fingerprints}
 
 
 def convert_source_h5(path, config, *, repo_id, root):
@@ -50,7 +61,8 @@ def convert_source_h5(path, config, *, repo_id, root):
         prompt=config['source']['name'].replace('_',' ')
         for name in audit['episode_names']:
             g=data[name]; o=g['obs']
-            for i,action in enumerate(g['actions']):
+            for i,action_index in native_observation_action_indices(len(g['actions'])):
+                action=g['actions'][action_index]
                 state=np.concatenate([o['ee_pos'][i],o['ee_ori'][i],o['gripper_states'][i]]).astype(np.float32)
                 ds.add_frame({'image':np.ascontiguousarray(o['agentview_rgb'][i][::-1,::-1]),
                               'wrist_image':np.ascontiguousarray(o['eye_in_hand_rgb'][i][::-1,::-1]),
@@ -59,14 +71,20 @@ def convert_source_h5(path, config, *, repo_id, root):
         ds.stop_image_writer()
     audit.update(repo_id=repo_id,root=str(Path(root).resolve()),camera_shape=list(shape),
                  camera_transform='rotate180 both raw native cameras; matching runtime',fps=20,
-                 no_op_filter=False,split_hash=Protocol(config).split_hash)
+                 no_op_filter=False,split_hash=Protocol(config).split_hash,
+                 alignment_data_version=ALIGNMENT_DATA_VERSION,
+                 observation_action_alignment='native obs[i] is after action[i]; pair with action[i+1], drop last obs',
+                 raw_transitions=audit['transitions'],transitions=audit['transitions']-audit['num_demonstrations'],
+                 converted_episode_lengths=[n-1 for n in audit['episode_lengths']])
     audit['dataset_files']=directory_manifest(root,exclude=('source_audit.json',))
     return audit
 
 
 def make_openpi_config(protocol_config, *, repo_id, workdir, method='full', steps=3000):
     from openpi.training import config as oc
-    base=oc.get_config('pi0_libero' if method in ('full','full_cpu') else 'pi0_libero_low_mem_finetune')
+    if method not in ('full','full_cpu','full_torch','lora'):
+        raise ValueError(f'Unknown alignment method: {method}')
+    base=oc.get_config('pi0_libero' if method in ('full','full_cpu','full_torch') else 'pi0_libero_low_mem_finetune')
     name='pi0_libero_seen_'+method
     return dataclasses.replace(base,name=name,exp_name='EXP-001',
         data=dataclasses.replace(base.data,repo_id=repo_id,extra_delta_transform=False),

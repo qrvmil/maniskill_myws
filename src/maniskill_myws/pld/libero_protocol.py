@@ -49,6 +49,8 @@ class Protocol:
             raise ValueError('Unapproved pretrained checkpoint; full-LIBERO alignment is forbidden')
         if manifest.get('alignment_steps',0) < 1 or not manifest.get('demonstrations'):
             raise ValueError('Manifest must record actual SFT and demonstrations')
+        if manifest.get('alignment_data_version')!='native_post_action_shift_v1':
+            raise ValueError('Obsolete alignment timing contract; old engineering checkpoints cannot enter scientific runs')
         for entry in [*manifest['demonstrations'], manifest['normalization']]:
             if file_sha256(entry['path']) != entry['sha256']:
                 raise ValueError('Alignment data/statistics checksum mismatch')
