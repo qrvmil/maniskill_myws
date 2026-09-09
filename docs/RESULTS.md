@@ -377,3 +377,6 @@ Re-exported the reviewed figure through the pinned OpenPI environment (Matplotli
 
 ### EXP-000 / GPU restart reproducibility / 2026-09-09
 `audit/gpu_restart_first100.json`: the first 100 completed update losses, gradient norms and learning rates in the fresh 3000-step run exactly match the completed 100-step pilot at native logged precision. This is a rounded-log comparison, not a claim of bitwise checkpoint equality.
+
+### EXP-000 / pre-RL entropy-coordinate audit / 2026-09-09T22:21:05.385292+00:00
+Main B now interprets the paper target -7/2 in unit residual coordinates. Because the inherited actor includes the scale Jacobian, the actual scaled-density target is -8.352030263919616 at scale0.5. The paper does not establish this coordinate convention; author-code equivalence remains unverified. No real residual training, successful-base collection or unseen evaluation has run, so this amendment precedes scientific RL results. SAC implementation remains unchanged. A temperature-gradient invariance test first failed (difference4.851989) with the old unshifted value and then passed with the corrected configuration: `audit/test_entropy_red.log` and `audit/test_entropy_green.log`. Numerical tolerance0.002 accommodates the inherited Jacobian stabilizer near saturation.

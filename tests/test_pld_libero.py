@@ -128,6 +128,30 @@ def test_visual_replay_calql_sac_and_deterministic_checkpoint(tmp_path):
     np.testing.assert_array_equal(a, loaded.select_action(np.zeros(8), np.zeros(7), images=im))
 
 
+def test_main_otf_temperature_gradient_preserves_unit_residual_target():
+    """Catch applying a unit-coordinate entropy target to scaled actor density."""
+    import torch
+    from maniskill_myws.pld.sac import ResidualSAC, SACConfig
+    cfg = json.loads(Path('configs/pld_libero/anchor_bowl_otf.json').read_text())
+    torch.manual_seed(0)
+    scaled = ResidualSAC(SACConfig(8, 7, hidden_dim=32,
+        action_scale=cfg['residual_scale'], target_entropy=cfg['target_entropy']))
+    unit = ResidualSAC(SACConfig(8, 7, hidden_dim=32, action_scale=1, target_entropy=-3.5))
+    unit.actor.load_state_dict(scaled.actor.state_dict())
+    unit.actor.scale.fill_(1)
+    obs, base = torch.zeros(16, 8), torch.zeros(16, 7)
+    torch.manual_seed(4)
+    delta, scaled_logp = scaled.actor.sample(obs, base)
+    torch.manual_seed(4)
+    residual, unit_logp = unit.actor.sample(obs, base)
+    torch.testing.assert_close(delta, cfg['residual_scale'] * residual)
+    # The inherited +1e-6 Jacobian stabilizer introduces a small approximation.
+    for agent, logp in [(scaled, scaled_logp), (unit, unit_logp)]:
+        loss = -(agent.log_alpha * (logp + agent.target_entropy).detach()).mean()
+        loss.backward()
+    torch.testing.assert_close(scaled.log_alpha.grad, unit.log_alpha.grad, atol=2e-3, rtol=0)
+
+
 def test_rollout_advances_cached_action_once_and_records_next_action():
     from maniskill_myws.pld.libero_runner import run_episode
     from maniskill_myws.pld.libero_backend import ChunkedBasePolicy

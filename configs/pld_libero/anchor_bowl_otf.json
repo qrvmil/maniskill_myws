@@ -328,6 +328,7 @@
   "base_checkpoint": null,
   "alignment_manifest": null,
   "warmup_episodes": 100,
-  "target_entropy": -3.5,
+  "target_entropy": -8.352030263919616,
+  "target_entropy_interpretation": "Unit residual target -7/2; inherited scaled-density target = -3.5 + 7*ln(0.5). Paper density convention is unspecified; explicit interpretation before any residual training.",
   "hardware_authorization": "User changed hardware target to the actual A100 80 GB on 2026-09-09; no artificial 16 GiB cap for current experiments."
 }
