@@ -103,7 +103,6 @@ def main():
     if args.validation and args.mode!='base':
         p.error('--validation is only supported for source base evaluation')
     if args.mode != 'smoke':
-        protocol.require_alignment(args.alignment_manifest)
         if args.max_steps is not None:
             p.error('Only smoke may override horizon')
     allowed_seeds=cfg['validation_env_seeds'] if args.mode=='zero' or args.validation else cfg['eval_seeds']

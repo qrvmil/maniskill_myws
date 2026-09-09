@@ -370,3 +370,24 @@ def test_gpu_budget_fraction_is_float_at_full_device_capacity():
     assert memory_fraction(16,total)==.2
     assert memory_fraction(80,total)==1.
     with pytest.raises(ValueError):memory_fraction(0,total)
+
+
+def test_phase_memory_keeps_overall_peak_after_resets():
+    from types import SimpleNamespace
+    from maniskill_myws.pld.libero_artifacts import RunArtifacts
+    class CUDA:
+        allocated=20
+        reserved=24
+        def is_available(self):return True
+        def max_memory_allocated(self):return self.allocated
+        def max_memory_reserved(self):return self.reserved
+        def synchronize(self):pass
+        def reset_peak_memory_stats(self):self.allocated=5;self.reserved=8
+        def memory_allocated(self):return 5
+    run=RunArtifacts.__new__(RunArtifacts)
+    run.torch=SimpleNamespace(cuda=CUDA());run.meta={};run.cuda_peaks={}
+    assert run.begin_cuda_phase()==5
+    run.torch.cuda.allocated=7
+    assert run.end_cuda_phase('sac')['allocated_bytes']==7
+    assert run.cuda_peaks=={'allocated_bytes':20,'reserved_bytes':24}
+    assert run.meta['cuda_phase_peaks']['sac']['allocated_bytes']==7

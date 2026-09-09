@@ -1,7 +1,7 @@
 # RESULTS — PLD LIBERO
 
 ## Current headline result
-LIBERO integration and corrected source-only full-model pi0 SFT smoke runs work. Both corrected CPU-SFT zero-residual pairs matched exactly; the tiny base scored0/2 on source-validation seeds. Official GPU SFT completed2 finite updates on the user-authorized A10080GB, with29.99GiB peak PyTorch allocation. GPU-checkpoint zero validation and the100-step alignment pilot are next. **No learned residual or cross-task transfer conclusion exists.**
+LIBERO integration and corrected source-only full-model pi0 SFT smoke runs work. Both corrected CPU-SFT zero-residual pairs matched exactly; the tiny base scored0/2 on source-validation seeds. Official GPU SFT completed2 finite updates on the user-authorized A10080GB, with29.99GiB peak PyTorch allocation. GPU-checkpoint zero validation also passed; the100-step alignment pilot is running. **No learned residual or cross-task transfer conclusion exists.**
 
 ## Base policy
 Corrected corpus:50 source demos,5832 observation/action pairs. All earlier same-index checkpoints are excluded from scientific use. Completed2-update checkpoints are engineering fixtures; adequate source alignment and successful frozen-base offline collection remain PENDING. User authorized A100 usage; current experiments no longer impose16GiB.
@@ -309,3 +309,15 @@ FAILED before model/environment creation: PyTorch rejected integer memory fracti
 ```sh
 /workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/run_libero.py zero --alignment-manifest outputs/pld_libero/EXP-000/full-gpu-sft-v3-001/alignment_manifest.json --episodes 2 --output outputs/pld_libero/EXP-000/aligned-zero-gpu-v3-001
 ```
+
+### EXP-000/aligned-zero-gpu-v3-002 / 2026-09-09T21:24:54.270656+00:00
+Both zero-residual pairs passed with exact RGB/action/full92D-physics equality. SourceD0, seeds2000/2001, four220-step environment episodes. Base0/2, zero residual0/2; SR_base0.0, SR_zero0.0, ΔSR_zero0.0. This is not a learned correction or transfer result. GPU-trained2-update checkpoint `/workspace/State-Estimation/maniskill_myws/outputs/pld_libero/EXP-000/full-gpu-sft-v3-001/checkpoints/pi0_libero_seen_full_torch/EXP-001/2`.
+
+Wall236.0753170941025s; allocated7162114048 bytes, reserved7275020288 bytes; sampled device peak8179MiB; CPU RAM15378808832 bytes. A100, torch2.7.1+cu128/CUDA12.8; revision `a6274bdabf024ae270689000c39d587d066de311`, dirty status/config/code snapshots in run. Earlier CLI timing excluded one initial checksum pass; this run still used redundant checksum passes inside evaluation. Subsequent commands verify provenance once inside timed artifacts before model loading, preserving guards and measuring separate validation/load durations.
+
+```sh
+/workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/run_libero.py zero --alignment-manifest outputs/pld_libero/EXP-000/full-gpu-sft-v3-001/alignment_manifest.json --episodes 2 --output outputs/pld_libero/EXP-000/aligned-zero-gpu-v3-002
+```
+
+### EXP-001/sft-gpu-v3-100 / STARTED
+Supervisor `pld_libero_sft` started the preregistered100-update source-only official GPU pilot after its2-update checkpoint passed zero equivalence. Fresh same official pretrained weights, corrected5832-pair source corpus, batch1, training seed0, GPU AdamW, A10080GB. Checkpoint/success/runtime final values PENDING. Exact wrapper and supervisor config saved under EXP-000/audit/supervisor_sft_gpu_100.sh and supervisor_sft.conf. Run metadata/code snapshots record the actual execution.

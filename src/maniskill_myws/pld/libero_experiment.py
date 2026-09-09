@@ -14,7 +14,7 @@ from .sac import ResidualSAC, SACConfig
 
 class AlignedOpenPIModel:
     """One frozen local OpenPI instance with independent seeded sampling noise."""
-    def __init__(self, cfg, manifest):
+    def __init__(self, cfg, manifest, run):
         from openpi.policies.policy_config import create_trained_policy
         from openpi.shared.normalize import load
         import dataclasses
@@ -30,6 +30,7 @@ class AlignedOpenPIModel:
             self.policy._model.requires_grad_(False)
             self.policy._model.eval()
         self.inference_seconds=[]
+        self.run=run
         self.noise_shape=(train_cfg.model.action_horizon,train_cfg.model.action_dim)
         self.prompt=''
         self.reset(0)
@@ -40,9 +41,11 @@ class AlignedOpenPIModel:
     def infer(self,raw):
         # Explicit noise avoids advancing global torch/JAX RNG with RL updates.
         noise=self.rng.standard_normal(self.noise_shape).astype(np.float32)
+        self.run.begin_cuda_phase()
         started=time.perf_counter()
         result=self.policy.infer(openpi_observation(raw,self.prompt),noise=noise)
         self.inference_seconds.append(time.perf_counter()-started)
+        self.run.end_cuda_phase('base_inference')
         return result
 
 
@@ -92,7 +95,7 @@ def _load_specialist(path, cfg, protocol, manifest_path):
     return agent
 
 
-def evaluate(cfg,args,run,base,model,protocol):
+def evaluate(cfg,args,run,base,model,protocol,manifest):
     from .libero_protocol import paired_summary
     agent=None if args.mode in ['base','zero'] else _load_specialist(args.checkpoint,cfg,protocol,args.alignment_manifest)
     if args.mode=='eval' and not args.checkpoint:
@@ -100,7 +103,6 @@ def evaluate(cfg,args,run,base,model,protocol):
     tasks=[cfg['source']] if args.mode in ['base','zero'] else [t for t in cfg['tasks'] if args.distance is None or t['distance']==args.distance]
     if not tasks:
         raise ValueError('No tasks for requested distance')
-    manifest=protocol.require_alignment(args.alignment_manifest)
     audit_path=Path(manifest['source_audit'])
     if file_sha256(audit_path)!=manifest['source_audit_sha256']:
         raise ValueError('Source demonstration audit has changed')
@@ -196,13 +198,18 @@ def train(cfg,args,run,base,model,protocol):
         target_entropy=cfg.get('target_entropy')),device=cfg['device'])
     log=run.path/'logs/updates.jsonl'
     def update(kind,batch,step):
+        allocated_before=run.begin_cuda_phase()
         t=time.perf_counter()
         metrics=agent.pretrain_critic_calql(batch) if kind=='calql' else agent.update(batch)
         if torch.cuda.is_available():torch.cuda.synchronize()
         if not all(np.isfinite(v) for v in metrics.values()):
             raise FloatingPointError(f'Nonfinite {kind} losses: {metrics}')
+        memory=run.end_cuda_phase(kind)
         with log.open('a') as f:
-            f.write(json.dumps(dict(kind=kind,step=step,seconds=time.perf_counter()-t,**metrics))+'\n')
+            f.write(json.dumps(dict(kind=kind,step=step,seconds=time.perf_counter()-t,
+                cuda_peak_allocated_bytes=memory['allocated_bytes'],
+                cuda_peak_reserved_bytes=memory['reserved_bytes'],
+                cuda_additional_peak_allocated_bytes=memory['allocated_bytes']-allocated_before,**metrics))+'\n')
     for i in range(cfg['calql_updates']):
         update('calql',offline.sample(cfg['batch_size']),i)
     env=LiberoEnv(cfg['source'],render_size=cfg['render_size']);model.prompt=env.prompt
@@ -239,7 +246,9 @@ def scientific(cfg,args,run):
     import torch
     # Fail missing simulator dependencies before expensive model construction.
     from libero.libero.envs import OffScreenRenderEnv  # noqa: F401
+    validation_started=time.perf_counter()
     protocol=Protocol(cfg);manifest=protocol.require_alignment(args.alignment_manifest)
+    run.meta['alignment_validation_seconds']=time.perf_counter()-validation_started
     if args.mode not in ['base','zero']:
         require_zero_report(args.zero_report,protocol,args.alignment_manifest)
     torch.manual_seed(cfg['training_seed']);np.random.seed(cfg['training_seed']);torch.set_num_threads(2)
@@ -247,11 +256,13 @@ def scientific(cfg,args,run):
         raise ValueError('Successful aligned-base --offline-buffer required')
     if args.mode=='eval' and not args.checkpoint:
         raise ValueError('Frozen source --checkpoint required')
-    model=AlignedOpenPIModel(cfg,manifest)
+    load_started=time.perf_counter()
+    model=AlignedOpenPIModel(cfg,manifest,run)
+    run.meta['base_load_seconds']=time.perf_counter()-load_started
     base=ChunkedBasePolicy(model,replan_steps=cfg['replan_steps'])
     try:
         if args.mode in ['base','zero','eval']:
-            evaluate(cfg,args,run,base,model,protocol)
+            evaluate(cfg,args,run,base,model,protocol,manifest)
         elif args.mode=='collect':
             collect(cfg,args,run,base,model,protocol)
         elif args.mode=='train':

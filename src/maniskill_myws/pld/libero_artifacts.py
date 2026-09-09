@@ -50,6 +50,7 @@ class RunArtifacts(AbstractContextManager):
             'src/maniskill_myws/pld','scripts/pld','configs/pld_libero']))
         import torch
         self.torch = torch
+        self.cuda_peaks = {}
         self.start = time.perf_counter()
         self.stop_event = threading.Event()
         self.samples = []
@@ -66,6 +67,29 @@ class RunArtifacts(AbstractContextManager):
             torch.cuda.reset_peak_memory_stats()
         self.thread = threading.Thread(target=self._monitor,daemon=True)
         self.thread.start()
+
+    def capture_cuda_peak(self):
+        cuda=self.torch.cuda
+        peaks={'allocated_bytes':cuda.max_memory_allocated() if cuda.is_available() else 0,
+               'reserved_bytes':cuda.max_memory_reserved() if cuda.is_available() else 0}
+        for key,value in peaks.items():
+            self.cuda_peaks[key]=max(value,self.cuda_peaks.get(key,0))
+        return peaks
+
+    def begin_cuda_phase(self):
+        cuda=self.torch.cuda
+        if cuda.is_available():cuda.synchronize()
+        self.capture_cuda_peak()
+        if cuda.is_available():
+            cuda.reset_peak_memory_stats()
+            return cuda.memory_allocated()
+        return 0
+
+    def end_cuda_phase(self,name):
+        peaks=self.capture_cuda_peak()
+        saved=self.meta.setdefault('cuda_phase_peaks',{}).setdefault(name,{})
+        for key,value in peaks.items():saved[key]=max(value,saved.get(key,0))
+        return peaks
 
     def _monitor(self):
         while not self.stop_event.is_set():
@@ -88,8 +112,9 @@ class RunArtifacts(AbstractContextManager):
                          process_peak_rss_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,
                          device_peak_sampled_used_mib=max((r['used_mib'] for r in self.samples),default=None))
         if self.torch.cuda.is_available():
-            self.meta.update(torch_peak_allocated_bytes=self.torch.cuda.max_memory_allocated(),
-                             torch_peak_reserved_bytes=self.torch.cuda.max_memory_reserved())
+            self.capture_cuda_peak()
+            self.meta.update(torch_peak_allocated_bytes=self.cuda_peaks['allocated_bytes'],
+                             torch_peak_reserved_bytes=self.cuda_peaks['reserved_bytes'])
         if exc:
             (self.path/'logs/error.txt').write_text(''.join(traceback.format_exception(typ,exc,tb)))
             self.meta['error']=str(exc)
