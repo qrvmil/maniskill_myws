@@ -1,13 +1,13 @@
 # RESULTS — PLD LIBERO
 
 ## Current headline result
-Source-only full-model pi0 alignment completed3000 updates on the actual A10080GB. Its frozen checkpoint scored **3/10 source-validation successes (30%)**, versus0/10 for the100-update pilot on the same validation seeds. This is exploratory single-seed base-policy validation, not a residual-gain or unseen-task result. All24 integration/contract tests passed. Selected-checkpoint zero-residual verification passed exactly on two pairs; successful-base collection completed48/100 with6484 validated transitions. Real-buffer A smoke completed2 Cal-QL and8 SAC updates; its paired execution check is running. **No learned residual or cross-task transfer conclusion exists.**
+Source-only full-model pi0 alignment completed3000 updates on the actual A10080GB. Its frozen checkpoint scored **3/10 source-validation successes (30%)**, versus0/10 for the100-update pilot on the same validation seeds. This is exploratory single-seed base-policy validation, not a residual-gain or unseen-task result. All24 integration/contract tests passed. Selected-checkpoint zero-residual verification passed exactly on two pairs; successful-base collection completed48/100 with6484 validated transitions. Real-buffer A smoke completed2 Cal-QL and8 SAC updates; its paired D0 execution check scored base1/2 versus residual0/2 (−50pp). OTF smoke also passed; main50000-step source training is running. **No main-specialist cross-task transfer result exists.**
 
 ## Base policy
 Corrected corpus:50 source demonstrations,5832 temporally aligned observation/action pairs. All earlier same-index checkpoints are excluded. The3000-update checkpoint is frozen for the next offline/RL stages based only on source validation seeds2000–2009. Successes occurred at2000,2004,2006; seven time-limit failures. Mean length192.2 steps. Successful frozen-base collection completed48/100 attempts,6484 transitions, all on training seeds1000–1099. No demonstrations were used in residual replay. User authorized A100 usage; current experiments no longer impose16GiB.
 
 ## Source residual training
-EXP-002: real-buffer A smoke completed2 Cal-QL and8 visual SAC updates with finite losses. Main50000-step specialist PENDING, after execution/OTF gates. No distillation will be run.
+EXP-002: real-buffer A smoke completed2 Cal-QL and8 visual SAC updates with finite losses. OTF smoke also passed2 Cal-QL/8 SAC updates; main50000-step specialist training is running, with1000 Cal-QL updates and100 base warmup episodes inside the online budget. No distillation will be run.
 
 ## Cross-task transfer
 | Source | Target | Distance | SR base | SR + residual | ΔSR | Episodes | Seed(s) |
@@ -19,7 +19,7 @@ EXP-002: real-buffer A smoke completed2 Cal-QL and8 visual SAC updates with fini
 PENDING. No aggregate from unrun or dummy-policy episodes.
 
 ## Negative transfer cases
-PENDING. Absence of evaluated cases is not evidence of no negative transfer.
+Primary cross-task cases: PENDING. The eight-update A engineering fixture worsened source D0 success from1/2 to0/2 (−50pp) on seeds3000/3001. This observed negative same-task correction is retained; two episodes and eight training updates do not establish the behavior of the planned main specialist.
 
 ## Runtime / memory
 All measurements below are from the actual A100 80 GB. The user authorized its full capacity; they are not RTX 5080 results.
@@ -456,3 +456,30 @@ Checkpoint: `outputs/pld_libero/EXP-002/rl-smoke-gpu3000-seed0/checkpoints/resid
 
 ### EXP-000 / CPU-only negative CLI test / 2026-09-09
 Corrected the test harness to use a CPU configuration and `CUDA_VISIBLE_DEVICES` empty for missing-alignment CLI probes. The production guard is unchanged. `CUDA_VISIBLE_DEVICES='' scripts/pld/libero_python.sh -m pytest -q tests/test_pld_libero.py -k scientific_commands` passed1 test/24 deselected in12.85s; `audit/test_cpu_only_cli_guard.log`. Earlier total-device peaks that overlapped this test include its extra CUDA context and should be treated as conservative whole-device measurements; process-specific PyTorch peaks remain separate.
+
+### EXP-000/learned-residual-smoke-gpu3000-seed0 / COMPLETED / 2026-09-09T23:22:04.005267+00:00
+Paired deterministic evaluation of the eight-update A fixture on source taskID2/D0, same seeds3000/3001 and initial states. Base1/2 (50%), residual0/2 (0%), ΔSR−0.5 (−50pp). Base lengths220/105, residual220/220; mean162.5 versus220. Base solved seed3001 and the residual failed it. Both residual episodes timed out. Four actual rollouts/two paired conditions. This is an engineering source execution check with no success threshold, explicitly excluded from the main50000-step transfer curve; the negative observation is not hidden. No unseen task was run.
+
+Wall186.20190326310694s; allocated7193941504 bytes, reserved7300186112 bytes, sampled device8203MiB; host RSS15380393984 bytes. A10080GB, torch2.7.1+cu128/CUDA12.8; revision `a8475ff504ceda9c0fe06872aa5abf251dc9d064`, clean. Checkpoint `outputs/pld_libero/EXP-002/rl-smoke-gpu3000-seed0/checkpoints/residual_step_8.pt`, training seed0. Actual SAC/regimen/budget are recorded in summary and metadata.
+
+```sh
+/workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/run_libero.py eval --config configs/pld_libero/anchor_bowl_rl_smoke.json --alignment-manifest outputs/pld_libero/EXP-001/sft-gpu-v3-3000/alignment_manifest.json --zero-report outputs/pld_libero/EXP-001/zero-gpu-3000/eval/zero_equivalence.json --checkpoint outputs/pld_libero/EXP-002/rl-smoke-gpu3000-seed0/checkpoints/residual_step_8.pt --distance D0 --episodes 2 --output outputs/pld_libero/EXP-000/learned-residual-smoke-gpu3000-seed0
+```
+
+### EXP-002/rl-otf-smoke-gpu3000-seed0 / COMPLETED / 2026-09-09T23:25:14.689133+00:00
+Real48-trajectory/6484-transition base buffer; source taskID2/D0, seed0, config `anchor_bowl_otf_smoke.json`. Completed2 Cal-QL and8 SAC updates with finite losses; OTF1 sampled residual plus the base candidate, hard-Q target backup, shifted main-B entropy target. Final SAC q_loss0.039978526532649994, actor_loss2.6800150871276855, alpha0.9991045594215393; reported backup candidate count2.0. One8-step source engineering rollout, no source-performance claim or unseen evaluation.
+
+Wall93.18684179522097s; combined allocation7258752512 bytes, reserved7405043712 bytes, sampled device8315MiB. Per-phase memory and update wall times are in metadata/updates.jsonl. A10080GB, torch2.7.1+cu128/CUDA12.8; revision `a8475ff504ceda9c0fe06872aa5abf251dc9d064`, dirty `M docs/RESULTS.md
+ M src/maniskill_myws/pld/libero_experiment.py
+ M tests/test_pld_libero.py`. Checkpoint `outputs/pld_libero/EXP-002/rl-otf-smoke-gpu3000-seed0/checkpoints/residual_step_8.pt`. This fresh smoke does not initialize the main specialist.
+
+```sh
+/workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/run_libero.py train --config configs/pld_libero/anchor_bowl_otf_smoke.json --alignment-manifest outputs/pld_libero/EXP-001/sft-gpu-v3-3000/alignment_manifest.json --zero-report outputs/pld_libero/EXP-001/zero-gpu-3000/eval/zero_equivalence.json --offline-buffer outputs/pld_libero/EXP-001/offline-gpu-3000/offline.npz --output outputs/pld_libero/EXP-002/rl-otf-smoke-gpu3000-seed0
+```
+
+### EXP-002/source-otf-gpu3000-seed0 / RUNNING / 2026-09-09T23:26:52.417741+00:00
+Start main B only after zero equivalence, actual replay verification, finite A smoke/paired execution and finite OTF smoke. Fixed source taskID2/D0, residual seed0;1000 Cal-QL updates (10 candidates), then50000 online steps, batch8,100 base-only warmup episodes with SAC updates inside that budget, OTF1 plus base candidate. Frozen selected GPU3000 base; actual offline48 successful trajectories/6484 transitions. Fresh residual initialization, no smoke weights reused. No unseen task has been evaluated. Main source performance, final checkpoint/runtime/VRAM and transfer metrics PENDING. Managed by supervisor `pld_libero_rl`. A10080GB, torch2.7.1+cu128/CUDA12.8; revision `e985c0720630fa08bd284748ecc86e985c453062`, dirty status `M docs/RESULTS.md`.
+
+```sh
+/workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/run_libero.py train --config configs/pld_libero/anchor_bowl_otf.json --alignment-manifest outputs/pld_libero/EXP-001/sft-gpu-v3-3000/alignment_manifest.json --zero-report outputs/pld_libero/EXP-001/zero-gpu-3000/eval/zero_equivalence.json --offline-buffer outputs/pld_libero/EXP-001/offline-gpu-3000/offline.npz --output outputs/pld_libero/EXP-002/source-otf-gpu3000-seed0
+```
