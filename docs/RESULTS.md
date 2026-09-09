@@ -423,3 +423,10 @@ Pre-training review found that a short real RL-smoke/A checkpoint could previous
 
 ### EXP-000 / checkpoint-regimen regression suite / 2026-09-09
 ` scripts/pld/libero_python.sh -m pytest -q tests/test_pld_libero.py` completed24 passed/1 integration test skipped in20.56s (`audit/tests_regimen_full.log`). The actual simulator24-test suite had already passed before these reporting-guard-only changes; no concurrent GPU integration test was run during scientific collection.
+
+### EXP-001/offline-gpu-3000 / RUNNING / 2026-09-09T22:37:41.242974+00:00
+Collect successful rollouts of the frozen selected GPU3000 source-only pi0 on source taskID2/D0, training environment seeds1000–1099, model/noise training configuration seed0. Target50 successes, cap100 attempts; no demonstrations or foreign replay permitted. Final attempts/successes/transitions/base SR/runtime/memory PENDING until completion. Partial attempt records are persisted after every episode in `eval/collection.json`. Managed by supervisor `pld_libero_collect`. Revision `472fffabad990df44d84feaf07186496c7936baf`, dirty status `clean`; A10080GB, torch2.7.1+cu128/CUDA12.8.
+
+```sh
+/workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/run_libero.py collect --alignment-manifest outputs/pld_libero/EXP-001/sft-gpu-v3-3000/alignment_manifest.json --zero-report outputs/pld_libero/EXP-001/zero-gpu-3000/eval/zero_equivalence.json --successes 50 --max-attempts 100 --output outputs/pld_libero/EXP-001/offline-gpu-3000
+```
