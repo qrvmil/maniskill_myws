@@ -1,7 +1,7 @@
 # RESULTS — PLD LIBERO
 
 ## Current headline result
-LIBERO integration and corrected source-only full-model pi0 SFT smoke runs work. Both corrected CPU-SFT zero-residual pairs matched exactly; the tiny base scored0/2 on source-validation seeds. Official GPU SFT completed2 finite updates on the user-authorized A10080GB, with29.99GiB peak PyTorch allocation. GPU-checkpoint zero validation also passed; the100-step alignment pilot is running. **No learned residual or cross-task transfer conclusion exists.**
+LIBERO integration and corrected source-only full-model pi0 SFT smoke runs work. Both corrected CPU-SFT zero-residual pairs matched exactly; the tiny base scored0/2 on source-validation seeds. Official GPU SFT completed2 finite updates on the user-authorized A10080GB, with29.99GiB peak PyTorch allocation. GPU-checkpoint zero validation also passed; the100-step alignment pilot scored0/10 on source validation. The planned 3000-update alignment run is active. **No learned residual or cross-task transfer conclusion exists.**
 
 ## Base policy
 Corrected corpus:50 source demos,5832 observation/action pairs. All earlier same-index checkpoints are excluded from scientific use. Completed2-update checkpoints are engineering fixtures; adequate source alignment and successful frozen-base offline collection remain PENDING. User authorized A100 usage; current experiments no longer impose16GiB.
@@ -22,12 +22,34 @@ PENDING. No aggregate from unrun or dummy-policy episodes.
 PENDING. Absence of evaluated cases is not evidence of no negative transfer.
 
 ## Runtime / memory
-Initial `nvidia-smi`: A100 80GB PCIe, 81920 MiB total, 0 MiB used; driver 595.71.05.
-Torch 2.11.0+cu128; CUDA 12.8; CUDA available. This is not RTX 5080 validation.
+All measurements below are from the actual A100 80 GB. The user authorized its full capacity; they are not RTX 5080 results.
+
+| Completed run | Peak PyTorch allocation | Sampled device peak | Measured time |
+|---|---:|---:|---|
+| Corrected CPU-offloaded full SFT, 2 updates | 12.69 GiB | 13,739 MiB | 12.11 s second update; 148.16 s total |
+| Official GPU full SFT, 100 updates | 29.99 GiB | 32,063 MiB | 0.9 s median logged update interval; 291.18 s total |
+| Source validation of GPU-100 checkpoint, 10 episodes | 6.67 GiB | 8,179 MiB | 23.09 s mean episode; 9.53 environment steps/s excluding setup; 313.02 s total |
+| Real-buffer visual Cal-QL / residual SAC | PENDING | PENDING | PENDING |
+| Combined frozen VLA + residual training | PENDING | PENDING | PENDING |
+
+The source-validation run recorded 60.89 s for provenance checks and 14.65 s for model loading. Per-phase peaks include persistent model allocations. Raw metadata and memory samples are preserved per run; low-impact dummy-update measurements remain engineering diagnostics in the ledger.
 
 ## Failed runs
-- EXP-000 audit: shell `python` absent in noninteractive PATH; use `/venv/main/bin/python`.
-- Requested local checkout absent; resolved by cloning public repository.
+
+| Run | Failure / limitation | Resolution or status |
+|---|---|---|
+| EXP-000/full_sft_probe/run-001 | Synthetic image layout BHWC instead of BCHW | Corrected probe layout |
+| EXP-000/full_sft_probe/run-002 | Full GPU AdamW OOM under 16 GiB cap | CPU offload passed; user later authorized full A100 |
+| EXP-000/lora-probe-001 | Official JAX LoRA OOM in constrained pool | Not selected; full GPU SFT now works on A100 |
+| EXP-000/smoke-001 | CLI filename shadowed LIBERO import | Renamed entrypoint |
+| EXP-000/smoke-002/003/005 | RGB nondeterminism despite identical actions/physics | Disabled offscreen MSAA; subsequent full zero checks passed |
+| EXP-000/full-cpu-sft-001/002 | Meta initialization broke tied weights/nonpersistent positional buffers | Safe CPU initialization and strict loading |
+| EXP-000/aligned-zero-001 | Missing easydict dependency | Installed and added preflight/setup support |
+| EXP-001/sft-pilot-100 | Interrupted at 46 updates after native observation/action offset was identified | Corrected corpus; earlier checkpoints excluded from scientific use |
+| EXP-000/aligned-zero-gpu-v3-001 | Full-capacity memory fraction returned integer instead of float | Fixed and regression-tested; rerun passed |
+| EXP-001/source-validation-gpu-100 | 0/10 successes after short SFT pilot | Planned 3000-update alignment running; no offline-buffer substitution |
+
+Original errors, OOM diagnostics and exact commands remain in the append-only ledger below. Initial shell/checkout setup failures and conversion verification's unused-random-head mismatch are also recorded there.
 
 ## Open questions / next experiments
 Highest priority: validate official GPU SFT on the user-authorized A100, run the registered100-step source-only pilot, then source-validation success and successful-base collection. Do not use leaked full-LIBERO checkpoints to bypass this gate.
@@ -321,3 +343,37 @@ Wall236.0753170941025s; allocated7162114048 bytes, reserved7275020288 bytes; sam
 
 ### EXP-001/sft-gpu-v3-100 / STARTED
 Supervisor `pld_libero_sft` started the preregistered100-update source-only official GPU pilot after its2-update checkpoint passed zero equivalence. Fresh same official pretrained weights, corrected5832-pair source corpus, batch1, training seed0, GPU AdamW, A10080GB. Checkpoint/success/runtime final values PENDING. Exact wrapper and supervisor config saved under EXP-000/audit/supervisor_sft_gpu_100.sh and supervisor_sft.conf. Run metadata/code snapshots record the actual execution.
+
+### EXP-001/sft-gpu-v3-100 / COMPLETED / 2026-09-09T21:29:31.784494+00:00
+All100 source-only official GPU SFT updates completed with finite logged losses/gradients. Loss range0.0101–0.8328; final logged loss0.2462. Native loss/gradient logs are rounded. Median logged per-update interval0.9s; total wall291.18468353897333s includes model initialization/save/provenance hashing. All3501372176 parameters eligible. No environment episodes during training; scientific success/ΔSR PENDING.
+
+Peak allocated32200932352 bytes (29.989GiB), reserved32623296512 bytes; sampled device peak32063MiB; CPU RAM16304824320 bytes. A10080GB, torch2.7.1+cu128, CUDA12.8, sourceD0/training seed0. Checkpoint `/workspace/State-Estimation/maniskill_myws/outputs/pld_libero/EXP-001/sft-gpu-v3-100/checkpoints/pi0_libero_seen_full_torch/EXP-001/100`. Revision `aa4c6c49c0448b88bee99cafcfe68a0f0b18f0cd`, dirty status/code/config/protocol snapshots and per-step logs in run directory. The source-validation10-episode run is launched separately; no unseen task executed.
+
+```sh
+/workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/align_libero.py train --source-h5 /workspace/datasets/libero_seen/pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate_demo.hdf5 --repo-id local/pld_libero_bowl_v3 --dataset-root /workspace/datasets/lerobot/local/pld_libero_bowl_v3 --method full_torch --cpu-threads 16 --steps 100 --pytorch-base-checkpoint /workspace/checkpoints/pi0_base_pytorch_v2 --output outputs/pld_libero/EXP-001/sft-gpu-v3-100
+```
+
+### EXP-001/source-validation-gpu-100 / 2026-09-09T21:35:15.209769+00:00
+Completed10 source-only validation episodes, seeds2000–2009, taskID2/D0, all220 steps. Successes0/10; SR_base0.0. No learned residual evaluated; SR_residual/ΔSR PENDING. All failures reached the time limit; no stronger physical diagnosis inferred. Checkpoint `/workspace/State-Estimation/maniskill_myws/outputs/pld_libero/EXP-001/sft-gpu-v3-100/checkpoints/pi0_libero_seen_full_torch/EXP-001/100`, training seed0. This is exploratory source validation, not final held-out D0 or cross-task evaluation. No offline collection was attempted because this pilot produced no validation successes.
+
+Wall313.0173181798309s including60.88972958177328s provenance verification and14.650440579280257s model loading. Mean episode wall23.094131148047744s. Base-inference peak allocated7162114048 bytes; overall allocated7162114048 bytes, reserved7275020288 bytes; sampled device peak8179MiB; CPU RAM15376179200 bytes. A100, torch2.7.1+cu128/CUDA12.8; revision `a6bf473d9f8639008811fff99036e4c5267c8a24` and dirty/config/code snapshots in run.
+
+```sh
+/workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/run_libero.py base --validation --alignment-manifest outputs/pld_libero/EXP-001/sft-gpu-v3-100/alignment_manifest.json --episodes 10 --output outputs/pld_libero/EXP-001/source-validation-gpu-100
+```
+
+### EXP-001/sft-gpu-v3-3000 / REGISTERED AFTER SOURCE-ONLY PILOT
+The100-step pilot scored0/10, so proceed to the previously planned3000-update alignment budget. Fresh identical pretrained pi0 weights; same50 source demonstrations/5832 corrected pairs, batch1, seed0, official GPU AdamW, sameLR schedule and source-only statistics. No unseen data or task success rates influenced this decision. Save every500/final and retain latest optimizer plus all policy weights. Projected45–55minutes from observed0.9s/update plus initialization/save/checksum overhead; projection is not a measured result. Subsequent source-only validation again uses2000–2009. Frozen split unchanged.
+
+### EXP-001/sft-gpu-v3-100-figures-002 / 2026-09-09
+Exported reviewed PNG/SVG training-loss plot from all100 completed pilot updates, raw update points plus trailing20-update median. Native logged values and adjacent learning-rate/gradient/runtime fields retained in sft_input.csv; source metadata/manifest hashes in chart_provenance.json. The first draft's legend overlapped an outlier; it was superseded by figures-002 with the legend outside the plot area. No transfer chart is generated without actual completed learned-residual evaluations.
+
+Command: `PYTHONPATH=src /venv/main/bin/python scripts/pld/plot_libero.py sft --runs outputs/pld_libero/EXP-001/sft-gpu-v3-100 --output outputs/pld_libero/EXP-001/sft-gpu-v3-100-figures-002`.
+
+[Reviewed source-SFT loss figure](../outputs/pld_libero/EXP-001/sft-gpu-v3-100-figures-002/sft_loss.png). This figure does not establish task success or residual gain.
+
+### EXP-001/sft-gpu-v3-100-figures-003 / 2026-09-09
+Re-exported the reviewed figure through the pinned OpenPI environment (Matplotlib 3.10.3, NumPy 1.26.4). The figure was visually inspected; all 100 points, including the largest loss at update 74, remain visible. Exact plotting command, renderer versions, plotter hash/snapshot and source hashes are in chart_provenance.json. This is the canonical pilot figure: [SFT loss](../outputs/pld_libero/EXP-001/sft-gpu-v3-100-figures-003/sft_loss.png). No numerical input changed from figures-002.
+
+### EXP-000 / GPU restart reproducibility / 2026-09-09
+`audit/gpu_restart_first100.json`: the first 100 completed update losses, gradient norms and learning rates in the fresh 3000-step run exactly match the completed 100-step pilot at native logged precision. This is a rounded-log comparison, not a claim of bitwise checkpoint equality.

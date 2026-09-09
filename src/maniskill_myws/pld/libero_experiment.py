@@ -139,13 +139,15 @@ def evaluate(cfg,args,run,base,model,protocol,manifest):
                 result={'episodes':len(base_rows),'seeds':[r['seed'] for r in base_rows],
                         'base_successes':sum(r['success'] for r in base_rows),
                         'SR_base':float(np.mean([r['success'] for r in base_rows])),
+                        'base_mean_length':float(np.mean([r['length'] for r in base_rows])),
                         'SR_residual':None,'delta_SR':None}
             summaries.append(dict(source=protocol.source,target=task_key(task),distance=task['distance'],
                                   training_seed=cfg['training_seed'],
                                   checkpoint_sha256=file_sha256(args.checkpoint) if args.checkpoint else None,
                                   alignment_sha256=file_sha256(args.alignment_manifest),
                                   evaluation_scope='source_validation' if args.mode=='zero' or args.validation else 'held_out_evaluation',
-                                  task_id=env.task_id,checkpoint=args.checkpoint,**result))
+                                  task_id=env.task_id,checkpoint=args.checkpoint,
+                                  base_checkpoint=manifest['aligned_checkpoint'],residual_checkpoint=args.checkpoint,**result))
             write_json(run.path/'eval/summary.json',summaries)
         finally:
             env.close()
