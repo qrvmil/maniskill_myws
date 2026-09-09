@@ -1,10 +1,10 @@
 # RESULTS — PLD LIBERO
 
 ## Current headline result
-LIBERO integration and corrected source-only full-model pi0 SFT smoke runs work. Both corrected CPU-SFT zero-residual pairs matched exactly; the tiny base scored0/2 on source-validation seeds. Official GPU SFT completed2 finite updates on the user-authorized A10080GB, with29.99GiB peak PyTorch allocation. GPU-checkpoint zero validation also passed; the100-step alignment pilot scored0/10 on source validation. The planned 3000-update alignment run is active. **No learned residual or cross-task transfer conclusion exists.**
+Source-only full-model pi0 alignment completed3000 updates on the actual A10080GB. Its frozen checkpoint scored **3/10 source-validation successes (30%)**, versus0/10 for the100-update pilot on the same validation seeds. This is exploratory single-seed base-policy validation, not a residual-gain or unseen-task result. All24 integration/contract tests passed. Selected-checkpoint zero-residual verification is running. **No learned residual or cross-task transfer conclusion exists.**
 
 ## Base policy
-Corrected corpus:50 source demos,5832 observation/action pairs. All earlier same-index checkpoints are excluded from scientific use. Completed2-update checkpoints are engineering fixtures; adequate source alignment and successful frozen-base offline collection remain PENDING. User authorized A100 usage; current experiments no longer impose16GiB.
+Corrected corpus:50 source demonstrations,5832 temporally aligned observation/action pairs. All earlier same-index checkpoints are excluded. The3000-update checkpoint is frozen for the next offline/RL stages based only on source validation seeds2000–2009. Successes occurred at2000,2004,2006; seven time-limit failures. Mean length192.2 steps. Successful frozen-base offline collection remains PENDING. User authorized A100 usage; current experiments no longer impose16GiB.
 
 ## Source residual training
 EXP-002: PENDING. No distillation will be run.
@@ -29,6 +29,8 @@ All measurements below are from the actual A100 80 GB. The user authorized its f
 | Corrected CPU-offloaded full SFT, 2 updates | 12.69 GiB | 13,739 MiB | 12.11 s second update; 148.16 s total |
 | Official GPU full SFT, 100 updates | 29.99 GiB | 32,063 MiB | 0.9 s median logged update interval; 291.18 s total |
 | Source validation of GPU-100 checkpoint, 10 episodes | 6.67 GiB | 8,179 MiB | 23.09 s mean episode; 9.53 environment steps/s excluding setup; 313.02 s total |
+| Official GPU full SFT, 3000 updates | 29.99 GiB | 32,065 MiB | 2825.93 s total |
+| Source validation of GPU-3000 checkpoint, 10 episodes | 6.67 GiB | 8,179 MiB | 20.88 s mean episode; 290.55 s total |
 | Real-buffer visual Cal-QL / residual SAC | PENDING | PENDING | PENDING |
 | Combined frozen VLA + residual training | PENDING | PENDING | PENDING |
 
@@ -47,12 +49,12 @@ The source-validation run recorded 60.89 s for provenance checks and 14.65 s for
 | EXP-000/aligned-zero-001 | Missing easydict dependency | Installed and added preflight/setup support |
 | EXP-001/sft-pilot-100 | Interrupted at 46 updates after native observation/action offset was identified | Corrected corpus; earlier checkpoints excluded from scientific use |
 | EXP-000/aligned-zero-gpu-v3-001 | Full-capacity memory fraction returned integer instead of float | Fixed and regression-tested; rerun passed |
-| EXP-001/source-validation-gpu-100 | 0/10 successes after short SFT pilot | Planned 3000-update alignment running; no offline-buffer substitution |
+| EXP-001/source-validation-gpu-100 | 0/10 successes after short SFT pilot | 3000-update alignment completed; source validation next; no offline-buffer substitution |
 
 Original errors, OOM diagnostics and exact commands remain in the append-only ledger below. Initial shell/checkout setup failures and conversion verification's unused-random-head mismatch are also recorded there.
 
 ## Open questions / next experiments
-Highest priority: validate official GPU SFT on the user-authorized A100, run the registered100-step source-only pilot, then source-validation success and successful-base collection. Do not use leaked full-LIBERO checkpoints to bypass this gate.
+Highest priority: finish selected-checkpoint zero-residual equivalence, then collect successful frozen-base source trajectories and run real-buffer Cal-QL/visual SAC smoke tests. Do not use leaked full-LIBERO checkpoints to bypass this gate.
 
 ## Append-only experiment ledger
 Entries below are immutable records; corrections are new entries. Summary sections above may be updated.
@@ -380,3 +382,29 @@ Re-exported the reviewed figure through the pinned OpenPI environment (Matplotli
 
 ### EXP-000 / pre-RL entropy-coordinate audit / 2026-09-09T22:21:05.385292+00:00
 Main B now interprets the paper target -7/2 in unit residual coordinates. Because the inherited actor includes the scale Jacobian, the actual scaled-density target is -8.352030263919616 at scale0.5. The paper does not establish this coordinate convention; author-code equivalence remains unverified. No real residual training, successful-base collection or unseen evaluation has run, so this amendment precedes scientific RL results. SAC implementation remains unchanged. A temperature-gradient invariance test first failed (difference4.851989) with the old unshifted value and then passed with the corrected configuration: `audit/test_entropy_red.log` and `audit/test_entropy_green.log`. Numerical tolerance0.002 accommodates the inherited Jacobian stabilizer near saturation.
+
+### EXP-001/sft-gpu-v3-3000 / COMPLETED / 2026-09-09T21:41:28.475999+00:00
+Completed all3000 full-model updates on the corrected source-only corpus; all3501372176 parameters trainable, batch1, seed0, official GPU AdamW. Wall2825.9334021657705s; peak allocated32200932352 bytes, reserved32623296512 bytes; sampled device peak32065MiB; host RSS16233906176 bytes. A10080GB, torch2.7.1+cu128/CUDA12.8. Revision `a6bf473d9f8639008811fff99036e4c5267c8a24`; dirty status `M docs/RESULTS.md`, implementation snapshots retained. All3000 logged losses/gradient norms finite. Final loss0.0751, gradient norm1.19; median logged update interval0.7s. No policy success inferred from training loss.
+
+Checkpoint: `/workspace/State-Estimation/maniskill_myws/outputs/pld_libero/EXP-001/sft-gpu-v3-3000/checkpoints/pi0_libero_seen_full_torch/EXP-001/3000`. All policy checkpoints retained; only latest optimizer state retained. Source-validation SR, residual SR and gain PENDING at completion.
+
+```sh
+/workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/align_libero.py train --source-h5 /workspace/datasets/libero_seen/pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate_demo.hdf5 --repo-id local/pld_libero_bowl_v3 --dataset-root /workspace/datasets/lerobot/local/pld_libero_bowl_v3 --method full_torch --cpu-threads 16 --steps 3000 --pytorch-base-checkpoint /workspace/checkpoints/pi0_base_pytorch_v2 --output outputs/pld_libero/EXP-001/sft-gpu-v3-3000
+```
+
+### EXP-000 / full integration verification / 2026-09-09T22:29:47.559275+00:00
+`PLD_LIBERO_INTEGRATION=1 scripts/pld/libero_python.sh -m pytest -q tests/test_pld_libero.py` passed24 tests with3 upstream robosuite deprecation warnings in25.54s. Includes actual LIBERO reset/step/zero-trajectory equivalence, visual replay/Cal-QL/SAC synthetic updates, checkpoint determinism, leakage guards and entropy-coordinate invariance. Log `audit/tests_final_integration_24.log`. This does not substitute for real successful-base-buffer RL validation.
+
+### EXP-001/sft-gpu-v3-3000-figures-001 / 2026-09-09T22:29:47.559287+00:00
+Exported and visually inspected all3000 completed update losses with a trailing20-update median. [SFT loss figure](../outputs/pld_libero/EXP-001/sft-gpu-v3-3000-figures-001/sft_loss.png); SVG, raw CSV and provenance are adjacent. Command: `scripts/pld/libero_python.sh scripts/pld/plot_libero.py sft --runs outputs/pld_libero/EXP-001/sft-gpu-v3-3000 --output outputs/pld_libero/EXP-001/sft-gpu-v3-3000-figures-001`. No task-success inference from this curve.
+
+### EXP-001/source-validation-gpu-3000 / COMPLETED / 2026-09-09T22:29:31.815381+00:00
+Source `libero_spatial/pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate`, taskID2, D0 source-validation seeds2000–2009, training seed0. Base successes3/10, SR_base0.3, mean length192.2; successful seeds2000 (151steps),2004 (109),2006 (122). Seven failures reached the220-step cap. Residual not evaluated: SR_residual/ΔSR PENDING. Freeze this checkpoint for subsequent residual stages; only source validation informed this selection. No unseen task was evaluated.
+
+Wall290.54549937322736s; provenance61.05509691871703s; base load14.467890746891499s; mean episode wall20.875783143751324s. Peak base inference/overall allocation7162114048 bytes, reserved7275020288 bytes, sampled device8179MiB, host RSS15379156992 bytes. A10080GB, torch2.7.1+cu128/CUDA12.8. Revision `4253765dbd5ce4e35413bc021c4ffae126050d3a`, dirty status `M docs/RESULTS.md`; complete config/code snapshots in run.
+
+Checkpoint: `/workspace/State-Estimation/maniskill_myws/outputs/pld_libero/EXP-001/sft-gpu-v3-3000/checkpoints/pi0_libero_seen_full_torch/EXP-001/3000`.
+
+```sh
+/workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/run_libero.py base --validation --alignment-manifest outputs/pld_libero/EXP-001/sft-gpu-v3-3000/alignment_manifest.json --episodes 10 --output outputs/pld_libero/EXP-001/source-validation-gpu-3000
+```

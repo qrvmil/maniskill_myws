@@ -190,3 +190,6 @@ Runtime measurement amendment: scientific commands verify checkpoint/data proven
 
 ### Reproducible figures
 `scripts/pld/plot_libero.py sft --runs <completed-alignment-run> --output <new-figure-directory>` exports actual training loss with a trailing20-update median and source CSV/provenance. `plot_libero.py transfer --runs <completed-paired-run-dirs...> --output <new-figure-directory>` first recomputes/validates paired results and plots signed equal-task-weight bucket gains per source/training seed. Missing buckets are not zero-filled. Single-training-seed plots do not imply training-seed confidence intervals. Chart contracts and QA notes are stored in EXP-000/audit and the experiment ledger.
+
+### Selected frozen base (source-only decision, 2026-09-09)
+The registered3000-update source-only run scored3/10 on validation seeds2000–2009. Freeze `outputs/pld_libero/EXP-001/sft-gpu-v3-3000/checkpoints/pi0_libero_seen_full_torch/EXP-001/3000` and its alignment manifest for the initial residual specialist. No unseen task influenced this selection. Offline collection targets50 successful trajectories within the100 registered training seeds; retain and report the actual successful count if fewer are obtained. Cal-QL/RL smoke must pass on that real buffer before the fixed-budget main residual run.
