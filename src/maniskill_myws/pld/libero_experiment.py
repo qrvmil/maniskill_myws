@@ -200,6 +200,7 @@ def collect(cfg,args,run,base,model,protocol):
                     split_hash=protocol.split_hash,execution_hash=protocol.execution_hash,alignment_sha256=file_sha256(args.alignment_manifest),gamma=.99,
                     attempts=len(rows),successes=successes)
         run.meta.update(episodes=len(rows),successes=successes,transitions=len(buffer),
+                        checkpoint=run.meta['base_checkpoint'],
                         achieved_requested_successes=successes>=args.successes)
     finally:
         env.close()
@@ -266,6 +267,7 @@ def scientific(cfg,args,run):
     from libero.libero.envs import OffScreenRenderEnv  # noqa: F401
     validation_started=time.perf_counter()
     protocol=Protocol(cfg);manifest=protocol.require_alignment(args.alignment_manifest)
+    run.meta['base_checkpoint']=manifest['aligned_checkpoint']
     run.meta['alignment_validation_seconds']=time.perf_counter()-validation_started
     if args.mode not in ['base','zero']:
         require_zero_report(args.zero_report,protocol,args.alignment_manifest)

@@ -245,10 +245,14 @@ def test_source_demo_audit_rejects_foreign_task(tmp_path):
 
 
 def test_scientific_commands_fail_closed_without_alignment(tmp_path):
-    import subprocess,sys
+    import os,subprocess,sys
+    cfg=json.loads(Path('configs/pld_libero/anchor_bowl.json').read_text())
+    cfg['device']='cpu'
+    config_path=tmp_path/'cpu_config.json';config_path.write_text(json.dumps(cfg))
     for mode in ['base','collect','train','eval']:
         p=subprocess.run([sys.executable,'scripts/pld/run_libero.py',mode,
-                          '--output',str(tmp_path/mode)],capture_output=True,text=True)
+                          '--config',str(config_path),'--output',str(tmp_path/mode)],
+                         env=dict(os.environ,CUDA_VISIBLE_DEVICES=''),capture_output=True,text=True)
         assert p.returncode != 0
         assert 'aligned-base manifest' in p.stderr
 

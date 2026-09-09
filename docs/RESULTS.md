@@ -1,13 +1,13 @@
 # RESULTS — PLD LIBERO
 
 ## Current headline result
-Source-only full-model pi0 alignment completed3000 updates on the actual A10080GB. Its frozen checkpoint scored **3/10 source-validation successes (30%)**, versus0/10 for the100-update pilot on the same validation seeds. This is exploratory single-seed base-policy validation, not a residual-gain or unseen-task result. All24 integration/contract tests passed. Selected-checkpoint zero-residual verification passed exactly on two pairs; successful-base collection is running. **No learned residual or cross-task transfer conclusion exists.**
+Source-only full-model pi0 alignment completed3000 updates on the actual A10080GB. Its frozen checkpoint scored **3/10 source-validation successes (30%)**, versus0/10 for the100-update pilot on the same validation seeds. This is exploratory single-seed base-policy validation, not a residual-gain or unseen-task result. All24 integration/contract tests passed. Selected-checkpoint zero-residual verification passed exactly on two pairs; successful-base collection completed48/100 with6484 validated transitions. Real-buffer A smoke completed2 Cal-QL and8 SAC updates; its paired execution check is running. **No learned residual or cross-task transfer conclusion exists.**
 
 ## Base policy
-Corrected corpus:50 source demonstrations,5832 temporally aligned observation/action pairs. All earlier same-index checkpoints are excluded. The3000-update checkpoint is frozen for the next offline/RL stages based only on source validation seeds2000–2009. Successes occurred at2000,2004,2006; seven time-limit failures. Mean length192.2 steps. Successful frozen-base offline collection is running; its final buffer/count remains PENDING. User authorized A100 usage; current experiments no longer impose16GiB.
+Corrected corpus:50 source demonstrations,5832 temporally aligned observation/action pairs. All earlier same-index checkpoints are excluded. The3000-update checkpoint is frozen for the next offline/RL stages based only on source validation seeds2000–2009. Successes occurred at2000,2004,2006; seven time-limit failures. Mean length192.2 steps. Successful frozen-base collection completed48/100 attempts,6484 transitions, all on training seeds1000–1099. No demonstrations were used in residual replay. User authorized A100 usage; current experiments no longer impose16GiB.
 
 ## Source residual training
-EXP-002: PENDING. No distillation will be run.
+EXP-002: real-buffer A smoke completed2 Cal-QL and8 visual SAC updates with finite losses. Main50000-step specialist PENDING, after execution/OTF gates. No distillation will be run.
 
 ## Cross-task transfer
 | Source | Target | Distance | SR base | SR + residual | ΔSR | Episodes | Seed(s) |
@@ -31,7 +31,7 @@ All measurements below are from the actual A100 80 GB. The user authorized its f
 | Source validation of GPU-100 checkpoint, 10 episodes | 6.67 GiB | 8,179 MiB | 23.09 s mean episode; 9.53 environment steps/s excluding setup; 313.02 s total |
 | Official GPU full SFT, 3000 updates | 29.99 GiB | 32,065 MiB | 2825.93 s total |
 | Source validation of GPU-3000 checkpoint, 10 episodes | 6.67 GiB | 8,179 MiB | 20.88 s mean episode; 290.55 s total |
-| Real-buffer visual Cal-QL / residual SAC | PENDING | PENDING | PENDING |
+| Real-buffer A smoke, 2 Cal-QL + 8 SAC | 6.76 GiB combined; Cal-QL 6.75 GiB; SAC 6.66 GiB | 8,315 MiB | 93.48 s total; 0.10 s second Cal-QL update |
 | Combined frozen VLA + residual training | PENDING | PENDING | PENDING |
 
 The source-validation run recorded 60.89 s for provenance checks and 14.65 s for model loading. Per-phase peaks include persistent model allocations. Raw metadata and memory samples are preserved per run; low-impact dummy-update measurements remain engineering diagnostics in the ledger.
@@ -54,7 +54,7 @@ The source-validation run recorded 60.89 s for provenance checks and 14.65 s for
 Original errors, OOM diagnostics and exact commands remain in the append-only ledger below. Initial shell/checkout setup failures and conversion verification's unused-random-head mismatch are also recorded there.
 
 ## Open questions / next experiments
-Highest priority: finish successful frozen-base source collection, then run real-buffer Cal-QL/visual SAC smoke tests before main OTF training. Do not use leaked full-LIBERO checkpoints to bypass this gate.
+Highest priority: complete paired smoke/OTF gates, then train the registered50000-step source specialist and evaluate its fixed checkpoint across D0–D5. Do not use leaked full-LIBERO checkpoints to bypass this gate.
 
 ## Append-only experiment ledger
 Entries below are immutable records; corrections are new entries. Summary sections above may be updated.
@@ -430,3 +430,29 @@ Collect successful rollouts of the frozen selected GPU3000 source-only pi0 on so
 ```sh
 /workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/run_libero.py collect --alignment-manifest outputs/pld_libero/EXP-001/sft-gpu-v3-3000/alignment_manifest.json --zero-report outputs/pld_libero/EXP-001/zero-gpu-3000/eval/zero_equivalence.json --successes 50 --max-attempts 100 --output outputs/pld_libero/EXP-001/offline-gpu-3000
 ```
+
+### EXP-001/offline-gpu-3000 / COMPLETED
+Actual source-base collection:100 attempts on training seeds1000–1099,48 successful trajectories,6484 transitions, SR_base0.48. Target50 successes was not reached within the100-attempt cap; retain the actual48, without duplicates or additional seeds. Replay contains only these actual frozen-base successes, two uint8 RGB views and proprioception/base/executed/next-state actions; sparse terminal success reward and discounted MC return with gamma0.99. Source remains LIBERO spatial taskID2/D0; selected GPU3000 base/seed0. No residual was applied or evaluated; ΔSR PENDING.
+
+Wall2455.661007400602s; mean episode21.733031460680067s. Process peak allocated7162114048 bytes/reserved7275020288 bytes; host RSS15379738624 bytes. Sampled total device peak8601MiB is **not isolated**: the fail-closed CLI unit test launched CUDA-enabled commands without an alignment manifest, briefly adding a context during collection (peak at235.04–245.55s). The process-specific PyTorch peak remains valid; isolated prior base inference measured8179MiB. The CLI test now selects CPU and hides CUDA. A10080GB, torch2.7.1+cu128/CUDA12.8; collection revision `472fffabad990df44d84feaf07186496c7936baf`, clean. Full command is in the preceding registered entry and metadata.
+
+### EXP-000/real-buffer-validation-gpu3000 / COMPLETED / 2026-09-09T23:19:50.517803+00:00
+Independent replay audit passed100 attempts/48 trajectories/6484 transitions. Recomputed discounted returns differ by at most2.9755748531812287e-08; all nonterminal next states, next base actions and next images exactly match the subsequent stored transition. Actions equal frozen-base actions and remain bounded; terminal masks/rewards and provenance match collection. Buffer SHA256 `b5bf1a5286cff1d5a0e18390c59e46349a0e0d88343363071c32819737bc43b1`; uint8 RGB arrays occupy1274806272 bytes in CPU memory. Wall12.702235711738467s. Script snapshot, input hashes, seeds, source and git state in verification.json/verifier.py.
+
+```sh
+scripts/pld/libero_python.sh outputs/pld_libero/EXP-000/audit/verify_collected_buffer.py --collection outputs/pld_libero/EXP-001/offline-gpu-3000 --output outputs/pld_libero/EXP-000/real-buffer-validation-gpu3000
+```
+
+### EXP-002/rl-smoke-gpu3000-seed0 / COMPLETED / 2026-09-09T23:20:26.022649+00:00
+Real48-trajectory base buffer, source taskID2/D0, residual training seed0, config `anchor_bowl_rl_smoke.json`: batch2,2 Cal-QL updates (2 candidates),8 online SAC updates, warmup0, source seed1000. All10 updates finite; first Cal-QL q_loss56.11315155029297, second58.29925537109375; final SAC q_loss12.125715255737305, actor_loss4.4264140129089355, alpha0.9991021752357483. One8-step engineering rollout; this is not a source-performance experiment. Primary SR/gain PENDING.
+
+Wall93.4805209748447s; combined peak allocated7258752512 bytes, reserved7405043712 bytes, sampled device8315MiB. Per-phase peaks (include persistent frozen pi0/residual allocations): Cal-QL7252179968 bytes, SAC7151380992 bytes, base inference7258752512 bytes. Second Cal-QL update0.10150586068630219s; SAC update median0.04774454887956381s. Exact individual memory/time/loss fields in logs/updates.jsonl. Host RSS15377190912 bytes. A10080GB, torch2.7.1+cu128/CUDA12.8; revision `a8475ff504ceda9c0fe06872aa5abf251dc9d064`, clean.
+
+Checkpoint: `outputs/pld_libero/EXP-002/rl-smoke-gpu3000-seed0/checkpoints/residual_step_8.pt`. Actual training regimen and SAC configuration are in its sidecar; it cannot pass as a main50000-step checkpoint.
+
+```sh
+/workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/run_libero.py train --config configs/pld_libero/anchor_bowl_rl_smoke.json --alignment-manifest outputs/pld_libero/EXP-001/sft-gpu-v3-3000/alignment_manifest.json --zero-report outputs/pld_libero/EXP-001/zero-gpu-3000/eval/zero_equivalence.json --offline-buffer outputs/pld_libero/EXP-001/offline-gpu-3000/offline.npz --output outputs/pld_libero/EXP-002/rl-smoke-gpu3000-seed0
+```
+
+### EXP-000 / CPU-only negative CLI test / 2026-09-09
+Corrected the test harness to use a CPU configuration and `CUDA_VISIBLE_DEVICES` empty for missing-alignment CLI probes. The production guard is unchanged. `CUDA_VISIBLE_DEVICES='' scripts/pld/libero_python.sh -m pytest -q tests/test_pld_libero.py -k scientific_commands` passed1 test/24 deselected in12.85s; `audit/test_cpu_only_cli_guard.log`. Earlier total-device peaks that overlapped this test include its extra CUDA context and should be treated as conservative whole-device measurements; process-specific PyTorch peaks remain separate.
