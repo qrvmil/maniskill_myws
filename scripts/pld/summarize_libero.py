@@ -18,7 +18,7 @@ def main():
         rows=result[name]
         with (output/f'{name}.csv').open('w',newline='') as f:
             writer=csv.DictWriter(f,fieldnames=list(rows[0]));writer.writeheader()
-            for row in rows:writer.writerow({k:json.dumps(v) if isinstance(v,list) else v for k,v in row.items()})
+            for row in rows:writer.writerow({k:json.dumps(v) if isinstance(v,(dict,list)) else v for k,v in row.items()})
     print(f"Wrote {len(result['tasks'])} task results to {output}")
 
 if __name__=='__main__':main()

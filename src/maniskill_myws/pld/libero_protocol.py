@@ -17,6 +17,25 @@ def file_sha256(path):
     return h.hexdigest()
 
 
+def residual_training_spec(config):
+    """Regimen fields independent of task split and rollout observation contract."""
+    spec = {key: config[key] for key in ('batch_size', 'buffer_capacity',
+        'calql_updates', 'calql_n_actions', 'online_steps',
+        'otf_backup_actions', 'otf_rollout_actions')}
+    spec.update(warmup_episodes=config.get('warmup_episodes', 5),
+                target_entropy=config.get('target_entropy'))
+    return spec
+
+
+def require_specialist_regimen(provenance, config):
+    if provenance.get('training_spec') != residual_training_spec(config):
+        raise ValueError('Specialist training regimen differs from evaluation configuration')
+    if provenance.get('training_steps') != config['online_steps']:
+        raise ValueError('Specialist has not completed the registered training budget')
+    if not isinstance(provenance.get('sac_config'), dict):
+        raise ValueError('Specialist is missing its actual SAC configuration')
+
+
 class Protocol:
     def __init__(self, config):
         self.config = config

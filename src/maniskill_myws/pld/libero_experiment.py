@@ -1,12 +1,14 @@
 """Scientific orchestration. All modes require source-only alignment provenance."""
 import json
+from dataclasses import asdict
 from pathlib import Path
 import time
 import numpy as np
 from .libero_alignment import make_openpi_config
 from .libero_artifacts import write_json
 from .libero_backend import LiberoEnv, ChunkedBasePolicy, openpi_observation
-from .libero_protocol import Protocol, task_key, file_sha256, paired_summary, require_zero_report
+from .libero_protocol import (Protocol, task_key, file_sha256, paired_summary,
+                              require_zero_report, residual_training_spec, require_specialist_regimen)
 from .libero_runner import run_episode, insert_trajectory, actor_residual
 from .replay_buffer import ReplayBuffer, sample_offline_online
 from .sac import ResidualSAC, SACConfig
@@ -73,6 +75,7 @@ def _save_specialist(agent, run, protocol, manifest_path, steps):
     provenance={'source':protocol.source,'split_hash':protocol.split_hash,
                 'training_seed':protocol.config['training_seed'],
                 'alignment_sha256':file_sha256(manifest_path),'execution_hash':protocol.execution_hash,'training_steps':steps,
+                'training_spec':residual_training_spec(protocol.config),'sac_config':asdict(agent.config),
                 'checkpoint_sha256':file_sha256(path),'checkpoint_selection':'fixed training budget; no unseen metrics'}
     write_json(path.with_suffix('.json'),provenance)
     run.meta['checkpoint']=str(path)
@@ -81,6 +84,7 @@ def _save_specialist(agent, run, protocol, manifest_path, steps):
 
 def _load_specialist(path, cfg, protocol, manifest_path):
     meta=json.loads(Path(path).with_suffix('.json').read_text())
+    require_specialist_regimen(meta,cfg)
     if (meta['source']!=protocol.source or meta['split_hash']!=protocol.split_hash
             or meta.get('training_seed')!=cfg['training_seed']
             or meta.get('execution_hash')!=protocol.execution_hash
@@ -88,6 +92,8 @@ def _load_specialist(path, cfg, protocol, manifest_path):
             or meta['checkpoint_sha256']!=file_sha256(path)):
         raise ValueError('Specialist checkpoint provenance mismatch')
     agent=ResidualSAC.load(path,device=cfg['device'])
+    if json.loads(json.dumps(asdict(agent.config))) != meta['sac_config']:
+        raise ValueError('Loaded SAC configuration differs from checkpoint provenance')
     if agent.config.image_shape!=(2,cfg['rl_image_size'],cfg['rl_image_size'],3) or agent.config.visual_encoder!='resnet10':
         raise ValueError('Visual checkpoint observation contract mismatch')
     if agent.config.action_scale!=cfg['residual_scale']:
@@ -98,6 +104,11 @@ def _load_specialist(path, cfg, protocol, manifest_path):
 def evaluate(cfg,args,run,base,model,protocol,manifest):
     from .libero_protocol import paired_summary
     agent=None if args.mode in ['base','zero'] else _load_specialist(args.checkpoint,cfg,protocol,args.alignment_manifest)
+    specialist_meta=json.loads(Path(args.checkpoint).with_suffix('.json').read_text()) if agent else None
+    if specialist_meta:
+        run.meta['residual_training_steps']=specialist_meta['training_steps']
+        run.meta['residual_training_spec']=specialist_meta['training_spec']
+        run.meta['residual_sac_config']=specialist_meta['sac_config']
     if args.mode=='eval' and not args.checkpoint:
         raise ValueError('Frozen source specialist required')
     tasks=[cfg['source']] if args.mode in ['base','zero'] else [t for t in cfg['tasks'] if args.distance is None or t['distance']==args.distance]
@@ -148,6 +159,10 @@ def evaluate(cfg,args,run,base,model,protocol,manifest):
                                   evaluation_scope='source_validation' if args.mode=='zero' or args.validation else 'held_out_evaluation',
                                   task_id=env.task_id,checkpoint=args.checkpoint,
                                   base_checkpoint=manifest['aligned_checkpoint'],residual_checkpoint=args.checkpoint,**result))
+            if specialist_meta:
+                summaries[-1].update(residual_training_steps=specialist_meta['training_steps'],
+                    residual_training_spec=specialist_meta['training_spec'],
+                    residual_sac_config=specialist_meta['sac_config'])
             write_json(run.path/'eval/summary.json',summaries)
         finally:
             env.close()
@@ -158,6 +173,7 @@ def evaluate(cfg,args,run,base,model,protocol,manifest):
                  for d in sorted({r['distance'] for r in summaries})}
         write_json(run.path/'eval/gain_by_distance.json',buckets)
     run.meta.update(episodes=sum(s['episodes'] for s in summaries),
+                    rollout_episodes=sum(s['episodes'] for s in summaries)*(1 if args.mode=='base' else 2),
                     checkpoint=args.checkpoint or manifest['aligned_checkpoint'])
 
 

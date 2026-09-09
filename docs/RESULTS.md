@@ -1,10 +1,10 @@
 # RESULTS — PLD LIBERO
 
 ## Current headline result
-Source-only full-model pi0 alignment completed3000 updates on the actual A10080GB. Its frozen checkpoint scored **3/10 source-validation successes (30%)**, versus0/10 for the100-update pilot on the same validation seeds. This is exploratory single-seed base-policy validation, not a residual-gain or unseen-task result. All24 integration/contract tests passed. Selected-checkpoint zero-residual verification is running. **No learned residual or cross-task transfer conclusion exists.**
+Source-only full-model pi0 alignment completed3000 updates on the actual A10080GB. Its frozen checkpoint scored **3/10 source-validation successes (30%)**, versus0/10 for the100-update pilot on the same validation seeds. This is exploratory single-seed base-policy validation, not a residual-gain or unseen-task result. All24 integration/contract tests passed. Selected-checkpoint zero-residual verification passed exactly on two pairs; successful-base collection is running. **No learned residual or cross-task transfer conclusion exists.**
 
 ## Base policy
-Corrected corpus:50 source demonstrations,5832 temporally aligned observation/action pairs. All earlier same-index checkpoints are excluded. The3000-update checkpoint is frozen for the next offline/RL stages based only on source validation seeds2000–2009. Successes occurred at2000,2004,2006; seven time-limit failures. Mean length192.2 steps. Successful frozen-base offline collection remains PENDING. User authorized A100 usage; current experiments no longer impose16GiB.
+Corrected corpus:50 source demonstrations,5832 temporally aligned observation/action pairs. All earlier same-index checkpoints are excluded. The3000-update checkpoint is frozen for the next offline/RL stages based only on source validation seeds2000–2009. Successes occurred at2000,2004,2006; seven time-limit failures. Mean length192.2 steps. Successful frozen-base offline collection is running; its final buffer/count remains PENDING. User authorized A100 usage; current experiments no longer impose16GiB.
 
 ## Source residual training
 EXP-002: PENDING. No distillation will be run.
@@ -54,7 +54,7 @@ The source-validation run recorded 60.89 s for provenance checks and 14.65 s for
 Original errors, OOM diagnostics and exact commands remain in the append-only ledger below. Initial shell/checkout setup failures and conversion verification's unused-random-head mismatch are also recorded there.
 
 ## Open questions / next experiments
-Highest priority: finish selected-checkpoint zero-residual equivalence, then collect successful frozen-base source trajectories and run real-buffer Cal-QL/visual SAC smoke tests. Do not use leaked full-LIBERO checkpoints to bypass this gate.
+Highest priority: finish successful frozen-base source collection, then run real-buffer Cal-QL/visual SAC smoke tests before main OTF training. Do not use leaked full-LIBERO checkpoints to bypass this gate.
 
 ## Append-only experiment ledger
 Entries below are immutable records; corrections are new entries. Summary sections above may be updated.
@@ -408,3 +408,18 @@ Checkpoint: `/workspace/State-Estimation/maniskill_myws/outputs/pld_libero/EXP-0
 ```sh
 /workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/run_libero.py base --validation --alignment-manifest outputs/pld_libero/EXP-001/sft-gpu-v3-3000/alignment_manifest.json --episodes 10 --output outputs/pld_libero/EXP-001/source-validation-gpu-3000
 ```
+
+### EXP-001/zero-gpu-3000 / COMPLETED / 2026-09-09T22:34:37.729149+00:00
+Selected frozen GPU3000 base, source taskID2/D0, validation seeds2000/2001, training seed0. Two paired conditions/four actual rollouts: base1/2, zero-residual1/2, both50%, ΔSR0 for the **zero correction only**. All action/RGB/next-RGB/full-physics maximum errors exactly0. Successful episodes151steps, timeouts220. This verifies the integration gate; it is not learned-residual transfer. Historical metadata `episodes=2` denotes paired conditions; newer evaluation metadata additionally records total `rollout_episodes`.
+
+Wall161.2530006673187s; allocation7162114048 bytes, reserved7275020288 bytes; sampled device8179MiB, host RSS15381135360 bytes. A10080GB, torch2.7.1+cu128/CUDA12.8. Revision `4253765dbd5ce4e35413bc021c4ffae126050d3a`, dirty `M docs/RESULTS.md`; source checkpoint/config and exact zero checks in run.
+
+```sh
+/workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/run_libero.py zero --alignment-manifest outputs/pld_libero/EXP-001/sft-gpu-v3-3000/alignment_manifest.json --episodes 2 --output outputs/pld_libero/EXP-001/zero-gpu-3000
+```
+
+### EXP-000 / residual checkpoint reporting guard / 2026-09-09
+Pre-training review found that a short real RL-smoke/A checkpoint could previously be evaluated under the main B config because only source/seed/action/image contracts were checked. Added explicit training-regimen and completed-budget checks plus actual SAC configuration in checkpoint/evaluation/summary metadata. This prevents reporting8-step smoke weights as50000-step main weights; intermediate checkpoints remain saved but primary evaluation requires the registered final budget. Regression tests failed before the guard and passed afterward: `audit/test_regimen_red.log`, `audit/test_regimen_green.log`, `audit/test_summary_regimen_red.log`, `audit/test_regimen_combined_green.log`. No actual residual checkpoint or unseen result existed before the fix.
+
+### EXP-000 / checkpoint-regimen regression suite / 2026-09-09
+` scripts/pld/libero_python.sh -m pytest -q tests/test_pld_libero.py` completed24 passed/1 integration test skipped in20.56s (`audit/tests_regimen_full.log`). The actual simulator24-test suite had already passed before these reporting-guard-only changes; no concurrent GPU integration test was run during scientific collection.

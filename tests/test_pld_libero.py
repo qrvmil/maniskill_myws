@@ -152,6 +152,31 @@ def test_main_otf_temperature_gradient_preserves_unit_residual_target():
     torch.testing.assert_close(scaled.log_alpha.grad, unit.log_alpha.grad, atol=2e-3, rtol=0)
 
 
+def test_specialist_cannot_be_evaluated_under_a_different_training_regimen(tmp_path):
+    from types import SimpleNamespace
+    from maniskill_myws.pld.libero_experiment import _save_specialist, _load_specialist
+    from maniskill_myws.pld.libero_protocol import Protocol
+    from maniskill_myws.pld.sac import ResidualSAC, SACConfig
+    cfg = json.loads(Path('configs/pld_libero/anchor_bowl_rl_smoke.json').read_text())
+    cfg.update(device='cpu', rl_image_size=32)
+    (tmp_path/'checkpoints').mkdir()
+    alignment = tmp_path/'alignment.json'; alignment.write_text('source fixture')
+    run = SimpleNamespace(path=tmp_path, meta={})
+    agent = ResidualSAC(SACConfig(8, 7, hidden_dim=32, action_scale=.5,
+        visual_encoder='resnet10', image_shape=(2,32,32,3), visual_latent_dim=32))
+    checkpoint = _save_specialist(agent, run, Protocol(cfg), alignment, 8)
+    loaded = _load_specialist(checkpoint, cfg, Protocol(cfg), alignment)
+    assert loaded.config.action_scale == agent.config.action_scale
+    for changes in [dict(online_steps=50000), dict(otf_rollout_actions=1),
+                    dict(warmup_episodes=100), dict(calql_updates=1000)]:
+        other = dict(cfg, **changes)
+        with pytest.raises(ValueError, match='training regimen'):
+            _load_specialist(checkpoint, other, Protocol(other), alignment)
+    partial = _save_specialist(agent, run, Protocol(cfg), alignment, 4)
+    with pytest.raises(ValueError, match='training budget'):
+        _load_specialist(partial, cfg, Protocol(cfg), alignment)
+
+
 def test_rollout_advances_cached_action_once_and_records_next_action():
     from maniskill_myws.pld.libero_runner import run_episode
     from maniskill_myws.pld.libero_backend import ChunkedBasePolicy
@@ -321,7 +346,7 @@ def test_resident_cpu_optimizer_matches_move_model_adamw():
 
 
 def test_transfer_summary_preserves_negative_gain_and_rejects_duplicates(tmp_path):
-    from maniskill_myws.pld.libero_protocol import Protocol,file_sha256,paired_summary,task_key
+    from maniskill_myws.pld.libero_protocol import Protocol,file_sha256,paired_summary,task_key,residual_training_spec
     from maniskill_myws.pld.libero_summary import gather_transfer_results
     cfg=json.loads(Path('configs/pld_libero/anchor_bowl.json').read_text());p=Protocol(cfg)
     run=tmp_path/'run';(run/'eval').mkdir(parents=True)
@@ -329,12 +354,15 @@ def test_transfer_summary_preserves_negative_gain_and_rejects_duplicates(tmp_pat
     alignment=tmp_path/'alignment.json';alignment.write_text('unit test source alignment fixture')
     cp_hash=file_sha256(checkpoint);base_hash=file_sha256(alignment)
     checkpoint.with_suffix('.json').write_text(json.dumps(dict(source=p.source,training_seed=0,
-        checkpoint_sha256=cp_hash,alignment_sha256=base_hash,split_hash=p.split_hash,execution_hash=p.execution_hash)))
+        checkpoint_sha256=cp_hash,alignment_sha256=base_hash,split_hash=p.split_hash,execution_hash=p.execution_hash,
+        training_spec=residual_training_spec(cfg),training_steps=50000,sac_config={'action_scale':.5})))
     cfg['command_options']=dict(mode='eval',checkpoint=str(checkpoint),alignment_manifest=str(alignment))
     (run/'config.json').write_text(json.dumps(cfg));(run/'metadata.json').write_text(json.dumps(dict(status='COMPLETED')))
     base=[dict(seed=3000,reset_hash='a',success=True,length=10),dict(seed=3001,reset_hash='b',success=False,length=10)]
     residual=[dict(x,success=False) for x in base]
-    row=dict(target=task_key(cfg['source']),checkpoint_sha256=cp_hash,alignment_sha256=base_hash,**paired_summary(base,residual))
+    row=dict(target=task_key(cfg['source']),checkpoint_sha256=cp_hash,alignment_sha256=base_hash,
+        residual_training_steps=50000,residual_training_spec=residual_training_spec(cfg),
+        residual_sac_config={'action_scale':.5},**paired_summary(base,residual))
     (run/'eval/summary.json').write_text(json.dumps([row]))
     (run/'eval'/f"{cfg['source']['name']}_episodes.json").write_text(json.dumps(dict(base=base,residual=residual)))
     summary=gather_transfer_results([run])
@@ -342,6 +370,10 @@ def test_transfer_summary_preserves_negative_gain_and_rejects_duplicates(tmp_pat
     assert summary['buckets'][0]['mean_gain']==-.5
     assert len(summary['missing_tasks'][0]['targets'])==8
     with pytest.raises(ValueError,match='Duplicate'):gather_transfer_results([run,run])
+    other=dict(cfg,online_steps=8)
+    (run/'config.json').write_text(json.dumps(other))
+    with pytest.raises(ValueError,match='training regimen'):gather_transfer_results([run])
+    (run/'config.json').write_text(json.dumps(cfg))
     (run/'metadata.json').write_text(json.dumps(dict(status='FAILED')))
     with pytest.raises(ValueError,match='completed'):gather_transfer_results([run])
 
