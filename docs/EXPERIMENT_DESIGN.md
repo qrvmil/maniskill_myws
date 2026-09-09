@@ -198,3 +198,13 @@ The registered3000-update source-only run scored3/10 on validation seeds2000–2
 Primary frozen-checkpoint evaluation validates the saved residual training regimen and completed update budget against the selected configuration. Actual SAC configuration and training steps accompany every learned-residual evaluation/summary; an8-step smoke/A checkpoint cannot be labeled as main B. Intermediate checkpoints are retained for recovery/inspection but are rejected by primary evaluation until the registered budget is complete.
 
 Before the main B run, `anchor_bowl_otf_smoke.json` exercises the actual OTF rollout and backup branches using the successful aligned-base buffer: batch2, Cal-QL2 updates/2 candidates, online8 updates, warmup0, capacity128, OTF1 plus base candidate and the same main-B entropy convention. EXP-002/rl-otf-smoke is an engineering gate, not a substitute for the preregistered main budget. A smoke remains first.
+
+### Sequential launchers for the selected base
+After `outputs/pld_libero/EXP-001/offline-gpu-3000` completes, these launchers run stages sequentially and stop at the first failing command. Each Python stage still validates provenance and uses a new immutable output directory.
+
+```sh
+bash scripts/pld/run_libero_residual_stage.sh outputs/pld_libero/EXP-001/sft-gpu-v3-3000/alignment_manifest.json outputs/pld_libero/EXP-001/zero-gpu-3000/eval/zero_equivalence.json outputs/pld_libero/EXP-001/offline-gpu-3000/offline.npz gpu3000-seed0
+bash scripts/pld/run_libero_transfer_stage.sh outputs/pld_libero/EXP-001/sft-gpu-v3-3000/alignment_manifest.json outputs/pld_libero/EXP-001/zero-gpu-3000/eval/zero_equivalence.json outputs/pld_libero/EXP-002/source-otf-gpu3000-seed0/checkpoints/residual_step_50000.pt gpu3000-seed0
+```
+
+The residual launcher runs A smoke, its paired D0 execution check, B smoke, then main B. The eight-step A checkpoint evaluation is explicitly an engineering fixture and is excluded from primary gain aggregation. It checks execution/paired provenance, not an SR threshold. The transfer launcher first performs two pairs per task for the frozen **main** specialist, then50 pairs per task without selecting or modifying the specialist based on target success. Only the50-pair outputs enter the final summary/plot. Final training seed0 remains exploratory; episode replication does not replace independent training seeds.
