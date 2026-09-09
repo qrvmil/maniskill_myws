@@ -246,3 +246,5 @@ third_party/XLeVR/hdf5-trajectory/
 render_output/
 third_party/XLeVR/project_plan
 paper_tools/
+# Track the frozen LIBERO experiment protocol.
+!configs/pld_libero/*.json
