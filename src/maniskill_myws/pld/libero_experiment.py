@@ -236,7 +236,9 @@ def train(cfg,args,run,base,model,protocol):
     agent=ResidualSAC(SACConfig(8,7,action_scale=cfg['residual_scale'],visual_encoder=cfg.get('visual_encoder','resnet10'),
         image_shape=shape,calql_n_actions=cfg['calql_n_actions'],otf_backup_actions=cfg['otf_backup_actions'],
         target_entropy=cfg.get('target_entropy'),otf_include_base_action=cfg.get('otf_include_base_action',True),
-        otf_backup_entropy=cfg.get('otf_backup_entropy',False)),device=cfg['device'])
+        otf_backup_entropy=cfg.get('otf_backup_entropy',False),
+        **{k:cfg[k] for k in ('calql_alpha','calql_temp','calql_importance_sample',
+                             'calql_max_target_backup','calql_backup_entropy') if k in cfg}),device=cfg['device'])
     if cfg.get('visual_encoder')=='serl_resnet10':
         if file_sha256(cfg['visual_encoder_path'])!=cfg['visual_encoder_sha256']:
             raise ValueError('Pretrained visual weights checksum mismatch')

@@ -25,7 +25,8 @@ def residual_training_spec(config):
     spec.update(warmup_episodes=config.get('warmup_episodes', 5),
                 target_entropy=config.get('target_entropy'))
     for key in ('active_steps','warmup_actor_updates','visual_encoder','visual_encoder_sha256',
-                'otf_include_base_action','otf_backup_entropy','updates_per_step','offline_fraction'):
+                'otf_include_base_action','otf_backup_entropy','updates_per_step','offline_fraction',
+                'calql_alpha','calql_temp','calql_importance_sample','calql_max_target_backup','calql_backup_entropy'):
         if key in config:spec[key]=config[key]
     return spec
 

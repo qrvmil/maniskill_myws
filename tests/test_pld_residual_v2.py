@@ -225,7 +225,7 @@ def test_training_orchestration_freezes_warmup_and_keeps_real_horizon(tmp_path,m
     from maniskill_myws.pld.libero_protocol import Protocol,file_sha256
     cfg=json.loads(Path('configs/pld_libero/anchor_bowl_otf.json').read_text())
     cfg.update(device='cpu',rl_image_size=32,batch_size=2,buffer_capacity=16,calql_updates=1,
-        calql_n_actions=2,warmup_episodes=2,active_steps=3,online_steps=7,checkpoint_active_interval=1)
+        calql_n_actions=2,calql_alpha=3.,warmup_episodes=2,active_steps=3,online_steps=7,checkpoint_active_interval=1)
     cfg['source']['horizon']=2
     protocol=Protocol(cfg)
     alignment=tmp_path/'alignment.json';alignment.write_text('{}')
@@ -257,6 +257,9 @@ def test_training_orchestration_freezes_warmup_and_keeps_real_horizon(tmp_path,m
     assert [r['length'] for r in rows]==[2,2,2,2]
     assert [r['warmup'] for r in rows]==[True,True,False,False]
     assert run.meta['active_steps']==4 and run.meta['training_steps']==8
+    saved=json.loads(Path(run.meta['checkpoint']).with_suffix('.json').read_text())
+    assert saved['sac_config']['calql_alpha']==3.
+    assert saved['training_spec']['calql_alpha']==3.
 
 
 def test_specialist_save_refuses_overwrite(tmp_path):
