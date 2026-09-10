@@ -406,6 +406,23 @@ def test_transfer_summary_preserves_negative_gain_and_rejects_duplicates(tmp_pat
     assert summary['buckets'][0]['mean_gain']==-.5
     assert len(summary['missing_tasks'][0]['targets'])==8
     with pytest.raises(ValueError,match='Duplicate'):gather_transfer_results([run,run])
+    # Same checkpoint does not make different deployment modes/seed blocks equivalent.
+    import shutil
+    second=tmp_path/'second';shutil.copytree(run,second)
+    row['evaluation_policy']='deterministic_actor'
+    (run/'eval/summary.json').write_text(json.dumps([row]))
+    target=cfg['tasks'][1]
+    other_row=dict(row,target=task_key(target),evaluation_policy='otf')
+    (second/'eval/summary.json').write_text(json.dumps([other_row]))
+    pair_path=second/'eval'/f"{target['name']}_episodes.json"
+    pair_path.write_text(json.dumps(dict(base=base,residual=residual)))
+    with pytest.raises(ValueError,match='deployment'):gather_transfer_results([run,second])
+    other_row['evaluation_policy']='deterministic_actor'
+    short_base,short_residual=base[:1],residual[:1]
+    other_row.update(paired_summary(short_base,short_residual))
+    (second/'eval/summary.json').write_text(json.dumps([other_row]))
+    pair_path.write_text(json.dumps(dict(base=short_base,residual=short_residual)))
+    with pytest.raises(ValueError,match='seed block'):gather_transfer_results([run,second])
     other=dict(cfg,online_steps=8)
     (run/'config.json').write_text(json.dumps(other))
     with pytest.raises(ValueError,match='training regimen'):gather_transfer_results([run])

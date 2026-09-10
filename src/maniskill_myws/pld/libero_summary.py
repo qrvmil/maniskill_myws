@@ -6,7 +6,7 @@ from .libero_protocol import Protocol,file_sha256,paired_summary,task_key,requir
 
 
 def gather_transfer_results(paths):
-    rows=[];seen=set();specialists={};missing={}
+    rows=[];seen=set();specialists={};missing={};deployments={};seed_blocks={}
     for path in map(Path,paths):
         meta=json.loads((path/'metadata.json').read_text())
         cfg=json.loads((path/'config.json').read_text())
@@ -36,6 +36,12 @@ def gather_transfer_results(paths):
                     raise ValueError('Evaluation recorded a different residual training regimen')
             if recorded.get('checkpoint_sha256')!=digest or recorded.get('alignment_sha256')!=provenance['alignment_sha256']:
                 raise ValueError('Evaluation recorded a different checkpoint/base than the current files')
+            policy=recorded.get('evaluation_policy',args.get('eval_policy') or cfg.get('eval_residual','deterministic_actor'))
+            if policy not in ('deterministic_actor','otf'):
+                raise ValueError('Unsupported deployment policy in transfer summary')
+            if key in deployments and deployments[key]!=policy:
+                raise ValueError('Cannot mix deployment policies across a distance ladder')
+            deployments[key]=policy
             task=task_map[recorded['target']]
             pair=json.loads((path/'eval'/f"{task['name']}_episodes.json").read_text())
             values=paired_summary(pair['base'],pair['residual'])
@@ -43,13 +49,17 @@ def gather_transfer_results(paths):
                 raise ValueError('Final transfer summary contains non-evaluation seeds')
             if any(not np.isclose(recorded[k],values[k]) for k in ['SR_base','SR_residual','delta_SR']):
                 raise ValueError('Recorded metrics do not match raw paired episodes')
+            seed_block=tuple(values['seeds'])
+            if key in seed_blocks and seed_blocks[key]!=seed_block:
+                raise ValueError('Cannot mix paired seed blocks across a distance ladder')
+            seed_blocks[key]=seed_block
             identity=(*key,recorded['target'])
             if identity in seen:raise ValueError('Duplicate source/seed/target evaluation')
             seen.add(identity);missing[key].discard(recorded['target'])
             rows.append(dict(source=protocol.source,target=task_key(task),distance=task['distance'],
                 training_seed=cfg['training_seed'],residual_training_steps=provenance['training_steps'],
                 residual_training_spec=provenance['training_spec'],residual_sac_config=provenance['sac_config'],
-                checkpoint=str(checkpoint),run=str(path),**values))
+                checkpoint=str(checkpoint),deployment_policy=policy,run=str(path),**values))
     if not rows:raise ValueError('No completed paired results')
     buckets=[]
     for source,seed,distance in sorted({(r['source'],r['training_seed'],r['distance']) for r in rows}):
