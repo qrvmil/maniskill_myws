@@ -150,6 +150,10 @@ class ObservationEncoder(nn.Module):
         elif visual_encoder == "resnet10":
             self.visual = ResNetV1_10Encoder(image_shape, int(visual_latent_dim))
             self.out_dim = self.state_dim + int(visual_latent_dim)
+        elif visual_encoder == "serl_resnet10":
+            from .serl_encoder import SERLResNet10Encoder
+            self.visual = SERLResNet10Encoder(image_shape, int(visual_latent_dim))
+            self.out_dim = self.state_dim + image_shape[0] * int(visual_latent_dim)
         else:
             raise ValueError(f"Unsupported visual_encoder: {visual_encoder}")
 
@@ -205,6 +209,9 @@ class GaussianResidualActor(nn.Module):
         deterministic: bool = False,
     ) -> tuple[torch.Tensor, torch.Tensor]:
         mean, log_std = self(obs, base_action, images)
+        return self.sample_distribution(mean, log_std, deterministic)
+
+    def sample_distribution(self, mean, log_std, deterministic=False):
         if deterministic:
             raw = mean
         else:
@@ -212,10 +219,10 @@ class GaussianResidualActor(nn.Module):
         squashed = torch.tanh(raw)
         delta = squashed * self.scale
         if deterministic:
-            log_prob = torch.zeros((obs.shape[0], 1), device=obs.device)
+            log_prob = torch.zeros((mean.shape[0], 1), device=mean.device)
         else:
             normal = Normal(mean, log_std.exp())
-            correction = torch.log(self.scale * (1.0 - squashed.pow(2)) + 1e-6)
+            correction = self.scale.log() + 2 * (np.log(2.) - raw - F.softplus(-2 * raw))
             log_prob = (normal.log_prob(raw) - correction).sum(dim=-1, keepdim=True)
         return delta, log_prob
 
@@ -377,12 +384,12 @@ class ResidualSAC:
     ) -> tuple[torch.Tensor, torch.Tensor]:
         batch_size = obs.shape[0]
         n = max(1, int(n_actions))
-        obs_rep = obs[:, None, :].expand(batch_size, n, self.config.state_dim)
-        base_rep = base_actions[:, None, :].expand(batch_size, n, self.config.action_dim)
-        flat_obs = obs_rep.reshape(batch_size * n, self.config.state_dim)
-        flat_base = base_rep.reshape(batch_size * n, self.config.action_dim)
-        flat_images = self._repeat_images(images, n)
-        delta, logp = self.actor.sample(flat_obs, flat_base, flat_images)
+        mean, log_std = self.actor(obs, base_actions, images)
+        mean = mean[:, None].expand(-1, n, -1).reshape(batch_size*n, -1)
+        log_std = log_std[:, None].expand(-1, n, -1).reshape(batch_size*n, -1)
+        flat_base = base_actions[:, None].expand(-1, n, -1).reshape(batch_size*n, -1)
+        delta, logp = self.actor.sample_distribution(mean, log_std)
+        self._candidate_clip = ((flat_base+delta < self.action_low) | (flat_base+delta > self.action_high)).any(-1).reshape(batch_size,n)
         actions = self._clip_action(flat_base + delta).reshape(
             batch_size, n, self.config.action_dim
         )
@@ -396,13 +403,9 @@ class ResidualSAC:
         images: torch.Tensor | None = None,
     ) -> torch.Tensor:
         batch_size, n_actions, _ = actions.shape
-        obs_rep = obs[:, None, :].expand(batch_size, n_actions, self.config.state_dim)
-        image_rep = self._repeat_images(images, n_actions)
-        return q_net(
-            obs_rep.reshape(batch_size * n_actions, self.config.state_dim),
-            actions.reshape(batch_size * n_actions, self.config.action_dim),
-            image_rep,
-        ).reshape(batch_size, n_actions)
+        features = q_net.obs_encoder(obs, images)
+        features = features[:, None].expand(-1, n_actions, -1)
+        return q_net.q(torch.cat([features, actions], dim=-1)).squeeze(-1)
 
     def _otf_candidate_actions(
         self,
@@ -420,6 +423,7 @@ class ResidualSAC:
         base_candidate = self._clip_action(base_actions).reshape(
             batch_size, 1, self.config.action_dim
         )
+        self._candidate_clip = torch.cat([torch.zeros((batch_size,1),device=self.device,dtype=torch.bool), self._candidate_clip],1)
         base_logp = torch.zeros((batch_size, 1), dtype=logp.dtype, device=self.device)
         return torch.cat([base_candidate, actions], dim=1), torch.cat([base_logp, logp], dim=1)
 
@@ -441,6 +445,7 @@ class ResidualSAC:
             images=images,
             include_base_action=include_base_action,
         )
+        candidate_clip = self._candidate_clip
         q1_net = self.q1_target if use_target_critic else self.q1
         q2_net = self.q2_target if use_target_critic else self.q2
         q_values = torch.min(
@@ -458,6 +463,13 @@ class ResidualSAC:
             selected_base = (selected_idx == 0).float()
         else:
             selected_base = torch.zeros_like(selected_idx, dtype=torch.float32)
+        self.last_otf_metrics = {
+            "otf_base_selected": float(selected_base.mean().detach().cpu()),
+            "otf_candidates": float(actions.shape[1]),
+            "otf_selected_clipped": float(candidate_clip.gather(1, selected_idx).float().mean().detach().cpu()),
+            "q_sampled_residual": float(q_values[:, int(include_base_action):].mean().detach().cpu()),
+            "entropy": float(-logp[:, int(include_base_action):].mean().detach().cpu()),
+        }
         return selected_action, selected_logp, selected_q, selected_value, selected_base
 
     def select_delta(
@@ -605,7 +617,7 @@ class ResidualSAC:
         metrics.update({f"q2_{k}": v for k, v in q2_calql_metrics.items()})
         return metrics
 
-    def update(self, batch: ReplayBatch) -> dict[str, float]:
+    def update(self, batch: ReplayBatch, *, update_actor: bool = True) -> dict[str, float]:
         b = self._to_tensor_batch(batch)
         otf_metrics: dict[str, float] = {}
         with torch.no_grad():
@@ -671,11 +683,17 @@ class ResidualSAC:
             "q1": float(q1.mean().detach().cpu()),
             "q2": float(q2.mean().detach().cpu()),
             "alpha": float(self.alpha.detach().cpu()),
+            "target_q": float(target_q.mean().detach().cpu()),
+            "q1_bellman_loss": float(F.mse_loss(q1, target_q).detach().cpu()),
+            "q2_bellman_loss": float(F.mse_loss(q2, target_q).detach().cpu()),
+            "actor_updates_enabled": float(update_actor),
         }
         metrics.update(otf_metrics)
 
         self.total_updates += 1
-        if self.total_updates % max(1, self.config.actor_update_interval) == 0:
+        self._soft_update(self.q1, self.q1_target)
+        self._soft_update(self.q2, self.q2_target)
+        if update_actor and self.total_updates % max(1, self.config.actor_update_interval) == 0:
             delta, logp = self.actor.sample(b["obs"], b["base_actions"], b["images"])
             policy_action = self._clip_action(b["base_actions"] + delta)
             q_pi = torch.min(
@@ -700,8 +718,6 @@ class ResidualSAC:
                     np.log(max(float(self.config.alpha_max), 1e-12)),
                 )
 
-            self._soft_update(self.q1, self.q1_target)
-            self._soft_update(self.q2, self.q2_target)
             metrics.update(
                 actor_loss=float(actor_loss.detach().cpu()),
                 alpha_loss=float(alpha_loss.detach().cpu()),
@@ -743,12 +759,13 @@ class ResidualSAC:
         ) * (high - low)
         q_rand = self._q_for_action_set(q_net, b["obs"], random_actions, b["images"])
 
-        current_actions, current_logp = self._sample_policy_actions(
-            b["obs"], b["base_actions"], n, b["images"]
-        )
-        next_actions, next_logp = self._sample_policy_actions(
-            b["next_obs"], b["next_base_actions"], n, b["next_images"]
-        )
+        with torch.no_grad():
+            current_actions, current_logp = self._sample_policy_actions(
+                b["obs"], b["base_actions"], n, b["images"]
+            )
+            next_actions, next_logp = self._sample_policy_actions(
+                b["next_obs"], b["next_base_actions"], n, b["next_images"]
+            )
         q_current = self._q_for_action_set(q_net, b["obs"], current_actions, b["images"])
         # The reference Cal-QL implementation samples next-state actions but
         # evaluates them under the current state for the conservative term.
@@ -910,6 +927,8 @@ class ResidualSAC:
         encoder tensors are loaded, so checkpoints with a different projection
         head can still initialize the shared convolutional trunk.
         """
+        if self.config.visual_encoder == "serl_resnet10":
+            return {name: module.load_pretrained(path) for name,module in self._visual_modules().items()}
         try:
             payload: dict[str, Any] = torch.load(path, map_location=self.device, weights_only=False)
         except TypeError:  # Older torch versions do not expose weights_only.

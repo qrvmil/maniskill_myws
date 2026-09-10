@@ -24,13 +24,25 @@ def residual_training_spec(config):
         'otf_backup_actions', 'otf_rollout_actions')}
     spec.update(warmup_episodes=config.get('warmup_episodes', 5),
                 target_entropy=config.get('target_entropy'))
+    for key in ('active_steps','warmup_actor_updates','visual_encoder','visual_encoder_sha256',
+                'otf_include_base_action','otf_backup_entropy','updates_per_step','offline_fraction'):
+        if key in config:spec[key]=config[key]
     return spec
 
 
-def require_specialist_regimen(provenance, config):
+def require_specialist_regimen(provenance, config, *, source_validation=False):
     if provenance.get('training_spec') != residual_training_spec(config):
         raise ValueError('Specialist training regimen differs from evaluation configuration')
-    if provenance.get('training_steps') != config['online_steps']:
+    steps=provenance.get('training_steps',-1)
+    max_steps=config['online_steps']
+    if 'active_steps' in config:
+        horizon=config['source']['horizon']
+        max_steps=config.get('warmup_episodes',5)*horizon+config['active_steps']+horizon-1
+        active=provenance.get('active_steps',-1)
+        if not 0 <= active <= config['active_steps']+horizon-1 or active>steps:
+            raise ValueError('Invalid recorded active training budget')
+    valid_partial=source_validation and 0 <= steps <= max_steps
+    if not valid_partial and steps != config['online_steps']:
         raise ValueError('Specialist has not completed the registered training budget')
     if not isinstance(provenance.get('sac_config'), dict):
         raise ValueError('Specialist is missing its actual SAC configuration')

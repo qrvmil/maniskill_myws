@@ -26,9 +26,9 @@ Hardware: NVIDIA A100-SXM4-80GB, driver 580.159.03, system CUDA12.8, torch2.11.0
 
 Use existing adapters/replay/SAC; local targeted changes. User has already authorized implementation and D0 experiments. Tests first for each changed contract. Raw commands, reference snapshots, dependency logs and measurements live in `outputs/pld_libero/V2-*`.
 
-- [ ] Strict reference visual weights and cross-framework parity; preserve old checkpoint compatibility.
-- [ ] Critic-only update control, independent Polyak, stable density and diagnostics; regression tests.
-- [ ] Shared rollout/eval modes, intermediate D0 validation, independent active budget and provenance; tests.
+- [x] Strict reference visual weights and cross-framework parity; preserve old checkpoint compatibility.
+- [x] Critic-only update control, independent Polyak, stable density and diagnostics; regression tests.
+- [x] Shared rollout/eval modes, intermediate D0 validation, independent active budget and provenance; tests.
 - [ ] Source-only SFT settings/checkpoint selection; evaluate candidates only on seeds2000–2019.
 - [ ] Gate1: selected base vs zero, full identical actions/states/length/success under existing tolerance.
 - [ ] Gate2: real base warmup actor/alpha identity, critic motion, Q/MC/OOD diagnostic.
@@ -36,3 +36,5 @@ Use existing adapters/replay/SAC; local targeted changes. User has already autho
 - [ ] Only if gates pass: main source run, select by D0 validation, final D0 seeds3000–3049 once. No D1–D5 in current execution plan.
 
 Final seeds were already used by the historical failed pipeline. They remain unchanged, and must not influence V2 selection; they cannot honestly be described as globally never observed. V2 final evaluation will be held out from V2 decisions.
+
+Implementation review: independent CPU review identified episode-budget validation and selection provenance gaps; each was reproduced and regression-tested. Selection now revalidates every ordered candidate. All raw review/test evidence is in V2-audit; environment gates remain open work, not implied by unit tests.

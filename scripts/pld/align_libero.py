@@ -30,7 +30,7 @@ def main():
     p.add_argument('--dataset-root',default='/workspace/datasets/lerobot/local/pld_libero_bowl')
     p.add_argument('--workdir',default='outputs/pld_libero/EXP-001/alignment')
     p.add_argument('--output',required=True)
-    p.add_argument('--method',choices=['full','lora','full_cpu','full_torch'],default='full')
+    p.add_argument('--method',choices=['full','lora','full_cpu','full_torch','lora32'],default='full')
     p.add_argument('--steps',type=int,default=3000)
     p.add_argument('--pytorch-base-checkpoint')
     p.add_argument('--resume-checkpoint')
@@ -76,6 +76,7 @@ def main():
                 from maniskill_myws.pld.libero_cpu_sft import train_cpu_offload
                 checkpoint=train_cpu_offload(train_cfg,args,run)
             else:
+                train_cfg=dataclasses.replace(train_cfg,checkpoint_base_dir=str((run.path/'checkpoints').resolve()))
                 load_script('train').main(train_cfg)
                 checkpoint=train_cfg.checkpoint_dir/str(args.steps-1)
             normalizer=checkpoint/'assets'/args.repo_id/'norm_stats.json'

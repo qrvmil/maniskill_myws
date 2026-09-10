@@ -82,14 +82,16 @@ def convert_source_h5(path, config, *, repo_id, root):
 
 def make_openpi_config(protocol_config, *, repo_id, workdir, method='full', steps=3000):
     from openpi.training import config as oc
-    if method not in ('full','full_cpu','full_torch','lora'):
+    if method not in ('full','full_cpu','full_torch','lora','lora32'):
         raise ValueError(f'Unknown alignment method: {method}')
     base=oc.get_config('pi0_libero' if method in ('full','full_cpu','full_torch') else 'pi0_libero_low_mem_finetune')
+    if method=='lora32':
+        configure_lora_rank32()
     name='pi0_libero_seen_'+method
     return dataclasses.replace(base,name=name,exp_name='EXP-001',
         data=dataclasses.replace(base.data,repo_id=repo_id,extra_delta_transform=False),
-        batch_size=1,num_workers=0,num_train_steps=steps,ema_decay=None,seed=protocol_config['training_seed'],
-        wandb_enabled=False,save_interval=500,keep_period=500,log_interval=10,
+        batch_size=int(protocol_config.get('sft_batch_size',1)),num_workers=0,num_train_steps=steps,ema_decay=None,seed=protocol_config['training_seed'],
+        wandb_enabled=False,save_interval=int(protocol_config.get('sft_save_interval',500)),keep_period=int(protocol_config.get('sft_save_interval',500)),log_interval=10,
         assets_base_dir=str(Path(workdir)/'assets'),checkpoint_base_dir=str(Path(workdir)/'checkpoints'))
 
 
@@ -108,3 +110,18 @@ def verify_dataset_binding(audit, *, repo_id, root):
     if audit.get('repo_id')!=repo_id or Path(audit.get('root','')).resolve()!=root:
         raise ValueError('Dataset repo_id/root differs from the source-only audit')
     verify_directory(root,audit.get('dataset_files',{}),exclude=('source_audit.json',))
+
+
+def configure_lora_rank32():
+    """PLD C.2 rank32, overriding pinned OpenPI's VLM rank16 default."""
+    from openpi.models import gemma
+    if getattr(gemma.get_config,'pld_rank32',False):return
+    original=gemma.get_config
+    def get_config(variant):
+        config=original(variant)
+        if variant in ('gemma_2b_lora','gemma_300m_lora'):
+            config=dataclasses.replace(config,lora_configs={
+                k:dataclasses.replace(v,rank=32,alpha=32.) for k,v in config.lora_configs.items()})
+        return config
+    get_config.pld_rank32=True
+    gemma.get_config=get_config

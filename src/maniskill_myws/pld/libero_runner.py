@@ -23,6 +23,7 @@ def run_episode(env, base_policy, *, seed, image_size=128, residual=None,
     full_physics = []
     digest = hashlib.sha256()
     image_digest = hashlib.sha256()
+    magnitudes=[]; executed_magnitudes=[]; clipped=[]; diagnostics=[]
     env_seconds = 0.
     inference_seconds = initial_inference_seconds
     while True:
@@ -30,6 +31,11 @@ def run_episode(env, base_policy, *, seed, image_size=128, residual=None,
         # scales, so its adapter must divide by scale exactly once.
         unit_delta = np.zeros(7, np.float32) if residual is None else residual(obs, base)
         action = contract.compose(base, unit_delta)
+        magnitudes.append(np.abs(residual_scale*np.asarray(unit_delta)))
+        executed_magnitudes.append(np.abs(action-base))
+        detail=dict(getattr(residual,'last_diagnostics',{}))
+        clipped.append(float(detail.get('otf_selected_clipped',np.any(np.abs(base+residual_scale*np.asarray(unit_delta))>1))))
+        if detail:diagnostics.append(detail)
         t = time.perf_counter()
         next_raw, reward, terminated, truncated, info = env.step(action)
         env_seconds += time.perf_counter()-t
@@ -63,6 +69,12 @@ def run_episode(env, base_policy, *, seed, image_size=128, residual=None,
                env_step_seconds=env_seconds, inference_seconds=inference_seconds,
                wall_seconds=time.perf_counter()-start,
                base_clipped_components=base_policy.clipped_components)
+    row.update(residual_mean_abs=float(np.mean(magnitudes)),residual_max_abs=float(np.max(magnitudes)),
+               residual_per_dim_abs=np.mean(magnitudes,axis=0).tolist(),
+               executed_residual_mean_abs=float(np.mean(executed_magnitudes)),
+               clipped_action_fraction=float(np.mean(clipped)))
+    if diagnostics:
+        row['policy_diagnostics']={k:float(np.mean([d[k] for d in diagnostics if k in d])) for k in set().union(*diagnostics)}
     return row, transitions
 
 
@@ -81,3 +93,54 @@ def actor_residual(agent):
         return agent.select_delta(obs['state'], base, images=obs['images'],
                                   deterministic=True)/agent.config.action_scale
     return select
+
+
+class ResidualPolicy:
+    """One deployment policy shared by training and evaluation; private RNG stream."""
+    def __init__(self,agent,config,mode,seed):
+        import torch
+        if mode not in ('deterministic_actor','otf','stochastic_actor'):
+            raise ValueError(f'Unknown residual policy mode: {mode}')
+        if mode=='otf' and config['otf_rollout_actions']<1:
+            raise ValueError('OTF evaluation requires a positive training candidate count')
+        self.agent,self.config,self.mode=agent,config,mode
+        self.devices=[agent.device.index or 0] if agent.device.type=='cuda' else []
+        with torch.random.fork_rng(devices=self.devices):
+            torch.manual_seed(seed)
+            self.cpu_rng=torch.get_rng_state()
+            self.gpu_rng=torch.cuda.get_rng_state(agent.device) if self.devices else None
+        self.last_diagnostics={}
+
+    def __call__(self,obs,base):
+        import torch
+        a=self.agent
+        with torch.random.fork_rng(devices=self.devices):
+            torch.set_rng_state(self.cpu_rng)
+            if self.devices:torch.cuda.set_rng_state(self.gpu_rng,a.device)
+            if self.mode=='otf':
+                action=a.select_action_otf(obs['state'],base,images=obs['images'],n_actions=self.config['otf_rollout_actions'])
+                delta=action-base
+                diagnostics=dict(a.last_otf_metrics)
+            else:
+                delta=a.select_delta(obs['state'],base,images=obs['images'],deterministic=self.mode=='deterministic_actor')
+                diagnostics={}
+            self.cpu_rng=torch.get_rng_state()
+            self.gpu_rng=torch.cuda.get_rng_state(a.device) if self.devices else None
+            # Diagnostic samples do not change the rollout stream.
+            with torch.no_grad():
+                state=torch.as_tensor(obs['state'],dtype=torch.float32,device=a.device)[None]
+                b=torch.as_tensor(base,dtype=torch.float32,device=a.device)[None]
+                im=a._images_to_tensor(obs['images'][None] if obs['images'] is not None else None)
+                mean,_=a.actor.sample(state,b,im,deterministic=True)
+                sampled,logp=a.actor.sample(state,b,im)
+                actions=torch.stack([b[0],a._clip_action(b+sampled)[0],a._clip_action(b+mean)[0]],dim=0)[None]
+                q=torch.minimum(a._q_for_action_set(a.q1,state,actions,im),a._q_for_action_set(a.q2,state,actions,im))[0]
+                diagnostics.update(q_base=float(q[0]),q_mean_residual=float(q[2]),alpha=float(a.alpha))
+                diagnostics.setdefault('q_sampled_residual',float(q[1]))
+                diagnostics.setdefault('entropy',float(-logp.mean()))
+        self.last_diagnostics=diagnostics
+        return np.clip(delta/a.config.action_scale,-1,1)
+
+
+def residual_policy(agent,config,mode,*,seed):
+    return ResidualPolicy(agent,config,mode,seed)

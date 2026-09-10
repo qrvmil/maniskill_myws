@@ -93,6 +93,9 @@ def main():
     p.add_argument('--alignment-manifest')
     p.add_argument('--zero-report')
     p.add_argument('--checkpoint')
+    p.add_argument('--selection-manifest',help='Required for V2 final source evaluation')
+    p.add_argument('--videos',type=int,default=2,help='Save first N paired failure videos')
+    p.add_argument('--eval-policy',choices=['deterministic_actor','otf'])
     p.add_argument('--offline-buffer')
     p.add_argument('--distance',choices=['D0','D1','D2','D3','D4','D5'])
     p.add_argument('--successes',type=int,default=50)
@@ -100,8 +103,8 @@ def main():
     args=p.parse_args()
     cfg=json.loads(Path(args.config).read_text())
     protocol=Protocol(cfg)
-    if args.validation and args.mode!='base':
-        p.error('--validation is only supported for source base evaluation')
+    if args.validation and args.mode not in ('base','eval'):
+        p.error('--validation supports source base/residual evaluation')
     if args.mode != 'smoke':
         if args.max_steps is not None:
             p.error('Only smoke may override horizon')
