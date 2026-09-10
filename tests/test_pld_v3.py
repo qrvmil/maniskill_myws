@@ -359,6 +359,9 @@ def test_train_resume_matches_uninterrupted_episode_boundary(tmp_path,monkeypatc
                   ChunkedBasePolicy(ChunkModel()),SimpleNamespace(),protocol)
         return r
     full=run('full',True)
+    assert cfg['warmup_actor_updates'] is True  # literal PLD Algorithm1 primary
+    warmup=json.loads((full.path/'warmup_check.json').read_text())
+    assert not warmup['actor_identical'] and not warmup['alpha_identical'] and warmup['critic_changed']
     stopped=run('stopped',False)
     resumed=run('resumed',True,stopped.path/'stages/active_2')
     a=ResidualSAC.load(full.meta['checkpoint']);b=ResidualSAC.load(resumed.meta['checkpoint'])

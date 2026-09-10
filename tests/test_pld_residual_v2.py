@@ -224,7 +224,8 @@ def test_hard_otf_target_masks_terminal_transition():
     assert metrics['target_q']==pytest.approx(2.98)
 
 
-def test_training_orchestration_freezes_warmup_and_keeps_real_horizon(tmp_path,monkeypatch):
+@pytest.mark.parametrize("warmup_actor_updates", [False, True])
+def test_training_orchestration_respects_warmup_updates_and_real_horizon(tmp_path,monkeypatch,warmup_actor_updates):
     from types import SimpleNamespace
     from test_pld_libero import observation,ChunkModel
     from maniskill_myws.pld import libero_experiment as exp
@@ -232,7 +233,8 @@ def test_training_orchestration_freezes_warmup_and_keeps_real_horizon(tmp_path,m
     from maniskill_myws.pld.libero_protocol import Protocol,file_sha256
     cfg=json.loads(Path('configs/pld_libero/anchor_bowl_otf.json').read_text())
     cfg.update(device='cpu',rl_image_size=32,batch_size=2,buffer_capacity=16,calql_updates=1,
-        calql_n_actions=2,calql_alpha=3.,warmup_episodes=2,active_steps=3,online_steps=7,checkpoint_active_interval=1)
+        calql_n_actions=2,calql_alpha=3.,warmup_episodes=2,active_steps=3,online_steps=7,checkpoint_active_interval=1,
+        warmup_actor_updates=warmup_actor_updates)
     cfg['source']['horizon']=2
     protocol=Protocol(cfg)
     alignment=tmp_path/'alignment.json';alignment.write_text('{}')
@@ -259,7 +261,9 @@ def test_training_orchestration_freezes_warmup_and_keeps_real_horizon(tmp_path,m
     args=SimpleNamespace(offline_buffer=path,alignment_manifest=alignment)
     exp.train(cfg,args,run,ChunkedBasePolicy(ChunkModel()),SimpleNamespace(),protocol)
     check=json.loads((tmp_path/'warmup_check.json').read_text())
-    assert check['actor_identical'] and check['alpha_identical'] and check['critic_changed']
+    assert check['actor_identical']==(not warmup_actor_updates)
+    assert check['alpha_identical']==(not warmup_actor_updates)
+    assert check['critic_changed']
     rows=json.loads((tmp_path/'training_episodes.json').read_text())
     assert [r['length'] for r in rows]==[2,2,2,2]
     assert [r['warmup'] for r in rows]==[True,True,False,False]

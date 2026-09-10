@@ -1,6 +1,6 @@
 # PLD → LIBERO V3
 
-Status: source-only residual initialization is running; active residual/transfer results are not yet available. No distillation, no target training or target-based selection. Local branch `fix/pld-libero-residual-v3`; no push.
+Status: primary A is restarting with Algorithm1 warmup actor updates; the completed actor-frozen warmup is a retained control. No active residual interaction or residual validation occurred before this reference correction. Active residual/transfer results are not yet available. No distillation, no target training or target-based selection. Local branch `fix/pld-libero-residual-v3`; no push.
 
 ## Changes from V2
 
@@ -16,11 +16,20 @@ Primary base **SFT3001** was fixed before V3 residual outcomes. Same D0 source-o
 | Base vs exact-zero | **50/50 exact** actions, success, length, physics and images |
 | Separate-process check after reference dependencies | 2/2 exact trajectory/image hashes |
 | SERL parity | Official trunk feature parity; Distrax density parity; actual shared Flax graph confirms visual stop-gradient for actor and trainable critic heads |
-| Tests | 79 passed; 2 unrelated ManiSkill environment tests skipped (dependency absent). LIBERO and SERL integrations passed. |
+| Tests | 80 passed; 2 unrelated ManiSkill environment tests skipped (dependency absent). LIBERO and SERL integrations passed. |
 | Successful base collection | 50/72 attempts; 5910 transitions |
-| Warmup / counterfactual ranking | Cal-QL and warmup in progress |
+| Actor-frozen warmup control | 69/100 base successes;14,889 transitions; head/std and alpha bytewise unchanged, critic changed. Primary A now follows Algorithm1 actor updates during warmup. |
 
 A100-SXM4-80GB, Torch2.7.1+cu128, JAX0.5.3, CUDA12.8; cgroup RAM241.7GiB. Batch256/replay250k retained. Synthetic batch256 learner peak allocated **1.97GiB** (reserved2.27GiB); timings and process/device measurements are separate in artifacts. Online first stage is **50k ACTIVE** interactions, followed by D0 review for100k/250k, not a5k performance stop.
+
+Cal-QL counterfactual test: 8 states from 2 successful and 2 failed D0 train trajectories; one candidate action then frozen-base continuation. Both processes reproduce identical action/rollout hashes for the common base and small perturbations.
+
+| Initialization | Success-ranking accuracy | Harmful edits preferred | Rescue edits rejected |
+|---|---:|---:|---:|
+| Auxiliary full-action Cal-QL (A) | 9/16 non-tied pairs | 0/4 | 2/2 |
+| Fixed random residual proposals (control) | 9/14 | 0/3 | 1/1 |
+
+Actor-dependent proposals differ between these rows. On **identical** base/±small candidates, discounted-return ranking is **5/12 vs6/12**; no demonstrated initialization advantage. Overall discounted ranking is22/62 vs32/61. Cal-QL is conservative and misses useful edits; this tiny diagnostic does not yet certify OTF. Repeat after warmup. Raw margins, state/trajectory-bootstrap intervals, branches and calibration plots are in `V3-{a,control}-counterfactual-calql`; two states per trajectory make uncertainty larger than independent-state intervals suggest.
 
 ## D0 checkpoints and selected specialist
 
@@ -32,6 +41,6 @@ Not run yet. Every task in D1/D2/D3 will be shown individually with paired gain 
 
 ## Caveats
 
-Training probing upper fraction.3, any scale schedule, offline update budget and synchronous update ordering are explicit experimental settings; the exact PLD integration is unpublished. SERL SAC-default LR warmup is a chosen reference setting (DrQ factory defaults differ). Raw proprioception, no visual dropout/crop, independent final Q readouts, Xavier visual projections and current-state temperature sampling remain port differences; online PLD actor:critic1:2 and norm clipping1 are explicit, while auxiliary Cal-QL also uses clipping unlike its standalone reference. One-action counterfactual outcomes use base continuation, so they are diagnostics rather than unbiased residual-policy Q targets. One training seed; small paired gains will be reported with uncertainty.
+Training probing upper fraction.3, any scale schedule, offline update budget and synchronous update ordering are explicit experimental settings; the exact PLD integration is unpublished. SERL SAC-default LR warmup is a chosen reference setting (DrQ factory defaults differ). PLD specifies AdamW but no decay coefficient;0.01 is our explicit setting, not an author-provided value. Raw proprioception, no visual dropout/crop, independent final Q readouts, Xavier visual projections and current-state temperature sampling remain port differences; online PLD actor:critic1:2 and norm clipping1 are explicit, while auxiliary Cal-QL also uses clipping unlike its standalone reference. One-action counterfactual outcomes use base continuation, so they are diagnostics rather than unbiased residual-policy Q targets. One training seed; small paired gains will be reported with uncertainty.
 
 Raw evidence: `outputs/pld_libero/V3-*`, including command/config/code snapshots, immutable model/data hashes, tests and runtime logs. Historical V2 artifacts are unchanged.
