@@ -269,3 +269,50 @@ def test_specialist_save_refuses_overwrite(tmp_path):
     run=SimpleNamespace(path=tmp_path,meta={})
     _save_specialist(agent,run,Protocol(cfg),manifest,3)
     with pytest.raises(FileExistsError):_save_specialist(agent,run,Protocol(cfg),manifest,3)
+
+
+@pytest.mark.skipif(not __import__('os').environ.get('PLD_SERL_REFERENCE'),reason='official SERL checkout/weights opt-in')
+def test_official_pretrained_serl_features_match_jax():
+    import os,pickle,sys
+    root=Path(os.environ['PLD_SERL_REFERENCE'])
+    sys.path.insert(0,str(root/'serl'/'serl_launcher'))
+    from serl_launcher.vision.resnet_v1 import resnetv1_configs
+    import jax.numpy as jnp
+    from maniskill_myws.pld.serl_encoder import SERLTrunk,convert_serl_params
+    from maniskill_myws.pld.libero_protocol import file_sha256
+    source=root/'resnet10_params.pkl'
+    assert file_sha256(source)=='175745d43d30233eb01b5369465d1c24c11b8ee71ccb734cc1c1bca13e07f57b'
+    with source.open('rb') as f:params=pickle.load(f)
+    images=np.random.default_rng(11).integers(256,size=(2,128,128,3),dtype=np.uint8)
+    reference=np.asarray(resnetv1_configs['resnetv1-10-frozen']().apply({'params':params},jnp.asarray(images)))
+    model=SERLTrunk();model.load_state_dict(convert_serl_params(params),strict=True)
+    with torch.no_grad():actual=model(torch.from_numpy(images).permute(0,3,1,2).float()/255).permute(0,2,3,1).numpy()
+    np.testing.assert_allclose(actual,reference,atol=8e-5,rtol=2e-4)
+
+
+def test_warmup_review_waits_and_binds_decision_to_diagnostics(tmp_path,monkeypatch):
+    from maniskill_myws.pld import libero_experiment as exp
+    from maniskill_myws.pld.libero_protocol import file_sha256
+    for name in ('warmup_check.json','critic_after_warmup.json'):
+        (tmp_path/name).write_text('{}')
+    calls=[]
+    def approve(_):
+        calls.append(True)
+        request=json.loads((tmp_path/'warmup_review_request.json').read_text())
+        (tmp_path/'warmup_review_decision.json').write_text(json.dumps(dict(
+            decision='continue',evidence=request['evidence'],reason='Measured critic reviewed')))
+    monkeypatch.setattr(exp.time,'sleep',approve)
+    exp.await_warmup_review(tmp_path)
+    assert len(calls)==1
+    assert json.loads((tmp_path/'warmup_review_request.json').read_text())['evidence']['warmup_check.json']==file_sha256(tmp_path/'warmup_check.json')
+    (tmp_path/'critic_after_warmup.json').write_text('{"changed":true}')
+    with pytest.raises(ValueError,match='evidence'):
+        exp.await_warmup_review(tmp_path)
+    (tmp_path/'warmup_review_decision.json').unlink()
+    def stop(_):
+        request=json.loads((tmp_path/'warmup_review_request.json').read_text())
+        (tmp_path/'warmup_review_decision.json').write_text(json.dumps(dict(
+            decision='stop',evidence=request['evidence'],reason='Critic scale invalid')))
+    monkeypatch.setattr(exp.time,'sleep',stop)
+    with pytest.raises(RuntimeError,match='Critic scale invalid'):
+        exp.await_warmup_review(tmp_path)

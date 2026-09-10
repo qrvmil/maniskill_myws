@@ -105,10 +105,8 @@ class ResidualPolicy:
             raise ValueError('OTF evaluation requires a positive training candidate count')
         self.agent,self.config,self.mode=agent,config,mode
         self.devices=[agent.device.index or 0] if agent.device.type=='cuda' else []
-        with torch.random.fork_rng(devices=self.devices):
-            torch.manual_seed(seed)
-            self.cpu_rng=torch.get_rng_state()
-            self.gpu_rng=torch.cuda.get_rng_state(agent.device) if self.devices else None
+        self.cpu_rng=torch.Generator(device='cpu').manual_seed(seed).get_state()
+        self.gpu_rng=torch.Generator(device=agent.device).manual_seed(seed).get_state() if self.devices else None
         self.last_diagnostics={}
 
     def __call__(self,obs,base):

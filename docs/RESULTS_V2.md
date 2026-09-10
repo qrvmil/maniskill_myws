@@ -8,7 +8,7 @@ D0 remains spatial bowl-center→plate. Train seeds1000–1099; validation2000�
 
 Hardware: A100-SXM4-80GB, RAM limit241.7GiB, initially237GiB free disk. Pinned experiment torch2.7.1+cu128; system torch2.11.0+cu128, CUDA12.8/driver580.159.03. Workspace is ordinary container storage, not a persistent volume.
 
-Source-only alignment is rebuilt from official pretrained pi0 because old binaries are absent. Same source HDF5 SHA `75ede0cf…d3e0b3`, 50 demos/5832 temporally aligned pairs. Official OpenPI JAX LoRA, explicit rank32 in both VLM/action expert, batch8, 4000-update first candidate budget, checkpoints every1000. Selection will use all20 D0 validation seeds only.
+Source-only alignment is rebuilt from official pretrained pi0 because old binaries are absent. Same source HDF5 SHA `75ede0cf…d3e0b3`, 50 demos/5832 temporally aligned pairs. Official OpenPI JAX LoRA with upstream freeze filter (vision/outer projections also trainable), explicit rank32 in both VLM/action expert, batch8, 4000-update first candidate budget, checkpoints every1000. Selection will use all20 D0 validation seeds only.
 
 Residual V2: official SERL ImageNet-1K ResNet10 convolutional weights, frozen per-camera trunk and trainable spatial pooling; batch256/replay250k, 100 base-only warmup episodes with actor/alpha frozen, 5000 **active** residual steps for sanity. OTF: one sampled residual plus exact base, min-twin-Q argmax. Deterministic actor and OTF are separately labeled evaluation policies.
 
@@ -17,9 +17,9 @@ Residual V2: official SERL ImageNet-1K ResNet10 convolutional weights, frozen pe
 | Check | Current evidence |
 |---|---|
 | Baseline integration | 25 passed before changes, real LIBERO reset/step included |
-| Updated unit suite | 50 passed/3 skipped; final integration after GPU is available |
+| Updated tests | 53 unit tests + real LIBERO integration + official SERL parity passed; two optional ManiSkill smoke tests not run |
 | Encoder initialization | All36 trunk tensors strictly required for all5 networks. JAX/PyTorch comparison passed at32/127/128px, max absolute difference1.08e-4 within mixed tolerance |
-| Warmup contract | Unit test verifies exact actor/alpha preservation, critic and target movement; real source warmup pending |
+| Warmup contract | Unit test verifies exact actor/alpha preservation, critic and target movement; explicit diagnostic-review pause before active interaction; real source warmup pending |
 | OTF contract | Seeded shared rollout/eval selector test passes, global RNG preserved |
 | Gate1: base/zero | New selected-base trajectory test pending |
 | Gate2: real warmup/critic | Pending |
