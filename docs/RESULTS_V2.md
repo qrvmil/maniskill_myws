@@ -1,50 +1,49 @@
-# PLD → LIBERO: source specialist recovery
+# PLD → LIBERO: D0 residual recovery
 
-**Status: in progress; D1–D5 closed.** Historical D0 base21/50 vs deterministic residual0/50 is a failed specialist result. Canonical freeze-run Gate3 failed: final OTF40% vs base90%. Main250k and transfer remain blocked. A single-change warmup-update ablation is staged at its warmup review.
+**Outcome: implementation repaired; working OTF specialist NOT reproduced. Gate3 failed; main250k, final-seed evaluation and D1–D5 were not run.** Deterministic deployment largely recovered toward base performance, while exact training-time OTF remained harmful. Historical42%→0% is preserved, not explained by a uniquely established cause: old binary artifacts were absent.
 
 ## Setup
 
-D0 remains spatial bowl-center→plate. Train seeds1000–1099; validation2000–2019; final3000–3049, unchanged. No target data or target performance enters selection. No distillation. New branch `fix/pld-libero-residual`, baseline `097f57d`; independent run directories `outputs/pld_libero/V2-*`.
+Branch `fix/pld-libero-residual`, baseline `097f57d`; no push. Same D0 spatial bowl-center→plate, train1000–1099, validation2000–2019, final3000–3049; unchanged D1–D5 split. No target data/metrics, no distillation. Every run has a separate artifact directory.
 
-Hardware: A100-SXM4-80GB, RAM limit241.7GiB, initially237GiB free disk. Pinned experiment torch2.7.1+cu128; system torch2.11.0+cu128, CUDA12.8/driver580.159.03. Workspace is ordinary container storage, not a persistent volume.
+Source-only alignment rebuilt from official pretrained pi0 and the same50 source demos/5832 shifted pairs. Official OpenPI JAX LoRA: rank32 in both VLM/expert, batch8,4000 updates; upstream freeze filter also leaves vision/outer projections trainable. Canonical D0 validation after1001/2001/3001/4000 updates: **1/20,9/20,14/20,18/20**. Selected4000 using only validation. Collection:50 successes/59 train resets,5564 transitions; action=base and provenance verified.
 
-Source-only alignment is rebuilt from official pretrained pi0 because old binaries are absent. Same source HDF5 SHA `75ede0cf…d3e0b3`, 50 demos/5832 temporally aligned pairs. Official OpenPI JAX LoRA with upstream freeze filter (vision/outer projections also trainable), explicit rank32 in both VLM/action expert, batch8, 4000-update first candidate budget, checkpoints every1000. Selection used all20 D0 validation seeds only: checkpoints after1001/2001/3001/4000 updates under the corrected numerical contract scored1/20,9/20,14/20,18/20. Frozen base selected at4000 updates; evidence: `outputs/pld_libero/V2-canonical-base-selection.json`.
-
-Frozen-base collection:50 successful trajectories /59 train-seed attempts (84.7%),5564 transitions under canonical inference; replay provenance and exact action=base-action equality verified.
-
-Residual V2: official SERL ImageNet-1K ResNet10 convolutional weights, frozen per-camera trunk and trainable spatial pooling; batch256/replay250k, 100 base-only warmup episodes with actor/alpha frozen, 5000 **active** residual steps for sanity. OTF: one sampled residual plus exact base, min-twin-Q argmax. Deterministic actor and OTF are separately labeled evaluation policies.
+Residual: official SERL ImageNet-1K ResNet10 weights, strict conversion/initialization; frozen convolutional trunk, trainable spatial heads. Batch256/replay250k,1000 Cal-QL updates,100 base-only warmup episodes,1 critic update/step,actor every2,scale0.5. OTF uses exactly1 sampled residual plus exact base, min-twin-Q argmax, no entropy in its target backup. First run freezes actor/alpha during warmup; a single-field ablation enables their updates following literal PLD pseudocode. Both stop after approximately5k **active** steps, preserving complete episodes.
 
 ## Sanity checks
 
-| Check | Current evidence |
+| Gate / contract | Evidence |
 |---|---|
-| Baseline integration | 25 passed before changes, real LIBERO reset/step included |
-| Updated tests | 58 passed in one complete unit/integration run, including real LIBERO and official SERL parity; two optional ManiSkill smoke tests not run |
-| Encoder initialization | All36 trunk tensors strictly required for all5 networks. JAX/PyTorch comparison passed at32/127/128px, max absolute difference1.08e-4 within mixed tolerance |
-| Warmup contract | Real actor/alpha tensors exactly unchanged, critic changed; all59 shared collection/warmup trajectories identical; diagnostic pause operational |
-| OTF contract | Seeded shared rollout/eval selector test passes, global RNG preserved |
-| Gate1: base/zero | PASS under canonical runtime: all20 pairs identical actions/success/length/physics/images, max difference0; both18/20. Full base trajectories also identical across two processes |
-| Gate2: real warmup/critic | Canonical parameter checks PASS after100 episodes/12512 steps (base85/100). On256 successful base states: MC0.595, Q(base)0.875, random0.869, actor mean0.875; random edit preference28.5%. Calibration limited:27.3% Q(base) outside[0,1], small action margins. Reviewed release permits only5k active sanity |
-| Gate3: short active D0 | FAIL for training-time OTF: final8/20 vs base18/20. Deterministic16/20; best intermediate19/20. All six base repeats match canonical trajectories exactly |
+| Tests | **58 passed,2 optional ManiSkill tests skipped**; real LIBERO integration and official SERL parity included |
+| Visual initialization | All36 trunk tensors required in all5 networks; JAX/Torch parity at32/127/128px passed, max absolute error1.08e-4 within mixed tolerance |
+| Gate1 base/zero | **PASS:**20/20 pairs identical actions,images,physics,length,success; both18/20. Full base trajectories also match across fresh processes |
+| Gate2 warmup | **Mechanics PASS:**100 episodes/12512 steps,base85/100; actor/alpha exactly unchanged,critic changed. On256 successful states MC0.595,Q(base)0.875,Q(random)0.869,Q(mean)0.875; random preference28.5%. Calibration limited:27.3%Q(base) outside[0,1],weak action margins |
+| OTF semantics | Shared rollout/eval selector and RNG-isolation tests pass; same candidates,scaling,clipping,critic choice |
+| Gate3 | **FAIL for exact OTF:** all completed active checkpoints below base; see paired20-seed results below. Main budget not released |
 
-Source LoRA4000 completed in3014.1s (50.2min), process peak RSS29.5GiB, device peak69987MiB with85% JAX preallocation; this is **reserved process/device memory**, not measured live tensor demand. Checkpoints after1001/2001/3001/4000 updates enter D0 validation. The earlier2-update feasibility probe is not an adequate aligned base.
-
-Batch256 residual feasibility (synthetic batches, not a task result): median Cal-QL0.319s/update, critic-only warmup0.161s, active0.184s; Torch peak2.07GiB, sampled device peak2855MiB. All losses finite. At this measured rate,250k active updates alone would take roughly12.8h plus rollouts/evaluations; no batch/replay reduction is needed for memory.
+Additional reproducibility bug: default JAX GPU autotuning changed identical-input/noise base actions across fresh processes (max difference0.020766). Versioned `jax_cuda_autotune0_v1` pins supported XLA settings and JAX/CUDA-plugin versions, rejects conflicts/late configuration. Base candidates,zero,collection,warmup were rerun canonically; all repeated validation base trajectories match. This new JAX issue is not attributed to the historical Torch run.
 
 ## Source D0 results
 
-| Checkpoint | Base SR | Deterministic SR | OTF SR | Δdet | ΔOTF | OTF base selection | Mean absolute executed correction |
-|---|---|---|---|---|---|---|---|
-| Canonical V2,5181 active steps, validation n20 | 90% | 80% | 40% | −10pp | −50pp | 66.4% | det0.00834; OTF0.0773 |
-| Canonical V2,3543 active steps, validation n20 | 90% | 95% | 60% | +5pp | −30pp | 68.5% | det0.00774; OTF0.0717 |
-| Canonical V2,1210 active steps, validation n20 | 90% | 60% | 35% | −30pp | −55pp | 64.9% | det0.0111; OTF0.0813 |
-| Historical full-SFT3000 / residual50000, final n50 | 42% | 0% | not measured | −42pp | — | — | — |
-| V2 warmup-only control, 0 active steps, validation n20 | det-pair90%; OTF-pair85% | 0% | 50% | −90pp | −35pp | 64.3% | det0.122; OTF0.089 |
+All entries below use the same20 source-validation seeds; **these are not final-test estimates**. Correction is mean absolute executed `a_exec−a_base`; correction and OTF base-selection rates are episode averages.
 
-An additional reproducibility bug was confirmed: default XLA autotuning changed frozen-base actions across fresh processes (identical inputs/noise, max action difference0.020766), leading to base17/20 vs18/20. Disabling autotuning gives exact repeated/fresh-process inference equality. The versioned canonical config fixes XLA flags and JAX/CUDA plugin versions; all four base candidates have been revalidated; canonical zero and cross-process trajectory checks passed; fresh collection and warmup are complete. Old warmup artifacts remain unchanged and were stopped before active interaction. Intervention magnitude and OTF selection rate are episode averages. These controls measure an untrained actor; no claim about trained residual performance is made.
+| Warmup / active steps | Base | Det | OTF | Δdet | ΔOTF | OTF base rate | Mean correction det / OTF |
+|---|---|---|---|---|---|---|---|
+| Frozen warmup, 1210 | 90% | 60% | 35% | -30pp | -55pp | 64.9% | 0.0111 / 0.0813 |
+| Frozen warmup, 3543 | 90% | 95% | 60% | +5pp | -30pp | 68.5% | 0.0077 / 0.0717 |
+| Frozen warmup, 5181 | 90% | 80% | 40% | -10pp | -50pp | 66.4% | 0.0083 / 0.0773 |
+| Warmup updates, 1174 | 90% | 80% | 45% | -10pp | -45pp | 62.7% | 0.0045 / 0.0857 |
+| Warmup updates, 3282 | 90% | 90% | 35% | +0pp | -55pp | 63.8% | 0.0040 / 0.0842 |
+| Warmup updates, 5154 | 90% | 85% | 35% | -5pp | -55pp | 60.1% | 0.0051 / 0.0929 |
+
+Warmup-only controls at0 active steps: frozen actor **det0/20,OTF6/20**; updates enabled **det16/20,OTF12/20**; base18/20 throughout. All1000 Cal-QL update metrics and all100 base warmup trajectories match exactly across the ablation. Initial OTF improved, but active learning did not sustain recovery. Active rollout successes:freeze10/29,updates10/28. The deterministic19/20 checkpoint is one extra success on reused selection seeds, not established gain; no specialist was promoted for final evaluation.
+
+Diagnostics support an unresolved mechanism: broad sampled corrections (~0.256 mean absolute magnitude), entropy near its maximum0, and weak critic action discrimination. On256 successful offline states/four draws, raw entropy/Q actor-gradient norm ratios were66–102 (freeze) and6–11 (updates). These are pre-AdamW gradients, not causal proof or measurements on failure states. Warmup updates alone did not fix OTF. Paired failure videos,per-dimension corrections,clipping,Q/MC,losses,entropy,replay fractions and hashes are retained in artifacts.
+
+Hardware: A100-SXM4-80GB; RAM limit241.7GiB;237GiB disk initially free; CUDA12.8,driver580.159.03. Experiment torch2.7.1+cu128; system torch2.11.0+cu128. SFT50.2min,device peak69987MiB with85%JAX preallocation. Residual freeze94.4min / ablation113.7min including review pauses; combined training/eval device peaks46212/45334MiB; Torch allocation peak2.07GiB. Batch256 fits; synthetic active-update timing0.184s implies~12.8h for250k updates alone, but that run was blocked by correctness, not memory. Workspace is not volume-backed.
 
 ## Remaining limitations
 
-See [audit](RESIDUAL_FAILURE_AUDIT.md) for verdicts and exact references. No public author PLD training code was located; SERL is a documented reconstruction basis, not claimed exact PLD implementation. Explicit differences: one source specialist/seed, no distillation, fixed base chunk5, base OTF fallback, frozen actor warmup, synchronous1 critic update/environment step, log-alpha surrogate, min-twin actor objective (SERL averages its critic ensemble; PLD choice unverified), critic-only Cal-QL with fixed random proposal actor (PLD offline proposal unspecified), clipped-density Cal-QL approximation, no random-crop augmentation, separate trainable camera heads for actor/twin critics, finite-horizon masks. Paper does not specify a universal250k interaction budget or exact UTD; 1000 Cal-QL pretrain updates and its conservative coefficient5 are explicit local choices, not verified author settings.
+[Audit](RESIDUAL_FAILURE_AUDIT.md) separates confirmed bugs/mismatches from hypotheses. No public author PLD training code/encoder checkpoint was located: SERL weights are a documented faithful-reference initialization, not claimed exact author weights. Remaining differences/unknowns: one source/seed,no distillation,chunk5,explicit base fallback,frozen-warmup safety variant,synchronous UTD1,log-alpha surrogate,min-twin actor objective (SERL averages),critic-only Cal-QL/fixed random proposal,clipped-action density approximation,no crop augmentation,separate visual heads,finite-horizon masks.1000 Cal-QL updates/coefficient5 and exact offline proposal/UTD are not verified author settings.
 
-Final seeds were used historically but are held out from all V2 decisions. Main250k residual training and D1–D5 are not authorized by results until all requested source gates pass. Raw logs, provenance, review reproductions and commands remain in artifacts.
+**D1–D5 readiness: NO.** Source OTF remains substantially below the reproducible base. More budget is not a validated fix. Next investigation should validate critic action ranking against controlled D0 counterfactual returns and resolve the author offline-critic/temperature recipe; any departure must remain explicit. Final3000–3049 were historically observed but untouched by V2 tuning/evaluation. Raw provenance remains under `outputs/pld_libero/V2-*`; key implementation diff: `V2-audit/provenance/key_changes.patch`.

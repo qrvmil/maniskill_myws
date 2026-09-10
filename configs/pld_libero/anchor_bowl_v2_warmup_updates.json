@@ -344,7 +344,7 @@
   "sft_batch_size": 8,
   "sft_save_interval": 1000,
   "training_scope": "D0_sanity",
-  "fidelity_note": "PLD paper settings where specified; SERL pretrained frozen trunk; base fallback and frozen warmup actor are explicit safety extensions; 5000 ACTIVE step sanity budget, online_steps is maximum bookkeeping budget.",
+  "fidelity_note": "PLD paper settings where specified; SERL pretrained frozen trunk; base fallback is an explicit extension. Warmup actor/alpha updates follow literal PLD Algorithm1 in this single-algorithmic-field ablation; other settings match canonical freeze sanity. Budget:5000 ACTIVE residual steps.",
   "warmup_review_required": true,
   "calql_alpha": 5.0,
   "calql_temp": 1.0,
