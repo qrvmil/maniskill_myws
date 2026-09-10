@@ -171,18 +171,25 @@ def test_strict_visual_load_initializes_every_network(tmp_path):
         for k,v in visual.trunk.state_dict().items():torch.testing.assert_close(v,trunk.state_dict()[k],rtol=0,atol=0)
 
 
-def test_critic_diagnostics_are_reproducible_and_do_not_change_training_rng():
+@pytest.mark.parametrize('device',['cpu','cuda'])
+def test_critic_diagnostics_are_reproducible_and_do_not_change_training_rng(device):
     from maniskill_myws.pld.libero_diagnostics import diagnose_critic
-    a=ResidualSAC(SACConfig(8,7,hidden_dim=16))
+    if device=='cuda' and (not __import__('os').environ.get('PLD_LIBERO_INTEGRATION') or not torch.cuda.is_available()):
+        pytest.skip('GPU diagnostic RNG check requires integration runtime')
+    a=ResidualSAC(SACConfig(8,7,hidden_dim=16),device=device)
     buf=ReplayBuffer(2,8,7)
     for mc in [.99,1.]:buf.add(np.zeros(8),np.zeros(7),np.zeros(7),1.,np.zeros(8),np.zeros(7),True,mc_return=mc)
     state=torch.get_rng_state().clone();numpy_state=np.random.get_state()
+    gpu_state=torch.cuda.get_rng_state().clone() if device=='cuda' else None
     result=diagnose_critic(a,buf,count=2)
     assert torch.equal(state,torch.get_rng_state())
+    if gpu_state is not None:assert torch.equal(gpu_state,torch.cuda.get_rng_state())
     assert np.array_equal(numpy_state[1],np.random.get_state()[1])
     assert result==diagnose_critic(a,buf,count=2)
     assert result['mc_return']['mean']==pytest.approx(.995)
-    assert all(k in result for k in ('q_base','q_random_edit','q_mean_edit','random_edit_preference_rate'))
+    assert all(k in result for k in ('q_base','q_random_edit','q_mean_edit','q_sampled_edit',
+        'random_edit_preference_rate','sampled_edit_preference_rate','entropy','alpha'))
+    assert np.isfinite(result['entropy']['mean']) and result['alpha']==1.
 
 
 @pytest.mark.parametrize('logp,target,direction',[(10.,-3.5,1),(-10.,-3.5,-1)])

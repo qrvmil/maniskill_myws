@@ -10,7 +10,7 @@ Hardware: A100-SXM4-80GB, RAM limit241.7GiB, initially237GiB free disk. Pinned e
 
 Source-only alignment is rebuilt from official pretrained pi0 because old binaries are absent. Same source HDF5 SHA `75ede0cf…d3e0b3`, 50 demos/5832 temporally aligned pairs. Official OpenPI JAX LoRA with upstream freeze filter (vision/outer projections also trainable), explicit rank32 in both VLM/action expert, batch8, 4000-update first candidate budget, checkpoints every1000. Selection used all20 D0 validation seeds only: checkpoints after1001/2001/3001/4000 updates under the corrected numerical contract scored1/20,9/20,14/20,18/20. Frozen base selected at4000 updates; evidence: `outputs/pld_libero/V2-canonical-base-selection.json`.
 
-Frozen-base collection:50 successful trajectories /59 train-seed attempts (84.7%),5604 transitions; replay provenance and exact action=base-action equality verified.
+Frozen-base collection:50 successful trajectories /59 train-seed attempts (84.7%),5564 transitions under canonical inference; replay provenance and exact action=base-action equality verified.
 
 Residual V2: official SERL ImageNet-1K ResNet10 convolutional weights, frozen per-camera trunk and trainable spatial pooling; batch256/replay250k, 100 base-only warmup episodes with actor/alpha frozen, 5000 **active** residual steps for sanity. OTF: one sampled residual plus exact base, min-twin-Q argmax. Deterministic actor and OTF are separately labeled evaluation policies.
 
@@ -19,7 +19,7 @@ Residual V2: official SERL ImageNet-1K ResNet10 convolutional weights, frozen pe
 | Check | Current evidence |
 |---|---|
 | Baseline integration | 25 passed before changes, real LIBERO reset/step included |
-| Updated tests | 57 passed in one complete unit/integration run, including real LIBERO and official SERL parity; two optional ManiSkill smoke tests not run |
+| Updated tests | 58 passed in one complete unit/integration run, including real LIBERO and official SERL parity; two optional ManiSkill smoke tests not run |
 | Encoder initialization | All36 trunk tensors strictly required for all5 networks. JAX/PyTorch comparison passed at32/127/128px, max absolute difference1.08e-4 within mixed tolerance |
 | Warmup contract | Real actor/alpha tensors exactly unchanged, critic changed; all59 shared collection/warmup trajectories identical; diagnostic pause operational |
 | OTF contract | Seeded shared rollout/eval selector test passes, global RNG preserved |
