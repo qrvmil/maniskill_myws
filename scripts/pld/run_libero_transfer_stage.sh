@@ -12,8 +12,14 @@ PLD_TAG=$4
 PLD_COMMON=(--config configs/pld_libero/anchor_bowl_otf.json --alignment-manifest "$1"
             --zero-report "$2" --checkpoint "$3")
 PLD_RUNS=()
-# Complete the two-pair engineering pass before any 50-pair final run.
-for PLD_EPISODES in 2 50; do
+# The default n=10 pass is the feasible exploratory A100 run. Set
+# PLD_FINAL_EPISODES=50 only when the expected wall time is acceptable.
+PLD_FINAL_EPISODES=${PLD_FINAL_EPISODES:-10}
+[[ "$PLD_FINAL_EPISODES" =~ ^[0-9]+$ && "$PLD_FINAL_EPISODES" -ge 2 ]] || {
+    echo 'PLD_FINAL_EPISODES must be an integer >= 2' >&2; exit 2;
+}
+# Complete the two-pair engineering pass before the final exploratory run.
+for PLD_EPISODES in 2 "$PLD_FINAL_EPISODES"; do
     for PLD_DISTANCE_INDEX in 0 1 2 3 4 5; do
         PLD_EXPERIMENT_ID=$(printf 'EXP-%03d' "$((PLD_DISTANCE_INDEX+2))")
         PLD_OUTPUT="outputs/pld_libero/$PLD_EXPERIMENT_ID/paired-${PLD_TAG}-n${PLD_EPISODES}"
