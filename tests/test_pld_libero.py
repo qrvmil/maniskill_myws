@@ -15,6 +15,9 @@ def observation():
 
 def test_base_numerical_contract_is_enforced_and_invalidates_old_evidence(monkeypatch):
     from maniskill_myws.pld.libero_runtime import configure_base_inference, require_base_inference_runtime
+    from maniskill_myws.pld import libero_runtime
+    monkeypatch.setattr(libero_runtime,'_configured_contract',None)
+    monkeypatch.setattr(libero_runtime,'_backend_initialized',lambda:True)
     from maniskill_myws.pld.libero_protocol import Protocol
     cfg=json.loads(Path('configs/pld_libero/anchor_bowl_v2.json').read_text())
     old=Protocol(cfg)
@@ -22,6 +25,9 @@ def test_base_numerical_contract_is_enforced_and_invalidates_old_evidence(monkey
     assert Protocol(cfg).split_hash==old.split_hash
     assert Protocol(cfg).execution_hash!=old.execution_hash
     env={'JAX_PLATFORMS':'cuda'}
+    with pytest.raises(ValueError,match='already initialized'):
+        configure_base_inference(cfg,env)
+    monkeypatch.setattr(libero_runtime,'_backend_initialized',lambda:False)
     configure_base_inference(cfg,env)
     assert env['XLA_FLAGS']=='--xla_gpu_autotune_level=0'
     monkeypatch.setattr('importlib.metadata.version',lambda name:'0.5.3')
