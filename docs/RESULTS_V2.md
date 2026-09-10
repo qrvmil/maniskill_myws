@@ -33,12 +33,12 @@ Batch256 residual feasibility (synthetic batches, not a task result): median Cal
 
 ## Source D0 results
 
-| Checkpoint | Base SR | Deterministic SR | OTF SR | Δdet | ΔOTF | OTF base selection | Mean absolute δ |
+| Checkpoint | Base SR | Deterministic SR | OTF SR | Δdet | ΔOTF | OTF base selection | Mean absolute executed correction |
 |---|---|---|---|---|---|---|---|
 | Historical full-SFT3000 / residual50000, final n50 | 42% | 0% | not measured | −42pp | — | — | — |
-| V2 warmup-only control, 0 active steps, validation n20 | det-pair90%; OTF-pair85% | 0% | 50% | −90pp | −35pp | 64.3% | det0.128; OTF0.089 |
+| V2 warmup-only control, 0 active steps, validation n20 | det-pair90%; OTF-pair85% | 0% | 50% | −90pp | −35pp | 64.3% | det0.122; OTF0.089 |
 
-An additional reproducibility bug was confirmed: default XLA autotuning changed frozen-base actions across fresh processes (identical inputs/noise, max action difference0.020766), leading to base17/20 vs18/20. Disabling autotuning gives exact repeated/fresh-process inference equality. The versioned canonical config fixes XLA flags and JAX/CUDA plugin versions; all four base candidates have been revalidated; canonical zero and cross-process trajectory checks passed; fresh collection/warmup are in progress. Old warmup artifacts remain unchanged and were stopped before active interaction. These controls measure an untrained actor; no claim about trained residual performance is made.
+An additional reproducibility bug was confirmed: default XLA autotuning changed frozen-base actions across fresh processes (identical inputs/noise, max action difference0.020766), leading to base17/20 vs18/20. Disabling autotuning gives exact repeated/fresh-process inference equality. The versioned canonical config fixes XLA flags and JAX/CUDA plugin versions; all four base candidates have been revalidated; canonical zero and cross-process trajectory checks passed; fresh collection/warmup are in progress. Old warmup artifacts remain unchanged and were stopped before active interaction. Intervention magnitude and OTF selection rate are episode averages. These controls measure an untrained actor; no claim about trained residual performance is made.
 
 ## Remaining limitations
 

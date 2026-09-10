@@ -181,6 +181,7 @@ def evaluate(cfg,args,run,base,model,protocol,manifest):
                                   task_id=env.task_id,checkpoint=args.checkpoint,
                                   evaluation_policy='zero' if args.mode=='zero' else (getattr(args,'eval_policy',None) or cfg.get('eval_residual','deterministic_actor')),
                                   residual_mean_abs=float(np.mean([r['residual_mean_abs'] for r in residual_rows])) if residual_rows else 0.,
+                                  executed_residual_mean_abs=float(np.mean([r['executed_residual_mean_abs'] for r in residual_rows])) if residual_rows else 0.,
                                   otf_base_selection_rate=float(np.mean([r.get('policy_diagnostics',{}).get('otf_base_selected',0) for r in residual_rows])) if residual_rows else None,
                                   base_checkpoint=manifest['aligned_checkpoint'],residual_checkpoint=args.checkpoint,**result))
             if specialist_meta:

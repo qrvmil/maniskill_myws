@@ -342,7 +342,7 @@ def test_evaluation_saves_first_failure_pair_after_successful_pairs(tmp_path,mon
         def __init__(self,*a,**kw):pass
         def close(self):pass
     def episode(env,base,*,seed,**kw):
-        row=dict(seed=seed,success=seed==2000,length=1,reset_hash=str(seed),physics_states=[[0.,1.]],residual_mean_abs=0.)
+        row=dict(seed=seed,success=seed==2000,length=1,reset_hash=str(seed),physics_states=[[0.,1.]],residual_mean_abs=0.,executed_residual_mean_abs=0.)
         images=np.zeros((2,4,4,3),np.uint8)
         return row,[dict(action=np.zeros(7),images=images,next_images=images)]
     written=[]
@@ -354,3 +354,4 @@ def test_evaluation_saves_first_failure_pair_after_successful_pairs(tmp_path,mon
     assert len(written)==2
     assert all('_2001_' in name for name in written)
     assert any('_base.mp4' in name for name in written) and any('_residual.mp4' in name for name in written)
+    assert json.loads((tmp_path/'eval/summary.json').read_text())[0]['executed_residual_mean_abs']==0.
