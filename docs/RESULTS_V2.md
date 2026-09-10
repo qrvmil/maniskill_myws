@@ -1,6 +1,6 @@
 # PLD → LIBERO: source specialist recovery
 
-**Status: in progress; D1–D5 closed.** Historical D0 base21/50 vs deterministic residual0/50 is a failed specialist result. Canonical 5k-active-step sanity training is running; main250k and transfer remain blocked pending its paired D0 results.
+**Status: in progress; D1–D5 closed.** Historical D0 base21/50 vs deterministic residual0/50 is a failed specialist result. Canonical freeze-run Gate3 failed: final OTF40% vs base90%. Main250k and transfer remain blocked. A single-change warmup-update ablation is staged at its warmup review.
 
 ## Setup
 
@@ -25,7 +25,7 @@ Residual V2: official SERL ImageNet-1K ResNet10 convolutional weights, frozen pe
 | OTF contract | Seeded shared rollout/eval selector test passes, global RNG preserved |
 | Gate1: base/zero | PASS under canonical runtime: all20 pairs identical actions/success/length/physics/images, max difference0; both18/20. Full base trajectories also identical across two processes |
 | Gate2: real warmup/critic | Canonical parameter checks PASS after100 episodes/12512 steps (base85/100). On256 successful base states: MC0.595, Q(base)0.875, random0.869, actor mean0.875; random edit preference28.5%. Calibration limited:27.3% Q(base) outside[0,1], small action margins. Reviewed release permits only5k active sanity |
-| Gate3: short active D0 | Running; paired validation scheduled at first saved checkpoints ≥1k/3k/5k active steps |
+| Gate3: short active D0 | FAIL for training-time OTF: final8/20 vs base18/20. Deterministic16/20; best intermediate19/20. All six base repeats match canonical trajectories exactly |
 
 Source LoRA4000 completed in3014.1s (50.2min), process peak RSS29.5GiB, device peak69987MiB with85% JAX preallocation; this is **reserved process/device memory**, not measured live tensor demand. Checkpoints after1001/2001/3001/4000 updates enter D0 validation. The earlier2-update feasibility probe is not an adequate aligned base.
 
@@ -35,6 +35,9 @@ Batch256 residual feasibility (synthetic batches, not a task result): median Cal
 
 | Checkpoint | Base SR | Deterministic SR | OTF SR | Δdet | ΔOTF | OTF base selection | Mean absolute executed correction |
 |---|---|---|---|---|---|---|---|
+| Canonical V2,5181 active steps, validation n20 | 90% | 80% | 40% | −10pp | −50pp | 66.4% | det0.00834; OTF0.0773 |
+| Canonical V2,3543 active steps, validation n20 | 90% | 95% | 60% | +5pp | −30pp | 68.5% | det0.00774; OTF0.0717 |
+| Canonical V2,1210 active steps, validation n20 | 90% | 60% | 35% | −30pp | −55pp | 64.9% | det0.0111; OTF0.0813 |
 | Historical full-SFT3000 / residual50000, final n50 | 42% | 0% | not measured | −42pp | — | — | — |
 | V2 warmup-only control, 0 active steps, validation n20 | det-pair90%; OTF-pair85% | 0% | 50% | −90pp | −35pp | 64.3% | det0.122; OTF0.089 |
 
@@ -42,6 +45,6 @@ An additional reproducibility bug was confirmed: default XLA autotuning changed 
 
 ## Remaining limitations
 
-See [audit](RESIDUAL_FAILURE_AUDIT.md) for verdicts and exact references. No public author PLD training code was located; SERL is a documented reconstruction basis, not claimed exact PLD implementation. Explicit differences: one source specialist/seed, no distillation, fixed base chunk5, base OTF fallback, frozen actor warmup, synchronous1 critic update/environment step, log-alpha surrogate, critic-only Cal-QL with fixed random proposal actor (PLD offline proposal unspecified), clipped-density Cal-QL approximation, no random-crop augmentation, separate trainable camera heads for actor/twin critics, finite-horizon masks. Paper does not specify a universal250k interaction budget or exact UTD; 1000 Cal-QL pretrain updates and its conservative coefficient5 are explicit local choices, not verified author settings.
+See [audit](RESIDUAL_FAILURE_AUDIT.md) for verdicts and exact references. No public author PLD training code was located; SERL is a documented reconstruction basis, not claimed exact PLD implementation. Explicit differences: one source specialist/seed, no distillation, fixed base chunk5, base OTF fallback, frozen actor warmup, synchronous1 critic update/environment step, log-alpha surrogate, min-twin actor objective (SERL averages its critic ensemble; PLD choice unverified), critic-only Cal-QL with fixed random proposal actor (PLD offline proposal unspecified), clipped-density Cal-QL approximation, no random-crop augmentation, separate trainable camera heads for actor/twin critics, finite-horizon masks. Paper does not specify a universal250k interaction budget or exact UTD; 1000 Cal-QL pretrain updates and its conservative coefficient5 are explicit local choices, not verified author settings.
 
 Final seeds were used historically but are held out from all V2 decisions. Main250k residual training and D1–D5 are not authorized by results until all requested source gates pass. Raw logs, provenance, review reproductions and commands remain in artifacts.

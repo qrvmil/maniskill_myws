@@ -34,7 +34,7 @@ Use existing adapters/replay/SAC; local targeted changes. User has already autho
 - [x] Source-only SFT settings/checkpoint selection; four candidates evaluated only on seeds2000–2019, canonical scores1/20,9/20,14/20,18/20, selected4000 (18/20).
 - [x] Gate1: selected base vs zero, all20 canonical pairs identical actions/states/images/length/success (max error0); full base trajectories/images also match across fresh processes.
 - [x] Gate2 mechanics: canonical100 episodes/12512 steps, actor/alpha identical, critic changed. Q/MC/OOD diagnostic reviewed: random edits preferred28.5%; weak margins and27.3% Q(base) outside[0,1] remain limitations. Released only bounded5k active sanity, not main training.
-- [ ] Gate3: 5k–10k active D0 steps; base/deterministic/OTF paired validation with intermediate checkpoints.
+- [x] Gate3 executed, FAILED for exact OTF: at5181 active steps base18/20, deterministic16/20, OTF8/20. Main250k remains blocked. Single-field warmup_actor_updates=true ablation follows literal PLD pseudocode; review after100 base-only episodes before active interaction.
 - [ ] Only if gates pass: main source run, select by D0 validation, final D0 seeds3000–3049 once. No D1–D5 in current execution plan.
 
 Final seeds were already used by the historical failed pipeline. They remain unchanged, and must not influence V2 selection; they cannot honestly be described as globally never observed. V2 final evaluation will be held out from V2 decisions.
