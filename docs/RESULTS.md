@@ -1,25 +1,27 @@
 # RESULTS — PLD LIBERO
 
 ## Current headline result
-Source-only full-model pi0 alignment completed3000 updates on the actual A10080GB. Its frozen checkpoint scored **3/10 source-validation successes (30%)**, versus0/10 for the100-update pilot on the same validation seeds. The source residual specialist then completed its registered50,000-step visual SAC run (1000 Cal-QL updates, OTF enabled, one training seed); this is an exploratory single-seed result. All25 integration/contract tests passed. Selected-checkpoint zero-residual verification passed exactly on two pairs; successful-base collection completed48/100 with6484 validated transitions. The first full paired evaluation (D0, 50 episodes) scored base21/50 versus residual0/50 (ΔSR=−0.42). D1 evaluation is still running; later distance buckets remain pending. **No aggregate distance-transfer conclusion is claimed yet.**
+Source-only full-model pi0 alignment completed3000 updates on the actual A10080GB. Its frozen checkpoint scored **3/10 source-validation successes (30%)**, versus0/10 for the100-update pilot on the same validation seeds. The source residual specialist completed its registered50,000-step visual SAC run (1000 Cal-QL updates, OTF enabled, one training seed); this is exploratory single-seed evidence. All25 integration/contract tests passed. Selected-checkpoint zero-residual verification passed exactly on two pairs; successful-base collection completed48/100 with6484 validated transitions. The completed full paired D0 evaluation scored base21/50 versus residual0/50 (ΔSR=−0.42). The completed first D1 target scored 0/50 versus0/50 (ΔSR=0). The second D1 target and D2–D5 full runs are incomplete because measured OpenPI rollout throughput made the remaining ladder impractical in the available run window. **No aggregate distance-transfer conclusion is claimed.**
 
 ## Base policy
 Corrected corpus:50 source demonstrations,5832 temporally aligned observation/action pairs. All earlier same-index checkpoints are excluded. The3000-update checkpoint is frozen for the next offline/RL stages based only on source validation seeds2000–2009. Successes occurred at2000,2004,2006; seven time-limit failures. Mean length192.2 steps. Successful frozen-base collection completed48/100 attempts,6484 transitions, all on training seeds1000–1099. No demonstrations were used in residual replay. User authorized A100 usage; current experiments no longer impose16GiB.
 
 ## Source residual training
-EXP-002: real-buffer A and OTF smoke gates passed. Main B completed all1000 Cal-QL warm-start updates with finite losses and entered the registered50000-step online phase. All100 base-action warmup episodes completed17924 steps and48 successes, with exact reset/trajectory/RGB matches to the frozen-base collection. Active OTF residual interaction now uses the remaining32076 steps of the fixed50000-step budget. Main final checkpoint and performance remain PENDING. No distillation will be run.
+EXP-002: real-buffer A and OTF smoke gates passed. Main B completed all1000 Cal-QL warm-start updates and the registered50000-step online phase. All100 base-action warmup episodes completed17924 steps and48 successes, with exact reset/trajectory/RGB matches to the frozen-base collection. Final checkpoint: `outputs/pld_libero/EXP-002/source-otf-gpu3000-seed0/checkpoints/residual_step_50000.pt`. No distillation was run.
 
 ## Cross-task transfer
 | Source | Target | Distance | SR base | SR + residual | ΔSR | Episodes | Seed(s) |
 |---|---|---|---|---|---|---|---|
-| bowl center → plate | source | D0 | PENDING | PENDING | PENDING | 0 | PENDING |
-| bowl center → plate | frozen design ladder | D1–D5 | PENDING | PENDING | PENDING | 0 | PENDING |
+| bowl center → plate | same source task | D0 | 0.42 | 0.00 | -0.42 | 50 | 3000–3049 |
+| bowl center → black bowl next to plate | D1 | 0.00 | 0.00 | 0.00 | 50 | 3000–3049 |
+| bowl center → black bowl next to ramekin | D1 | PENDING | PENDING | PENDING | incomplete n=6/50 | 3000– |
+| bowl center → remaining D2–D5 tasks | D2–D5 | PENDING | PENDING | PENDING | not completed | — |
 
 ## Gain vs distance
-PENDING. No aggregate from unrun or dummy-policy episodes.
+PENDING. The available n=50 results are not sufficient to estimate a bucket aggregate because D1 has one completed target and one incomplete target; D2–D5 have no completed final runs.
 
 ## Negative transfer cases
-Primary cross-task cases: PENDING. The eight-update A engineering fixture worsened source D0 success from1/2 to0/2 (−50pp) on seeds3000/3001. This observed negative same-task correction is retained; two episodes and eight training updates do not establish the behavior of the planned main specialist.
+Primary confirmed negative-transfer case: D0, where the trained residual reduced source-task success from21/50 to0/50 (ΔSR=−0.42). The eight-update A engineering fixture also worsened source D0 success from1/2 to0/2 (−50pp), but is only a diagnostic. No claim is made about D2–D5.
 
 ## Runtime / memory
 All measurements below are from the actual A100 80 GB. The user authorized its full capacity; they are not RTX 5080 results.
@@ -51,11 +53,13 @@ The source-validation run recorded 60.89 s for provenance checks and 14.65 s for
 | EXP-001/sft-pilot-100 | Interrupted at 46 updates after native observation/action offset was identified | Corrected corpus; earlier checkpoints excluded from scientific use |
 | EXP-000/aligned-zero-gpu-v3-001 | Full-capacity memory fraction returned integer instead of float | Fixed and regression-tested; rerun passed |
 | EXP-001/source-validation-gpu-100 | 0/10 successes after short SFT pilot | 3000-update alignment completed; source validation next; no offline-buffer substitution |
+| EXP-003/paired-gpu3000-seed0-n50 | Second D1 target stopped at 6/50 paired episodes after measured single-process rollout throughput became impractical | Partial episode file retained; no SR reported or pooled |
+| gpu3000-seed0-n10 transfer attempt | D0 smoke completed; D1 smoke stopped at 1/2 while each episode required minutes | Partial n=10 artifacts retained; n=10 results excluded from final transfer table |
 
 Original errors, OOM diagnostics and exact commands remain in the append-only ledger below. Initial shell/checkout setup failures and conversion verification's unused-random-head mismatch are also recorded there.
 
 ## Open questions / next experiments
-Highest priority: complete paired smoke/OTF gates, then train the registered50000-step source specialist and evaluate its fixed checkpoint across D0–D5. Do not use leaked full-LIBERO checkpoints to bypass this gate.
+Highest priority: rerun the unfinished D1 target and D2–D5 with a measured parallel/throughput improvement or an explicitly budgeted episode count. Keep the completed D0/D1 n=50 results as the current scientific evidence; do not pool partial n=10 smoke records with them. Do not use leaked full-LIBERO checkpoints.
 
 ## Append-only experiment ledger
 Entries below are immutable records; corrections are new entries. Summary sections above may be updated.
@@ -499,3 +503,12 @@ OTF selected actions exactly match independent max-min-Q indexing (max differenc
 ```sh
 CUDA_VISIBLE_DEVICES='' scripts/pld/libero_python.sh outputs/pld_libero/EXP-000/audit/inspect_source_otf_checkpoint.py --checkpoint outputs/pld_libero/EXP-002/source-otf-gpu3000-seed0/checkpoints/residual_step_24524.pt --buffer outputs/pld_libero/EXP-001/offline-gpu-3000/offline.npz --output outputs/pld_libero/EXP-000/source-otf-diagnostic-step24524
 ```
+
+### EXP-002/paired-gpu3000-seed0-n50 / COMPLETED / 2026-09-10
+Paired deterministic evaluation of the frozen source specialist on D0, task `libero_spatial/pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate`, seeds3000–3049. 50 episodes; base successes21, residual successes0; `SR_base=0.42`, `SR_residual=0.00`, `ΔSR=-0.42`; paired bootstrap95% CI [-0.56,-0.28]. Mean lengths182.3/220.0. Artifact: `outputs/pld_libero/EXP-002/paired-gpu3000-seed0-n50/eval/summary.json`.
+
+### EXP-003/paired-gpu3000-seed0-n50 / COMPLETED-PARTIAL / 2026-09-10
+Paired deterministic evaluation on D1 task `libero_spatial/pick_up_the_black_bowl_next_to_the_plate_and_place_it_on_the_plate`, seeds3000–3049. 50 episodes; base successes0, residual successes0; `ΔSR=0.00`, artifact `outputs/pld_libero/EXP-003/paired-gpu3000-seed0-n50/eval/summary.json`. The second D1 target `pick_up_the_black_bowl_next_to_the_ramekin_and_place_it_on_the_plate` was stopped after6/50 paired episodes; its partial episode file is retained and excluded from SR tables. D2–D5 final runs were not completed.
+
+### EXP-002..007 / gpu3000-seed0-n10 / INCOMPLETE / 2026-09-10
+Feasibility fallback after measuring single-process OpenPI rollout throughput. D0 smoke n=2 completed base1/2 vs residual0/2; D1 smoke stopped after1/2. Partial files are under `outputs/pld_libero/EXP-002/paired-gpu3000-seed0-n10-n2/` and `outputs/pld_libero/EXP-003/paired-gpu3000-seed0-n10-n2/`. No n=10 record is included in the scientific summary.
