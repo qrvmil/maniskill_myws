@@ -131,6 +131,7 @@ class ReplayBuffer:
         size = len(self)
         payload: dict[str, np.ndarray] = dict(
             size=np.asarray(size, dtype=np.int64),
+            position=np.asarray(self.pos, dtype=np.int64),
             capacity=np.asarray(self.capacity, dtype=np.int64),
             state_dim=np.asarray(self.state_dim, dtype=np.int64),
             action_dim=np.asarray(self.action_dim, dtype=np.int64),
@@ -190,7 +191,21 @@ class ReplayBuffer:
                 raise ValueError("Saved buffer does not contain visual observations")
             self.images[:size] = data["images"]
             self.next_images[:size] = data["next_images"]
-        self.pos = size % self.capacity
+        saved_capacity = int(data['capacity'])
+        position = int(data['position']) if 'position' in data.files else size % saved_capacity
+        if not 0 <= position < saved_capacity or (size < saved_capacity and position != size):
+            raise ValueError('Invalid replay write position')
+        if self.capacity != saved_capacity:
+            # Offline loading compacts partially filled collection buffers. A
+            # resized full circular buffer must first be put in temporal order.
+            if size == saved_capacity and position:
+                for name in ('obs','actions','base_actions','rewards','next_obs','next_base_actions',
+                             'dones','mc_returns','images','next_images'):
+                    array=getattr(self,name)
+                    if array is not None:
+                        array[:size]=np.roll(array[:size],-position,axis=0)
+            position = size % self.capacity
+        self.pos = position
         self.full = size == self.capacity
         meta: dict[str, object] = {}
         for key in data.files:
@@ -198,6 +213,7 @@ class ReplayBuffer:
                 continue
             value = np.asarray(data[key])
             meta[key[5:]] = value.item() if value.shape == () else value
+        data.close()
         return meta
 
 

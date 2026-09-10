@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+from copy import deepcopy
 from pathlib import Path
 from typing import Any
 
@@ -45,6 +46,13 @@ class SACConfig:
     visual_latent_dim: int = 256
     action_low: tuple[float, ...] | None = None
     action_high: tuple[float, ...] | None = None
+    residual_actor_impl: str = "state_dependent_std"
+    residual_density: str = "physical"
+    shared_visual_encoder: bool = False
+    actor_q_reduction: str = "min"
+    optimizer_warmup_steps: int = 0
+    temperature_impl: str = "log_alpha"
+    weight_decay: float = .01
 
 
 class MLP(nn.Module):
@@ -177,16 +185,28 @@ class GaussianResidualActor(nn.Module):
         image_shape: tuple[int, ...] | None,
         visual_encoder: str,
         visual_latent_dim: int,
+        impl: str = "state_dependent_std",
+        density: str = "physical",
+        stop_visual_gradient: bool = False,
     ) -> None:
         super().__init__()
         self.action_dim = int(action_dim)
+        if impl not in ("state_dependent_std", "serl_uniform_std"):
+            raise ValueError(f"Unknown actor implementation: {impl}")
+        if density not in ("unit", "physical"):
+            raise ValueError(f"Unknown residual density: {density}")
+        self.impl, self.density = impl, density
+        self.stop_visual_gradient = stop_visual_gradient
         self.obs_encoder = ObservationEncoder(
             state_dim,
             image_shape=image_shape,
             visual_encoder=visual_encoder,
             visual_latent_dim=visual_latent_dim,
         )
-        self.body = MLP(self.obs_encoder.out_dim + action_dim, 2 * action_dim, hidden_dim)
+        self.body = MLP(self.obs_encoder.out_dim + action_dim,
+                        action_dim if impl == "serl_uniform_std" else 2 * action_dim, hidden_dim)
+        if impl == "serl_uniform_std":
+            self.log_stds = nn.Parameter(torch.zeros(action_dim))
         self.register_buffer("scale", torch.full((action_dim,), float(action_scale)))
 
     def forward(
@@ -196,7 +216,11 @@ class GaussianResidualActor(nn.Module):
         images: torch.Tensor | None = None,
     ) -> tuple[torch.Tensor, torch.Tensor]:
         features = self.obs_encoder(obs, images)
+        if self.stop_visual_gradient:
+            features = features.detach()
         out = self.body(torch.cat([features, base_action], dim=-1))
+        if self.impl == "serl_uniform_std":
+            return out, self.log_stds.clamp(np.log(1e-5), np.log(10.)).expand_as(out)
         mean, log_std = torch.chunk(out, 2, dim=-1)
         log_std = torch.clamp(log_std, -5.0, 2.0)
         return mean, log_std
@@ -222,7 +246,9 @@ class GaussianResidualActor(nn.Module):
             log_prob = torch.zeros((mean.shape[0], 1), device=mean.device)
         else:
             normal = Normal(mean, log_std.exp())
-            correction = self.scale.log() + 2 * (np.log(2.) - raw - F.softplus(-2 * raw))
+            correction = 2 * (np.log(2.) - raw - F.softplus(-2 * raw))
+            if self.density == "physical":
+                correction = correction + self.scale.log()
             log_prob = (normal.log_prob(raw) - correction).sum(dim=-1, keepdim=True)
         return delta, log_prob
 
@@ -269,6 +295,9 @@ class ResidualSAC:
             config.action_dim,
             config.hidden_dim,
             config.action_scale,
+            impl=config.residual_actor_impl,
+            density=config.residual_density,
+            stop_visual_gradient=config.shared_visual_encoder,
             image_shape=image_shape,
             visual_encoder=visual_encoder,
             visual_latent_dim=config.visual_latent_dim,
@@ -305,15 +334,33 @@ class ResidualSAC:
             visual_encoder=visual_encoder,
             visual_latent_dim=config.visual_latent_dim,
         ).to(self.device)
+        if config.residual_actor_impl == "serl_uniform_std":
+            for model in (self.actor,self.q1,self.q2,self.q1_target,self.q2_target):
+                for module in model.modules():
+                    if isinstance(module,nn.Linear):
+                        nn.init.xavier_uniform_(module.weight)
+                        nn.init.zeros_(module.bias)
+                    elif isinstance(module,nn.LayerNorm):
+                        module.eps = 1e-6
+        if config.shared_visual_encoder:
+            self.actor.obs_encoder = self.q1.obs_encoder
+            self.q2.obs_encoder = self.q1.obs_encoder
+            self.q2_target.obs_encoder = self.q1_target.obs_encoder
         self.q1_target.load_state_dict(self.q1.state_dict())
         self.q2_target.load_state_dict(self.q2.state_dict())
 
-        self.actor_opt = torch.optim.AdamW(self.actor.parameters(), lr=config.actor_lr)
-        self.q_opt = torch.optim.AdamW(
-            list(self.q1.parameters()) + list(self.q2.parameters()), lr=config.critic_lr
-        )
-        self.log_alpha = torch.tensor(0.0, device=self.device, requires_grad=True)
-        self.alpha_opt = torch.optim.AdamW([self.log_alpha], lr=config.alpha_lr)
+        self.actor_params = [p for name,p in self.actor.named_parameters()
+                             if p.requires_grad and not (config.shared_visual_encoder and name.startswith("obs_encoder."))]
+        self.critic_params = list(dict.fromkeys(p for m in (self.q1,self.q2)
+                                                for p in m.parameters() if p.requires_grad))
+        self.actor_opt = torch.optim.AdamW(self.actor_params, lr=config.actor_lr, weight_decay=config.weight_decay)
+        self.q_opt = torch.optim.AdamW(self.critic_params, lr=config.critic_lr, weight_decay=config.weight_decay)
+        initial_temperature = np.log(np.expm1(1.)) if config.temperature_impl == "serl_softplus" else 0.
+        self.log_alpha = torch.tensor(float(initial_temperature), device=self.device, requires_grad=True)
+        self.alpha_opt = torch.optim.AdamW([self.log_alpha], lr=config.alpha_lr,
+            weight_decay=0. if config.temperature_impl == "serl_softplus" else config.weight_decay)
+        self.actor_optimizer_steps = self.critic_optimizer_steps = 0
+        self._offline_actor_state = None
         self.target_entropy = self._default_target_entropy()
         low = config.action_low if config.action_low is not None else (-1.0,) * config.action_dim
         high = config.action_high if config.action_high is not None else (1.0,) * config.action_dim
@@ -323,11 +370,13 @@ class ResidualSAC:
 
     @property
     def alpha(self) -> torch.Tensor:
-        return self.log_alpha.exp()
+        return F.softplus(self.log_alpha) if self.config.temperature_impl == "serl_softplus" and self._offline_actor_state is None else self.log_alpha.exp()
 
     def _default_target_entropy(self) -> float:
         if self.config.target_entropy is not None:
             return float(self.config.target_entropy)
+        if self.config.residual_density == "unit":
+            return -float(self.config.action_dim)/2
         # The residual actor samples delta = action_scale * tanh(raw). Because
         # log_prob includes that scale correction, the usual -|A| SAC target is
         # shifted by log(action_scale) per action dimension.
@@ -382,6 +431,8 @@ class ResidualSAC:
         n_actions: int,
         images: torch.Tensor | None = None,
     ) -> tuple[torch.Tensor, torch.Tensor]:
+        if self._offline_actor_state is not None:
+            base_actions = torch.zeros_like(base_actions)
         batch_size = obs.shape[0]
         n = max(1, int(n_actions))
         mean, log_std = self.actor(obs, base_actions, images)
@@ -592,15 +643,18 @@ class ResidualSAC:
         q_loss.backward()
         if self.config.grad_clip_norm > 0:
             nn.utils.clip_grad_norm_(
-                list(self.q1.parameters()) + list(self.q2.parameters()),
+                self.critic_params,
                 self.config.grad_clip_norm,
             )
-        self.q_opt.step()
-        self._soft_update(self.q1, self.q1_target)
-        self._soft_update(self.q2, self.q2_target)
+        critic_lr = self._optimizer_step(self.q_opt, "critic")
+        self.update_targets()
         self.total_updates += 1
 
         metrics: dict[str, float] = {
+            "critic_lr": critic_lr,
+            "actor_lr": float(self.actor_opt.param_groups[0]["lr"]),
+            "critic_optimizer_steps": float(self.critic_optimizer_steps),
+            "actor_optimizer_steps": float(self.actor_optimizer_steps),
             "q_loss": float(q_loss.detach().cpu()),
             "q1": float(q1.mean().detach().cpu()),
             "q2": float(q2.mean().detach().cpu()),
@@ -615,6 +669,8 @@ class ResidualSAC:
         }
         metrics.update({f"q1_{k}": v for k, v in q1_calql_metrics.items()})
         metrics.update({f"q2_{k}": v for k, v in q2_calql_metrics.items()})
+        if self._offline_actor_state is not None:
+            metrics.update(self._update_actor(b,offline=True))
         return metrics
 
     def update(self, batch: ReplayBatch, *, update_actor: bool = True) -> dict[str, float]:
@@ -673,12 +729,16 @@ class ResidualSAC:
         q_loss.backward()
         if self.config.grad_clip_norm > 0:
             nn.utils.clip_grad_norm_(
-                list(self.q1.parameters()) + list(self.q2.parameters()),
+                self.critic_params,
                 self.config.grad_clip_norm,
             )
-        self.q_opt.step()
+        critic_lr = self._optimizer_step(self.q_opt, "critic")
 
         metrics: dict[str, float] = {
+            "critic_lr": critic_lr,
+            "actor_lr": float(self.actor_opt.param_groups[0]["lr"]),
+            "critic_optimizer_steps": float(self.critic_optimizer_steps),
+            "actor_optimizer_steps": float(self.actor_optimizer_steps),
             "q_loss": float(q_loss.detach().cpu()),
             "q1": float(q1.mean().detach().cpu()),
             "q2": float(q2.mean().detach().cpu()),
@@ -691,39 +751,114 @@ class ResidualSAC:
         metrics.update(otf_metrics)
 
         self.total_updates += 1
-        self._soft_update(self.q1, self.q1_target)
-        self._soft_update(self.q2, self.q2_target)
+        self.update_targets()
         if update_actor and self.total_updates % max(1, self.config.actor_update_interval) == 0:
-            delta, logp = self.actor.sample(b["obs"], b["base_actions"], b["images"])
-            policy_action = self._clip_action(b["base_actions"] + delta)
-            q_pi = torch.min(
-                self.q1(b["obs"], policy_action, b["images"]),
-                self.q2(b["obs"], policy_action, b["images"]),
-            )
-            actor_loss = (self.alpha.detach() * logp - q_pi).mean()
+            metrics.update(self._update_actor(b))
+        return metrics
 
+    def actor_q(self, q1, q2):
+        if self.config.actor_q_reduction == "mean":
+            return (q1 + q2) / 2
+        if self.config.actor_q_reduction == "min":
+            return torch.minimum(q1,q2)
+        raise ValueError("Unknown actor Q reduction")
+
+    def temperature_loss(self, logp):
+        multiplier = self.alpha if self.config.temperature_impl == "serl_softplus" and self._offline_actor_state is None else self.log_alpha
+        return -(multiplier * (logp + self.target_entropy).detach()).mean()
+
+    def _optimizer_step(self, optimizer, kind):
+        counter = getattr(self, kind + "_optimizer_steps")
+        base_lr = self.config.actor_lr if kind == "actor" else self.config.critic_lr
+        warmup = self.config.optimizer_warmup_steps
+        if self._offline_actor_state is not None:
+            base_lr = 1e-4 if kind == "actor" else 3e-4
+            warmup = 0
+        lr = base_lr * min(counter / warmup, 1.) if warmup else base_lr
+        for group in optimizer.param_groups:
+            group['lr'] = lr
+        optimizer.step()
+        setattr(self, kind + "_optimizer_steps", counter + 1)
+        return lr
+
+    def _update_actor(self, b, *, offline=False):
+        # Critic parameters are constants for policy gradients; preserve dQ/da.
+        for p in self.critic_params:
+            p.requires_grad_(False)
+        try:
+            base = torch.zeros_like(b['base_actions']) if offline else b['base_actions']
+            delta, logp = self.actor.sample(b['obs'], base, b['images'])
+            action = delta if offline else self._clip_action(base + delta)
+            q1 = self.q1(b['obs'], action, b['images'])
+            q2 = self.q2(b['obs'], action, b['images'])
+            q = torch.minimum(q1,q2) if offline else self.actor_q(q1,q2)
+            actor_loss = (self.alpha.detach()*logp-q).mean()
             self.actor_opt.zero_grad(set_to_none=True)
             actor_loss.backward()
             if self.config.grad_clip_norm > 0:
-                nn.utils.clip_grad_norm_(self.actor.parameters(), self.config.grad_clip_norm)
-            self.actor_opt.step()
+                nn.utils.clip_grad_norm_(self.actor_params,self.config.grad_clip_norm)
+            actor_lr = self._optimizer_step(self.actor_opt, "actor")
+        finally:
+            for p in self.critic_params:
+                p.requires_grad_(True)
+        alpha_loss = self.temperature_loss(logp)
+        self.alpha_opt.zero_grad(set_to_none=True)
+        alpha_loss.backward()
+        self.alpha_opt.step()
+        with torch.no_grad():
+            low, high = self.config.alpha_min, self.config.alpha_max
+            transform = (lambda x: np.log(np.expm1(x))) if self.config.temperature_impl == "serl_softplus" and self._offline_actor_state is None else np.log
+            self.log_alpha.clamp_(transform(low),transform(high))
+        return dict(actor_loss=float(actor_loss.detach()),alpha_loss=float(alpha_loss.detach()),
+                    entropy=float(-logp.detach().mean()),actor_lr=actor_lr,
+                    actor_optimizer_steps=float(self.actor_optimizer_steps))
 
-            alpha_loss = -(self.log_alpha * (logp + self.target_entropy).detach()).mean()
-            self.alpha_opt.zero_grad(set_to_none=True)
-            alpha_loss.backward()
-            self.alpha_opt.step()
-            with torch.no_grad():
-                self.log_alpha.clamp_(
-                    np.log(max(float(self.config.alpha_min), 1e-12)),
-                    np.log(max(float(self.config.alpha_max), 1e-12)),
-                )
+    def set_action_scale(self, scale):
+        if not 0 < scale <= 1:
+            raise ValueError("Physical residual scale must be in (0,1]")
+        if self.config.residual_density != "unit":
+            raise ValueError("Scale scheduling requires unit-density coordinates")
+        self.config.action_scale = float(scale)
+        self.actor.scale.fill_(scale)
 
-            metrics.update(
-                actor_loss=float(actor_loss.detach().cpu()),
-                alpha_loss=float(alpha_loss.detach().cpu()),
-                entropy=float((-logp).mean().detach().cpu()),
-            )
-        return metrics
+    def update_targets(self):
+        # Shared visual parameters must receive exactly one Polyak update.
+        seen = set()
+        with torch.no_grad():
+            for src,dst in ((self.q1,self.q1_target),(self.q2,self.q2_target)):
+                for p,t in zip(src.parameters(),dst.parameters()):
+                    if id(t) not in seen:
+                        t.mul_(1-self.config.tau).add_(p,alpha=self.config.tau)
+                        seen.add(id(t))
+
+    def begin_calql(self, mode):
+        if mode == "critic_only_residual":
+            return
+        if mode != "auxiliary_full_action" or self._offline_actor_state is not None:
+            raise ValueError("Invalid Cal-QL initialization mode/state")
+        # Preserve a freshly initialized ONLINE actor, never transfer the offline head.
+        self._offline_actor_state = (self.actor,self.actor_opt,self.actor_params,
+            self.log_alpha,self.alpha_opt,self.actor_optimizer_steps,self.target_entropy,self.q_opt,self.critic_optimizer_steps)
+        self.actor = deepcopy(self.actor)
+        if self.config.shared_visual_encoder:
+            self.actor.obs_encoder = self.q1.obs_encoder
+        self.actor.scale.fill_(1.)
+        self.actor.density = "unit"
+        self.actor_params = [p for name,p in self.actor.named_parameters() if p.requires_grad
+            and not (self.config.shared_visual_encoder and name.startswith('obs_encoder.'))]
+        self.actor_opt = torch.optim.Adam(self.actor_params,lr=1e-4)
+        self.q_opt = torch.optim.Adam(self.critic_params,lr=3e-4)
+        self.critic_optimizer_steps = 0
+        self.log_alpha = torch.zeros((),device=self.device,requires_grad=True)
+        self.alpha_opt = torch.optim.Adam([self.log_alpha],lr=1e-4)
+        self.actor_optimizer_steps = 0
+        self.target_entropy = -float(self.config.action_dim)
+
+    def finish_calql(self):
+        if self._offline_actor_state is not None:
+            (self.actor,self.actor_opt,self.actor_params,self.log_alpha,self.alpha_opt,
+             self.actor_optimizer_steps,self.target_entropy,self.q_opt,self.critic_optimizer_steps) = self._offline_actor_state
+            self._offline_actor_state = None
 
     def _cql_penalty(
         self,
@@ -822,6 +957,11 @@ class ResidualSAC:
                 "q2": self.q2.state_dict(),
                 "q1_target": self.q1_target.state_dict(),
                 "q2_target": self.q2_target.state_dict(),
+                "actor_opt": self.actor_opt.state_dict(),
+                "q_opt": self.q_opt.state_dict(),
+                "alpha_opt": self.alpha_opt.state_dict(),
+                "actor_optimizer_steps": self.actor_optimizer_steps,
+                "critic_optimizer_steps": self.critic_optimizer_steps,
                 "log_alpha": self.log_alpha.detach().cpu(),
                 "total_updates": self.total_updates,
             },
@@ -996,4 +1136,9 @@ class ResidualSAC:
         agent.q2_target.load_state_dict(payload["q2_target"])
         agent.log_alpha.data.copy_(payload["log_alpha"].to(agent.device))
         agent.total_updates = int(payload.get("total_updates", 0))
+        for name in ('actor_opt','q_opt','alpha_opt'):
+            if name in payload:
+                getattr(agent,name).load_state_dict(payload[name])
+        agent.actor_optimizer_steps = int(payload.get('actor_optimizer_steps',0))
+        agent.critic_optimizer_steps = int(payload.get('critic_optimizer_steps',0))
         return agent

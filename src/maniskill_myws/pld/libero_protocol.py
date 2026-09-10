@@ -26,7 +26,10 @@ def residual_training_spec(config):
                 target_entropy=config.get('target_entropy'))
     for key in ('active_steps','warmup_actor_updates','visual_encoder','visual_encoder_sha256',
                 'otf_include_base_action','otf_backup_entropy','updates_per_step','offline_fraction',
-                'calql_alpha','calql_temp','calql_importance_sample','calql_max_target_backup','calql_backup_entropy'):
+                'calql_alpha','calql_temp','calql_importance_sample','calql_max_target_backup','calql_backup_entropy',
+                'probe_fraction','residual_actor_impl','residual_density','shared_visual_encoder','actor_q_reduction',
+                'optimizer_warmup_steps','temperature_impl','weight_decay','calql_init',
+                'residual_scale_start','residual_scale_warmup_steps','actor_update_interval','grad_clip_norm'):
         if key in config:spec[key]=config[key]
     return spec
 

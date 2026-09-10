@@ -6,7 +6,9 @@ from .libero_backend import ActionContract, convert_observation
 
 
 def run_episode(env, base_policy, *, seed, image_size=128, residual=None,
-                residual_scale=.5, on_transition=None, demonstration_states=None):
+                residual_scale=.5, on_transition=None, demonstration_states=None, probe_steps=0):
+    if int(probe_steps) != probe_steps or probe_steps < 0:
+        raise ValueError('Probe steps must be a nonnegative integer')
     start = time.perf_counter()
     raw, reset_info = env.reset(seed=int(seed))
     if demonstration_states is not None:
@@ -18,7 +20,8 @@ def run_episode(env, base_policy, *, seed, image_size=128, residual=None,
     inference_start=time.perf_counter()
     base = base_policy.act(raw)
     initial_inference_seconds=time.perf_counter()-inference_start
-    contract = ActionContract(residual_scale)
+    scale = residual_scale() if callable(residual_scale) else residual_scale
+    contract = ActionContract(scale)
     transitions = []
     full_physics = []
     digest = hashlib.sha256()
@@ -26,15 +29,19 @@ def run_episode(env, base_policy, *, seed, image_size=128, residual=None,
     magnitudes=[]; executed_magnitudes=[]; clipped=[]; diagnostics=[]
     env_seconds = 0.
     inference_seconds = initial_inference_seconds
+    total_steps = 0
     while True:
+        probing = total_steps < probe_steps
+        scale = residual_scale() if callable(residual_scale) else residual_scale
+        contract = ActionContract(scale)
         # residual returns UNIT correction; existing SAC select_delta already
         # scales, so its adapter must divide by scale exactly once.
-        unit_delta = np.zeros(7, np.float32) if residual is None else residual(obs, base)
+        unit_delta = np.zeros(7, np.float32) if residual is None or probing else residual(obs, base)
         action = contract.compose(base, unit_delta)
-        magnitudes.append(np.abs(residual_scale*np.asarray(unit_delta)))
+        magnitudes.append(np.abs(scale*np.asarray(unit_delta)))
         executed_magnitudes.append(np.abs(action-base))
-        detail=dict(getattr(residual,'last_diagnostics',{}))
-        clipped.append(float(detail.get('otf_selected_clipped',np.any(np.abs(base+residual_scale*np.asarray(unit_delta))>1))))
+        detail={} if probing else dict(getattr(residual,'last_diagnostics',{}))
+        clipped.append(float(detail.get('otf_selected_clipped',np.any(np.abs(base+scale*np.asarray(unit_delta))>1))))
         if detail:diagnostics.append(detail)
         t = time.perf_counter()
         next_raw, reward, terminated, truncated, info = env.step(action)
@@ -54,16 +61,20 @@ def run_episode(env, base_policy, *, seed, image_size=128, residual=None,
         image_digest.update(tr['images'].tobytes())
         for value in (tr['obs'], action, tr['next_obs']):
             digest.update(value.tobytes())
-        transitions.append(tr)
-        if on_transition is not None:
-            on_transition(tr)
+        total_steps += 1
+        if not probing:
+            transitions.append(tr)
+            if on_transition is not None:
+                on_transition(tr)
         obs, base = next_obs, next_base
         if done:
             break
     row = dict(seed=int(seed), reset_hash=reset_info['reset_hash'],
                initial_state=np.asarray(reset_info['initial_state']).tolist(),
                physics_states=[x.tolist() for x in full_physics],
-               trajectory_hash=digest.hexdigest(), image_hash=image_digest.hexdigest(), length=len(transitions),
+               trajectory_hash=digest.hexdigest(), image_hash=image_digest.hexdigest(), length=total_steps,
+               probe_steps=min(total_steps,probe_steps), probe_requested_steps=int(probe_steps),
+               active_length=len(transitions), probe_only_success=bool(info['success'] and total_steps<=probe_steps),
                success=bool(info['success']), episode_return=sum(t['reward'] for t in transitions),
                failure_reason=None if info['success'] else 'time_limit',
                env_step_seconds=env_seconds, inference_seconds=inference_seconds,
@@ -73,8 +84,11 @@ def run_episode(env, base_policy, *, seed, image_size=128, residual=None,
                residual_per_dim_abs=np.mean(magnitudes,axis=0).tolist(),
                executed_residual_mean_abs=float(np.mean(executed_magnitudes)),
                clipped_action_fraction=float(np.mean(clipped)))
+    active_magnitudes=magnitudes[min(total_steps,probe_steps):]
+    row.update(active_residual_mean_abs=float(np.mean(active_magnitudes)) if active_magnitudes else 0.,
+               active_residual_per_dim_abs=np.mean(active_magnitudes,axis=0).tolist() if active_magnitudes else [0.]*7)
     if diagnostics:
-        row['policy_diagnostics']={k:float(np.mean([d[k] for d in diagnostics if k in d])) for k in set().union(*diagnostics)}
+        row['policy_diagnostics']={k:np.mean([d[k] for d in diagnostics if k in d],axis=0).tolist() for k in set().union(*diagnostics)}
     return row, transitions
 
 
@@ -129,11 +143,14 @@ class ResidualPolicy:
                 state=torch.as_tensor(obs['state'],dtype=torch.float32,device=a.device)[None]
                 b=torch.as_tensor(base,dtype=torch.float32,device=a.device)[None]
                 im=a._images_to_tensor(obs['images'][None] if obs['images'] is not None else None)
+                _,log_std=a.actor(state,b,im)
+                diagnostics['policy_std_per_dim']=log_std.exp()[0].cpu().tolist()
                 mean,_=a.actor.sample(state,b,im,deterministic=True)
                 sampled,logp=a.actor.sample(state,b,im)
                 actions=torch.stack([b[0],a._clip_action(b+sampled)[0],a._clip_action(b+mean)[0]],dim=0)[None]
                 q=torch.minimum(a._q_for_action_set(a.q1,state,actions,im),a._q_for_action_set(a.q2,state,actions,im))[0]
-                diagnostics.update(q_base=float(q[0]),q_mean_residual=float(q[2]),alpha=float(a.alpha))
+                diagnostics.update(q_base=float(q[0]),q_mean_residual=float(q[2]),alpha=float(a.alpha),
+                    q_margin_mean=float(q[2]-q[0]),q_margin_sample=float(q[1]-q[0]),physical_scale=a.config.action_scale)
                 diagnostics.setdefault('q_sampled_residual',float(q[1]))
                 diagnostics.setdefault('entropy',float(-logp.mean()))
         self.last_diagnostics=diagnostics
@@ -142,3 +159,24 @@ class ResidualPolicy:
 
 def residual_policy(agent,config,mode,*,seed):
     return ResidualPolicy(agent,config,mode,seed)
+
+
+def scheduled_scale(cfg, active_steps):
+    end=float(cfg['residual_scale'])
+    start=float(cfg.get('residual_scale_start',end))
+    duration=int(cfg.get('residual_scale_warmup_steps',0))
+    if not 0 < start <= end <= 1 or duration < 0 or active_steps < 0:
+        raise ValueError('Invalid residual scale schedule')
+    return end if not duration else start+(end-start)*min(active_steps/duration,1.)
+
+
+def sample_probe_steps(rng, fraction, horizon):
+    if not 0 <= fraction <= 1 or horizon < 1:
+        raise ValueError('Invalid probing fraction/horizon')
+    return int(rng.integers(0,int(np.floor(fraction*horizon))+1))
+
+
+def paired_outcome_category(base_success,residual_success):
+    if residual_success and not base_success:return 'rescue'
+    if base_success and not residual_success:return 'harm'
+    return None

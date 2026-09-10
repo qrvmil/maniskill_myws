@@ -97,10 +97,12 @@ def main():
     p.add_argument('--videos',type=int,default=2,help='Save first N paired failure videos')
     p.add_argument('--eval-policy',choices=['deterministic_actor','otf'])
     p.add_argument('--offline-buffer')
+    p.add_argument('--resume-stage',help='Immutable post-warmup V3 stage snapshot; continue in a new output directory')
     p.add_argument('--distance',choices=['D0','D1','D2','D3','D4','D5'])
     p.add_argument('--successes',type=int,default=50)
     p.add_argument('--max-attempts',type=int,default=100)
     args=p.parse_args()
+    if args.resume_stage and args.mode!='train':p.error('--resume-stage is only valid for train')
     cfg=json.loads(Path(args.config).read_text())
     from maniskill_myws.pld.libero_runtime import configure_base_inference
     configure_base_inference(cfg)

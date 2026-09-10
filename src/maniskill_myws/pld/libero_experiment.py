@@ -9,7 +9,7 @@ from .libero_artifacts import write_json
 from .libero_backend import LiberoEnv, ChunkedBasePolicy, openpi_observation
 from .libero_protocol import (Protocol, task_key, file_sha256, paired_summary,
                               require_zero_report, residual_training_spec, require_specialist_regimen)
-from .libero_runner import run_episode, insert_trajectory, actor_residual, residual_policy
+from .libero_runner import run_episode, insert_trajectory, actor_residual, residual_policy, scheduled_scale, sample_probe_steps, paired_outcome_category
 from .replay_buffer import ReplayBuffer, sample_offline_online
 from .sac import ResidualSAC, SACConfig
 
@@ -100,7 +100,7 @@ def _load_specialist(path, cfg, protocol, manifest_path, *, source_validation=Fa
         raise ValueError('Loaded SAC configuration differs from checkpoint provenance')
     if agent.config.image_shape!=(2,cfg['rl_image_size'],cfg['rl_image_size'],3) or agent.config.visual_encoder!=cfg.get('visual_encoder','resnet10'):
         raise ValueError('Visual checkpoint observation contract mismatch')
-    if agent.config.action_scale!=cfg['residual_scale']:
+    if agent.config.action_scale!=scheduled_scale(cfg,meta.get('active_steps',0)):
         raise ValueError('Residual bound differs from checkpoint')
     return agent
 
@@ -111,7 +111,9 @@ def evaluate(cfg,args,run,base,model,protocol,manifest):
     if args.mode=='eval' and not args.validation and cfg.get('training_scope'):
         from .libero_selection import require_source_selection
         if not args.selection_manifest:raise ValueError('Final V2 evaluation requires source --selection-manifest')
-        require_source_selection(args.selection_manifest,cfg,args.alignment_manifest,args.checkpoint)
+        selection=require_source_selection(args.selection_manifest,cfg,args.alignment_manifest,args.checkpoint)
+        if (getattr(args,'eval_policy',None) or cfg.get('eval_residual','deterministic_actor'))!=selection['policy']:
+            raise ValueError('Deployment mode differs from frozen source selection')
         selected=True
     agent=None if args.mode in ['base','zero'] else _load_specialist(args.checkpoint,cfg,protocol,args.alignment_manifest,source_validation=args.validation or selected)
     specialist_meta=json.loads(Path(args.checkpoint).with_suffix('.json').read_text()) if agent else None
@@ -138,6 +140,7 @@ def evaluate(cfg,args,run,base,model,protocol,manifest):
     for task in tasks:
         env=LiberoEnv(task,render_size=cfg['render_size']);model.prompt=env.prompt
         base_rows=[];residual_rows=[];saved_failure_pairs=0
+        saved_categories=dict(rescue=0,harm=0)
         try:
             seeds=cfg['validation_env_seeds'] if args.mode=='zero' or args.validation else cfg['eval_seeds']
             for seed in seeds[:args.episodes]:
@@ -147,14 +150,19 @@ def evaluate(cfg,args,run,base,model,protocol,manifest):
                 if args.mode!='base':
                     residual=(lambda o,a:np.zeros(7)) if args.mode=='zero' else residual_policy(agent,cfg,getattr(args,'eval_policy',None) or cfg.get('eval_residual','deterministic_actor'),seed=seed+100000)
                     r,res_tr=run_episode(env,base,seed=seed,image_size=cfg['rl_image_size'],residual=residual,
-                                    residual_scale=cfg['residual_scale'],demonstration_states=holdout)
+                                    residual_scale=agent.config.action_scale if agent else cfg['residual_scale'],demonstration_states=holdout)
                     residual_rows.append(r)
-                    if saved_failure_pairs<getattr(args,'videos',0) and (not row['success'] or not r['success']):
+                    category=paired_outcome_category(row['success'],r['success'])
+                    v3_videos=cfg.get('training_scope')=='D0_V3'
+                    save_pair=(category is not None and saved_categories[category]<getattr(args,'videos',0)) if v3_videos else (
+                        saved_failure_pairs<getattr(args,'videos',0) and (not row['success'] or not r['success']))
+                    if save_pair:
                         import imageio.v2 as imageio
                         for name,traj in [('base',base_tr),('residual',res_tr)]:
-                            video=run.path/'eval'/f'{task["name"]}_{seed}_{name}.mp4'
+                            video=run.path/'eval'/f'{task["name"]}_{seed}_{category+"_" if v3_videos else ""}{name}.mp4'
                             imageio.mimwrite(video,[np.concatenate(t['images'],axis=1) for t in traj],fps=20)
                         saved_failure_pairs+=1
+                        if category:saved_categories[category]+=1
 
                     if args.mode=='zero':
                         errors={k:max(float(np.max(np.abs(np.asarray(x[k],float)-np.asarray(y[k],float)))) for x,y in zip(base_tr,res_tr)) for k in ['action','images','next_images']}
@@ -242,7 +250,9 @@ def train(cfg,args,run,base,model,protocol):
         target_entropy=cfg.get('target_entropy'),otf_include_base_action=cfg.get('otf_include_base_action',True),
         otf_backup_entropy=cfg.get('otf_backup_entropy',False),
         **{k:cfg[k] for k in ('calql_alpha','calql_temp','calql_importance_sample',
-                             'calql_max_target_backup','calql_backup_entropy') if k in cfg}),device=cfg['device'])
+                             'calql_max_target_backup','calql_backup_entropy','residual_actor_impl','residual_density',
+                             'shared_visual_encoder','actor_q_reduction','optimizer_warmup_steps','temperature_impl',
+                             'weight_decay','actor_update_interval','grad_clip_norm') if k in cfg}),device=cfg['device'])
     if cfg.get('visual_encoder')=='serl_resnet10':
         if file_sha256(cfg['visual_encoder_path'])!=cfg['visual_encoder_sha256']:
             raise ValueError('Pretrained visual weights checksum mismatch')
@@ -262,24 +272,64 @@ def train(cfg,args,run,base,model,protocol):
                 cuda_peak_allocated_bytes=memory['allocated_bytes'],
                 cuda_peak_reserved_bytes=memory['reserved_bytes'],
                 cuda_additional_peak_allocated_bytes=memory['allocated_bytes']-allocated_before,
-                replay_offline_fraction=1. if kind=='calql' else cfg.get('offline_fraction',.5),**metrics))+'\n')
+                replay_offline_fraction=1. if kind=='calql' else cfg.get('offline_fraction',.5),
+                **({} if kind=='calql' else dict(active_steps=active_steps,
+                    environment_steps=total_environment_steps+probe_requested+env_steps-episode_start_transitions)),**metrics))+'\n')
     from .libero_diagnostics import diagnose_critic
-    for i in range(cfg['calql_updates']):
-        update('calql',offline.sample(cfg['batch_size']),i)
-    write_json(run.path/'critic_after_calql.json',diagnose_critic(agent,offline))
+    resume=getattr(args,'resume_stage',None)
+    if resume:
+        from .libero_training_state import training_state_manifest
+        resumed_manifest=training_state_manifest(resume)
+        agent=_load_specialist(resumed_manifest['checkpoint'],cfg,protocol,args.alignment_manifest,source_validation=True)
+        run.meta['resumed_from']=str(Path(resume).resolve())
+    else:
+        agent.begin_calql(cfg.get('calql_init','critic_only_residual'))
+        for i in range(cfg['calql_updates']):
+            update('calql',offline.sample(cfg['batch_size']),i)
+        agent.finish_calql()
+        if cfg.get('residual_density')=='unit':agent.set_action_scale(scheduled_scale(cfg,0))
+        write_json(run.path/'critic_after_calql.json',diagnose_critic(agent,offline))
+        if cfg.get('training_scope')=='D0_V3':
+            _save_specialist(agent,run,protocol,args.alignment_manifest,0)
     env=LiberoEnv(cfg['source'],render_size=cfg['render_size']);model.prompt=env.prompt
     env_steps=0;active_steps=0;episode=0;rows=[];warmup=True
-    frozen_actor={k:v.detach().cpu().clone() for k,v in agent.actor.state_dict().items()}
+    def actor_parameters():
+        return {k:v for k,v in agent.actor.named_parameters()
+                if not (agent.config.shared_visual_encoder and k.startswith('obs_encoder.'))}
+    frozen_actor={k:v.detach().cpu().clone() for k,v in actor_parameters().items()}
     frozen_alpha=agent.log_alpha.detach().cpu().clone()
     critic_before={k:v.detach().cpu().clone() for k,v in agent.q1.state_dict().items()}
     mode='otf' if cfg['otf_rollout_actions'] else 'stochastic_actor'
     residual=residual_policy(agent,cfg,mode,seed=cfg['training_seed'])
     last_checkpoint_active=0;last_saved_steps=-1
+    total_environment_steps=0;episode_start_transitions=0;probe_requested=0
+    probe_rng=np.random.default_rng(cfg['training_seed']+9271)
+    milestones=list(cfg.get('checkpoint_active_steps',[]))
+    reviewed_stages=set()
+    if resume:
+        from .libero_training_state import restore_training_state
+        restored=restore_training_state(resume,online,residual,probe_rng)
+        if restored['offline_sha256']!=file_sha256(args.offline_buffer):
+            raise ValueError('Resume offline replay changed')
+        env_steps,active_steps,episode=(restored[k] for k in ('env_steps','active_steps','episode'))
+        total_environment_steps=restored['total_environment_steps']
+        rows=restored['rows'];last_checkpoint_active=restored['last_checkpoint_active']
+        reviewed_stages=set(restored['reviewed_stages'])
+        if episode<cfg.get('warmup_episodes',5):raise ValueError('Resume is restricted to post-warmup episode boundaries')
+        run.meta.update(active_steps=active_steps,training_steps=env_steps,environment_steps=total_environment_steps,episodes=episode,
+                        checkpoint=resumed_manifest['checkpoint'])
+        # Resume cannot bypass the outstanding D0-only stage review.
+        previous_run=Path(resume).resolve().parent.parent
+        if not await_stage_review(previous_run,restored['stage'],resumed_manifest['checkpoint']):
+            env.close()
+            return
+        reviewed_stages.add(restored['stage'])
     def on_transition(tr):
         nonlocal env_steps,active_steps
         online.add(**tr)
         env_steps+=1
         active_steps+=int(not warmup)
+        if cfg.get('residual_density')=='unit':agent.set_action_scale(scheduled_scale(cfg,active_steps))
         for _ in range(cfg.get('updates_per_step',1)):
             update('sac',sample_offline_online(offline,online,cfg['batch_size'],offline_fraction=cfg.get('offline_fraction',.5)),env_steps,
                    update_actor=not warmup or cfg.get('warmup_actor_updates',False))
@@ -287,23 +337,31 @@ def train(cfg,args,run,base,model,protocol):
         while not training_complete(cfg,episode,env_steps,active_steps):
             seed=cfg['train_env_seeds'][episode%len(cfg['train_env_seeds'])]
             warmup=episode<cfg.get('warmup_episodes',5)
+            probe_requested=0 if warmup else sample_probe_steps(probe_rng,cfg.get('probe_fraction',0.),env.horizon)
+            episode_start_transitions=env_steps
             row,_=run_episode(env,base,seed=seed,image_size=cfg['rl_image_size'],
-                residual=None if warmup else residual,residual_scale=cfg['residual_scale'],on_transition=on_transition)
+                residual=None if warmup else residual,residual_scale=lambda:agent.config.action_scale,
+                on_transition=on_transition,probe_steps=probe_requested)
+            total_environment_steps+=row['length']
             row.pop('physics_states',None)  # full traces retained for paired evaluation, not rewritten during training
-            rows.append(dict(env_steps=env_steps,active_steps=active_steps,warmup=warmup,**row));episode+=1
+            rows.append(dict(env_steps=total_environment_steps,replay_transitions=env_steps,active_steps=active_steps,warmup=warmup,**row));episode+=1
             phase_rows=[r for r in rows if r['warmup']==warmup]
             rows[-1].update(source_success_rate=float(np.mean([r['success'] for r in rows])),
                 phase_success_rate=float(np.mean([r['success'] for r in phase_rows])),
+                residual_phase_episodes=sum(not r['warmup'] and r['active_length']>0 for r in rows),
+                residual_phase_success_rate=(float(np.mean([r['success'] for r in rows if not r['warmup'] and r['active_length']>0]))
+                    if any(not r['warmup'] and r['active_length']>0 for r in rows) else None),
+                probe_only_successes=sum(r['probe_only_success'] for r in rows if not r['warmup']),
                 base_only_success_rate=float(np.mean([r['success'] for r in phase_rows])) if warmup else None,
                 alpha=float(agent.alpha.detach().cpu()))
             write_json(run.path/'training_episodes.json',rows)
-            run.meta.update(active_steps=active_steps,training_steps=env_steps)
+            run.meta.update(active_steps=active_steps,training_steps=env_steps,environment_steps=total_environment_steps,episodes=episode)
             if warmup and episode==cfg.get('warmup_episodes',5):
-                actor_same=all(torch.equal(v.detach().cpu(),frozen_actor[k]) for k,v in agent.actor.state_dict().items())
+                actor_same=all(torch.equal(v.detach().cpu(),frozen_actor[k]) for k,v in actor_parameters().items())
                 alpha_same=torch.equal(agent.log_alpha.detach().cpu(),frozen_alpha)
                 critic_changed=any(not torch.equal(v.detach().cpu(),critic_before[k]) for k,v in agent.q1.state_dict().items())
                 write_json(run.path/'warmup_check.json',dict(actor_identical=actor_same,alpha_identical=alpha_same,
-                    critic_changed=critic_changed,environment_steps=env_steps,base_successes=sum(r['success'] for r in rows),episodes=episode))
+                    critic_changed=critic_changed,actor_scope='head/std; shared critic visual encoder excluded',environment_steps=env_steps,base_successes=sum(r['success'] for r in rows),episodes=episode))
                 if not cfg.get('warmup_actor_updates',False) and not (actor_same and alpha_same and critic_changed):
                     raise RuntimeError('Warmup parameter sanity failed')
                 _save_specialist(agent,run,protocol,args.alignment_manifest,env_steps)
@@ -312,11 +370,23 @@ def train(cfg,args,run,base,model,protocol):
                 write_json(run.path/'critic_after_warmup.json',diagnose_critic(agent,offline))
                 if cfg.get('warmup_review_required',False):
                     await_warmup_review(run.path)
-            if active_steps-last_checkpoint_active>=cfg.get('checkpoint_active_interval',1000):
+            crossed=any(last_checkpoint_active < m <= active_steps for m in milestones)
+            if crossed if milestones else active_steps-last_checkpoint_active>=cfg.get('checkpoint_active_interval',1000):
                 _save_specialist(agent,run,protocol,args.alignment_manifest,env_steps)
                 last_saved_steps=env_steps
                 write_json(run.path/f'critic_active_{active_steps}.json',diagnose_critic(agent,offline))
                 last_checkpoint_active=active_steps
+            for stage in cfg.get('stage_review_active_steps',[]):
+                if active_steps>=stage and stage not in reviewed_stages:
+                    from .libero_training_state import save_training_state
+                    save_training_state(run.path/'stages'/f'active_{stage}',run.meta['checkpoint'],online,residual,probe_rng,
+                        dict(stage=stage,env_steps=env_steps,active_steps=active_steps,episode=episode,
+                            total_environment_steps=total_environment_steps,rows=rows,last_checkpoint_active=last_checkpoint_active,
+                            reviewed_stages=sorted(reviewed_stages),offline_sha256=file_sha256(args.offline_buffer)))
+                    reviewed_stages.add(stage)
+                    if not await_stage_review(run.path,stage,run.meta['checkpoint']):
+                        run.meta['stage_decision']='finished after D0 review'
+                        return
         if last_saved_steps!=env_steps:
             _save_specialist(agent,run,protocol,args.alignment_manifest,env_steps)
         run.meta.update(episodes=len(rows),training_steps=env_steps,active_steps=active_steps,calql_updates=cfg['calql_updates'])
@@ -380,3 +450,19 @@ def await_warmup_review(path):
     if decision.get('decision')!='continue':
         raise RuntimeError(f'Warmup review stopped training: {decision["reason"]}')
     write_json(path/'warmup_review_request.json',dict(evidence=evidence,status='reviewed'))
+
+
+def await_stage_review(path, stage, checkpoint):
+    """Preserve live learner/replay/RNG while reviewing only D0 measurements."""
+    path=Path(path)
+    evidence=dict(checkpoint=str(checkpoint),checkpoint_sha256=file_sha256(checkpoint),active_milestone=stage)
+    request=path/f'stage_{stage}_review_request.json'
+    decision_path=path/f'stage_{stage}_review_decision.json'
+    write_json(request,dict(evidence=evidence,status='waiting'))
+    print(f'Active milestone {stage}; preserving live state for D0 review: {decision_path}',flush=True)
+    while not decision_path.exists():time.sleep(5)
+    decision=json.loads(decision_path.read_text())
+    if decision.get('evidence')!=evidence or not decision.get('reason') or decision.get('decision') not in ('continue','finish'):
+        raise ValueError('Invalid D0 stage review decision')
+    write_json(request,dict(evidence=evidence,status='reviewed'))
+    return decision['decision']=='continue'

@@ -8,7 +8,7 @@ def main():
     p=argparse.ArgumentParser();p.add_argument('mode',choices=['manifests','select'])
     p.add_argument('--config',default='configs/pld_libero/anchor_bowl_v2.json');p.add_argument('--output',required=True)
     p.add_argument('--alignment-manifest');p.add_argument('--evaluations',nargs='+');p.add_argument('--role',choices=['base','residual'],default='base')
-    p.add_argument('--policy',choices=['otf','deterministic_actor'],default='otf');args=p.parse_args()
+    p.add_argument('--policy',choices=['otf','deterministic_actor','auto'],default='otf');args=p.parse_args()
     if Path(args.output).exists():raise FileExistsError(args.output)
     if args.mode=='manifests':print(intermediate_alignment_manifests(args.alignment_manifest,args.output))
     else:
