@@ -7,7 +7,7 @@ Source-only full-model pi0 alignment completed3000 updates on the actual A10080G
 Corrected corpus:50 source demonstrations,5832 temporally aligned observation/action pairs. All earlier same-index checkpoints are excluded. The3000-update checkpoint is frozen for the next offline/RL stages based only on source validation seeds2000–2009. Successes occurred at2000,2004,2006; seven time-limit failures. Mean length192.2 steps. Successful frozen-base collection completed48/100 attempts,6484 transitions, all on training seeds1000–1099. No demonstrations were used in residual replay. User authorized A100 usage; current experiments no longer impose16GiB.
 
 ## Source residual training
-EXP-002: real-buffer A smoke completed2 Cal-QL and8 visual SAC updates with finite losses. OTF smoke also passed2 Cal-QL/8 SAC updates; main50000-step specialist training is running, with1000 Cal-QL updates and100 base warmup episodes inside the online budget. No distillation will be run.
+EXP-002: real-buffer A and OTF smoke gates passed. Main B completed all1000 Cal-QL warm-start updates with finite losses and entered the registered50000-step online phase. All100 base-action warmup episodes completed17924 steps and48 successes, with exact reset/trajectory/RGB matches to the frozen-base collection. Active OTF residual interaction now uses the remaining32076 steps of the fixed50000-step budget. Main final checkpoint and performance remain PENDING. No distillation will be run.
 
 ## Cross-task transfer
 | Source | Target | Distance | SR base | SR + residual | ΔSR | Episodes | Seed(s) |
@@ -32,7 +32,8 @@ All measurements below are from the actual A100 80 GB. The user authorized its f
 | Official GPU full SFT, 3000 updates | 29.99 GiB | 32,065 MiB | 2825.93 s total |
 | Source validation of GPU-3000 checkpoint, 10 episodes | 6.67 GiB | 8,179 MiB | 20.88 s mean episode; 290.55 s total |
 | Real-buffer A smoke, 2 Cal-QL + 8 SAC | 6.76 GiB combined; Cal-QL 6.75 GiB; SAC 6.66 GiB | 8,315 MiB | 93.48 s total; 0.10 s second Cal-QL update |
-| Combined frozen VLA + residual training | PENDING | PENDING | PENDING |
+| Main Cal-QL completed phase, 1000 updates; online run continues | 8.90 GiB including frozen VLA | Whole-run total pending | 98.91 s summed update time; 0.098 s median update |
+| Combined full-budget frozen VLA + residual training | PENDING | PENDING | PENDING |
 
 The source-validation run recorded 60.89 s for provenance checks and 14.65 s for model loading. Per-phase peaks include persistent model allocations. Raw metadata and memory samples are preserved per run; low-impact dummy-update measurements remain engineering diagnostics in the ledger.
 
@@ -483,3 +484,9 @@ Start main B only after zero equivalence, actual replay verification, finite A s
 ```sh
 /workspace/State-Estimation/maniskill_myws/third_party/openpi/.venv/bin/python scripts/pld/run_libero.py train --config configs/pld_libero/anchor_bowl_otf.json --alignment-manifest outputs/pld_libero/EXP-001/sft-gpu-v3-3000/alignment_manifest.json --zero-report outputs/pld_libero/EXP-001/zero-gpu-3000/eval/zero_equivalence.json --offline-buffer outputs/pld_libero/EXP-001/offline-gpu-3000/offline.npz --output outputs/pld_libero/EXP-002/source-otf-gpu3000-seed0
 ```
+
+### EXP-002/source-otf-gpu3000-seed0 / CAL-QL PHASE COMPLETED / observed 2026-09-09T23:31:28.325691+00:00
+All1000 registered warm-start updates completed with finite losses. First q_loss72.4727554321289, last61.29702377319336; the conservative objective includes its density/log-sum-exp terms, so these values are not task-success scores. Summed update time98.91148052178323s, median0.09751475602388382s. Phase peak allocated9558611456 bytes (8.90GiB, includes resident frozen pi0), reserved9797894144 bytes. `calql_phase_summary.json` refers to the first1000 rows of logs/updates.jsonl. Online SAC is now running; this phase completion is not completion of the specialist experiment.
+
+### EXP-002/source-otf-gpu3000-seed0 / WARMUP COMPLETED / observed 2026-09-10T00:23:33.530592+00:00
+Completed100 registered base-only warmup episodes,17924 environment/SAC update steps,48 successes. All100 reset hashes, trajectory hashes (physics/actions/proprioception) and RGB-sequence hashes exactly match the corresponding source-base collection on seeds1000–1099, while residual SAC parameters were updating. `warmup_equivalence.json` binds the comparison to the actual collection file hash. This is a frozen-base/control reproducibility diagnostic, not residual improvement. The warmup consumes35.848% of the50000-step online budget;32076 steps remain for active OTF residual interaction. Main final metrics remain PENDING.
