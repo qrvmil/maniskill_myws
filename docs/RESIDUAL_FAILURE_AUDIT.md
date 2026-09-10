@@ -33,7 +33,7 @@ Use existing adapters/replay/SAC; local targeted changes. User has already autho
 - [x] Shared rollout/eval modes, intermediate D0 validation, independent active budget and provenance; tests.
 - [x] Source-only SFT settings/checkpoint selection; four candidates evaluated only on seeds2000–2019, canonical scores1/20,9/20,14/20,18/20, selected4000 (18/20).
 - [x] Gate1: selected base vs zero, all20 canonical pairs identical actions/states/images/length/success (max error0); full base trajectories/images also match across fresh processes.
-- [ ] Gate2: real base warmup actor/alpha identity, critic motion, Q/MC/OOD diagnostic.
+- [x] Gate2 mechanics: canonical100 episodes/12512 steps, actor/alpha identical, critic changed. Q/MC/OOD diagnostic reviewed: random edits preferred28.5%; weak margins and27.3% Q(base) outside[0,1] remain limitations. Released only bounded5k active sanity, not main training.
 - [ ] Gate3: 5k–10k active D0 steps; base/deterministic/OTF paired validation with intermediate checkpoints.
 - [ ] Only if gates pass: main source run, select by D0 validation, final D0 seeds3000–3049 once. No D1–D5 in current execution plan.
 

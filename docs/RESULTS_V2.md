@@ -1,6 +1,6 @@
 # PLD → LIBERO: source specialist recovery
 
-**Status: in progress; D1–D5 closed.** Historical D0 base21/50 vs deterministic residual0/50 is a failed specialist result. Only zero-active-step residual controls are available; these are not trained specialists.
+**Status: in progress; D1–D5 closed.** Historical D0 base21/50 vs deterministic residual0/50 is a failed specialist result. Canonical 5k-active-step sanity training is running; main250k and transfer remain blocked pending its paired D0 results.
 
 ## Setup
 
@@ -24,8 +24,8 @@ Residual V2: official SERL ImageNet-1K ResNet10 convolutional weights, frozen pe
 | Warmup contract | Real actor/alpha tensors exactly unchanged, critic changed; all59 shared collection/warmup trajectories identical; diagnostic pause operational |
 | OTF contract | Seeded shared rollout/eval selector test passes, global RNG preserved |
 | Gate1: base/zero | PASS under canonical runtime: all20 pairs identical actions/success/length/physics/images, max difference0; both18/20. Full base trajectories also identical across two processes |
-| Gate2: real warmup/critic | Previous numerical regime: parameter checks PASS after100 episodes/12476 steps (base86/100). Q(base)0.792 vs MC0.617; random edit0.788, mean edit0.792. Action margins weak; paused before active RL |
-| Gate3: short active D0 | Pending |
+| Gate2: real warmup/critic | Canonical parameter checks PASS after100 episodes/12512 steps (base85/100). On256 successful base states: MC0.595, Q(base)0.875, random0.869, actor mean0.875; random edit preference28.5%. Calibration limited:27.3% Q(base) outside[0,1], small action margins. Reviewed release permits only5k active sanity |
+| Gate3: short active D0 | Running; paired validation scheduled at first saved checkpoints ≥1k/3k/5k active steps |
 
 Source LoRA4000 completed in3014.1s (50.2min), process peak RSS29.5GiB, device peak69987MiB with85% JAX preallocation; this is **reserved process/device memory**, not measured live tensor demand. Checkpoints after1001/2001/3001/4000 updates enter D0 validation. The earlier2-update feasibility probe is not an adequate aligned base.
 
@@ -38,7 +38,7 @@ Batch256 residual feasibility (synthetic batches, not a task result): median Cal
 | Historical full-SFT3000 / residual50000, final n50 | 42% | 0% | not measured | −42pp | — | — | — |
 | V2 warmup-only control, 0 active steps, validation n20 | det-pair90%; OTF-pair85% | 0% | 50% | −90pp | −35pp | 64.3% | det0.122; OTF0.089 |
 
-An additional reproducibility bug was confirmed: default XLA autotuning changed frozen-base actions across fresh processes (identical inputs/noise, max action difference0.020766), leading to base17/20 vs18/20. Disabling autotuning gives exact repeated/fresh-process inference equality. The versioned canonical config fixes XLA flags and JAX/CUDA plugin versions; all four base candidates have been revalidated; canonical zero and cross-process trajectory checks passed; fresh collection/warmup are in progress. Old warmup artifacts remain unchanged and were stopped before active interaction. Intervention magnitude and OTF selection rate are episode averages. These controls measure an untrained actor; no claim about trained residual performance is made.
+An additional reproducibility bug was confirmed: default XLA autotuning changed frozen-base actions across fresh processes (identical inputs/noise, max action difference0.020766), leading to base17/20 vs18/20. Disabling autotuning gives exact repeated/fresh-process inference equality. The versioned canonical config fixes XLA flags and JAX/CUDA plugin versions; all four base candidates have been revalidated; canonical zero and cross-process trajectory checks passed; fresh collection and warmup are complete. Old warmup artifacts remain unchanged and were stopped before active interaction. Intervention magnitude and OTF selection rate are episode averages. These controls measure an untrained actor; no claim about trained residual performance is made.
 
 ## Remaining limitations
 
