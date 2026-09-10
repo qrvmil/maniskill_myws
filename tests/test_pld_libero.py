@@ -13,6 +13,32 @@ def observation():
             'robot0_gripper_qpos': np.array([.02, -.02])}
 
 
+def test_base_numerical_contract_is_enforced_and_invalidates_old_evidence(monkeypatch):
+    from maniskill_myws.pld.libero_runtime import configure_base_inference, require_base_inference_runtime
+    from maniskill_myws.pld.libero_protocol import Protocol
+    cfg=json.loads(Path('configs/pld_libero/anchor_bowl_v2.json').read_text())
+    old=Protocol(cfg)
+    cfg['base_numerical_contract']='jax_cuda_autotune0_v1'
+    assert Protocol(cfg).split_hash==old.split_hash
+    assert Protocol(cfg).execution_hash!=old.execution_hash
+    env={'JAX_PLATFORMS':'cuda'}
+    configure_base_inference(cfg,env)
+    assert env['XLA_FLAGS']=='--xla_gpu_autotune_level=0'
+    monkeypatch.setattr('importlib.metadata.version',lambda name:'0.5.3')
+    require_base_inference_runtime(cfg,env)
+    with pytest.raises(ValueError,match='XLA_FLAGS'):
+        configure_base_inference(cfg,dict(env,XLA_FLAGS='--xla_gpu_autotune_level=4'))
+    with pytest.raises(ValueError,match='JAX_PLATFORMS'):
+        configure_base_inference(cfg,dict(env,JAX_PLATFORMS='cpu'))
+    with pytest.raises(ValueError,match='XLA_FLAGS'):
+        require_base_inference_runtime(cfg,{'JAX_PLATFORMS':'cuda'})
+    monkeypatch.setattr('importlib.metadata.version',lambda name:'different')
+    with pytest.raises(ValueError,match='version'):
+        require_base_inference_runtime(cfg,env)
+    with pytest.raises(ValueError,match='Unknown'):
+        configure_base_inference(dict(cfg,base_numerical_contract='unknown'),{})
+
+
 def test_camera_rotation_order_and_proprioception():
     from maniskill_myws.pld.libero_backend import convert_observation
     out = convert_observation(observation(), 'pick bowl', image_size=4)

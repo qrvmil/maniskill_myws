@@ -102,6 +102,8 @@ def main():
     p.add_argument('--max-attempts',type=int,default=100)
     args=p.parse_args()
     cfg=json.loads(Path(args.config).read_text())
+    from maniskill_myws.pld.libero_runtime import configure_base_inference
+    configure_base_inference(cfg)
     protocol=Protocol(cfg)
     if args.validation and args.mode not in ('base','eval'):
         p.error('--validation supports source base/residual evaluation')

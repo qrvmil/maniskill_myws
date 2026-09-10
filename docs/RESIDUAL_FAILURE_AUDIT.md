@@ -22,6 +22,8 @@ Additional blocking workflow defect: `require_specialist_regimen` rejects every 
 
 Hardware: NVIDIA A100-SXM4-80GB, driver 580.159.03, system CUDA12.8, torch2.11.0+cu128. Container RAM limit 259482714112 bytes (~241.7 GiB), disk237 GiB initially free. Pinned experiment venv is being installed separately. Replay250k with two128px uint8 cameras, current+next, costs45.8 GiB for images, feasible in RAM. Cal-QL currently repeats vision per action candidate; batch256×10 needs a feature-reuse optimization/measurement. Workspace is not volume-backed; no remote push authorized.
 
+Additional **CONFIRMED BUG (reproducibility)** found during Gate2 controls: `AlignedOpenPIModel` did not constrain GPU compiler autotuning. Identical raw images/proprioception and explicit noise produced action chunks differing by0.020766 across two fresh JAX0.5.3 processes, while repeated inference inside each process was exact. Two fresh processes with `--xla_gpu_autotune_level=0` match exactly, without changing weights, bfloat16, or transforms. This is consistent with [XLA compilation-time nondeterminism](https://openxla.org/xla/determinism). A versioned numerical contract now fixes the flag/backend/runtime, changes the execution hash, rejects conflicting settings, and records flags. Old warmup run is stopped and preserved; base selection/zero/replay/warmup must be rerun under the canonical contract. Raw evidence: `V2-audit/provenance/base_inference_repro.json`.
+
 ## Execution plan and gates
 
 Use existing adapters/replay/SAC; local targeted changes. User has already authorized implementation and D0 experiments. Tests first for each changed contract. Raw commands, reference snapshots, dependency logs and measurements live in `outputs/pld_libero/V2-*`.

@@ -1,6 +1,6 @@
 # PLD → LIBERO: source specialist recovery
 
-**Status: in progress; D1–D5 closed.** Historical D0 base21/50 vs deterministic residual0/50 is a failed specialist result. No new residual success rate is available yet.
+**Status: in progress; D1–D5 closed.** Historical D0 base21/50 vs deterministic residual0/50 is a failed specialist result. Only zero-active-step residual controls are available; these are not trained specialists.
 
 ## Setup
 
@@ -19,12 +19,12 @@ Residual V2: official SERL ImageNet-1K ResNet10 convolutional weights, frozen pe
 | Check | Current evidence |
 |---|---|
 | Baseline integration | 25 passed before changes, real LIBERO reset/step included |
-| Updated tests | 54 unit tests + real LIBERO integration + official SERL parity passed; two optional ManiSkill smoke tests not run |
+| Updated tests | 56 passed in one complete unit/integration run, including real LIBERO and official SERL parity; two optional ManiSkill smoke tests not run |
 | Encoder initialization | All36 trunk tensors strictly required for all5 networks. JAX/PyTorch comparison passed at32/127/128px, max absolute difference1.08e-4 within mixed tolerance |
-| Warmup contract | Unit test verifies exact actor/alpha preservation, critic and target movement; explicit diagnostic-review pause before active interaction; real source warmup pending |
+| Warmup contract | Real actor/alpha tensors exactly unchanged, critic changed; all59 shared collection/warmup trajectories identical; diagnostic pause operational |
 | OTF contract | Seeded shared rollout/eval selector test passes, global RNG preserved |
-| Gate1: base/zero | PASS: all20 full-horizon pairs; identical actions, success, length, simulator states and both camera streams, max difference0 |
-| Gate2: real warmup/critic | Pending |
+| Gate1: base/zero | PASS: all20 full-horizon pairs; identical actions, success, length, simulator states and both camera streams, max difference0; both18/20 in that process |
+| Gate2: real warmup/critic | Parameter checks PASS after100 episodes/12476 steps (base86/100). Q(base)0.792 vs MC0.617; random edit0.788, mean edit0.792. Action margins weak; paused before active RL |
 | Gate3: short active D0 | Pending |
 
 Source LoRA4000 completed in3014.1s (50.2min), process peak RSS29.5GiB, device peak69987MiB with85% JAX preallocation; this is **reserved process/device memory**, not measured live tensor demand. Checkpoints after1001/2001/3001/4000 updates enter D0 validation. The earlier2-update feasibility probe is not an adequate aligned base.
@@ -36,7 +36,9 @@ Batch256 residual feasibility (synthetic batches, not a task result): median Cal
 | Checkpoint | Base SR | Deterministic SR | OTF SR | Δdet | ΔOTF | OTF base selection | Mean absolute δ |
 |---|---|---|---|---|---|---|---|
 | Historical full-SFT3000 / residual50000, final n50 | 42% | 0% | not measured | −42pp | — | — | — |
-| V2 source validation n20, base SFT4000 | 85% (17/20) | pending | pending | — | — | — | — |
+| V2 warmup-only control, 0 active steps, validation n20 | det-pair90%; OTF-pair85% | 0% | 50% | −90pp | −35pp | 64.3% | det0.128; OTF0.089 |
+
+The same frozen base varies across fresh processes (17/20 vs18/20), despite exactly equal initial physics states. First-step divergence is under investigation before active training. Within-process base/zero equivalence remains exact. These controls measure an untrained actor; no claim about trained residual performance is made.
 
 ## Remaining limitations
 

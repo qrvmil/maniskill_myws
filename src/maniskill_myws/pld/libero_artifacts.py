@@ -60,7 +60,7 @@ class RunArtifacts(AbstractContextManager):
             git_status=command_output(['git','status','--short']),
             gpu=command_output(['nvidia-smi','--query-gpu=name,memory.total,driver_version','--format=csv']),
             torch_version=torch.__version__, cuda_version=torch.version.cuda,
-            environment={k:os.environ[k] for k in ['JAX_PLATFORMS','XLA_PYTHON_CLIENT_MEM_FRACTION','XLA_PYTHON_CLIENT_PREALLOCATE','MUJOCO_GL','HF_LEROBOT_HOME','PYTHONPATH','TORCH_COMPILE_DISABLE','OMP_NUM_THREADS'] if k in os.environ},
+            environment={k:os.environ[k] for k in ['XLA_FLAGS','JAX_PLATFORMS','XLA_PYTHON_CLIENT_MEM_FRACTION','XLA_PYTHON_CLIENT_PREALLOCATE','MUJOCO_GL','HF_LEROBOT_HOME','PYTHONPATH','TORCH_COMPILE_DISABLE','OMP_NUM_THREADS'] if k in os.environ},
             status='RUNNING', checkpoint=None)
         write_json(self.path/'metadata.json',self.meta)
         if torch.cuda.is_available():

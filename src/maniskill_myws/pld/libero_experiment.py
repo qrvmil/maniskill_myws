@@ -17,6 +17,8 @@ from .sac import ResidualSAC, SACConfig
 class AlignedOpenPIModel:
     """One frozen local OpenPI instance with independent seeded sampling noise."""
     def __init__(self, cfg, manifest, run):
+        from .libero_runtime import require_base_inference_runtime
+        require_base_inference_runtime(cfg)
         from openpi.policies.policy_config import create_trained_policy
         from openpi.shared.normalize import load
         import dataclasses

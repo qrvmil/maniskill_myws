@@ -64,8 +64,10 @@ class Protocol:
             raise ValueError('Training, validation and evaluation seeds must be nonempty and disjoint')
         self.split_hash = hashlib.sha256(json.dumps({k:config[k] for k in (
             'source','tasks','train_env_seeds','validation_env_seeds','eval_seeds')},sort_keys=True).encode()).hexdigest()
-        self.execution_hash = hashlib.sha256(json.dumps({k:config[k] for k in (
-            'replan_steps','render_size','rl_image_size','residual_scale')},sort_keys=True).encode()).hexdigest()
+        execution={k:config[k] for k in ('replan_steps','render_size','rl_image_size','residual_scale')}
+        if 'base_numerical_contract' in config:
+            execution['base_numerical_contract']=config['base_numerical_contract']
+        self.execution_hash = hashlib.sha256(json.dumps(execution,sort_keys=True).encode()).hexdigest()
 
     def require_training_task(self, task):
         if task_key(task) != self.source:
