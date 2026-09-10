@@ -135,7 +135,7 @@ def evaluate(cfg,args,run,base,model,protocol,manifest):
     summaries=[]
     for task in tasks:
         env=LiberoEnv(task,render_size=cfg['render_size']);model.prompt=env.prompt
-        base_rows=[];residual_rows=[]
+        base_rows=[];residual_rows=[];saved_failure_pairs=0
         try:
             seeds=cfg['validation_env_seeds'] if args.mode=='zero' or args.validation else cfg['eval_seeds']
             for seed in seeds[:args.episodes]:
@@ -147,11 +147,12 @@ def evaluate(cfg,args,run,base,model,protocol,manifest):
                     r,res_tr=run_episode(env,base,seed=seed,image_size=cfg['rl_image_size'],residual=residual,
                                     residual_scale=cfg['residual_scale'],demonstration_states=holdout)
                     residual_rows.append(r)
-                    if len(base_rows)<=getattr(args,'videos',0) and (not row['success'] or not r['success']):
+                    if saved_failure_pairs<getattr(args,'videos',0) and (not row['success'] or not r['success']):
                         import imageio.v2 as imageio
                         for name,traj in [('base',base_tr),('residual',res_tr)]:
                             video=run.path/'eval'/f'{task["name"]}_{seed}_{name}.mp4'
                             imageio.mimwrite(video,[np.concatenate(t['images'],axis=1) for t in traj],fps=20)
+                        saved_failure_pairs+=1
 
                     if args.mode=='zero':
                         errors={k:max(float(np.max(np.abs(np.asarray(x[k],float)-np.asarray(y[k],float)))) for x,y in zip(base_tr,res_tr)) for k in ['action','images','next_images']}

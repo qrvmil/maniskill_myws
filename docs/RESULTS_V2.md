@@ -19,7 +19,7 @@ Residual V2: official SERL ImageNet-1K ResNet10 convolutional weights, frozen pe
 | Check | Current evidence |
 |---|---|
 | Baseline integration | 25 passed before changes, real LIBERO reset/step included |
-| Updated tests | 53 unit tests + real LIBERO integration + official SERL parity passed; two optional ManiSkill smoke tests not run |
+| Updated tests | 54 unit tests + real LIBERO integration + official SERL parity passed; two optional ManiSkill smoke tests not run |
 | Encoder initialization | All36 trunk tensors strictly required for all5 networks. JAX/PyTorch comparison passed at32/127/128px, max absolute difference1.08e-4 within mixed tolerance |
 | Warmup contract | Unit test verifies exact actor/alpha preservation, critic and target movement; explicit diagnostic-review pause before active interaction; real source warmup pending |
 | OTF contract | Seeded shared rollout/eval selector test passes, global RNG preserved |

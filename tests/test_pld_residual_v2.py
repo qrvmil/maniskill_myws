@@ -319,3 +319,31 @@ def test_warmup_review_waits_and_binds_decision_to_diagnostics(tmp_path,monkeypa
     monkeypatch.setattr(exp.time,'sleep',stop)
     with pytest.raises(RuntimeError,match='Critic scale invalid'):
         exp.await_warmup_review(tmp_path)
+
+
+def test_evaluation_saves_first_failure_pair_after_successful_pairs(tmp_path,monkeypatch):
+    from types import SimpleNamespace
+    import imageio.v2 as imageio
+    from maniskill_myws.pld import libero_experiment as exp
+    from maniskill_myws.pld.libero_protocol import Protocol,file_sha256
+    cfg=json.loads(Path('configs/pld_libero/anchor_bowl_v2.json').read_text())
+    alignment=tmp_path/'alignment.json';alignment.write_text('{}')
+    audit=tmp_path/'audit.json';audit.write_text(json.dumps(dict(initial_sim_states=[],initial_observation_sim_states=[])))
+    manifest=dict(source_audit=str(audit),source_audit_sha256=file_sha256(audit),aligned_checkpoint='fixture')
+    class Env:
+        prompt='source';task_id=0
+        def __init__(self,*a,**kw):pass
+        def close(self):pass
+    def episode(env,base,*,seed,**kw):
+        row=dict(seed=seed,success=seed==2000,length=1,reset_hash=str(seed),physics_states=[[0.,1.]],residual_mean_abs=0.)
+        images=np.zeros((2,4,4,3),np.uint8)
+        return row,[dict(action=np.zeros(7),images=images,next_images=images)]
+    written=[]
+    monkeypatch.setattr(exp,'LiberoEnv',Env);monkeypatch.setattr(exp,'run_episode',episode)
+    monkeypatch.setattr(imageio,'mimwrite',lambda path,*a,**kw:written.append(Path(path).name))
+    (tmp_path/'eval').mkdir()
+    args=SimpleNamespace(mode='zero',validation=False,checkpoint=None,alignment_manifest=str(alignment),episodes=3,videos=1)
+    exp.evaluate(cfg,args,SimpleNamespace(path=tmp_path,meta={}),None,SimpleNamespace(),Protocol(cfg),manifest)
+    assert len(written)==2
+    assert all('_2001_' in name for name in written)
+    assert any('_base.mp4' in name for name in written) and any('_residual.mp4' in name for name in written)
