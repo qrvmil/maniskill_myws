@@ -31,8 +31,8 @@ Use existing adapters/replay/SAC; local targeted changes. User has already autho
 - [x] Strict reference visual weights and cross-framework parity; preserve old checkpoint compatibility.
 - [x] Critic-only update control, independent Polyak, stable density and diagnostics; regression tests.
 - [x] Shared rollout/eval modes, intermediate D0 validation, independent active budget and provenance; tests.
-- [x] Source-only SFT settings/checkpoint selection; four candidates evaluated only on seeds2000–2019, selected4000 (17/20).
-- [x] Gate1: selected base vs zero, all20 pairs identical actions/states/images/length/success (max error0).
+- [x] Source-only SFT settings/checkpoint selection; four candidates evaluated only on seeds2000–2019, canonical scores1/20,9/20,14/20,18/20, selected4000 (18/20).
+- [x] Gate1: selected base vs zero, all20 canonical pairs identical actions/states/images/length/success (max error0); full base trajectories/images also match across fresh processes.
 - [ ] Gate2: real base warmup actor/alpha identity, critic motion, Q/MC/OOD diagnostic.
 - [ ] Gate3: 5k–10k active D0 steps; base/deterministic/OTF paired validation with intermediate checkpoints.
 - [ ] Only if gates pass: main source run, select by D0 validation, final D0 seeds3000–3049 once. No D1–D5 in current execution plan.

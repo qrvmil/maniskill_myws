@@ -8,7 +8,7 @@ D0 remains spatial bowl-center→plate. Train seeds1000–1099; validation2000�
 
 Hardware: A100-SXM4-80GB, RAM limit241.7GiB, initially237GiB free disk. Pinned experiment torch2.7.1+cu128; system torch2.11.0+cu128, CUDA12.8/driver580.159.03. Workspace is ordinary container storage, not a persistent volume.
 
-Source-only alignment is rebuilt from official pretrained pi0 because old binaries are absent. Same source HDF5 SHA `75ede0cf…d3e0b3`, 50 demos/5832 temporally aligned pairs. Official OpenPI JAX LoRA with upstream freeze filter (vision/outer projections also trainable), explicit rank32 in both VLM/action expert, batch8, 4000-update first candidate budget, checkpoints every1000. Selection used all20 D0 validation seeds only: checkpoints after1001/2001/3001/4000 updates scored0/20,9/20,12/20,17/20. Frozen base selected at4000 updates; evidence: `outputs/pld_libero/V2-base-selection.json`.
+Source-only alignment is rebuilt from official pretrained pi0 because old binaries are absent. Same source HDF5 SHA `75ede0cf…d3e0b3`, 50 demos/5832 temporally aligned pairs. Official OpenPI JAX LoRA with upstream freeze filter (vision/outer projections also trainable), explicit rank32 in both VLM/action expert, batch8, 4000-update first candidate budget, checkpoints every1000. Selection used all20 D0 validation seeds only: checkpoints after1001/2001/3001/4000 updates under the corrected numerical contract scored1/20,9/20,14/20,18/20. Frozen base selected at4000 updates; evidence: `outputs/pld_libero/V2-canonical-base-selection.json`.
 
 Frozen-base collection:50 successful trajectories /59 train-seed attempts (84.7%),5604 transitions; replay provenance and exact action=base-action equality verified.
 
@@ -19,12 +19,12 @@ Residual V2: official SERL ImageNet-1K ResNet10 convolutional weights, frozen pe
 | Check | Current evidence |
 |---|---|
 | Baseline integration | 25 passed before changes, real LIBERO reset/step included |
-| Updated tests | 56 passed in one complete unit/integration run, including real LIBERO and official SERL parity; two optional ManiSkill smoke tests not run |
+| Updated tests | 57 passed in one complete unit/integration run, including real LIBERO and official SERL parity; two optional ManiSkill smoke tests not run |
 | Encoder initialization | All36 trunk tensors strictly required for all5 networks. JAX/PyTorch comparison passed at32/127/128px, max absolute difference1.08e-4 within mixed tolerance |
 | Warmup contract | Real actor/alpha tensors exactly unchanged, critic changed; all59 shared collection/warmup trajectories identical; diagnostic pause operational |
 | OTF contract | Seeded shared rollout/eval selector test passes, global RNG preserved |
-| Gate1: base/zero | PASS: all20 full-horizon pairs; identical actions, success, length, simulator states and both camera streams, max difference0; both18/20 in that process |
-| Gate2: real warmup/critic | Parameter checks PASS after100 episodes/12476 steps (base86/100). Q(base)0.792 vs MC0.617; random edit0.788, mean edit0.792. Action margins weak; paused before active RL |
+| Gate1: base/zero | PASS under canonical runtime: all20 pairs identical actions/success/length/physics/images, max difference0; both18/20. Full base trajectories also identical across two processes |
+| Gate2: real warmup/critic | Previous numerical regime: parameter checks PASS after100 episodes/12476 steps (base86/100). Q(base)0.792 vs MC0.617; random edit0.788, mean edit0.792. Action margins weak; paused before active RL |
 | Gate3: short active D0 | Pending |
 
 Source LoRA4000 completed in3014.1s (50.2min), process peak RSS29.5GiB, device peak69987MiB with85% JAX preallocation; this is **reserved process/device memory**, not measured live tensor demand. Checkpoints after1001/2001/3001/4000 updates enter D0 validation. The earlier2-update feasibility probe is not an adequate aligned base.
@@ -38,7 +38,7 @@ Batch256 residual feasibility (synthetic batches, not a task result): median Cal
 | Historical full-SFT3000 / residual50000, final n50 | 42% | 0% | not measured | −42pp | — | — | — |
 | V2 warmup-only control, 0 active steps, validation n20 | det-pair90%; OTF-pair85% | 0% | 50% | −90pp | −35pp | 64.3% | det0.128; OTF0.089 |
 
-The same frozen base varies across fresh processes (17/20 vs18/20), despite exactly equal initial physics states. First-step divergence is under investigation before active training. Within-process base/zero equivalence remains exact. These controls measure an untrained actor; no claim about trained residual performance is made.
+An additional reproducibility bug was confirmed: default XLA autotuning changed frozen-base actions across fresh processes (identical inputs/noise, max action difference0.020766), leading to base17/20 vs18/20. Disabling autotuning gives exact repeated/fresh-process inference equality. The versioned canonical config fixes XLA flags and JAX/CUDA plugin versions; all four base candidates have been revalidated; canonical zero and cross-process trajectory checks passed; fresh collection/warmup are in progress. Old warmup artifacts remain unchanged and were stopped before active interaction. These controls measure an untrained actor; no claim about trained residual performance is made.
 
 ## Remaining limitations
 
