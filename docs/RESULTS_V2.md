@@ -8,7 +8,9 @@ D0 remains spatial bowl-center→plate. Train seeds1000–1099; validation2000�
 
 Hardware: A100-SXM4-80GB, RAM limit241.7GiB, initially237GiB free disk. Pinned experiment torch2.7.1+cu128; system torch2.11.0+cu128, CUDA12.8/driver580.159.03. Workspace is ordinary container storage, not a persistent volume.
 
-Source-only alignment is rebuilt from official pretrained pi0 because old binaries are absent. Same source HDF5 SHA `75ede0cf…d3e0b3`, 50 demos/5832 temporally aligned pairs. Official OpenPI JAX LoRA with upstream freeze filter (vision/outer projections also trainable), explicit rank32 in both VLM/action expert, batch8, 4000-update first candidate budget, checkpoints every1000. Selection will use all20 D0 validation seeds only.
+Source-only alignment is rebuilt from official pretrained pi0 because old binaries are absent. Same source HDF5 SHA `75ede0cf…d3e0b3`, 50 demos/5832 temporally aligned pairs. Official OpenPI JAX LoRA with upstream freeze filter (vision/outer projections also trainable), explicit rank32 in both VLM/action expert, batch8, 4000-update first candidate budget, checkpoints every1000. Selection used all20 D0 validation seeds only: checkpoints after1001/2001/3001/4000 updates scored0/20,9/20,12/20,17/20. Frozen base selected at4000 updates; evidence: `outputs/pld_libero/V2-base-selection.json`.
+
+Frozen-base collection:50 successful trajectories /59 train-seed attempts (84.7%),5604 transitions; replay provenance and exact action=base-action equality verified.
 
 Residual V2: official SERL ImageNet-1K ResNet10 convolutional weights, frozen per-camera trunk and trainable spatial pooling; batch256/replay250k, 100 base-only warmup episodes with actor/alpha frozen, 5000 **active** residual steps for sanity. OTF: one sampled residual plus exact base, min-twin-Q argmax. Deterministic actor and OTF are separately labeled evaluation policies.
 
@@ -21,18 +23,20 @@ Residual V2: official SERL ImageNet-1K ResNet10 convolutional weights, frozen pe
 | Encoder initialization | All36 trunk tensors strictly required for all5 networks. JAX/PyTorch comparison passed at32/127/128px, max absolute difference1.08e-4 within mixed tolerance |
 | Warmup contract | Unit test verifies exact actor/alpha preservation, critic and target movement; explicit diagnostic-review pause before active interaction; real source warmup pending |
 | OTF contract | Seeded shared rollout/eval selector test passes, global RNG preserved |
-| Gate1: base/zero | New selected-base trajectory test pending |
+| Gate1: base/zero | PASS: all20 full-horizon pairs; identical actions, success, length, simulator states and both camera streams, max difference0 |
 | Gate2: real warmup/critic | Pending |
 | Gate3: short active D0 | Pending |
 
-LoRA feasibility probe: 2 updates completed in143.1s including compilation/checkpoint. Device peak69473MiB with85% JAX preallocation; this is **reserved process/device memory**, not measured live tensor demand. It is not an adequate aligned base.
+Source LoRA4000 completed in3014.1s (50.2min), process peak RSS29.5GiB, device peak69987MiB with85% JAX preallocation; this is **reserved process/device memory**, not measured live tensor demand. Checkpoints after1001/2001/3001/4000 updates enter D0 validation. The earlier2-update feasibility probe is not an adequate aligned base.
+
+Batch256 residual feasibility (synthetic batches, not a task result): median Cal-QL0.319s/update, critic-only warmup0.161s, active0.184s; Torch peak2.07GiB, sampled device peak2855MiB. All losses finite. At this measured rate,250k active updates alone would take roughly12.8h plus rollouts/evaluations; no batch/replay reduction is needed for memory.
 
 ## Source D0 results
 
 | Checkpoint | Base SR | Deterministic SR | OTF SR | Δdet | ΔOTF | OTF base selection | Mean absolute δ |
 |---|---|---|---|---|---|---|---|
 | Historical full-SFT3000 / residual50000, final n50 | 42% | 0% | not measured | −42pp | — | — | — |
-| V2 selected source base/residual | pending | pending | pending | — | — | — | — |
+| V2 source validation n20, base SFT4000 | 85% (17/20) | pending | pending | — | — | — | — |
 
 ## Remaining limitations
 
