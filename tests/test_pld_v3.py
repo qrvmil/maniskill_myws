@@ -302,6 +302,53 @@ def test_replay_checkpoint_retains_circular_write_position(tmp_path):
     np.testing.assert_array_equal(a.obs,b.obs)
 
 
+def test_transfer_summary_accepts_only_verified_source_selected_partial_checkpoint(tmp_path):
+    import json
+    from pathlib import Path
+    from maniskill_myws.pld.libero_protocol import Protocol,file_sha256,paired_summary,residual_training_spec,task_key
+    from maniskill_myws.pld.libero_selection import select_source_validation
+    from maniskill_myws.pld.libero_summary import gather_transfer_results
+    cfg=json.loads(Path('configs/pld_libero/anchor_bowl_v3.json').read_text());protocol=Protocol(cfg)
+    checkpoint=tmp_path/'model.pt';checkpoint.write_bytes(b'partial checkpoint fixture')
+    alignment=tmp_path/'alignment.json';alignment.write_text('{}')
+    provenance=dict(source=protocol.source,training_seed=cfg['training_seed'],training_steps=100,active_steps=50,
+        checkpoint_sha256=file_sha256(checkpoint),alignment_sha256=file_sha256(alignment),
+        split_hash=protocol.split_hash,execution_hash=protocol.execution_hash,
+        training_spec=residual_training_spec(cfg),sac_config={'action_scale':.5})
+    checkpoint.with_suffix('.json').write_text(json.dumps(provenance))
+    validation=tmp_path/'validation';(validation/'eval').mkdir(parents=True)
+    (validation/'metadata.json').write_text(json.dumps(dict(status='COMPLETED')))
+    (validation/'config.json').write_text(json.dumps(dict(cfg,command_options=dict(alignment_manifest=str(alignment)))))
+    selected_row=dict(source=protocol.source,target=protocol.source,distance='D0',evaluation_scope='source_validation',
+        evaluation_policy='deterministic_actor',seeds=cfg['validation_env_seeds'],episodes=50,
+        SR_residual=.8,residual_successes=40,alignment_sha256=file_sha256(alignment),
+        residual_checkpoint=str(checkpoint),checkpoint_sha256=file_sha256(checkpoint),executed_residual_mean_abs=.01)
+    (validation/'eval/summary.json').write_text(json.dumps([selected_row]))
+    selection=select_source_validation([validation],cfg,role='residual',policy='auto')
+    manifest=tmp_path/'selection.json';manifest.write_text(json.dumps(selection))
+    run=tmp_path/'final';(run/'eval').mkdir(parents=True)
+    command=dict(mode='eval',checkpoint=str(checkpoint),alignment_manifest=str(alignment),selection_manifest=str(manifest))
+    evaluated=dict(cfg,command_options=command)
+    (run/'config.json').write_text(json.dumps(evaluated));(run/'metadata.json').write_text(json.dumps(dict(status='COMPLETED')))
+    target=cfg['tasks'][1]
+    base=[dict(seed=s,reset_hash=str(s),success=False,length=10) for s in cfg['eval_seeds'][:2]]
+    residual=[dict(r,success=i==0) for i,r in enumerate(base)]
+    row=dict(target=task_key(target),checkpoint_sha256=file_sha256(checkpoint),alignment_sha256=file_sha256(alignment),
+        evaluation_policy='deterministic_actor',residual_training_steps=100,
+        residual_training_spec=residual_training_spec(cfg),residual_sac_config=provenance['sac_config'],**paired_summary(base,residual))
+    summary=run/'eval/summary.json';summary.write_text(json.dumps([row]))
+    (run/'eval'/f"{target['name']}_episodes.json").write_text(json.dumps(dict(base=base,residual=residual)))
+    assert gather_transfer_results([run])['tasks'][0]['delta_SR']==.5
+    row['evaluation_policy']='otf';summary.write_text(json.dumps([row]))
+    with pytest.raises(ValueError,match='deployment'):gather_transfer_results([run])
+    row['evaluation_policy']='deterministic_actor';summary.write_text(json.dumps([row]))
+    manifest.write_text(json.dumps(dict(selection,policy='otf')))
+    with pytest.raises(ValueError,match='selection'):gather_transfer_results([run])
+    manifest.write_text(json.dumps(selection))
+    command.pop('selection_manifest');(run/'config.json').write_text(json.dumps(evaluated))
+    with pytest.raises(ValueError,match='selection'):gather_transfer_results([run])
+
+
 def test_training_snapshot_restores_replay_and_all_rng_streams(tmp_path):
     from maniskill_myws.pld.libero_training_state import save_training_state,restore_training_state
     from maniskill_myws.pld.libero_runner import residual_policy

@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 import numpy as np
 from .libero_protocol import Protocol,file_sha256,paired_summary,task_key,require_specialist_regimen
+from .libero_selection import require_source_selection
 
 
 def gather_transfer_results(paths):
@@ -15,7 +16,12 @@ def gather_transfer_results(paths):
             raise ValueError('Only completed learned-residual evaluation runs can be summarized')
         checkpoint=Path(args['checkpoint'])
         provenance=json.loads(checkpoint.with_suffix('.json').read_text())
-        require_specialist_regimen(provenance,cfg)
+        selection=None
+        if cfg.get('training_scope'):
+            if not args.get('selection_manifest'):
+                raise ValueError('Final transfer summary requires verified source selection')
+            selection=require_source_selection(args['selection_manifest'],cfg,args['alignment_manifest'],checkpoint)
+        require_specialist_regimen(provenance,cfg,source_validation=selection is not None)
         if (provenance['checkpoint_sha256']!=file_sha256(checkpoint)
             or provenance['alignment_sha256']!=file_sha256(args['alignment_manifest'])
             or provenance['source']!=protocol.source
@@ -39,6 +45,8 @@ def gather_transfer_results(paths):
             policy=recorded.get('evaluation_policy',args.get('eval_policy') or cfg.get('eval_residual','deterministic_actor'))
             if policy not in ('deterministic_actor','otf'):
                 raise ValueError('Unsupported deployment policy in transfer summary')
+            if selection is not None and policy!=selection['policy']:
+                raise ValueError('Summary deployment differs from frozen source selection')
             if key in deployments and deployments[key]!=policy:
                 raise ValueError('Cannot mix deployment policies across a distance ladder')
             deployments[key]=policy
