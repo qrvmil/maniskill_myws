@@ -1,46 +1,66 @@
 # PLD → LIBERO V3
 
-Status: primary A is restarting with Algorithm1 warmup actor updates; the completed actor-frozen warmup is a retained control. No active residual interaction or residual validation occurred before this reference correction. Active residual/transfer results are not yet available. No distillation, no target training or target-based selection. Local branch `fix/pld-libero-residual-v3`; no push.
+The D0-selected specialist improves validation from **32/50 (64%) to40/50 (80%)**. Its checkpoint and deterministic deployment were frozen on2026-09-11 at03:55UTC, before fresh final outcomes. D0–D3 evaluation is running. This is an exploratory direct-residual experiment, without distillation or target training.
 
-## Changes from V2
+## 1. Changes from V2
 
-[Audit](RESIDUAL_V3_AUDIT.md), [preregistered plan](plans/2026-09-10-pld-libero-v3.md), [configuration](../configs/pld_libero/anchor_bowl_v3.json). Added per-episode base probing without replay insertion; uniform learned Gaussian std; shared actor/critic visual representation with critic-trained heads and actor stop-gradient; mean-Q actor objective; unit-density entropy and separate physical scale; SERL temperature and 2000-step online optimizer warmup; auxiliary full-action Cal-QL actor discarded before online learning. The official SERL pretrained convolution trunk remains frozen, as the actual pretrained reference path specifies. Episode-boundary replay/optimizer/RNG snapshots support exact continuation.
+See the [reference audit](RESIDUAL_V3_AUDIT.md), [preregistered plan](plans/2026-09-10-pld-libero-v3.md) and [training config](../configs/pld_libero/anchor_bowl_v3.json).
 
-## D0 setup and checks
+- Added the missing per-active-episode base probing. Draw an integer prefix uniformly from0 through floor(0.3×horizon), advance the real base cache/RNG, retain the original episode horizon, and exclude every prefix transition from residual replay. The0.3 upper fraction is our declared setting; PLD does not publish the exact training range.
+- Added SERL uniform learned state-independent std, mean-Q actor/min-Q target, unit-tanh density with separate physical scaleξ=0.5, softplus temperature, and2000-gradient-step online actor/critic LR warmup.
+- Shared actor/Q1/Q2 visual representation; actor loss stops encoder gradients, critic learns pooling/projection. The pretrained convolution trunk **remains frozen**, matching the actual SERL pretrained path. Target critics share a separate target encoder.
+- Cal-QL uses an auxiliary full-action offline actor; its head/temperature are discarded before online learning. A fixed-random-proposal initialization was retained as a diagnostic control.
+- Corrected the V2 audit: **PLD Algorithm1 updates the actor during base-only warmup**. Primary V3 follows that schedule. The actor-frozen run is a separately retained control, not the primary reference reproduction. This correction preceded all active interaction and residual validation.
 
-Primary base **SFT3001** was fixed before V3 residual outcomes. Same D0 source-only LoRA32 weights/normalization as V2; no new SFT. Source/task/train split unchanged. D0 validation expanded to2000–2049; fresh final D0–D3 block4000–4049 registered before target outcomes. Strong SFT4000 remains a separate optional ablation, not an alternative selected by residual outcomes.
+Primary base: fixed source-only LoRA32 **SFT3001**, chosen before residual results; no new SFT or target normalization. Strong-base SFT4000 was not rerun. Batch256, replay250k, offline fraction0.5, Cal-QL1000updates,100base warmup episodes, one-edit-plus-base OTF, one training seed. Scale schedule implemented but not run.
 
-| Check | Result |
-|---|---|
-| Moderate base, D0 validation | **32/50 =64%** (first20 reproduce14/20) |
-| Base vs exact-zero | **50/50 exact** actions, success, length, physics and images |
-| Separate-process check after reference dependencies | 2/2 exact trajectory/image hashes |
-| SERL parity | Official trunk feature parity; Distrax density parity; actual shared Flax graph confirms visual stop-gradient for actor and trainable critic heads |
-| Tests | 80 passed; 2 unrelated ManiSkill environment tests skipped (dependency absent). LIBERO and SERL integrations passed. |
-| Successful base collection | 50/72 attempts; 5910 transitions |
-| Actor-frozen warmup control | 69/100 base successes;14,889 transitions; head/std and alpha bytewise unchanged, critic changed. Primary A now follows Algorithm1 actor updates during warmup. |
+Checks: **80tests passed**, two unrelated ManiSkill tests skipped for absent dependencies; LIBERO and actual SERL/Distrax integration checks passed. Base/exact-zero matched **50/50** actions, outcomes, lengths, simulator states and images. Base collection yielded50successes/72attempts,5910transitions. Frozen-warmup control preserved actor head/std and alpha exactly; primary warmup reproduced the same100base trajectories and69successes while updating critic14,889times and actor7,444times. All50,023active updates and replay/probing accounting checks passed.
 
-A100-SXM4-80GB, Torch2.7.1+cu128, JAX0.5.3, CUDA12.8; cgroup RAM241.7GiB. Batch256/replay250k retained. Synthetic batch256 learner peak allocated **1.97GiB** (reserved2.27GiB); timings and process/device measurements are separate in artifacts. Online first stage is **50k ACTIVE** interactions, followed by D0 review for100k/250k, not a5k performance stop.
+## 2. D0 training curve
 
-Cal-QL counterfactual test: 8 states from 2 successful and 2 failed D0 train trajectories; one candidate action then frozen-base continuation. Both processes reproduce identical action/rollout hashes for the common base and small perturbations.
+Paired interim validation uses seeds2000–2019. These repeated checkpoints are not independent replications.
 
-| Initialization | Success-ranking accuracy | Harmful edits preferred | Rescue edits rejected |
-|---|---:|---:|---:|
-| Auxiliary full-action Cal-QL (A) | 9/16 non-tied pairs | 0/4 | 2/2 |
-| Fixed random residual proposals (control) | 9/14 | 0/3 | 1/1 |
+| ACTIVE steps | Base SR | Deterministic SR | OTF SR | Δdet | ΔOTF |
+|---:|---:|---:|---:|---:|---:|
+| 5,103 | 14/20 (70%) | 10/20 (50%) | 10/20 (50%) | −20pp | −20pp |
+| 10,095 | 14/20 (70%) | 15/20 (75%) | 9/20 (45%) | +5pp | −25pp |
+| 25,000 | 14/20 (70%) | 15/20 (75%) | 7/20 (35%) | +5pp | −35pp |
+| 50,023 | 14/20 (70%) | 2/20 (10%) | 3/20 (15%) | −60pp | −55pp |
 
-Actor-dependent proposals differ between these rows. On **identical** base/±small candidates, discounted-return ranking is **5/12 vs6/12**; no demonstrated initialization advantage. Overall discounted ranking is22/62 vs32/61. Cal-QL is conservative and misses useful edits; this tiny diagnostic does not yet certify OTF. Repeat after warmup. Raw margins, state/trajectory-bootstrap intervals, branches and calibration plots are in `V3-{a,control}-counterfactual-calql`; two states per trajectory make uncertainty larger than independent-state intervals suggest.
+Training completed the required≥50k ACTIVE stage:64,912online replay transitions including14,889warmup,78,268simulator steps including probing. It was not stopped for the5k drop. At50k the deterministic correction grew to0.100 from0.017 at25k, OTF correction to0.154, and temperature fell to0.000861. Late degradation and weak critic ranking give no reason to extend to100k. This is consistent with critic exploitation, not proof of a newly identified implementation bug. The negative late checkpoints remain available.
 
-## D0 checkpoints and selected specialist
+## 3. Selected D0 specialist
 
-Pending. Interim paired D0 validation at5/10/25/50k (first20 seeds); final comparison uses all50. Both deterministic actor and exact one-edit-plus-base OTF are compared. Selection uses D0 only and freezes checkpoint, base and deployment before transfer.
+Full paired source validation uses2000–2049. The50k modes failed the recorded interim finalist screen; only the10k/25k deterministic finalists were expanded to50. Selection maximizes D0 validation SR, then prefers smaller correction and earlier checkpoint. No final or target outcomes participated.
 
-## Frozen D0–D3 transfer
+| Full validation candidate | Base | Residual | Gain | Rescue / harm | Paired bootstrap95% gain interval |
+|---|---:|---:|---:|---:|---:|
+| 10,095 deterministic | 32/50 (64%) | 34/50 (68%) | +4pp | 10 /8 | [−12,+20]pp |
+| **25,000 deterministic** | **32/50 (64%)** | **40/50 (80%)** | **+16pp** | **14 /6** | **[0,+32]pp** |
 
-Not run yet. Every task in D1/D2/D3 will be shown individually with paired gain and equal-task-weight bucket means after source selection. No claim about transfer radius is currently supported.
+Both50-seed runs reproduce the base oracle and their repeated first20 base/residual trajectories exactly. N=50, not70. The selected point estimate meets the requested SR criterion; **statistical significance and reliable multi-seed improvement are not claimed**.
 
-## Caveats
+Frozen deployment: `V3-moderate-A-reference/checkpoints/residual_step_39889.pt`, ACTIVE25,000, SHA256 `7057c032ca294b1cf0b22ab9aa6e3938f0392026378d84a9ed8027d734246bcf`; mode `deterministic_actor`; mean executed validation correction0.01738. Immutable selection and base/config hashes: `outputs/pld_libero/V3-selection/{source_selection,deployment}.json`.
 
-Training probing upper fraction.3, any scale schedule, offline update budget and synchronous update ordering are explicit experimental settings; the exact PLD integration is unpublished. SERL SAC-default LR warmup is a chosen reference setting (DrQ factory defaults differ). PLD specifies AdamW but no decay coefficient;0.01 is our explicit setting, not an author-provided value. Raw proprioception, no visual dropout/crop, independent final Q readouts, Xavier visual projections and current-state temperature sampling remain port differences; online PLD actor:critic1:2 and norm clipping1 are explicit, while auxiliary Cal-QL also uses clipping unlike its standalone reference. One-action counterfactual outcomes use base continuation, so they are diagnostics rather than unbiased residual-policy Q targets. One training seed; small paired gains will be reported with uncertainty.
+## 4. Frozen D0–D3 transfer
 
-Raw evidence: `outputs/pld_libero/V3-*`, including command/config/code snapshots, immutable model/data hashes, tests and runtime logs. Historical V2 artifacts are unchanged.
+Evaluation running with the [frozen transfer config](../configs/pld_libero/anchor_bowl_v3_transfer.json). It differs from training config only by opening the authorized transfer gate. All six tasks use the same base, residual, deployment and paired fresh seeds4000–4049, registered before outcomes. First20 per task, then full50 if the first stage takes≤90minutes; extension depends only on runtime. No D4/D5 evaluation.
+
+## 5. Important caveats
+
+Counterfactual diagnostic: eight states from two successful and two failed D0 training trajectories; one candidate action followed by frozen-base continuation. Exact reconstruction and common candidate rollout hashes were verified. This estimates base-continuation outcomes, not unbiased residual-policy Q values.
+
+| Critic | Success-ranking accuracy, non-tied pairs | Harmful edits preferred | Rescue edits rejected | Discounted-return ranking |
+|---|---:|---:|---:|---:|
+| Auxiliary Cal-QL | 9/16 | 0/4 | 2/2 | 22/62 |
+| Fixed-random Cal-QL control | 9/14 | 0/3 | 1/1 | 32/61 |
+| Primary after warmup | 10/25 | 2/5 | 2/2 | 29/64 |
+| Primary ACTIVE10,095 | 6/25 | 3/5 | 2/2 | 23/62 |
+
+Actor-dependent candidates differ across rows. On identical base/±small actions, discounted ranking is5/12,6/12,6/12,5/12 respectively: no demonstrated Cal-QL initialization advantage. Mean edit-minus-base Q margin after warmup/10k is−0.00222/−0.00116. Only four independent trajectories make uncertainty large; the10k discounted-ranking trajectory-bootstrap interval is[0,0.536]. **OTF ranking remains unreliable**, consistent with its poor validation. Candidate count was never increased. Calibration plots, per-state outcomes and paired rescue/harm videos are retained in artifacts.
+
+Remaining fidelity limits: unpublished exact PLD integration/probing range/offline budget; source-only LoRA alignment; chosen SERL SAC LR warmup (DrQ factory differs); PLD AdamW decay unspecified, ours0.01; raw proprioception, no crop/dropout, independent final Q readouts, Xavier projections, current-state temperature sampling and synchronous update ordering. Auxiliary Cal-QL uses gradient clipping unlike its standalone reference. One training seed and selection on D0 validation limit inference; final transfer is exploratory.
+
+Hardware: A100-SXM4-80GB; Torch2.7.1+cu128, JAX0.5.3, CUDA12.8; cgroup RAM241.7GiB. Main run elapsed about6.49h including pauses/concurrent validation; learner update compute3.85h. Peak Torch allocation1.97GiB/reservation2.27GiB; whole-device peak44.21GiB with one concurrent evaluator, including JAX allocation. Separate multi-process audit/evaluation peaks are not standalone learner memory.
+
+Raw commands, hashes, tests, training curves, losses, per-action diagnostics and timing: `outputs/pld_libero/V3-*`. Historical V2 artifacts remain unchanged. Branch `fix/pld-libero-residual-v3`; no push.
