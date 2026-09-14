@@ -61,11 +61,35 @@ def _load_offline(path, cfg, protocol, manifest_path):
         raise ValueError('No successful aligned-base transitions')
     buffer=ReplayBuffer(size,8,7,image_shape=shape)
     meta=buffer.load(path)
-    if (meta.get('kind')!='aligned_base_success' or meta.get('source')!=protocol.source
+    if protocol.is_adaptation and meta.get('kind') in ('official_d1_demonstrations','official_d1_reexecuted_demonstrations'):
+        from .libero_demonstrations import validate_demonstration_evidence
+        validate_demonstration_evidence(path,meta,protocol,manifest_path)
+        return buffer
+    if (meta.get('kind')!='aligned_base_success' or meta.get('source')!=protocol.residual_training_key
             or meta.get('split_hash')!=protocol.split_hash
             or meta.get('execution_hash')!=protocol.execution_hash
             or meta.get('alignment_sha256')!=file_sha256(manifest_path)):
         raise ValueError('Offline replay provenance mismatch; dummy/legacy/foreign replay forbidden')
+    if protocol.is_adaptation and (meta.get('base_alignment_task')!=protocol.base_alignment_key
+            or meta.get('residual_training_task')!=protocol.residual_training_key):
+        raise ValueError('Offline replay task-role provenance mismatch')
+    if protocol.is_adaptation:
+        evidence=Path(meta.get('collection_path',''))
+        if not evidence.is_file() or file_sha256(evidence)!=meta.get('collection_sha256'):
+            raise ValueError('D1 base replay collection provenance missing or changed')
+        collection=json.loads(evidence.read_text()); rows=collection['episodes']
+        success_rows=[r for r in rows if r['success']]
+        seeds=[r['seed'] for r in rows]; successful=[r['seed'] for r in success_rows]
+        if (seeds!=cfg['train_env_seeds'][:len(rows)] or len(successful)!=50
+                or len(set(successful))!=50 or np.asarray(meta.get('successful_seeds',[])).tolist()!=successful
+                or np.asarray(meta.get('attempt_seeds',[])).tolist()!=seeds or meta.get('successes')!=50
+                or meta.get('attempts')!=len(rows) or collection.get('successes')!=50
+                or collection.get('attempts')!=len(rows) or collection.get('transitions')!=size
+                or meta.get('gamma')!=.99):
+            raise ValueError('D1 base replay requires provenance of 50 distinct genuine successes')
+        lengths=[r['length'] for r in success_rows]
+        if sum(lengths)!=size or np.flatnonzero(buffer.dones[:size]).tolist()!=(np.cumsum(lengths)-1).tolist():
+            raise ValueError('D1 replay episode boundaries differ from collection evidence')
     if not np.array_equal(buffer.actions[:size],buffer.base_actions[:size]):
         raise ValueError('Offline actions must be actual frozen base actions')
     return buffer
@@ -75,12 +99,15 @@ def _save_specialist(agent, run, protocol, manifest_path, steps):
     path=run.path/'checkpoints'/f'residual_step_{steps}.pt'
     if path.exists() or path.with_suffix('.json').exists():raise FileExistsError(path)
     agent.save(path)
-    provenance={'source':protocol.source,'split_hash':protocol.split_hash,
+    provenance={'source':protocol.residual_training_key,'split_hash':protocol.split_hash,
                 'training_seed':protocol.config['training_seed'],
                 'alignment_sha256':file_sha256(manifest_path),'execution_hash':protocol.execution_hash,'training_steps':steps,
                 'active_steps':run.meta.get('active_steps',0),
                 'training_spec':residual_training_spec(protocol.config),'sac_config':asdict(agent.config),
                 'checkpoint_sha256':file_sha256(path),'checkpoint_selection':'fixed training budget; no unseen metrics'}
+    if protocol.is_adaptation:
+        provenance.update(base_alignment_task=protocol.base_alignment_key,
+            residual_training_task=protocol.residual_training_key)
     write_json(path.with_suffix('.json'),provenance)
     run.meta['checkpoint']=str(path)
     return path
@@ -89,12 +116,15 @@ def _save_specialist(agent, run, protocol, manifest_path, steps):
 def _load_specialist(path, cfg, protocol, manifest_path, *, source_validation=False):
     meta=json.loads(Path(path).with_suffix('.json').read_text())
     require_specialist_regimen(meta,cfg,source_validation=source_validation)
-    if (meta['source']!=protocol.source or meta['split_hash']!=protocol.split_hash
+    if (meta['source']!=protocol.residual_training_key or meta['split_hash']!=protocol.split_hash
             or meta.get('training_seed')!=cfg['training_seed']
             or meta.get('execution_hash')!=protocol.execution_hash
             or meta['alignment_sha256']!=file_sha256(manifest_path)
             or meta['checkpoint_sha256']!=file_sha256(path)):
         raise ValueError('Specialist checkpoint provenance mismatch')
+    if protocol.is_adaptation and (meta.get('base_alignment_task')!=protocol.base_alignment_key
+            or meta.get('residual_training_task')!=protocol.residual_training_key):
+        raise ValueError('Specialist task-role provenance mismatch')
     agent=ResidualSAC.load(path,device=cfg['device'])
     if json.loads(json.dumps(asdict(agent.config))) != meta['sac_config']:
         raise ValueError('Loaded SAC configuration differs from checkpoint provenance')
@@ -103,6 +133,36 @@ def _load_specialist(path, cfg, protocol, manifest_path, *, source_validation=Fa
     if agent.config.action_scale!=scheduled_scale(cfg,meta.get('active_steps',0)):
         raise ValueError('Residual bound differs from checkpoint')
     return agent
+
+
+def evaluation_plan(cfg,args,protocol,*,selected=False):
+    """Resolve task/seed roles before constructing an evaluation environment."""
+    if protocol.is_adaptation:
+        distance=args.distance or ('D0' if args.mode in ('base','zero') else 'D1')
+        tasks=[t for t in protocol.evaluation_tasks if t['distance']==distance]
+        if len(tasks)!=1:
+            raise ValueError('Evaluation permits exactly registered D0 and D1')
+        task=tasks[0]; protocol.require_evaluation_task(task)
+        if args.mode=='zero':
+            protocol.require_alignment_task(task)
+            return tasks,cfg['base_sanity_seeds'],'base_sanity'
+        if args.validation:
+            protocol.require_training_task(task)
+            return tasks,cfg['validation_env_seeds'],'residual_validation'
+        if args.mode=='base':
+            return tasks,(cfg['base_sanity_seeds'] if distance=='D0' else cfg['train_env_seeds']),'base_sanity'
+        if not selected:
+            raise ValueError('Final evaluation requires a frozen D1-selected checkpoint')
+        return tasks,cfg['eval_seeds'],'held_out_evaluation'
+    tasks=[cfg['source']] if args.mode in ('base','zero') else [t for t in cfg['tasks'] if t['distance']==(args.distance or 'D0')]
+    if args.validation and any(task_key(t)!=protocol.source for t in tasks):
+        raise ValueError('Validation is source D0 only')
+    if any(task_key(t)!=protocol.source for t in tasks) and not cfg.get('transfer_authorized',False):
+        raise ValueError('D1-D5 transfer gate closed; source sanity and explicit authorization required')
+    if not tasks:
+        raise ValueError('No tasks for requested distance')
+    validating=args.mode=='zero' or args.validation
+    return tasks,cfg['validation_env_seeds'] if validating else cfg['eval_seeds'],('source_validation' if validating else 'held_out_evaluation')
 
 
 def evaluate(cfg,args,run,base,model,protocol,manifest):
@@ -115,6 +175,15 @@ def evaluate(cfg,args,run,base,model,protocol,manifest):
         if (getattr(args,'eval_policy',None) or cfg.get('eval_residual','deterministic_actor'))!=selection['policy']:
             raise ValueError('Deployment mode differs from frozen source selection')
         selected=True
+        if protocol.is_adaptation:
+            write_json(run.path/'frozen_selection.json',selection)
+            run.meta.update(selection_manifest_sha256=file_sha256(args.selection_manifest),
+                frozen_selection_sha256=file_sha256(run.path/'frozen_selection.json'),
+                d1_improvement_gate_passed=selection['d1_improvement_gate_passed'],
+                selected_d1_validation_gain=selection['validation_gain'],
+                final_result_status='improvement_gate_passed' if selection['d1_improvement_gate_passed'] else 'negative_result_gate_failed')
+    if protocol.is_adaptation and args.mode=='eval' and not args.validation and args.episodes!=len(cfg['eval_seeds']):
+        raise ValueError('Final V4 evaluation requires all 50 registered paired seeds')
     agent=None if args.mode in ['base','zero'] else _load_specialist(args.checkpoint,cfg,protocol,args.alignment_manifest,source_validation=args.validation or selected)
     specialist_meta=json.loads(Path(args.checkpoint).with_suffix('.json').read_text()) if agent else None
     if specialist_meta:
@@ -123,13 +192,7 @@ def evaluate(cfg,args,run,base,model,protocol,manifest):
         run.meta['residual_sac_config']=specialist_meta['sac_config']
     if args.mode=='eval' and not args.checkpoint:
         raise ValueError('Frozen source specialist required')
-    tasks=[cfg['source']] if args.mode in ['base','zero'] else [t for t in cfg['tasks'] if t['distance']==(args.distance or 'D0')]
-    if args.validation and any(task_key(t)!=protocol.source for t in tasks):
-        raise ValueError('Validation is source D0 only')
-    if any(task_key(t)!=protocol.source for t in tasks) and not cfg.get('transfer_authorized',False):
-        raise ValueError('D1-D5 transfer gate closed; source sanity and explicit authorization required')
-    if not tasks:
-        raise ValueError('No tasks for requested distance')
+    tasks,seeds,evaluation_scope=evaluation_plan(cfg,args,protocol,selected=selected)
     audit_path=Path(manifest['source_audit'])
     if file_sha256(audit_path)!=manifest['source_audit_sha256']:
         raise ValueError('Source demonstration audit has changed')
@@ -142,18 +205,17 @@ def evaluate(cfg,args,run,base,model,protocol,manifest):
         base_rows=[];residual_rows=[];saved_failure_pairs=0
         saved_categories=dict(rescue=0,harm=0)
         try:
-            seeds=cfg['validation_env_seeds'] if args.mode=='zero' or args.validation else cfg['eval_seeds']
             for seed in seeds[:args.episodes]:
-                holdout=demo_states if task_key(task)==protocol.source else None
-                row,base_tr=run_episode(env,base,seed=seed,image_size=cfg['rl_image_size'],demonstration_states=holdout)
+                holdout=demo_states if task_key(task)==protocol.base_alignment_key else None
+                row,base_tr=run_episode(env,base,seed=seed,image_size=cfg['rl_image_size'],demonstration_states=holdout,record_progress=protocol.is_adaptation)
                 base_rows.append(row)
                 if args.mode!='base':
                     residual=(lambda o,a:np.zeros(7)) if args.mode=='zero' else residual_policy(agent,cfg,getattr(args,'eval_policy',None) or cfg.get('eval_residual','deterministic_actor'),seed=seed+100000)
                     r,res_tr=run_episode(env,base,seed=seed,image_size=cfg['rl_image_size'],residual=residual,
-                                    residual_scale=agent.config.action_scale if agent else cfg['residual_scale'],demonstration_states=holdout)
+                                    residual_scale=agent.config.action_scale if agent else cfg['residual_scale'],demonstration_states=holdout,record_progress=protocol.is_adaptation)
                     residual_rows.append(r)
                     category=paired_outcome_category(row['success'],r['success'])
-                    v3_videos=cfg.get('training_scope')=='D0_V3'
+                    v3_videos=cfg.get('training_scope')=='D0_V3' or protocol.is_adaptation
                     save_pair=(category is not None and saved_categories[category]<getattr(args,'videos',0)) if v3_videos else (
                         saved_failure_pairs<getattr(args,'videos',0) and (not row['success'] or not r['success']))
                     if save_pair:
@@ -181,17 +243,20 @@ def evaluate(cfg,args,run,base,model,protocol,manifest):
                         'SR_base':float(np.mean([r['success'] for r in base_rows])),
                         'base_mean_length':float(np.mean([r['length'] for r in base_rows])),
                         'SR_residual':None,'delta_SR':None}
-            summaries.append(dict(source=protocol.source,target=task_key(task),distance=task['distance'],
+            summaries.append(dict(source=protocol.residual_training_key,target=task_key(task),distance=task['distance'],
                                   training_seed=cfg['training_seed'],
                                   checkpoint_sha256=file_sha256(args.checkpoint) if args.checkpoint else None,
                                   alignment_sha256=file_sha256(args.alignment_manifest),
-                                  evaluation_scope='source_validation' if args.mode=='zero' or args.validation else 'held_out_evaluation',
+                                  evaluation_scope=evaluation_scope,
                                   task_id=env.task_id,checkpoint=args.checkpoint,
                                   evaluation_policy='zero' if args.mode=='zero' else (getattr(args,'eval_policy',None) or cfg.get('eval_residual','deterministic_actor')),
                                   residual_mean_abs=float(np.mean([r['residual_mean_abs'] for r in residual_rows])) if residual_rows else 0.,
                                   executed_residual_mean_abs=float(np.mean([r['executed_residual_mean_abs'] for r in residual_rows])) if residual_rows else 0.,
                                   otf_base_selection_rate=float(np.mean([r.get('policy_diagnostics',{}).get('otf_base_selected',0) for r in residual_rows])) if residual_rows else None,
                                   base_checkpoint=manifest['aligned_checkpoint'],residual_checkpoint=args.checkpoint,**result))
+            if protocol.is_adaptation and selected:
+                summaries[-1].update({key:run.meta[key] for key in ('selection_manifest_sha256',
+                    'frozen_selection_sha256','d1_improvement_gate_passed','selected_d1_validation_gain','final_result_status')})
             if specialist_meta:
                 summaries[-1].update(residual_training_steps=specialist_meta['training_steps'],
                     residual_training_spec=specialist_meta['training_spec'],
@@ -200,7 +265,7 @@ def evaluate(cfg,args,run,base,model,protocol,manifest):
         finally:
             env.close()
     if args.mode=='zero':
-        write_json(run.path/'eval/zero_equivalence.json',dict(passed=all(x['passed'] for x in zero_checks),pairs=len(zero_checks),seeds=[x['seed'] for x in zero_checks],alignment_sha256=file_sha256(args.alignment_manifest),split_hash=protocol.split_hash,execution_hash=protocol.execution_hash,checks=zero_checks))
+        write_json(run.path/'eval/zero_equivalence.json',dict(passed=all(x['passed'] for x in zero_checks),pairs=len(zero_checks),seeds=[x['seed'] for x in zero_checks],alignment_sha256=file_sha256(args.alignment_manifest),split_hash=protocol.split_hash,execution_hash=protocol.execution_hash,checks=zero_checks,**({'task':protocol.base_alignment_key} if protocol.is_adaptation else {})))
     if args.mode=='eval':
         buckets={d:float(np.mean([r['delta_SR'] for r in summaries if r['distance']==d]))
                  for d in sorted({r['distance'] for r in summaries})}
@@ -211,14 +276,16 @@ def evaluate(cfg,args,run,base,model,protocol,manifest):
 
 
 def collect(cfg,args,run,base,model,protocol):
-    protocol.require_training_task(cfg['source'])
+    protocol.require_training_task(protocol.residual_training_task)
+    if protocol.is_adaptation and (args.successes!=50 or args.max_attempts!=100):
+        raise ValueError('V4 collection requires 50 successes with the registered 100-attempt cap')
     shape=(2,cfg['rl_image_size'],cfg['rl_image_size'],3)
-    buffer=ReplayBuffer(args.successes*cfg['source']['horizon'],8,7,image_shape=shape)
-    env=LiberoEnv(cfg['source'],render_size=cfg['render_size']);model.prompt=env.prompt
+    buffer=ReplayBuffer(args.successes*protocol.residual_training_task['horizon'],8,7,image_shape=shape)
+    env=LiberoEnv(protocol.residual_training_task,render_size=cfg['render_size']);model.prompt=env.prompt
     rows=[];successes=0
     try:
         for seed in cfg['train_env_seeds'][:args.max_attempts]:
-            row,transitions=run_episode(env,base,seed=seed,image_size=cfg['rl_image_size'])
+            row,transitions=run_episode(env,base,seed=seed,image_size=cfg['rl_image_size'],record_progress=protocol.is_adaptation)
             rows.append(row)
             if row['success']:
                 insert_trajectory(buffer,transitions,gamma=.99)
@@ -227,11 +294,18 @@ def collect(cfg,args,run,base,model,protocol):
                 'transitions':len(buffer),'base_SR':successes/len(rows),'episodes':rows})
             if successes>=args.successes:
                 break
-        if not successes:
-            raise RuntimeError('No successful aligned-base rollouts; Cal-QL gate remains closed')
-        buffer.save(run.path/'offline.npz',kind='aligned_base_success',source=protocol.source,
+        if not successes or (protocol.is_adaptation and successes<50):
+            run.meta.update(episodes=len(rows),successes=successes,transitions=len(buffer),achieved_requested_successes=False)
+            raise RuntimeError('Insufficient genuine base successes; verified official D1 fallback required')
+        buffer.save(run.path/'offline.npz',kind='aligned_base_success',source=protocol.residual_training_key,
                     split_hash=protocol.split_hash,execution_hash=protocol.execution_hash,alignment_sha256=file_sha256(args.alignment_manifest),gamma=.99,
-                    attempts=len(rows),successes=successes)
+                    attempts=len(rows),successes=successes,
+                    **({'base_alignment_task':protocol.base_alignment_key,
+                        'residual_training_task':protocol.residual_training_key,
+                        'collection_path':str((run.path/'eval/collection.json').resolve()),
+                        'collection_sha256':file_sha256(run.path/'eval/collection.json'),
+                        'attempt_seeds':[r['seed'] for r in rows],
+                        'successful_seeds':[r['seed'] for r in rows if r['success']]} if protocol.is_adaptation else {}))
         run.meta.update(episodes=len(rows),successes=successes,transitions=len(buffer),
                         checkpoint=run.meta['base_checkpoint'],
                         achieved_requested_successes=successes>=args.successes)
@@ -241,7 +315,7 @@ def collect(cfg,args,run,base,model,protocol):
 
 def train(cfg,args,run,base,model,protocol):
     import torch
-    protocol.require_training_task(cfg['source'])
+    protocol.require_training_task(protocol.residual_training_task)
     offline=_load_offline(args.offline_buffer,cfg,protocol,args.alignment_manifest)
     shape=(2,cfg['rl_image_size'],cfg['rl_image_size'],3)
     online=ReplayBuffer(cfg['buffer_capacity'],8,7,image_shape=shape)
@@ -289,9 +363,9 @@ def train(cfg,args,run,base,model,protocol):
         agent.finish_calql()
         if cfg.get('residual_density')=='unit':agent.set_action_scale(scheduled_scale(cfg,0))
         write_json(run.path/'critic_after_calql.json',diagnose_critic(agent,offline))
-        if cfg.get('training_scope')=='D0_V3':
+        if cfg.get('training_scope')=='D0_V3' or protocol.is_adaptation:
             _save_specialist(agent,run,protocol,args.alignment_manifest,0)
-    env=LiberoEnv(cfg['source'],render_size=cfg['render_size']);model.prompt=env.prompt
+    env=LiberoEnv(protocol.residual_training_task,render_size=cfg['render_size']);model.prompt=env.prompt
     env_steps=0;active_steps=0;episode=0;rows=[];warmup=True
     def actor_parameters():
         return {k:v for k,v in agent.actor.named_parameters()
@@ -318,9 +392,9 @@ def train(cfg,args,run,base,model,protocol):
         if episode<cfg.get('warmup_episodes',5):raise ValueError('Resume is restricted to post-warmup episode boundaries')
         run.meta.update(active_steps=active_steps,training_steps=env_steps,environment_steps=total_environment_steps,episodes=episode,
                         checkpoint=resumed_manifest['checkpoint'])
-        # Resume cannot bypass the outstanding D0-only stage review.
+        # Resume cannot bypass the outstanding training-task stage review.
         previous_run=Path(resume).resolve().parent.parent
-        if not await_stage_review(previous_run,restored['stage'],resumed_manifest['checkpoint']):
+        if not await_stage_review(previous_run,restored['stage'],resumed_manifest['checkpoint'],**({'cfg':cfg} if protocol.is_adaptation else {})):
             env.close()
             return
         reviewed_stages.add(restored['stage'])
@@ -366,7 +440,7 @@ def train(cfg,args,run,base,model,protocol):
                     raise RuntimeError('Warmup parameter sanity failed')
                 _save_specialist(agent,run,protocol,args.alignment_manifest,env_steps)
                 last_saved_steps=env_steps
-                online.save(run.path/'warmup.npz',kind='source_warmup',source=protocol.source)
+                online.save(run.path/'warmup.npz',kind='source_warmup',source=protocol.residual_training_key)
                 write_json(run.path/'critic_after_warmup.json',diagnose_critic(agent,offline))
                 if cfg.get('warmup_review_required',False):
                     await_warmup_review(run.path)
@@ -384,8 +458,8 @@ def train(cfg,args,run,base,model,protocol):
                             total_environment_steps=total_environment_steps,rows=rows,last_checkpoint_active=last_checkpoint_active,
                             reviewed_stages=sorted(reviewed_stages),offline_sha256=file_sha256(args.offline_buffer)))
                     reviewed_stages.add(stage)
-                    if not await_stage_review(run.path,stage,run.meta['checkpoint']):
-                        run.meta['stage_decision']='finished after D0 review'
+                    if not await_stage_review(run.path,stage,run.meta['checkpoint'],**({'cfg':cfg} if protocol.is_adaptation else {})):
+                        run.meta['stage_decision']='finished after training-task review'
                         return
         if last_saved_steps!=env_steps:
             _save_specialist(agent,run,protocol,args.alignment_manifest,env_steps)
@@ -452,17 +526,22 @@ def await_warmup_review(path):
     write_json(path/'warmup_review_request.json',dict(evidence=evidence,status='reviewed'))
 
 
-def await_stage_review(path, stage, checkpoint):
-    """Preserve live learner/replay/RNG while reviewing only D0 measurements."""
+def await_stage_review(path, stage, checkpoint, *, cfg=None):
+    """Preserve live learner/replay/RNG while reviewing only residual-training-task measurements."""
     path=Path(path)
+    adaptation=cfg is not None and Protocol(cfg).is_adaptation
+    if adaptation: checkpoint=Path(checkpoint).resolve()
     evidence=dict(checkpoint=str(checkpoint),checkpoint_sha256=file_sha256(checkpoint),active_milestone=stage)
     request=path/f'stage_{stage}_review_request.json'
     decision_path=path/f'stage_{stage}_review_decision.json'
     write_json(request,dict(evidence=evidence,status='waiting'))
-    print(f'Active milestone {stage}; preserving live state for D0 review: {decision_path}',flush=True)
+    print(f'Active milestone {stage}; preserving live state for training-task review: {decision_path}',flush=True)
     while not decision_path.exists():time.sleep(5)
     decision=json.loads(decision_path.read_text())
+    if adaptation:
+        from .libero_adaptation_selection import require_d1_stage
+        decision=require_d1_stage(decision_path,cfg)
     if decision.get('evidence')!=evidence or not decision.get('reason') or decision.get('decision') not in ('continue','finish'):
-        raise ValueError('Invalid D0 stage review decision')
+        raise ValueError('Invalid training-task stage review decision')
     write_json(request,dict(evidence=evidence,status='reviewed'))
     return decision['decision']=='continue'

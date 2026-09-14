@@ -30,14 +30,16 @@ def main():
     p.add_argument('--dataset-root',default='/workspace/datasets/lerobot/local/pld_libero_bowl')
     p.add_argument('--workdir',default='outputs/pld_libero/EXP-001/alignment')
     p.add_argument('--output',required=True)
-    p.add_argument('--method',choices=['full','lora','full_cpu','full_torch','lora32'],default='full')
-    p.add_argument('--steps',type=int,default=3000)
+    p.add_argument('--method',choices=['full','lora','full_cpu','full_torch','lora32'])
+    p.add_argument('--steps',type=int)
     p.add_argument('--pytorch-base-checkpoint')
     p.add_argument('--resume-checkpoint')
     p.add_argument('--cpu-threads',type=int,default=16)
     p.add_argument('--optimizer-storage',choices=['move_model','resident_cpu'],default='move_model')
     args=p.parse_args()
     cfg=json.loads(Path(args.config).read_text());protocol=Protocol(cfg)
+    args.method=args.method or cfg.get('alignment_method','full')
+    args.steps=args.steps if args.steps is not None else cfg.get('alignment_steps',3000)
     os.environ['HF_LEROBOT_HOME']=str(Path(args.dataset_root).resolve().parents[1])
     with RunArtifacts(args.output,vars(args)) as run:
         write_json(run.path/'protocol_config.json',cfg)
@@ -82,7 +84,7 @@ def main():
             normalizer=checkpoint/'assets'/args.repo_id/'norm_stats.json'
             if not checkpoint.exists() or not normalizer.exists():
                 raise RuntimeError('Official trainer did not produce expected checkpoint and statistics')
-            manifest={'training_tasks':[protocol.source],'split_hash':protocol.split_hash,
+            manifest={'training_tasks':[protocol.base_alignment_key],'split_hash':protocol.split_hash,
                       'alignment_data_version':ALIGNMENT_DATA_VERSION,
                       'pretrained_checkpoint':'gs://openpi-assets/checkpoints/pi0_base',
                       'alignment_steps':args.steps,'method':args.method,

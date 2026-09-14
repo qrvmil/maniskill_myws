@@ -6,7 +6,7 @@ from .libero_backend import ActionContract, convert_observation
 
 
 def run_episode(env, base_policy, *, seed, image_size=128, residual=None,
-                residual_scale=.5, on_transition=None, demonstration_states=None, probe_steps=0):
+                residual_scale=.5, on_transition=None, demonstration_states=None, probe_steps=0, record_progress=False):
     if int(probe_steps) != probe_steps or probe_steps < 0:
         raise ValueError('Probe steps must be a nonnegative integer')
     start = time.perf_counter()
@@ -15,6 +15,10 @@ def run_episode(env, base_policy, *, seed, image_size=128, residual=None,
         from .libero_protocol import assert_held_out
         assert_held_out(reset_info['sampled_initial_state'],demonstration_states)
         assert_held_out(reset_info['initial_state'],demonstration_states)
+    progress=[]
+    if record_progress:
+        from .libero_progress import task_progress, summarize_progress
+        progress.append(task_progress(env,raw))
     base_policy.reset(int(seed))
     obs = convert_observation(raw, env.prompt, image_size=image_size)
     inference_start=time.perf_counter()
@@ -46,6 +50,7 @@ def run_episode(env, base_policy, *, seed, image_size=128, residual=None,
         t = time.perf_counter()
         next_raw, reward, terminated, truncated, info = env.step(action)
         env_seconds += time.perf_counter()-t
+        if record_progress:progress.append(task_progress(env,next_raw))
         done = bool(terminated or truncated)
         next_obs = convert_observation(next_raw, env.prompt, image_size=image_size)
         t = time.perf_counter()
@@ -89,6 +94,7 @@ def run_episode(env, base_policy, *, seed, image_size=128, residual=None,
                active_residual_per_dim_abs=np.mean(active_magnitudes,axis=0).tolist() if active_magnitudes else [0.]*7)
     if diagnostics:
         row['policy_diagnostics']={k:np.mean([d[k] for d in diagnostics if k in d],axis=0).tolist() for k in set().union(*diagnostics)}
+    if record_progress:row['task_progress']=summarize_progress(progress)
     return row, transitions
 
 

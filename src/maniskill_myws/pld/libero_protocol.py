@@ -40,7 +40,9 @@ def require_specialist_regimen(provenance, config, *, source_validation=False):
     steps=provenance.get('training_steps',-1)
     max_steps=config['online_steps']
     if 'active_steps' in config:
-        horizon=config['source']['horizon']
+        training_task=(config['residual_training_task'] if config.get('protocol_version',1)==2
+                       else config['source'])
+        horizon=training_task['horizon']
         max_steps=config.get('warmup_episodes',5)*horizon+config['active_steps']+horizon-1
         active=provenance.get('active_steps',-1)
         if not 0 <= active <= config['active_steps']+horizon-1 or active>steps:
@@ -55,37 +57,87 @@ def require_specialist_regimen(provenance, config, *, source_validation=False):
 class Protocol:
     def __init__(self, config):
         self.config = config
-        self.source = task_key(config['source'])
-        keys = [task_key(t) for t in config['tasks']]
-        if len(keys) != len(set(keys)) or keys.count(self.source) != 1:
-            raise ValueError('Tasks must be unique and include exactly one source')
-        for t in config['tasks']:
-            if (task_key(t) == self.source) != (t['distance'] == 'D0'):
-                raise ValueError('D0 must be exactly the training source')
-        seed_sets = [set(config[k]) for k in ('train_env_seeds','validation_env_seeds','eval_seeds')]
-        if any(not s for s in seed_sets) or any(seed_sets[i] & seed_sets[j] for i in range(3) for j in range(i)):
-            raise ValueError('Training, validation and evaluation seeds must be nonempty and disjoint')
-        self.split_hash = hashlib.sha256(json.dumps({k:config[k] for k in (
-            'source','tasks','train_env_seeds','validation_env_seeds','eval_seeds')},sort_keys=True).encode()).hexdigest()
+        self.protocol_version = config.get('protocol_version',1)
+        if self.protocol_version == 1:
+            self.base_alignment_task = config['source']
+            self.residual_training_task = config['source']
+            self.evaluation_tasks = config['tasks']
+            self.base_alignment_key = task_key(self.base_alignment_task)
+            self.residual_training_key = self.base_alignment_key
+            self.source = self.residual_training_key  # Historical protocol alias.
+            self.is_adaptation = False
+            keys = [task_key(t) for t in self.evaluation_tasks]
+            if len(keys) != len(set(keys)) or keys.count(self.source) != 1:
+                raise ValueError('Tasks must be unique and include exactly one source')
+            for task in self.evaluation_tasks:
+                if (task_key(task) == self.source) != (task['distance'] == 'D0'):
+                    raise ValueError('D0 must be exactly the training source')
+            seed_names=('train_env_seeds','validation_env_seeds','eval_seeds')
+            split_names=('source','tasks',*seed_names)
+        elif self.protocol_version == 2:
+            if 'source' in config or 'tasks' in config:
+                raise ValueError('Protocol V2 uses explicit roles, not source/tasks aliases')
+            self.base_alignment_task = config['base_alignment_task']
+            self.residual_training_task = config['residual_training_task']
+            self.evaluation_tasks = config['evaluation_tasks']
+            self.base_alignment_key = task_key(self.base_alignment_task)
+            self.residual_training_key = task_key(self.residual_training_task)
+            self.is_adaptation = self.base_alignment_key != self.residual_training_key
+            if self.base_alignment_task.get('distance') != 'D0':
+                raise ValueError('Base alignment task must be D0')
+            if self.residual_training_task.get('distance') != 'D1' or not self.is_adaptation:
+                raise ValueError('Residual training task must be a distinct D1 task')
+            evaluation_keys=[task_key(task) for task in self.evaluation_tasks]
+            if (len(evaluation_keys)!=2 or len(set(evaluation_keys))!=2
+                    or self.base_alignment_task not in self.evaluation_tasks
+                    or self.residual_training_task not in self.evaluation_tasks):
+                raise ValueError('Evaluation tasks must be exactly the two registered protocol roles')
+            seed_names=('base_sanity_seeds','train_env_seeds','validation_env_seeds','eval_seeds')
+            split_names=('protocol_version','base_alignment_task','residual_training_task',
+                         'evaluation_tasks',*seed_names)
+        else:
+            raise ValueError(f'Unsupported protocol version: {self.protocol_version}')
+        seed_blocks=[config[name] for name in seed_names]
+        seed_sets=[set(seeds) for seeds in seed_blocks]
+        if (any(not seeds or len(seeds)!=len(seed_set) for seeds,seed_set in zip(seed_blocks,seed_sets,strict=True))
+                or any(seed_sets[i] & seed_sets[j] for i in range(len(seed_sets)) for j in range(i))):
+            raise ValueError('Protocol seed blocks must be nonempty, duplicate-free and disjoint')
+        self.split_hash = hashlib.sha256(json.dumps(
+            {key:config[key] for key in split_names},sort_keys=True).encode()).hexdigest()
         execution={k:config[k] for k in ('replan_steps','render_size','rl_image_size','residual_scale')}
         if 'base_numerical_contract' in config:
             execution['base_numerical_contract']=config['base_numerical_contract']
         self.execution_hash = hashlib.sha256(json.dumps(execution,sort_keys=True).encode()).hexdigest()
 
     def require_training_task(self, task):
-        if task_key(task) != self.source:
-            raise ValueError('Unseen tasks are evaluation-only')
+        matches=(task_key(task)==self.residual_training_key if self.protocol_version==1
+                 else task==self.residual_training_task)
+        if not matches:
+            raise ValueError('Task does not match the registered residual-training task spec')
+
+    def require_alignment_task(self, task):
+        matches=(task_key(task)==self.base_alignment_key if self.protocol_version==1
+                 else task==self.base_alignment_task)
+        if not matches:
+            raise ValueError('Task does not match the registered base-alignment task spec')
+
+    def require_evaluation_task(self, task):
+        if task not in self.evaluation_tasks:
+            raise ValueError('Task does not match any registered evaluation task spec')
 
     def require_alignment(self, path):
         if not path:
             raise ValueError('A verified seen-only aligned-base manifest is required')
         manifest = json.loads(Path(path).read_text())
-        if manifest.get('training_tasks') != [self.source] or manifest.get('split_hash') != self.split_hash:
+        if (manifest.get('training_tasks') != [self.base_alignment_key]
+                or manifest.get('split_hash') != self.split_hash):
             raise ValueError('Alignment manifest task/split mismatch')
         if manifest.get('pretrained_checkpoint') != 'gs://openpi-assets/checkpoints/pi0_base':
             raise ValueError('Unapproved pretrained checkpoint; full-LIBERO alignment is forbidden')
-        if manifest.get('alignment_steps',0) < 1 or not manifest.get('demonstrations'):
-            raise ValueError('Manifest must record actual SFT and demonstrations')
+        valid_steps=(manifest.get('alignment_steps')==3001 if self.protocol_version==2
+                     else manifest.get('alignment_steps',0)>=1)
+        if not valid_steps or not manifest.get('demonstrations'):
+            raise ValueError('Manifest must record the registered SFT budget and demonstrations')
         if manifest.get('alignment_data_version')!='native_post_action_shift_v1':
             raise ValueError('Obsolete alignment timing contract; old engineering checkpoints cannot enter scientific runs')
         for entry in [*manifest['demonstrations'], manifest['normalization']]:
@@ -144,11 +196,16 @@ def require_zero_report(path, protocol, manifest_path):
     if not path:
         raise ValueError('A checkpoint-bound --zero-report is required before scientific rollout')
     report=json.loads(Path(path).read_text())
+    expected_seeds=(protocol.config['base_sanity_seeds'] if protocol.protocol_version==2
+                    else protocol.config['validation_env_seeds'])
+    wrong_task=(protocol.protocol_version==2
+                and report.get('task')!=protocol.base_alignment_key)
     if (report.get('passed') is not True or report.get('pairs',0)<2
             or report.get('alignment_sha256')!=file_sha256(manifest_path)
             or report.get('split_hash')!=protocol.split_hash
             or report.get('execution_hash')!=protocol.execution_hash
             or len(set(report.get('seeds',[])))!=report['pairs']
-            or not set(report['seeds']).issubset(protocol.config['validation_env_seeds'])):
+            or not set(report['seeds']).issubset(expected_seeds)
+            or wrong_task):
         raise ValueError('Zero-residual equivalence report does not match this base/split')
     return report

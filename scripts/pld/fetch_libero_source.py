@@ -15,8 +15,9 @@ def main():
     p.add_argument('--config',default='configs/pld_libero/anchor_bowl.json')
     p.add_argument('--output-dir',default='/workspace/datasets/libero_seen')
     args=p.parse_args();cfg=json.loads(Path(args.config).read_text())
-    Protocol(cfg).require_training_task(cfg['source'])
-    source=cfg['source'];root=Path(args.output_dir);root.mkdir(parents=True,exist_ok=True)
+    protocol=Protocol(cfg)
+    protocol.require_alignment_task(protocol.base_alignment_task)
+    source=protocol.base_alignment_task;root=Path(args.output_dir);root.mkdir(parents=True,exist_ok=True)
     name=source['name']+'_demo.hdf5';path=root/name
     url=f"https://huggingface.co/datasets/yifengzhu-hf/LIBERO-datasets/resolve/main/{source['suite']}/{name}"
     if not path.exists():

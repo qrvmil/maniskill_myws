@@ -21,22 +21,39 @@ def gather_transfer_results(paths):
             if not args.get('selection_manifest'):
                 raise ValueError('Final transfer summary requires verified source selection')
             selection=require_source_selection(args['selection_manifest'],cfg,args['alignment_manifest'],checkpoint)
+        disclosure={}
+        if protocol.is_adaptation:
+            snapshot=path/'frozen_selection.json'
+            if selection is None or not snapshot.is_file() or json.loads(snapshot.read_text())!=selection:
+                raise ValueError('Final adaptation report requires unchanged frozen selection snapshot')
+            disclosure=dict(selection_manifest_sha256=file_sha256(args['selection_manifest']),
+                frozen_selection_sha256=file_sha256(snapshot),
+                d1_improvement_gate_passed=selection['d1_improvement_gate_passed'],
+                selected_d1_validation_gain=selection['validation_gain'],
+                final_result_status='improvement_gate_passed' if selection['d1_improvement_gate_passed'] else 'negative_result_gate_failed')
+            if any(meta.get(k)!=v for k,v in disclosure.items()):
+                raise ValueError('Final metadata does not preserve frozen D1 improvement gate')
         require_specialist_regimen(provenance,cfg,source_validation=selection is not None)
         if (provenance['checkpoint_sha256']!=file_sha256(checkpoint)
             or provenance['alignment_sha256']!=file_sha256(args['alignment_manifest'])
-            or provenance['source']!=protocol.source
+            or provenance['source']!=protocol.residual_training_key
             or provenance['split_hash']!=protocol.split_hash
             or provenance['execution_hash']!=protocol.execution_hash
             or provenance['training_seed']!=cfg['training_seed']):
             raise ValueError('Evaluation specialist provenance mismatch')
-        key=(protocol.source,cfg['training_seed'])
+        if protocol.is_adaptation and (provenance.get('base_alignment_task')!=protocol.base_alignment_key
+                or provenance.get('residual_training_task')!=protocol.residual_training_key):
+            raise ValueError('Evaluation task-role provenance mismatch')
+        key=(protocol.residual_training_key,cfg['training_seed'])
         digest=provenance['checkpoint_sha256']
         if key in specialists and specialists[key]!=digest:
             raise ValueError('Cannot mix different specialist checkpoints across a distance ladder')
         specialists[key]=digest
-        missing.setdefault(key,{task_key(t) for t in cfg['tasks']})
-        task_map={task_key(t):t for t in cfg['tasks']}
+        missing.setdefault(key,{task_key(t) for t in protocol.evaluation_tasks})
+        task_map={task_key(t):t for t in protocol.evaluation_tasks}
         for recorded in json.loads((path/'eval/summary.json').read_text()):
+            if any(recorded.get(k)!=v for k,v in disclosure.items()):
+                raise ValueError('Final task summary does not preserve frozen D1 improvement gate')
             for field in ('training_steps','training_spec','sac_config'):
                 if recorded.get('residual_'+field)!=provenance[field]:
                     raise ValueError('Evaluation recorded a different residual training regimen')
@@ -50,9 +67,13 @@ def gather_transfer_results(paths):
             if key in deployments and deployments[key]!=policy:
                 raise ValueError('Cannot mix deployment policies across a distance ladder')
             deployments[key]=policy
+            if recorded['target'] not in task_map:
+                raise ValueError('Unregistered evaluation task')
             task=task_map[recorded['target']]
             pair=json.loads((path/'eval'/f"{task['name']}_episodes.json").read_text())
             values=paired_summary(pair['base'],pair['residual'])
+            if protocol.is_adaptation and values['seeds']!=cfg['eval_seeds']:
+                raise ValueError('V4 final results require the complete preregistered seed block')
             if not set(values['seeds']).issubset(cfg['eval_seeds']):
                 raise ValueError('Final transfer summary contains non-evaluation seeds')
             if any(not np.isclose(recorded[k],values[k]) for k in ['SR_base','SR_residual','delta_SR']):
@@ -64,10 +85,13 @@ def gather_transfer_results(paths):
             identity=(*key,recorded['target'])
             if identity in seen:raise ValueError('Duplicate source/seed/target evaluation')
             seen.add(identity);missing[key].discard(recorded['target'])
-            rows.append(dict(source=protocol.source,target=task_key(task),distance=task['distance'],
+            rows.append(dict(source=protocol.residual_training_key,target=task_key(task),distance=task['distance'],
                 training_seed=cfg['training_seed'],residual_training_steps=provenance['training_steps'],
                 residual_training_spec=provenance['training_spec'],residual_sac_config=provenance['sac_config'],
                 checkpoint=str(checkpoint),deployment_policy=policy,run=str(path),**values))
+            if protocol.is_adaptation:
+                rows[-1].update(base_alignment_task=protocol.base_alignment_key,
+                    residual_training_task=protocol.residual_training_key,**disclosure,**gain_interval(values))
     if not rows:raise ValueError('No completed paired results')
     buckets=[]
     for source,seed,distance in sorted({(r['source'],r['training_seed'],r['distance']) for r in rows}):
@@ -77,3 +101,13 @@ def gather_transfer_results(paths):
     return dict(tasks=rows,buckets=buckets,
         missing_tasks=[dict(source=k[0],training_seed=k[1],targets=sorted(v)) for k,v in missing.items()],
         interpretation='Exploratory per-training-seed results; episode bootstrap does not measure training-seed variance.')
+
+
+def gain_interval(summary):
+    """Bootstrap paired gain, with a valid bound when empirical discordance is zero."""
+    if summary['residual_only_successes']+summary['base_only_successes']==0:
+        bound=1-.05**(1/summary['episodes'])
+        return dict(gain_95ci=[-bound,bound],
+            gain_interval_method='exact 95% upper bound on zero-observed discordance probability')
+    return dict(gain_95ci=summary['paired_bootstrap_95ci'],
+        gain_interval_method='paired episode percentile bootstrap, 10000 resamples, seed0')

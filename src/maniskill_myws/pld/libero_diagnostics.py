@@ -30,5 +30,5 @@ def diagnose_critic(agent,buffer,*,count=256,seed=0):
                   random_edit_preference_rate=float(np.mean(np.array(values['q_random_edit'])>values['q_base'])),
                   mean_edit_preference_rate=float(np.mean(np.array(values['q_mean_edit'])>values['q_base'])),
                   sampled_edit_preference_rate=float(np.mean(np.array(values['q_sampled_edit'])>values['q_base'])),
-                  interpretation='MC is recorded base-policy return; Q bootstraps the current target policy. Their difference is not an unbiased calibration error.')
+                  interpretation='MC is recorded replay-trajectory return; Q bootstraps the current target policy. Their difference is not an unbiased calibration error.')
     return result

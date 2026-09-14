@@ -34,14 +34,14 @@ def smoke(cfg, args, run):
     torch.set_num_threads(2)
     torch.manual_seed(cfg['training_seed'])
     np.random.seed(cfg['training_seed'])
-    task=dict(cfg['source'])
+    task=dict(Protocol(cfg).base_alignment_task)
     if args.max_steps:
         task['horizon']=args.max_steps
     env=LiberoEnv(task,render_size=cfg['render_size'])
     base=ChunkedBasePolicy(SmokeModel(),replan_steps=cfg['replan_steps'])
     rows=[]
     try:
-        for seed in cfg['eval_seeds'][:args.episodes]:
+        for seed in (cfg['base_sanity_seeds'] if Protocol(cfg).is_adaptation else cfg['eval_seeds'])[:args.episodes]:
             a,tr=run_episode(env,base,seed=seed,image_size=cfg['rl_image_size'])
             b,zero_tr=run_episode(env,base,seed=seed,image_size=cfg['rl_image_size'],
                             residual=lambda o,a:np.zeros(7),residual_scale=cfg['residual_scale'])
@@ -87,7 +87,7 @@ def main():
     p.add_argument('mode',choices=['smoke','base','zero','collect','train','eval'])
     p.add_argument('--config',default='configs/pld_libero/anchor_bowl.json')
     p.add_argument('--output',required=True)
-    p.add_argument('--episodes',type=int,default=2)
+    p.add_argument('--episodes',type=int,default=None)
     p.add_argument('--validation',action='store_true',help='Source base only: use source-validation seeds for alignment selection')
     p.add_argument('--max-steps',type=int,default=None,help='Only truncate non-scientific smoke')
     p.add_argument('--alignment-manifest')
@@ -107,12 +107,27 @@ def main():
     from maniskill_myws.pld.libero_runtime import configure_base_inference
     configure_base_inference(cfg)
     protocol=Protocol(cfg)
+    if args.episodes is None:
+        args.episodes=len(cfg['eval_seeds']) if protocol.is_adaptation and args.mode=='eval' and not args.validation else 2
+    if protocol.is_adaptation and args.mode=='eval' and not args.validation and args.episodes!=len(cfg['eval_seeds']):
+        p.error('Final V4 evaluation requires all 50 registered paired seeds')
+    if protocol.is_adaptation and args.mode=='collect' and (args.successes!=50 or args.max_attempts!=100):
+        p.error('V4 collection requires 50 successes with the registered 100-attempt cap')
     if args.validation and args.mode not in ('base','eval'):
         p.error('--validation supports source base/residual evaluation')
     if args.mode != 'smoke':
         if args.max_steps is not None:
             p.error('Only smoke may override horizon')
-    allowed_seeds=cfg['validation_env_seeds'] if args.mode=='zero' or args.validation else cfg['eval_seeds']
+    if protocol.is_adaptation:
+        if args.mode=='smoke':
+            allowed_seeds=cfg['base_sanity_seeds']
+        elif args.mode in ('base','zero','eval'):
+            from maniskill_myws.pld.libero_experiment import evaluation_plan
+            _,allowed_seeds,_=evaluation_plan(cfg,args,protocol,selected=True)
+        else:
+            allowed_seeds=cfg['train_env_seeds']
+    else:
+        allowed_seeds=cfg['validation_env_seeds'] if args.mode=='zero' or args.validation else cfg['eval_seeds']
     if args.episodes<1 or args.episodes>len(allowed_seeds):
         p.error('episodes must be within registered evaluation seed set')
     cfg['command_options']=vars(args)

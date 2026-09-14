@@ -3,7 +3,7 @@ import dataclasses
 import json
 from pathlib import Path
 import numpy as np
-from .libero_protocol import Protocol, file_sha256, task_key, directory_manifest, verify_directory
+from .libero_protocol import Protocol, file_sha256, directory_manifest, verify_directory
 
 ALIGNMENT_DATA_VERSION='native_post_action_shift_v1'
 
@@ -16,7 +16,9 @@ def native_observation_action_indices(length):
 
 def audit_source_h5(path, config):
     import h5py
-    source=task_key(config['source'])
+    protocol=Protocol(config)
+    protocol.require_alignment_task(protocol.base_alignment_task)
+    source=protocol.base_alignment_key
     with h5py.File(path,'r') as f:
         root=f['data']
         if not str(root.attrs.get('bddl_file_name','')).endswith(source+'.bddl'):
@@ -58,7 +60,7 @@ def convert_source_h5(path, config, *, repo_id, root):
                       'state':{'dtype':'float32','shape':(8,),'names':['state']},
                       'actions':{'dtype':'float32','shape':(7,),'names':['actions']}},
             image_writer_threads=4,image_writer_processes=0)
-        prompt=config['source']['name'].replace('_',' ')
+        prompt=Protocol(config).base_alignment_task['name'].replace('_',' ')
         for name in audit['episode_names']:
             g=data[name]; o=g['obs']
             for i,action_index in native_observation_action_indices(len(g['actions'])):
@@ -82,9 +84,17 @@ def convert_source_h5(path, config, *, repo_id, root):
 
 def make_openpi_config(protocol_config, *, repo_id, workdir, method='full', steps=3000):
     from openpi.training import config as oc
+    protocol=Protocol(protocol_config)
     if method not in ('full','full_cpu','full_torch','lora','lora32'):
         raise ValueError(f'Unknown alignment method: {method}')
     base=oc.get_config('pi0_libero' if method in ('full','full_cpu','full_torch') else 'pi0_libero_low_mem_finetune')
+    if protocol.protocol_version==2:
+        if (method!='lora32' or steps!=3001
+                or protocol_config.get('alignment_method')!='lora32'
+                or protocol_config.get('alignment_steps')!=3001
+                or protocol_config.get('sft_batch_size')!=8
+                or protocol_config.get('training_seed')!=0):
+            raise ValueError('Protocol V2 alignment is fixed to registered LoRA32/batch8/seed0/3001 settings')
     if method=='lora32':
         configure_lora_rank32()
     name='pi0_libero_seen_'+method

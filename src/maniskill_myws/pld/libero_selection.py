@@ -4,7 +4,10 @@ from pathlib import Path
 from .libero_protocol import Protocol,file_sha256,directory_manifest,residual_training_spec
 
 
-def select_source_validation(evaluations,cfg,*,role,policy='otf'):
+def select_source_validation(evaluations,cfg,*,role,policy='otf',stage_decision=None):
+    if Protocol(cfg).is_adaptation:
+        from .libero_adaptation_selection import select_d1_validation
+        return select_d1_validation(evaluations,cfg,role=role,policy=policy,stage_decision=stage_decision)
     if role not in ('base','residual'):raise ValueError('Unknown selection role')
     protocol=Protocol(cfg);candidates=[]
     for path in evaluations:
@@ -67,6 +70,9 @@ def select_source_validation(evaluations,cfg,*,role,policy='otf'):
 
 
 def require_source_selection(path,cfg,alignment_manifest,checkpoint):
+    if Protocol(cfg).is_adaptation:
+        from .libero_adaptation_selection import require_d1_selection
+        return require_d1_selection(path,cfg,alignment_manifest,checkpoint)
     record=json.loads(Path(path).read_text())
     if record.get('role')!='residual':raise ValueError('Final residual evaluation requires residual selection')
     paths=[c['selected_evaluation'] for c in record['candidates']]
