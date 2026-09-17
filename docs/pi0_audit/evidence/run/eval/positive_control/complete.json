@@ -1,0 +1,6 @@
+{
+  "model": "positive_control",
+  "wall_seconds": 1599.2894926071167,
+  "inference_calls": 2072,
+  "normalization_sha256": "b3a44bb2810436fb62917decaea58bd4d9110255df527dea21e8fd40c960bd84"
+}

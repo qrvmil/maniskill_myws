@@ -1,0 +1,25 @@
+{
+  "model": "positive_control",
+  "task": "D1",
+  "filename": "official_libero_D1_seed9006_failure.mp4",
+  "origin": "deterministic_replay",
+  "seed": 9006,
+  "success": false,
+  "length": 220,
+  "reset_hash": "f575923a9eb3eb96c5e3371daac3c35e6913d2810a7e86f2d30609f5b71b0b1c",
+  "trajectory_hash": "6e7b12bf71c25ee92eae7f542228d4bc88eaa4d26bd8356b6501411cb7b47584",
+  "image_hash": "a5f3c6e41cd8f92cb3709892f985677a2d8e7f049a18d899625209226abe1ac2",
+  "camera_views": [
+    "agentview",
+    "wrist"
+  ],
+  "fps": 20,
+  "includes_terminal_frame": true,
+  "expected_frames": 221,
+  "frames": 221,
+  "width": 256,
+  "height": 128,
+  "bytes": 229251,
+  "sha256": "d32321773d35452d08d41129e745851e073a2f06aeb9165d93527bb69f030d05",
+  "full_decode_passed": true
+}

@@ -1,0 +1,345 @@
+[
+  {
+    "name": "checkpoints/pi0_base/assets/arx/norm_stats.json",
+    "size": 2796,
+    "sha256": "0228c2b73b1d76e734d622faf901519d3bf62bdada4eb61a78b43212736573f7",
+    "gcs_md5": "bYlnoj1VmU3yyxeI5AzZCA==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/assets/arx_mobile/norm_stats.json",
+    "size": 2865,
+    "sha256": "0e56b400595401dfeb53b76ae49ba4ca561c75161fea7bae26cb53cd67cdb2d0",
+    "gcs_md5": "FfTGCbWoD6qv/FSz9J8UDg==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/assets/droid/norm_stats.json",
+    "size": 2413,
+    "sha256": "c6f9a4794b1df4901e618db3d3b5e02126dcc7c8d95b8f9735b5bc9ed75b95c9",
+    "gcs_md5": "mjiBOkTRND6KG0i8nLPOVQ==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/assets/fibocom_mobile/norm_stats.json",
+    "size": 2968,
+    "sha256": "5bdc7cfb60dae961a10ff9a0ddd57c2faee8101876cb3325529d51d0ede08a11",
+    "gcs_md5": "WP+KUJ7cyXDGcDf+Uw/FWA==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/assets/franka/norm_stats.json",
+    "size": 2424,
+    "sha256": "7ffb0afdbc328bc2eb397ffbbded8d8c1e73cb9993465f768b74e0121fec964e",
+    "gcs_md5": "Xv9U1SmiXdqAIkMGi4FMBA==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/assets/trossen/norm_stats.json",
+    "size": 2797,
+    "sha256": "a00d37c6f90ef73c36d6910d62c9800bac49c07f34681c96f995ab56d9231d91",
+    "gcs_md5": "XgXyiDUy7zp3MzPj05z+VA==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/assets/trossen_mobile/norm_stats.json",
+    "size": 2867,
+    "sha256": "c701e1043b3d989eb3111c693787e822a6a7fe8036275fb738bf9bd94159ee16",
+    "gcs_md5": "MAYEVfU/6fxPWsToI2NpoA==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/assets/ur5e/norm_stats.json",
+    "size": 2354,
+    "sha256": "74371568772177373a999035abe612cde7a3a1d3d2dec473f2faf69bb3429275",
+    "gcs_md5": "I74QM3J+7py7Ts15Phmf4g==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/assets/ur5e_dual/norm_stats.json",
+    "size": 2806,
+    "sha256": "9b21a7cef98e729f53668abb3b333c59ef262896a8f351a0c414afaf031a7ef4",
+    "gcs_md5": "+exKy6NXPbAV241JytirxA==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/_CHECKPOINT_METADATA",
+    "size": 92,
+    "sha256": "1c1989b5c422197d88d0177154417ae035085f17b60632992a1a2db349ba259b",
+    "gcs_md5": "an8X2UpOj/9wFJPK8tPRLg==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/_METADATA",
+    "size": 19031,
+    "sha256": "53becee9a3ae880c6973f1ca3336bde9b58c5183336266f85b89160cdc18837d",
+    "gcs_md5": "yQ+FrRQy9rZQR7M1DezBzA==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/_sharding",
+    "size": 7607,
+    "sha256": "2615de0da01e31271380df3baf07c3a850dd85ccaa6524fbe86528506e239e78",
+    "gcs_md5": "Qaa8hHGwcRua42eXRgm+1g==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/d/85a4b908b188b86024ebb92e85065acd",
+    "size": 2184,
+    "sha256": "cdf6ab646a1b664cc3ee33dcee11662a082539ff30ae9120124bf7a5562bf081",
+    "gcs_md5": "rCsf5QgQ2sZF50bzX7fpOQ==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/manifest.ocdbt",
+    "size": 117,
+    "sha256": "000802f3a26aa87cf1aeb7b747e7944a1523421474e809d781d7bda165d891d0",
+    "gcs_md5": "1aF+sZk4fFZVBQH0+ngc2A==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/ocdbt.process_0/d/085d261a6434a2182b9cf8204a14f929",
+    "size": 203056647,
+    "sha256": "626b8b7cdc5cf2dd4fb49cf4ec229c635d4894ce1b2ca8f5d54879a599fb26c7",
+    "gcs_md5": "PhUhjaFznWTRfZHpbX13Sg==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/ocdbt.process_0/d/148068583a1e9abda7c46b410e91850f",
+    "size": 2240220744,
+    "sha256": "08349adbc7d3f5bc417fe902456377ba319b800f701943eac92771b47eb70804",
+    "gcs_md5": "h3PMaHtPKuwIlTo7rjPL4w==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/ocdbt.process_0/d/2f72ae7e4e549700e9d7da10816ed9a4",
+    "size": 25249068,
+    "sha256": "d63b1ca054933d93b696622322bee833c69ccb9706a90ea6f9a27177a9ca9799",
+    "gcs_md5": "IKlvMnjrjnOTBXl0vcY0nQ==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/ocdbt.process_0/d/309555f68bee51df688c4564b4d66fa5",
+    "size": 1048478,
+    "sha256": "0219aee51a9c0d85df1010fe9c9d53f19261228c576e7e80e8eccb5d13595973",
+    "gcs_md5": "qcJ6f/IK16YntVcgYZPiGA==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/ocdbt.process_0/d/450c3d3cb6793dc644c1faf981296eb3",
+    "size": 34976130,
+    "sha256": "cfcea8d28790cb585ed0ee39eb120ade6f0b88838f8d43202b171eabc78fa23c",
+    "gcs_md5": "vaj1mHjlZUPdCS5QA95pAg==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/ocdbt.process_0/d/45c6cbcc04a07d5f963bcf46cba903c4",
+    "size": 3077824146,
+    "sha256": "de371b276d760d803124bc0b115174ac9c74510a9cff605cbaa38fa74232071f",
+    "gcs_md5": "S6CaE0VV58FkgmrZqB5HYQ==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/ocdbt.process_0/d/4e5aa230b6c768224fb6b77d78d6a1be",
+    "size": 1649,
+    "sha256": "4b7d5969e1db888e6fafbc726d11f83069544b622034d8526fc73e32322c6e68",
+    "gcs_md5": "TtAeZdoiwYIBgiuhYtIwxA==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/ocdbt.process_0/d/5e775a3f399b6add8c3c8330df655e1b",
+    "size": 5379,
+    "sha256": "2b5287615145bb618b6263355bbac2d54d5ccbd15c22dbbbc74b0816d4fa6a0f",
+    "gcs_md5": "puOPiUy7rY0gFhD8I/tyzg==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/ocdbt.process_0/d/5f605020f3dadefc18287f67f369e264",
+    "size": 132845636,
+    "sha256": "4b61c384b627ec5fcd42460774ce548ccca8bff8bd2a85ce354d710cfdf62bb7",
+    "gcs_md5": "g1JlTPndVbJiBK1zg+U2/Q==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/ocdbt.process_0/d/6629f15468f4d0cc39fb27518b7034a8",
+    "size": 2173,
+    "sha256": "b9e3204c5ede37436fe0c1a7bfc7df8af832dc5ee5cfcff6071a7ed181d64a88",
+    "gcs_md5": "JJFTHN0ix5aRPE1fkMNghg==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/ocdbt.process_0/d/808abec8853273a1e0076b0e42d19910",
+    "size": 209,
+    "sha256": "1f66ba60b03345079120ea57ab4fe94e2345986b7c773912ded5ab619da47f10",
+    "gcs_md5": "NtJWthUikHHrV7eP2zOnEg==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/ocdbt.process_0/d/8dd6f7ae99ab482b841a1eefa796bb41",
+    "size": 1040,
+    "sha256": "faa40c97b4bce0c35c69d322d7f8cc9a2bfe53c5f909181f1918d782c1353984",
+    "gcs_md5": "lk/5xHlXVmp455B2ZducVA==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/ocdbt.process_0/d/93fcf358bb740a5f61526a13e9a2c769",
+    "size": 839453563,
+    "sha256": "61637e7c13d35f4bcaaebe9882df98a4fcb9bb964d3dd07c6b0fb0a7879d7703",
+    "gcs_md5": "Q8aHhINdHhN6yRs0AYAy5A==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/ocdbt.process_0/d/99debaeabd76bd2cc1600905278c454b",
+    "size": 559736645,
+    "sha256": "1dea0fcfeae147c4a933723768f9fedfd8e05b7883c79562f648c3c82c0a0896",
+    "gcs_md5": "suL7tdEHlXIOQ3EEsAks/Q==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/ocdbt.process_0/d/c5e0b7744afd7fde8b33a80d7f0329bc",
+    "size": 2240216669,
+    "sha256": "92caa09e328aea0cc6a62f843974302a303af5963c4ceaf23f8f2c427ed53817",
+    "gcs_md5": "q0Zp122vEdUeb7ww1JsI/A==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/ocdbt.process_0/d/d5e67a46c20fea80fd9ccf63a434178c",
+    "size": 993821460,
+    "sha256": "21ca80596df5802491aacabf0ebd16f50d0af0e366789240c40e0e1ddd3ed1bb",
+    "gcs_md5": "WX57yk9Trdnaa8GPIDXLlA==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/ocdbt.process_0/d/fc0caaf15ec5a8930e6d0a269722cbe6",
+    "size": 545792151,
+    "sha256": "b8f9020d63df8dbce11b4930a8814999a3b0a705af1fbe3d3adde6b0a20e4b91",
+    "gcs_md5": "vakgSVOsSc69xwMnH0Wgjw==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/ocdbt.process_0/d/fec2923fef877d6b2a636a44d72670b8",
+    "size": 1120134616,
+    "sha256": "8e694e7a4e2adbe64591b692ecd453625a7d71b3abdc47ed4b199632793897bb",
+    "gcs_md5": "J4i2s0gi8rYd/w2P2w6K1A==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi0_base/params/ocdbt.process_0/manifest.ocdbt",
+    "size": 765,
+    "sha256": "e7dcdf994f32d978f950f24da1c73c3261b34d05e4871484b235a149cdc28d9d",
+    "gcs_md5": "FVHrvrvbRNs0V+Ry8ztkvw==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi05_libero/assets/physical-intelligence/libero/norm_stats.json",
+    "size": 1914,
+    "sha256": "b3a44bb2810436fb62917decaea58bd4d9110255df527dea21e8fd40c960bd84",
+    "gcs_md5": "A9ECp3wKo0Ovv3VpyXu8ug==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi05_libero/params/_METADATA",
+    "size": 23493,
+    "sha256": "303a4e354814928e1d29b75e310f2c1ac7e7e29b62f48395b631045ca1cffc73",
+    "gcs_md5": "h87nNUGOGM+SlQTXZuiH5w==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi05_libero/params/_sharding",
+    "size": 17952,
+    "sha256": "63f4c57ba6ff10f4132a639b9942eabcc26942eb34081be1d93bf7ddab816501",
+    "gcs_md5": "uQbKjd0yzEAsRluwGbXx7g==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi05_libero/params/array_metadatas/process_0",
+    "size": 9062,
+    "sha256": "2b29474f08aa50922da11074deb4d7f35e30f0071a088a30f40df88edc1ebdb0",
+    "gcs_md5": "6L3QQHzl7m1hSqp/D9Ilrw==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi05_libero/params/d/98a77a52a8eb845ae4830eb7fe983979",
+    "size": 42307,
+    "sha256": "93b39327a1552b06b1b6ce5190d58131297bcca66c3f2a099bbb2882df7759af",
+    "gcs_md5": "yR0NA7yotjSH8i6fOWmjEQ==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi05_libero/params/manifest.ocdbt",
+    "size": 120,
+    "sha256": "65246951e69bd2b5118e609646bc9e8c439229bccbc1325643833aeb74f77104",
+    "gcs_md5": "ScBVzgi9/ARq6oxG/2fzaw==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi05_libero/params/ocdbt.process_0/d/0eaaecefaa9720d30a32cc56e65fd345",
+    "size": 2449323387,
+    "sha256": "0d4412552d4a69fba953f824a60d005ee7559822a9c1c16684906c7f0801b848",
+    "gcs_md5": null,
+    "md5_verified": false
+  },
+  {
+    "name": "checkpoints/pi05_libero/params/ocdbt.process_0/d/155391c1cbf93a1be16266de052e5b48",
+    "size": 2307885530,
+    "sha256": "ad09cf4b2cacc0628c713afbb1ee9decfd36e295fdacae111c1e0c5eeeb6cc00",
+    "gcs_md5": null,
+    "md5_verified": false
+  },
+  {
+    "name": "checkpoints/pi05_libero/params/ocdbt.process_0/d/2b6985f48e9da86f68627a7608c5bc25",
+    "size": 1077,
+    "sha256": "3b81b2e8afe1456a4584d19dcf600f2bb6f27beff9f061b336f06657a11d5cb5",
+    "gcs_md5": "9FWQ08KGmJK/8T7dQ0vkQg==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi05_libero/params/ocdbt.process_0/d/475fab3ee8821662585a8cde3eb32e22",
+    "size": 2150232827,
+    "sha256": "624a529b0b5f07bf535e07eba4f823e47fdde66a3d0b38295a35ac9d60cfcf0f",
+    "gcs_md5": null,
+    "md5_verified": false
+  },
+  {
+    "name": "checkpoints/pi05_libero/params/ocdbt.process_0/d/6c54da5a6f62c20a09c0f3f8c3329e00",
+    "size": 1608436908,
+    "sha256": "1a5f80ef1aeaa82e70cca883c4d95da65bd410c8da19729d4814317533ba11f5",
+    "gcs_md5": null,
+    "md5_verified": false
+  },
+  {
+    "name": "checkpoints/pi05_libero/params/ocdbt.process_0/d/896bf93c5cf2e8ddd274a6ea0a2feec0",
+    "size": 2240080987,
+    "sha256": "c92342da7593219debce6133f148f3c24ece184ff53f9f4bac800c09fcc6dc1a",
+    "gcs_md5": null,
+    "md5_verified": false
+  },
+  {
+    "name": "checkpoints/pi05_libero/params/ocdbt.process_0/d/bc613ff288a162563e622d01bb60622a",
+    "size": 217,
+    "sha256": "1e99d5876e6b8db2e12c43c8079f6b98cffac2c26bbd84e59cc505e983d146d2",
+    "gcs_md5": "wenKw3gyf+/fW/vslaBp7Q==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi05_libero/params/ocdbt.process_0/d/bda87d9791f23df771cd2d15293780cc",
+    "size": 2926522,
+    "sha256": "9c717ff13084524b74f330803421b8a261bc3009a477c933e1e1a1477a796fc3",
+    "gcs_md5": "vYZMwVn2STx4dPZljLmW3Q==",
+    "md5_verified": true
+  },
+  {
+    "name": "checkpoints/pi05_libero/params/ocdbt.process_0/d/efbb46173882cb35ed41ffe0c2db8a5e",
+    "size": 1680102856,
+    "sha256": "6e62d35e0689dc12779d0b2e65304823d6787fdd4ccd754c9ebd059fdc4b6765",
+    "gcs_md5": null,
+    "md5_verified": false
+  },
+  {
+    "name": "checkpoints/pi05_libero/params/ocdbt.process_0/manifest.ocdbt",
+    "size": 322,
+    "sha256": "3bf70fbb0fac151675595b33aeb8203139e8809de17d606574ab606a758b3591",
+    "gcs_md5": "+aR0apS1rB7YibqQ1VVA7w==",
+    "md5_verified": true
+  }
+]

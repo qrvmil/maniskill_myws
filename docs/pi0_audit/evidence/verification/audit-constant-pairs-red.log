@@ -1,0 +1,16 @@
+.......F                                                                 [100%]
+=================================== FAILURES ===================================
+________ test_paired_perfect_gain_has_uncertainty_but_identity_has_none ________
+
+    def test_paired_perfect_gain_has_uncertainty_but_identity_has_none():
+        from maniskill_myws.pld.libero_sanity import paired_change
+        zero=[dict(seed=s,reset_hash=str(s),success=False,length=220) for s in range(9000,9050)]
+        one=[dict(r,success=True,length=100) for r in zero]
+        gain=paired_change(zero,one)
+>       assert gain['delta_pp']==100 and gain['interval_95_pp'][0]<100
+E       assert (100.0 == 100 and 100.0 < 100)
+
+tests/test_pld_libero_sanity.py:149: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_pld_libero_sanity.py::test_paired_perfect_gain_has_uncertainty_but_identity_has_none
+1 failed, 7 passed in 5.92s

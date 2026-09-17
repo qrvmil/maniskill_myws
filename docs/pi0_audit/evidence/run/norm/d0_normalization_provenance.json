@@ -1,0 +1,6 @@
+{
+  "source_audit_sha256": "5b9a80eac71ae3f365b221879a7a037c635f03cd2ca92ffc88e61188784f79a7",
+  "data_config": "LeRobotLiberoDataConfig(repo_id='local/pi0_audit_d0', assets=AssetsConfig(assets_dir=None, asset_id=None), base_config=DataConfig(repo_id=None, asset_id=None, norm_stats=None, repack_transforms=Group(inputs=(), outputs=()), data_transforms=Group(inputs=(), outputs=()), model_transforms=Group(inputs=(), outputs=()), use_quantile_norm=False, action_sequence_keys=('actions',), prompt_from_task=True, rlds_data_dir=None, action_space=None, datasets=()), extra_delta_transform=False)",
+  "model_config": "Pi0Config(action_dim=32, action_horizon=50, max_token_len=48, dtype='bfloat16', paligemma_variant='gemma_2b_lora', action_expert_variant='gemma_300m_lora', pi05=False, discrete_state_input=False)",
+  "statistics_sha256": "b4ea07567b2cc2bbd5670167efa540730ef4e98b3e507ce1610473c948401f44"
+}

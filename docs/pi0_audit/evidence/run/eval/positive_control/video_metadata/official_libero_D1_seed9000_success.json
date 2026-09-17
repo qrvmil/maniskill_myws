@@ -1,0 +1,25 @@
+{
+  "model": "positive_control",
+  "task": "D1",
+  "filename": "official_libero_D1_seed9000_success.mp4",
+  "origin": "deterministic_replay",
+  "seed": 9000,
+  "success": true,
+  "length": 91,
+  "reset_hash": "320bd4e69fa585f8535cf271e7d2540a8d6d5af6deedb9b3b969ef2572bfad21",
+  "trajectory_hash": "09dd9d0e3daaadd80738b363ed083b42e9e57fa05f4e2220fc3677ce0baabcf5",
+  "image_hash": "ab648269bd748117e424578cf19e10bd25789d0b67bebd04bb66f426b4798e8a",
+  "camera_views": [
+    "agentview",
+    "wrist"
+  ],
+  "fps": 20,
+  "includes_terminal_frame": true,
+  "expected_frames": 92,
+  "frames": 92,
+  "width": 256,
+  "height": 128,
+  "bytes": 106430,
+  "sha256": "d06c7edd063b685c46a7042038ac5f98bea6778adf22a6f302d4c847f976d9e6",
+  "full_decode_passed": true
+}

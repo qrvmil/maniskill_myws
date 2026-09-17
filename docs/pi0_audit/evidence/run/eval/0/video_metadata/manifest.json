@@ -1,0 +1,102 @@
+[
+  {
+    "model": "0",
+    "task": "D0",
+    "filename": "step0000_D0_seed9000_failure.mp4",
+    "origin": "deterministic_replay",
+    "seed": 9000,
+    "success": false,
+    "length": 220,
+    "reset_hash": "cda352e7ea02da5687eb4f746b963174955af404abc489875195ae14cc674af0",
+    "trajectory_hash": "a8dc0be3ade260f04502a72f8be2b4264af7a774fd65d35afdbab66f952efca1",
+    "image_hash": "1e8f21a8d70942f7521699f61a3e433618b8fa011f9a6d36bf16bb5f3c1d5ecf",
+    "camera_views": [
+      "agentview",
+      "wrist"
+    ],
+    "fps": 20,
+    "includes_terminal_frame": true,
+    "expected_frames": 221,
+    "frames": 221,
+    "width": 256,
+    "height": 128,
+    "bytes": 169036,
+    "sha256": "f0dee06f179af12f5a9517041371bfad4ce794e7daaf8168bee6097c0e5332ce",
+    "full_decode_passed": true
+  },
+  {
+    "model": "0",
+    "task": "D0",
+    "filename": "step0000_D0_seed9001_failure.mp4",
+    "origin": "deterministic_replay",
+    "seed": 9001,
+    "success": false,
+    "length": 220,
+    "reset_hash": "000d8086c3049c124ee92a67574e9d6f146d71be485c159c561dc901c380c5d7",
+    "trajectory_hash": "8042ec47860df8da633302992733cb79d4b24382843f3c1bdf1120614f116c97",
+    "image_hash": "7755bf295f4c30cac0e50404fd32bc471a2d3a70a828eb58b7ce30f692928a26",
+    "camera_views": [
+      "agentview",
+      "wrist"
+    ],
+    "fps": 20,
+    "includes_terminal_frame": true,
+    "expected_frames": 221,
+    "frames": 221,
+    "width": 256,
+    "height": 128,
+    "bytes": 156521,
+    "sha256": "fca269cea89362f6fdc3486e1529586b397f34c7ad751a4a07e9a30388345953",
+    "full_decode_passed": true
+  },
+  {
+    "model": "0",
+    "task": "D1",
+    "filename": "step0000_D1_seed9000_failure.mp4",
+    "origin": "deterministic_replay",
+    "seed": 9000,
+    "success": false,
+    "length": 220,
+    "reset_hash": "320bd4e69fa585f8535cf271e7d2540a8d6d5af6deedb9b3b969ef2572bfad21",
+    "trajectory_hash": "ff52353fbcbdad644d7b4f734e48a7442b8bca878be17d2899fd804fa6a2965f",
+    "image_hash": "7c5ea8e1fb984aca764a9dade8b2e771cf1fbce465fd214e9b4f8937f14f2a5b",
+    "camera_views": [
+      "agentview",
+      "wrist"
+    ],
+    "fps": 20,
+    "includes_terminal_frame": true,
+    "expected_frames": 221,
+    "frames": 221,
+    "width": 256,
+    "height": 128,
+    "bytes": 179390,
+    "sha256": "748ffa02df48f2b9206dbd12d2439b3bfb9eea0305216c1e857a0df517392c94",
+    "full_decode_passed": true
+  },
+  {
+    "model": "0",
+    "task": "D1",
+    "filename": "step0000_D1_seed9001_failure.mp4",
+    "origin": "deterministic_replay",
+    "seed": 9001,
+    "success": false,
+    "length": 220,
+    "reset_hash": "b93e417d8c84f16c04da169170b709563bbb5c10a6a1b65b0bf060f7e1b26f5a",
+    "trajectory_hash": "bb27ea4bc7b56340ccb6ca46c084768c5939fadf1a04a0ab88a4c2efbc4fda2e",
+    "image_hash": "1b02d4bb1ad31a9953fbffd901f7ae5df8df4d255e41d2786de54c8ac05bbd98",
+    "camera_views": [
+      "agentview",
+      "wrist"
+    ],
+    "fps": 20,
+    "includes_terminal_frame": true,
+    "expected_frames": 221,
+    "frames": 221,
+    "width": 256,
+    "height": 128,
+    "bytes": 168465,
+    "sha256": "e0423e82a72cd8ca33cd18eb5db0165894c313bf6c7ba8199b4c30bfa788e68c",
+    "full_decode_passed": true
+  }
+]

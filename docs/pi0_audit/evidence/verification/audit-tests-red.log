@@ -1,0 +1,39 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+______________ test_fixed_seeds_across_models_and_update_counters ______________
+
+    def test_fixed_seeds_across_models_and_update_counters():
+>       from maniskill_myws.pld.libero_sanity import evaluation_seeds, completed_updates
+E       ModuleNotFoundError: No module named 'maniskill_myws.pld.libero_sanity'
+
+tests/test_pld_libero_sanity.py:14: ModuleNotFoundError
+_____________ test_source_only_training_and_normalization_binding ______________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-1/test_source_only_training_and_0')
+
+    def test_source_only_training_and_normalization_binding(tmp_path):
+>       from maniskill_myws.pld.libero_sanity import require_d0_binding
+E       ModuleNotFoundError: No module named 'maniskill_myws.pld.libero_sanity'
+
+tests/test_pld_libero_sanity.py:28: ModuleNotFoundError
+________________ test_positive_control_cannot_use_d0_statistics ________________
+
+    def test_positive_control_cannot_use_d0_statistics():
+>       from maniskill_myws.pld.libero_sanity import model_contract
+E       ModuleNotFoundError: No module named 'maniskill_myws.pld.libero_sanity'
+
+tests/test_pld_libero_sanity.py:44: ModuleNotFoundError
+____________ test_real_inference_adapter_checks_prompt_at_tokenizer ____________
+
+    def test_real_inference_adapter_checks_prompt_at_tokenizer():
+        pytest.importorskip('openpi')
+>       from maniskill_myws.pld.libero_sanity import PromptCheckedPolicy
+E       ModuleNotFoundError: No module named 'maniskill_myws.pld.libero_sanity'
+
+tests/test_pld_libero_sanity.py:58: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_pld_libero_sanity.py::test_fixed_seeds_across_models_and_update_counters
+FAILED tests/test_pld_libero_sanity.py::test_source_only_training_and_normalization_binding
+FAILED tests/test_pld_libero_sanity.py::test_positive_control_cannot_use_d0_statistics
+FAILED tests/test_pld_libero_sanity.py::test_real_inference_adapter_checks_prompt_at_tokenizer
+4 failed in 0.05s

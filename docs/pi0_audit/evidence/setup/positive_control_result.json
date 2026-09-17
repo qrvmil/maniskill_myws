@@ -1,0 +1,22 @@
+{
+  "D0": {
+    "successes": 50,
+    "n": 50,
+    "success_rate": 1.0,
+    "wilson_95ci": [
+      0.9286524008666414,
+      1.0
+    ],
+    "mean_episode_length": 97.84
+  },
+  "D1": {
+    "successes": 47,
+    "n": 50,
+    "success_rate": 0.94,
+    "wilson_95ci": [
+      0.8378290831116182,
+      0.979385029651026
+    ],
+    "mean_episode_length": 105.66
+  }
+}

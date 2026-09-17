@@ -1,0 +1,14 @@
+{
+  "training_tasks": [
+    "libero_spatial/pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate"
+  ],
+  "num_demonstrations": 50,
+  "transitions": 5832,
+  "normalization_path": "/workspace/audit-run/sft/assets/pi0_libero_seen_lora32/local/pi0_audit_d0/norm_stats.json",
+  "normalization_sha256": "b4ea07567b2cc2bbd5670167efa540730ef4e98b3e507ce1610473c948401f44",
+  "repo_id": "local/pi0_audit_d0",
+  "pretrained_checkpoint": "gs://openpi-assets/checkpoints/pi0_base",
+  "source_audit_sha256": "5b9a80eac71ae3f365b221879a7a037c635f03cd2ca92ffc88e61188784f79a7",
+  "source_h5_sha256": "75ede0cf5fbfc925093671b55032ad80f1b1f1cf35442ec6c663460d37d3e0b3",
+  "source_h5": "/workspace/audit-data/d0/pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate_demo.hdf5"
+}

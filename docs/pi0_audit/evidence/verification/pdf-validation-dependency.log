@@ -1,0 +1,5 @@
+Using Python 3.12.14 environment at: /venv/main
+Resolved 1 package in 131ms
+Prepared 1 package in 51ms
+Installed 1 package in 28ms
+ + pypdf==6.1.1

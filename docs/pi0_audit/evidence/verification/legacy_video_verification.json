@@ -1,0 +1,32 @@
+[
+  {
+    "path": "/workspace/audit-run/eval/0/D1_9000.mp4",
+    "model": "0",
+    "task": "D1",
+    "seed": 9000,
+    "success": false,
+    "expected_frames": 220,
+    "includes_terminal_frame": false,
+    "frames": 220,
+    "width": 256,
+    "height": 128,
+    "bytes": 178748,
+    "sha256": "62d07a3926b9cba304020c5cbf99d0c9b700ae9a1bbc2b652ad300aa2ec611dd",
+    "full_decode_passed": true
+  },
+  {
+    "path": "/workspace/audit-run/eval/0/D1_9001.mp4",
+    "model": "0",
+    "task": "D1",
+    "seed": 9001,
+    "success": false,
+    "expected_frames": 220,
+    "includes_terminal_frame": false,
+    "frames": 220,
+    "width": 256,
+    "height": 128,
+    "bytes": 168279,
+    "sha256": "d8b4a88bf04a748258b432bef7288fd93810587554961f8a7a2307bf144b0b5b",
+    "full_decode_passed": true
+  }
+]

@@ -1,0 +1,30 @@
+{
+  "date_utc": "2026-09-16T18:51:30.219990+00:00",
+  "command": "/workspace/maniskill_myws/third_party/openpi/.venv/bin/python /workspace/maniskill_myws/scripts/pld/audit_pi0.py train",
+  "config": {
+    "mode": "train",
+    "model": "positive_control"
+  },
+  "git_commit": "c4e2f9e2a008dbaa22db100f7204fcf2a7d48e1f",
+  "git_status": "?? configs/pld_libero/pi0_sanity_audit.json\n?? docs/pi0_audit/\n?? docs/plans/2026-09-16-pi0-audit-request.md\n?? docs/plans/2026-09-16-pi0-audit.md\n?? scripts/pld/audit_pi0.py\n?? scripts/pld/audit_pi0_normalization.py\n?? scripts/pld/audit_pi0_pipeline.py\n?? scripts/pld/report_pi0_audit.py\n?? scripts/pld/write_pi0_audit_report.py\n?? src/maniskill_myws/pld/libero_sanity.py\n?? tests/test_pld_libero_sanity.py",
+  "gpu": "name, memory.total [MiB], driver_version\nNVIDIA CMP 170HX, 65536 MiB, 610.57.04",
+  "torch_version": "2.7.1+cu128",
+  "cuda_version": "12.8",
+  "environment": {
+    "XLA_FLAGS": "--xla_gpu_autotune_level=0",
+    "JAX_PLATFORMS": "cuda",
+    "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+    "MUJOCO_GL": "egl",
+    "HF_LEROBOT_HOME": "/workspace/audit-data/lerobot",
+    "PYTHONPATH": "/workspace/LIBERO:/workspace/maniskill_myws/src",
+    "TORCH_COMPILE_DISABLE": "1",
+    "OMP_NUM_THREADS": "4"
+  },
+  "status": "COMPLETED",
+  "checkpoint": null,
+  "wall_seconds": 9521.176436514128,
+  "process_peak_rss_bytes": 29598511104,
+  "device_peak_sampled_used_mib": 33120,
+  "torch_peak_allocated_bytes": 0,
+  "torch_peak_reserved_bytes": 0
+}

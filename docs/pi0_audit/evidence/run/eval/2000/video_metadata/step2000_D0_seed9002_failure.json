@@ -1,0 +1,25 @@
+{
+  "model": "2000",
+  "task": "D0",
+  "filename": "step2000_D0_seed9002_failure.mp4",
+  "origin": "evaluation",
+  "seed": 9002,
+  "success": false,
+  "length": 220,
+  "reset_hash": "e1396ef19ca740b00012e935c86bb951ceedd0086febf3558c65664867baba87",
+  "trajectory_hash": "8165e457865f555a09331b420cc39e351fdf54a053a0c8fcdab0a5a91485681c",
+  "image_hash": "c99abaf36eca0d4cf424e584709be59a238af0aa80b672386092af79962f72dc",
+  "camera_views": [
+    "agentview",
+    "wrist"
+  ],
+  "fps": 20,
+  "includes_terminal_frame": true,
+  "expected_frames": 221,
+  "frames": 221,
+  "width": 256,
+  "height": 128,
+  "bytes": 175202,
+  "sha256": "d7ca30164aafcb726bbde49ddc30e3d19a94f176e9a3f82d25bf0399c3132da6",
+  "full_decode_passed": true
+}

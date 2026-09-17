@@ -1,0 +1,22 @@
+..F                                                                      [100%]
+=================================== FAILURES ===================================
+____________ test_saved_mp4_fully_decodes_and_has_exact_frame_count ____________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-18/test_saved_mp4_fully_decodes_a0')
+
+    def test_saved_mp4_fully_decodes_and_has_exact_frame_count(tmp_path):
+        pytest.importorskip('imageio')
+        if not shutil.which('ffmpeg') or not shutil.which('ffprobe'):
+            pytest.skip('ffmpeg tools not installed')
+        from maniskill_myws.pld.libero_sanity_videos import save_rollout_video, validate_video
+        row=dict(seed=9000,success=False,length=3,reset_hash='r',trajectory_hash='t',image_hash='i')
+        transitions=[{'images':np.full((2,32,32,3),i*60,np.uint8),
+                      'next_images':np.full((2,32,32,3),(i+1)*60,np.uint8)} for i in range(3)]
+        result=save_rollout_video(tmp_path,'0','D1',row,transitions,origin='evaluation')
+>       assert result['frames']==4 and result['width']==64 and result['height']==32
+E       assert (3 == 4)
+
+tests/test_pld_libero_sanity_videos.py:34: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_pld_libero_sanity_videos.py::test_saved_mp4_fully_decodes_and_has_exact_frame_count
+1 failed, 2 passed in 0.29s

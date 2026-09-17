@@ -1,0 +1,25 @@
+{
+  "model": "lora_initialization",
+  "task": "D1",
+  "filename": "lora_initialization_D1_seed9001_failure.mp4",
+  "origin": "evaluation",
+  "seed": 9001,
+  "success": false,
+  "length": 220,
+  "reset_hash": "b93e417d8c84f16c04da169170b709563bbb5c10a6a1b65b0bf060f7e1b26f5a",
+  "trajectory_hash": "0845e992a395006fde2ec95d46480f52c3536d9b28db448e4eb91f7a85c9b344",
+  "image_hash": "a381b9016549fc9527e11239dd6830c6cea7188686977344e20b676cfb691db3",
+  "camera_views": [
+    "agentview",
+    "wrist"
+  ],
+  "fps": 20,
+  "includes_terminal_frame": true,
+  "expected_frames": 221,
+  "frames": 221,
+  "width": 256,
+  "height": 128,
+  "bytes": 198427,
+  "sha256": "4e1c73d5e24e6fe39f28d635f7d3e41d0878f9283c004248ef3488a5cf239bf2",
+  "full_decode_passed": true
+}

@@ -1,0 +1,33 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+______ test_video_selection_keeps_first_two_per_outcome_and_rare_category ______
+
+    def test_video_selection_keeps_first_two_per_outcome_and_rare_category():
+>       from maniskill_myws.pld.libero_sanity_videos import select_video_rows, video_filename
+E       ModuleNotFoundError: No module named 'maniskill_myws.pld.libero_sanity_videos'
+
+tests/test_pld_libero_sanity_videos.py:9: ModuleNotFoundError
+_____________ test_replay_rejects_wrong_seed_outcome_or_trajectory _____________
+
+    def test_replay_rejects_wrong_seed_outcome_or_trajectory():
+>       from maniskill_myws.pld.libero_sanity_videos import validate_replayed_row
+E       ModuleNotFoundError: No module named 'maniskill_myws.pld.libero_sanity_videos'
+
+tests/test_pld_libero_sanity_videos.py:18: ModuleNotFoundError
+____________ test_saved_mp4_fully_decodes_and_has_exact_frame_count ____________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-16/test_saved_mp4_fully_decodes_a0')
+
+    def test_saved_mp4_fully_decodes_and_has_exact_frame_count(tmp_path):
+        pytest.importorskip('imageio')
+        if not shutil.which('ffmpeg') or not shutil.which('ffprobe'):
+            pytest.skip('ffmpeg tools not installed')
+>       from maniskill_myws.pld.libero_sanity_videos import save_rollout_video, validate_video
+E       ModuleNotFoundError: No module named 'maniskill_myws.pld.libero_sanity_videos'
+
+tests/test_pld_libero_sanity_videos.py:29: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_pld_libero_sanity_videos.py::test_video_selection_keeps_first_two_per_outcome_and_rare_category
+FAILED tests/test_pld_libero_sanity_videos.py::test_replay_rejects_wrong_seed_outcome_or_trajectory
+FAILED tests/test_pld_libero_sanity_videos.py::test_saved_mp4_fully_decodes_and_has_exact_frame_count
+3 failed in 0.06s

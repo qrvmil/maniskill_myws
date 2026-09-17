@@ -1,0 +1,20 @@
+.....FF                                                                  [100%]
+=================================== FAILURES ===================================
+_________ test_checkpoint_callback_saves_actual_completed_updates_only _________
+
+    def test_checkpoint_callback_saves_actual_completed_updates_only():
+>       from maniskill_myws.pld.libero_sanity import save_selected_update
+E       ImportError: cannot import name 'save_selected_update' from 'maniskill_myws.pld.libero_sanity' (/workspace/maniskill_myws/src/maniskill_myws/pld/libero_sanity.py)
+
+tests/test_pld_libero_sanity.py:115: ImportError
+______ test_summary_rejects_missing_duplicate_or_mismatched_paired_scenes ______
+
+    def test_summary_rejects_missing_duplicate_or_mismatched_paired_scenes():
+>       from maniskill_myws.pld.libero_sanity import summarize_rows, paired_change
+E       ImportError: cannot import name 'summarize_rows' from 'maniskill_myws.pld.libero_sanity' (/workspace/maniskill_myws/src/maniskill_myws/pld/libero_sanity.py)
+
+tests/test_pld_libero_sanity.py:128: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_pld_libero_sanity.py::test_checkpoint_callback_saves_actual_completed_updates_only
+FAILED tests/test_pld_libero_sanity.py::test_summary_rejects_missing_duplicate_or_mismatched_paired_scenes
+2 failed, 5 passed in 5.97s

@@ -1,0 +1,17 @@
+ss...................................................................... [ 55%]
+.....s..................s.................................               [100%]
+=============================== warnings summary ===============================
+tests/test_pld_d1_demonstrations.py::test_rejects_payload_even_when_payload_sidecar_is_rehashed[actions]
+  /workspace/maniskill_myws/third_party/openpi/.venv/lib/python3.11/site-packages/robosuite/macros.py:53: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
+    ROBOSUITE_DEFAULT_LOGGER.warn("No private macro file found!")
+
+tests/test_pld_d1_demonstrations.py::test_rejects_payload_even_when_payload_sidecar_is_rehashed[actions]
+  /workspace/maniskill_myws/third_party/openpi/.venv/lib/python3.11/site-packages/robosuite/macros.py:54: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
+    ROBOSUITE_DEFAULT_LOGGER.warn("It is recommended to use a private macro file")
+
+tests/test_pld_d1_demonstrations.py::test_rejects_payload_even_when_payload_sidecar_is_rehashed[actions]
+  /workspace/maniskill_myws/third_party/openpi/.venv/lib/python3.11/site-packages/robosuite/macros.py:55: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
+    ROBOSUITE_DEFAULT_LOGGER.warn("To setup, run: python {}/scripts/setup_macros.py".format(robosuite.__path__[0]))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+126 passed, 4 skipped, 3 warnings in 34.53s

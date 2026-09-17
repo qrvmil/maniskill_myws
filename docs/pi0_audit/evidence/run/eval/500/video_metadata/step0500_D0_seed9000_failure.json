@@ -1,0 +1,25 @@
+{
+  "model": "500",
+  "task": "D0",
+  "filename": "step0500_D0_seed9000_failure.mp4",
+  "origin": "evaluation",
+  "seed": 9000,
+  "success": false,
+  "length": 220,
+  "reset_hash": "cda352e7ea02da5687eb4f746b963174955af404abc489875195ae14cc674af0",
+  "trajectory_hash": "db37f78b706fef1604da18b3c82a7ac8f6ce9d7e0299d6fe4d8f6d4c30f9a547",
+  "image_hash": "258a2d1d941f1db6ac21f15c83cb1f30313ce6840d6f288a8fc247f045e9296a",
+  "camera_views": [
+    "agentview",
+    "wrist"
+  ],
+  "fps": 20,
+  "includes_terminal_frame": true,
+  "expected_frames": 221,
+  "frames": 221,
+  "width": 256,
+  "height": 128,
+  "bytes": 246630,
+  "sha256": "b2e9c85539eeeb637d9bc655ed82ac92accba4fe7161db035e91f20e033b70e7",
+  "full_decode_passed": true
+}

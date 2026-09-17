@@ -1,0 +1,6 @@
+{
+  "model": "2000",
+  "wall_seconds": 2931.0133061408997,
+  "inference_calls": 3925,
+  "normalization_sha256": "b4ea07567b2cc2bbd5670167efa540730ef4e98b3e507ce1610473c948401f44"
+}

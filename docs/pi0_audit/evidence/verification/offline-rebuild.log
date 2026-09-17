@@ -1,0 +1,240 @@
+{
+  "0": {
+    "D0": {
+      "n": 50,
+      "successes": 0,
+      "success_rate": 0.0,
+      "wilson_95ci": [
+        6.938893903907228e-18,
+        0.07134759913335872
+      ],
+      "mean_episode_length": 220.0,
+      "stages": {
+        "reach": 0,
+        "grasp": 0,
+        "lift": 0,
+        "success": 0
+      }
+    },
+    "D1": {
+      "n": 50,
+      "successes": 0,
+      "success_rate": 0.0,
+      "wilson_95ci": [
+        6.938893903907228e-18,
+        0.07134759913335872
+      ],
+      "mean_episode_length": 220.0,
+      "stages": {
+        "reach": 9,
+        "grasp": 0,
+        "lift": 5,
+        "success": 0
+      }
+    }
+  },
+  "500": {
+    "D0": {
+      "n": 50,
+      "successes": 3,
+      "success_rate": 0.06,
+      "wilson_95ci": [
+        0.02061497034897397,
+        0.16217091688838173
+      ],
+      "mean_episode_length": 215.8,
+      "stages": {
+        "reach": 35,
+        "grasp": 7,
+        "lift": 7,
+        "success": 3
+      }
+    },
+    "D1": {
+      "n": 50,
+      "successes": 0,
+      "success_rate": 0.0,
+      "wilson_95ci": [
+        6.938893903907228e-18,
+        0.07134759913335872
+      ],
+      "mean_episode_length": 220.0,
+      "stages": {
+        "reach": 0,
+        "grasp": 0,
+        "lift": 0,
+        "success": 0
+      }
+    }
+  },
+  "1000": {
+    "D0": {
+      "n": 50,
+      "successes": 2,
+      "success_rate": 0.04,
+      "wilson_95ci": [
+        0.011038884327619805,
+        0.1346009068750702
+      ],
+      "mean_episode_length": 215.82,
+      "stages": {
+        "reach": 48,
+        "grasp": 8,
+        "lift": 8,
+        "success": 2
+      }
+    },
+    "D1": {
+      "n": 50,
+      "successes": 0,
+      "success_rate": 0.0,
+      "wilson_95ci": [
+        6.938893903907228e-18,
+        0.07134759913335872
+      ],
+      "mean_episode_length": 220.0,
+      "stages": {
+        "reach": 0,
+        "grasp": 0,
+        "lift": 0,
+        "success": 0
+      }
+    }
+  },
+  "2000": {
+    "D0": {
+      "n": 50,
+      "successes": 25,
+      "success_rate": 0.5,
+      "wilson_95ci": [
+        0.3664451431682858,
+        0.6335548568317142
+      ],
+      "mean_episode_length": 171.48,
+      "stages": {
+        "reach": 45,
+        "grasp": 29,
+        "lift": 33,
+        "success": 25
+      }
+    },
+    "D1": {
+      "n": 50,
+      "successes": 0,
+      "success_rate": 0.0,
+      "wilson_95ci": [
+        6.938893903907228e-18,
+        0.07134759913335872
+      ],
+      "mean_episode_length": 220.0,
+      "stages": {
+        "reach": 9,
+        "grasp": 0,
+        "lift": 1,
+        "success": 0
+      }
+    }
+  },
+  "3001": {
+    "D0": {
+      "n": 50,
+      "successes": 38,
+      "success_rate": 0.76,
+      "wilson_95ci": [
+        0.6258731624205708,
+        0.8570260860300828
+      ],
+      "mean_episode_length": 140.42,
+      "stages": {
+        "reach": 50,
+        "grasp": 48,
+        "lift": 49,
+        "success": 38
+      }
+    },
+    "D1": {
+      "n": 50,
+      "successes": 0,
+      "success_rate": 0.0,
+      "wilson_95ci": [
+        6.938893903907228e-18,
+        0.07134759913335872
+      ],
+      "mean_episode_length": 220.0,
+      "stages": {
+        "reach": 0,
+        "grasp": 0,
+        "lift": 0,
+        "success": 0
+      }
+    }
+  },
+  "lora_initialization": {
+    "D0": {
+      "n": 50,
+      "successes": 0,
+      "success_rate": 0.0,
+      "wilson_95ci": [
+        6.938893903907228e-18,
+        0.07134759913335872
+      ],
+      "mean_episode_length": 220.0,
+      "stages": {
+        "reach": 0,
+        "grasp": 0,
+        "lift": 0,
+        "success": 0
+      }
+    },
+    "D1": {
+      "n": 50,
+      "successes": 0,
+      "success_rate": 0.0,
+      "wilson_95ci": [
+        6.938893903907228e-18,
+        0.07134759913335872
+      ],
+      "mean_episode_length": 220.0,
+      "stages": {
+        "reach": 8,
+        "grasp": 1,
+        "lift": 11,
+        "success": 0
+      }
+    }
+  },
+  "positive_control": {
+    "D0": {
+      "n": 50,
+      "successes": 50,
+      "success_rate": 1.0,
+      "wilson_95ci": [
+        0.9286524008666414,
+        1.0
+      ],
+      "mean_episode_length": 97.84,
+      "stages": {
+        "reach": 50,
+        "grasp": 49,
+        "lift": 50,
+        "success": 50
+      }
+    },
+    "D1": {
+      "n": 50,
+      "successes": 47,
+      "success_rate": 0.94,
+      "wilson_95ci": [
+        0.8378290831116182,
+        0.979385029651026
+      ],
+      "mean_episode_length": 105.66,
+      "stages": {
+        "reach": 47,
+        "grasp": 45,
+        "lift": 47,
+        "success": 47
+      }
+    }
+  }
+}

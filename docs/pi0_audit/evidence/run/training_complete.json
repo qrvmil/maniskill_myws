@@ -1,0 +1,10 @@
+{
+  "optimizer_updates": 3001,
+  "checkpoints": [
+    0,
+    500,
+    1000,
+    2000,
+    3001
+  ]
+}

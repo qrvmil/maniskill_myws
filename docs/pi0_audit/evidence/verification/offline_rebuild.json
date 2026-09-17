@@ -1,0 +1,41 @@
+{
+  "command": "scripts/pld/libero_python.sh scripts/pld/report_pi0_audit.py --work docs/pi0_audit/evidence/run --output /workspace/audit-evidence/rebuilt_from_archive",
+  "results": {
+    "success_rates.csv": {
+      "byte_identical": true,
+      "sha256": "4157ec968ba674ba7e9d4bab47040ea05fabeeb2dd97d879ed0282ae9e8e5c1b"
+    },
+    "episodes.csv": {
+      "byte_identical": true,
+      "sha256": "9db59a392bb4d243e469cec78ea549cabd19f57b2a61eb62dd1b25e27b56fff2"
+    },
+    "action_differences.csv": {
+      "byte_identical": true,
+      "sha256": "59cfa88b0f0a87b97444a90bd5e5e564cb9e0a81fab075c8bec548248e066afe"
+    },
+    "first_actions.csv": {
+      "byte_identical": true,
+      "sha256": "d400e58fb68a1cd5757fef0e0437b861f5db6a4811a639807b075fa1f9b2d560"
+    },
+    "summary.json": {
+      "byte_identical": true,
+      "sha256": "ed2b2d2f1893d982883d59a426821ce868de84548e6066f7bb01fd925d5eacb4"
+    },
+    "paired_changes.json": {
+      "byte_identical": true,
+      "sha256": "0e9f47c425c85faf409873079f3c5cf3315dcb1e043d83f6a2e822b0a5204f27"
+    },
+    "sft_trajectory.png": {
+      "byte_identical": true,
+      "sha256": "26a1b20f930c6333ace8bc63cb77de878235b553967b50226bf64368d8820bd8"
+    },
+    "positive_control_comparison.png": {
+      "byte_identical": true,
+      "sha256": "3cf72a6f841101527e2d719961ec142f8a194c6a7ab8bec356e8c5cbfb13dfdc"
+    },
+    "d1_behavior_stages.png": {
+      "byte_identical": true,
+      "sha256": "b4d05ea8d68c6eed42d577c0c43f84854dd482c0318da54b532dd02de2ae8eb0"
+    }
+  }
+}

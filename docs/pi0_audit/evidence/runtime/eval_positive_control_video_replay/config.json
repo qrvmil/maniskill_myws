@@ -1,0 +1,5 @@
+{
+  "mode": "eval",
+  "model": "positive_control",
+  "video_replay": true
+}

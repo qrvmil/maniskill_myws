@@ -1,0 +1,6 @@
+{
+  "optimizer_updates": 3001,
+  "checkpoint_directory": "/workspace/audit-run/sft/checkpoints/pi0_libero_seen_lora32/EXP-001/3001",
+  "upstream_loop_index": 3000,
+  "normalization_sha256": "b4ea07567b2cc2bbd5670167efa540730ef4e98b3e507ce1610473c948401f44"
+}

@@ -1,0 +1,92 @@
+{
+  "arx": {
+    "actions": {
+      "stored_dimensions": 32,
+      "nonzero_std_dimensions": 14
+    },
+    "state": {
+      "stored_dimensions": 32,
+      "nonzero_std_dimensions": 14
+    }
+  },
+  "arx_mobile": {
+    "actions": {
+      "stored_dimensions": 32,
+      "nonzero_std_dimensions": 16
+    },
+    "state": {
+      "stored_dimensions": 32,
+      "nonzero_std_dimensions": 14
+    }
+  },
+  "droid": {
+    "actions": {
+      "stored_dimensions": 32,
+      "nonzero_std_dimensions": 8
+    },
+    "state": {
+      "stored_dimensions": 32,
+      "nonzero_std_dimensions": 8
+    }
+  },
+  "fibocom_mobile": {
+    "actions": {
+      "stored_dimensions": 32,
+      "nonzero_std_dimensions": 18
+    },
+    "state": {
+      "stored_dimensions": 32,
+      "nonzero_std_dimensions": 15
+    }
+  },
+  "franka": {
+    "actions": {
+      "stored_dimensions": 32,
+      "nonzero_std_dimensions": 8
+    },
+    "state": {
+      "stored_dimensions": 32,
+      "nonzero_std_dimensions": 8
+    }
+  },
+  "trossen": {
+    "actions": {
+      "stored_dimensions": 32,
+      "nonzero_std_dimensions": 14
+    },
+    "state": {
+      "stored_dimensions": 32,
+      "nonzero_std_dimensions": 14
+    }
+  },
+  "trossen_mobile": {
+    "actions": {
+      "stored_dimensions": 32,
+      "nonzero_std_dimensions": 16
+    },
+    "state": {
+      "stored_dimensions": 32,
+      "nonzero_std_dimensions": 14
+    }
+  },
+  "ur5e": {
+    "actions": {
+      "stored_dimensions": 32,
+      "nonzero_std_dimensions": 7
+    },
+    "state": {
+      "stored_dimensions": 32,
+      "nonzero_std_dimensions": 7
+    }
+  },
+  "ur5e_dual": {
+    "actions": {
+      "stored_dimensions": 32,
+      "nonzero_std_dimensions": 14
+    },
+    "state": {
+      "stored_dimensions": 32,
+      "nonzero_std_dimensions": 14
+    }
+  }
+}

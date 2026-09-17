@@ -1,0 +1,26 @@
+{
+  "tests": {
+    "command": "PLD_LIBERO_INTEGRATION=1 scripts/pld/libero_python.sh -m pytest -q",
+    "exit_code": 0,
+    "passed": 126,
+    "skipped": 4,
+    "warnings": 3,
+    "real_mujoco_integration_enabled": true
+  },
+  "original_evaluation_episodes": 700,
+  "canonical_video_count": 38,
+  "canonical_video_bytes": 6260952,
+  "legacy_videos_verified": 2,
+  "local_markdown_targets_checked": 66,
+  "png_files": 3,
+  "pdf_files": 3,
+  "offline_numerical_and_png_outputs_byte_identical": 9,
+  "historical_tracked_files_unchanged": true,
+  "base_revision": "c4e2f9e2a008dbaa22db100f7204fcf2a7d48e1f",
+  "staged_changes_only_additions": 313,
+  "whitespace_check": {
+    "passed": true,
+    "csv_crlf_accepted": true,
+    "raw_pytest_logs_excluded_to_preserve_original_bytes": true
+  }
+}

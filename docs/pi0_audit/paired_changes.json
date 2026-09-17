@@ -1,0 +1,170 @@
+{
+  "0": {
+    "D0": {
+      "n": 50,
+      "gained": 0,
+      "lost": 0,
+      "delta_pp": 0.0,
+      "interval_95_pp": [
+        0.0,
+        0.0
+      ],
+      "method": "identity comparison; no estimation uncertainty"
+    },
+    "D1": {
+      "n": 50,
+      "gained": 0,
+      "lost": 0,
+      "delta_pp": 0.0,
+      "interval_95_pp": [
+        0.0,
+        0.0
+      ],
+      "method": "identity comparison; no estimation uncertainty"
+    }
+  },
+  "500": {
+    "D0": {
+      "n": 50,
+      "gained": 3,
+      "lost": 0,
+      "delta_pp": 6.0,
+      "interval_95_pp": [
+        0.0,
+        14.000000000000002
+      ],
+      "method": "paired percentile bootstrap, 10000 draws, seed0"
+    },
+    "D1": {
+      "n": 50,
+      "gained": 0,
+      "lost": 0,
+      "delta_pp": 0.0,
+      "interval_95_pp": [
+        -5.815507911697226,
+        5.815507911697226
+      ],
+      "method": "exact zero-discordance 95% bound, not a degenerate bootstrap"
+    }
+  },
+  "1000": {
+    "D0": {
+      "n": 50,
+      "gained": 2,
+      "lost": 0,
+      "delta_pp": 4.0,
+      "interval_95_pp": [
+        0.0,
+        10.0
+      ],
+      "method": "paired percentile bootstrap, 10000 draws, seed0"
+    },
+    "D1": {
+      "n": 50,
+      "gained": 0,
+      "lost": 0,
+      "delta_pp": 0.0,
+      "interval_95_pp": [
+        -5.815507911697226,
+        5.815507911697226
+      ],
+      "method": "exact zero-discordance 95% bound, not a degenerate bootstrap"
+    }
+  },
+  "2000": {
+    "D0": {
+      "n": 50,
+      "gained": 25,
+      "lost": 0,
+      "delta_pp": 50.0,
+      "interval_95_pp": [
+        36.0,
+        64.0
+      ],
+      "method": "paired percentile bootstrap, 10000 draws, seed0"
+    },
+    "D1": {
+      "n": 50,
+      "gained": 0,
+      "lost": 0,
+      "delta_pp": 0.0,
+      "interval_95_pp": [
+        -5.815507911697226,
+        5.815507911697226
+      ],
+      "method": "exact zero-discordance 95% bound, not a degenerate bootstrap"
+    }
+  },
+  "3001": {
+    "D0": {
+      "n": 50,
+      "gained": 38,
+      "lost": 0,
+      "delta_pp": 76.0,
+      "interval_95_pp": [
+        64.0,
+        88.0
+      ],
+      "method": "paired percentile bootstrap, 10000 draws, seed0"
+    },
+    "D1": {
+      "n": 50,
+      "gained": 0,
+      "lost": 0,
+      "delta_pp": 0.0,
+      "interval_95_pp": [
+        -5.815507911697226,
+        5.815507911697226
+      ],
+      "method": "exact zero-discordance 95% bound, not a degenerate bootstrap"
+    }
+  },
+  "lora_initialization": {
+    "D0": {
+      "n": 50,
+      "gained": 0,
+      "lost": 0,
+      "delta_pp": 0.0,
+      "interval_95_pp": [
+        -5.815507911697226,
+        5.815507911697226
+      ],
+      "method": "exact zero-discordance 95% bound, not a degenerate bootstrap"
+    },
+    "D1": {
+      "n": 50,
+      "gained": 0,
+      "lost": 0,
+      "delta_pp": 0.0,
+      "interval_95_pp": [
+        -5.815507911697226,
+        5.815507911697226
+      ],
+      "method": "exact zero-discordance 95% bound, not a degenerate bootstrap"
+    }
+  },
+  "positive_control": {
+    "D0": {
+      "n": 50,
+      "gained": 50,
+      "lost": 0,
+      "delta_pp": 100.0,
+      "interval_95_pp": [
+        88.36898417660555,
+        100.0
+      ],
+      "method": "exact constant-discordance 95% bound with worst-case opposite mass"
+    },
+    "D1": {
+      "n": 50,
+      "gained": 47,
+      "lost": 0,
+      "delta_pp": 94.0,
+      "interval_95_pp": [
+        86.0,
+        100.0
+      ],
+      "method": "paired percentile bootstrap, 10000 draws, seed0"
+    }
+  }
+}

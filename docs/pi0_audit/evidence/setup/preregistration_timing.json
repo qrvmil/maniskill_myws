@@ -1,0 +1,7 @@
+{
+  "config": "configs/pld_libero/pi0_sanity_audit.json",
+  "sha256": "01416f333904fc0a91c7eb58041aad27df07f11c2b2c92c04c8a9f47496d0670",
+  "last_modified_utc": "2026-09-16T17:28:57.068941+00:00",
+  "first_control_run_started_utc": "2026-09-16T17:34:28.956142+00:00",
+  "note": "Config written before any audit rollout; seed/model list unchanged. Plan text later added documented pre-D0-run LoRA-initialization and video clarifications."
+}

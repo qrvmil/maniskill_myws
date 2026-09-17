@@ -1,0 +1,5 @@
+{
+  "mode": "eval",
+  "model": "lora_initialization",
+  "video_replay": false
+}
