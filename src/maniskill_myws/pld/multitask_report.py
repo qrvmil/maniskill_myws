@@ -155,22 +155,22 @@ def figures(episodes,summaries,sensitivity,output):
     fig.colorbar(im,ax=ax,label='Success rate (%)',shrink=.88);save(fig,'generalization_matrix')
     heldout={v:heldout_summary(episodes[v][3001]) for v in TRAIN_SETS}
     fig,ax=plt.subplots(figsize=(7.4,4.8),layout='constrained')
-    for task,color,marker in [('H1','#245a81','o'),('H2','#c27c22','s')]:
+    for task,color,marker,offset in [('H1','#245a81','o',-.045),('H2','#c27c22','s',.045)]:
         y=[100*lookup[v,task]['success_rate'] for v in TRAIN_SETS]
         ci=np.array([lookup[v,task]['wilson_95ci'] for v in TRAIN_SETS])*100
-        ax.errorbar([1,2,3],y,yerr=np.maximum(0,np.array([y-ci[:,0],ci[:,1]-y])),label=task,
+        ax.errorbar(np.array([1,2,3])+offset,y,yerr=np.maximum(0,np.array([y-ci[:,0],ci[:,1]-y])),label=task,
                     color=color,marker=marker,capsize=4,lw=1.8)
     ax.plot([1,2,3],[100*heldout[v]['heldout_mean'] for v in TRAIN_SETS],color='#252525',ls='--',marker='D',label='Equal-task mean',lw=2)
-    axis(ax);ax.set_xticks([1,2,3]);ax.set_xlabel('Number of SFT training tasks')
+    axis(ax);ax.set_ylim(-3,105);ax.set_xticks([1,2,3]);ax.set_xlabel('Number of SFT training tasks\nSmall horizontal offsets separate coincident series')
     ax.set_title('Common held-out generalization\nH1/H2 excluded from every training corpus; task bars: Wilson 95% CI')
-    ax.legend(frameon=False,loc='upper left',bbox_to_anchor=(0,1));save(fig,'heldout_generalization')
+    fig.legend(frameon=False,loc='outside lower center',ncol=3);save(fig,'heldout_generalization')
     fig,ax=plt.subplots(figsize=(9,4.7),layout='constrained');x=np.arange(5);width=.24
     for i,v in enumerate(TRAIN_SETS):
         y=np.array([lookup[v,t]['success_rate']*100 for t in TASKS]);ci=np.array([lookup[v,t]['wilson_95ci'] for t in TASKS])*100
         ax.bar(x+(i-1)*width,y,width,color=COLORS[v],label=LABELS[v],
             yerr=np.maximum(0,np.array([y-ci[:,0],ci[:,1]-y])),capsize=3)
     axis(ax);ax.set_xticks(x,list(TASKS));ax.set_title('Per-task final performance · N = 50, Wilson 95% CI')
-    ax.legend(title='SFT train set',frameon=False,ncol=3,loc='upper center');save(fig,'per_task_comparison')
+    fig.legend(title='SFT train set',frameon=False,ncol=3,loc='outside lower center');save(fig,'per_task_comparison')
     stage_names=['Reach <10 cm','Grasp contact','Lift >3 cm','Success']
     fig,axes=plt.subplots(1,3,figsize=(14,4.5),sharey=True,layout='constrained')
     for ax,task in zip(axes,['D0','D1','H1']):
@@ -208,7 +208,8 @@ def figures(episodes,summaries,sensitivity,output):
         ax.set_title(task);ax.set_xticks(range(3),['First action','First 5 mean','Full chunk mean'])
         ax.set_ylim(bottom=0);ax.grid(axis='y',alpha=.16);ax.set_axisbelow(True)
     axes[0].set_ylabel('Action change (L2, normalized OSC units)')
-    axes[1].legend(frameon=False,title='SFT train set')
+    handles,labels=axes[0].get_legend_handles_labels()
+    fig.legend(handles,labels,frameon=False,title='SFT train set',ncol=3,loc='outside lower center')
     fig.suptitle('Image shuffle sensitivity · 10 fixed observations/task\nBars: mean; dots: observations; state, prompt and flow noise held fixed')
     save(fig,'image_sensitivity')
 
