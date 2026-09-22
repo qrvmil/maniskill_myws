@@ -19,6 +19,7 @@ class EvalConfig:
     seeds: tuple=SEEDS
     videos: int=2
     normalization: str|None=None
+    reset_dir: str|None=None
 
     def __post_init__(self):
         if self.variant not in TRAIN_SETS or self.task not in TASKS:raise ValueError('Unknown variant/task')
@@ -102,7 +103,7 @@ class EvaluationSession:
         env=LiberoEnv(TASKS[task],render_size=V4['render_size'])
         if env.prompt!=prompt(task):raise ValueError('Simulator prompt differs from registered task')
         self.task=task;self.model.prompt=self.expected[0]=env.prompt
-        reset_dir=Path(reset_dir or WORK/'paired_resets');reset_dir.mkdir(parents=True,exist_ok=True)
+        reset_dir=Path(reset_dir or self.config.reset_dir or WORK/'paired_resets');reset_dir.mkdir(parents=True,exist_ok=True)
         path=reset_dir/f'{task}.json'
         registry=json.loads(path.read_text()) if path.exists() else {}
         self.env=PairedEnv(env,registry,path)
@@ -195,6 +196,10 @@ def build_parser():
     parser.add_argument('--normalization',default=None)
     parser.add_argument('--output',default=None)
     parser.add_argument('--image-sensitivity',action='store_true')
+    parser.add_argument('--serial',action='store_true',help='Disable validated multi-process evaluation')
+    parser.add_argument('--runtime-label',default='runtime')
+    parser.add_argument('--reset-dir',default=None)
+    parser.add_argument('--sensitivity-only',action='store_true')
     return parser
 
 
@@ -210,12 +215,12 @@ def main():
         matches=[v for v in TRAIN_SETS if (checkpoint/'assets'/repo_id(v)/'norm_stats.json').exists()]
         if len(matches)!=1:raise ValueError('Cannot infer variant: supply --variant and --normalization')
         variant=matches[0]
-    tasks=list(TASKS) if args.task=='all' else args.task.split(',')
+    tasks=[] if args.sensitivity_only else (list(TASKS) if args.task=='all' else args.task.split(','))
     seeds=tuple(map(int,args.seeds.split(','))) if args.seeds else tuple(range(args.seed_start,args.seed_start+args.episodes))
-    config=EvalConfig(str(checkpoint),variant,tasks[0],seeds,args.videos,args.normalization)
+    config=EvalConfig(str(checkpoint),variant,tasks[0] if tasks else 'D0',seeds,args.videos,args.normalization,args.reset_dir)
     output=Path(args.output) if args.output else WORK/'eval'/variant/checkpoint.name
     output.mkdir(parents=True,exist_ok=True)
-    with RunArtifacts(output/'runtime',vars(args)) as run:
+    with RunArtifacts(output/args.runtime_label,vars(args)) as run:
         session=EvaluationSession(config,run=run)
         try:
             for task in tasks:session.evaluate(task,output/task)

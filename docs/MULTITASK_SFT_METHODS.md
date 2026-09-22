@@ -165,3 +165,15 @@ normalization; conclusions must preserve these distinctions.
 The instance filesystem is not backed by a persistent volume. It survives a
 stop/start but not recycle/destroy. Lightweight results are committed; checkpoints
 remain explicitly located and hashed rather than being silently added to Git.
+
+## Parallel evaluation gate
+
+Before using parallel evaluation, the launcher compares serial A/update0/D0
+rollouts on seeds10000–10001 with three concurrent independent processes. Success,
+episode length, reset hash, complete physics/action trajectory hash and camera
+image hash must all match exactly for every process. This gate uses no H1/H2
+outcomes and changes no model choice. A failure selects serial execution. A pass
+permits at most three processes on distinct tasks, each with its own simulator,
+policy and explicit per-episode noise. Final variants remain sequential. The
+runtime records the gate's decision and source hashes; actual execution mode must
+be read from that evidence rather than assumed from this design.

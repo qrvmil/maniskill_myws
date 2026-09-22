@@ -147,3 +147,12 @@ def test_notebook_has_one_config_cell_and_reuses_evaluation_api():
     assert 'EvaluationSession(config)' in codes and 'session.evaluate(' in codes and 'session.run_one(' in codes
     for c in nb['cells']:
         if c['cell_type']=='code':compile(''.join(c['source']),'<notebook>','exec')
+
+
+def test_parallel_validation_requires_identical_full_rollouts():
+    from maniskill_myws.pld.multitask_parallel import compare_rollouts
+    reference=[dict(seed=10000,success=False,length=220,reset_hash='r',trajectory_hash='t',image_hash='i')]
+    compare_rollouts(reference,copy.deepcopy(reference))
+    for key in ('success','length','reset_hash','trajectory_hash','image_hash'):
+        other=copy.deepcopy(reference);other[0][key]='different'
+        with pytest.raises(ValueError):compare_rollouts(reference,other)
