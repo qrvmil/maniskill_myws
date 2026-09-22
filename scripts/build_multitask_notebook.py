@@ -127,7 +127,7 @@ matrix = final_table.pivot(index="variant", columns="task", values="success_rate
 matrix["Held-out mean"] = [comparisons["heldout"][v]["heldout_mean"]*100 for v in matrix.index]
 display(matrix.round(1))
 ''')
-md('## 14. Plot the task matrix\nThe plotting code remains editable. White outlines identify tasks seen during SFT.')
+md('## 14. Plot the task matrix\nThe plotting code remains editable. Gold outlines identify tasks seen during SFT.')
 code('''import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 fig, ax = plt.subplots(figsize=(9,4))
@@ -143,6 +143,7 @@ fig.colorbar(im, ax=ax, label="SR (%)"); fig.tight_layout(); plt.show()
 ''')
 md('## 15. Image sensitivity and training trajectory\nThese diagnostics explain behavior without choosing checkpoints or tuning on held-out outcomes.')
 code('''display(Image(filename=str(REPO / "docs/multitask_sft/heldout_generalization.png")))
+display(Image(filename=str(REPO / "docs/multitask_sft/sft_trajectory.png")))
 display(Image(filename=str(REPO / "docs/multitask_sft/image_sensitivity.png")))
 ''')
 md('## 16. Change task or checkpoint and rerun\nEdit only the configuration cell: for example, set `VARIANT="B"`, point `CHECKPOINT` at its 1,000-update directory, set `TASK="D1"`, `N_EPISODES=5`, `VIDEOS_PER_OUTCOME=1`, and enable `LIVE_EVALUATION`. Then restart the kernel and run all cells. Arbitrary compatible π₀ LoRA32 checkpoints can be supplied with their own normalization file. The command-line equivalent is:\n\n```bash\nPYTHONPATH=/workspace/LIBERO:src third_party/openpi/.venv/bin/python scripts/eval_multitask_sft.py \\\n  --checkpoint /path/to/checkpoint --variant B --task H1 \\\n  --episodes 50 --seed-start 10000 --videos 2\n```\n\nUse the human report for interpretation and the methods appendix for provenance. Never replace the preregistered final table with an exploratory rerun.')
