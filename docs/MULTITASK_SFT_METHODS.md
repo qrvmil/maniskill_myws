@@ -155,6 +155,19 @@ every0.5s are recorded. Training runs serially under supervisor with JAX
 preallocation disabled. No scientific hyperparameter changes are allowed in
 response to memory or outcomes.
 
+Completed primary training runs (wall time includes initialization and saves):
+
+| Model | Completed updates | Consumed D0 / D1 / D2 examples | Wall time | Sampled device peak |
+|---|---:|---:|---:|---:|
+| A | 3,001 | 24,008 / 0 / 0 | 8,609.94 s | 33,120 MiB |
+| B | 3,001 | 12,020 / 11,988 / 0 | 8,558.16 s | 33,120 MiB |
+| C | 3,001 | 7,954 / 8,080 / 7,974 | 9,357.18 s | 33,120 MiB |
+
+Each run consumed3,001 batches of8; its final8 fetched lookahead examples were
+excluded. Saved sample indices independently reproduce the counts and per-batch
+task frequencies. All five checkpoint manifests and their actual normalization
+files were rehashed. Complete initialized parameter hashes match across A/B/C.
+
 A container restart interrupted the first C attempt after its last logged step
 1,480; its latest durable checkpoint was at1,000 completed updates. The interrupted
 checkpoints, runtime records and logs were preserved separately. C was restarted
