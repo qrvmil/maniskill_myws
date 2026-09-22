@@ -175,3 +175,13 @@ def test_parallel_signature_covers_inference_and_config():
     assert 'libero_experiment.py' in signature['sources']
     assert 'multitask_data.py' in signature['sources']
     assert 'config' in signature and 'packages' in signature and 'gpu' in signature
+
+
+def test_normalization_dimensions_reject_foreign_robot_contract():
+    from types import SimpleNamespace
+    from maniskill_myws.pld.multitask_eval import validate_normalization_contract
+    stats={'state':SimpleNamespace(mean=np.zeros(8),std=np.ones(8)),
+           'actions':SimpleNamespace(mean=np.zeros(7),std=np.ones(7))}
+    validate_normalization_contract(stats)
+    stats['actions']=SimpleNamespace(mean=np.zeros(8),std=np.ones(8))
+    with pytest.raises(ValueError):validate_normalization_contract(stats)

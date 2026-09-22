@@ -50,6 +50,14 @@ def load_normalization(path):
     return deserialize_json(Path(path).read_text())
 
 
+def validate_normalization_contract(stats):
+    for key,width in [('state',8),('actions',7)]:
+        if key not in stats:raise ValueError('LIBERO normalization feature missing')
+        mean=np.asarray(stats[key].mean);std=np.asarray(stats[key].std)
+        if mean.shape!=(width,) or std.shape!=(width,) or not np.isfinite([mean,std]).all() or np.any(std<0):
+            raise ValueError('Normalization does not match LIBERO 8D state / 7D OSC contract')
+
+
 def save_video(folder,variant,task,row,transitions):
     import imageio.v2 as imageio
     from .libero_sanity_videos import validate_video
@@ -89,7 +97,9 @@ class EvaluationSession:
             action_contract='7D normalized LIBERO OSC, inverse norm once, clip [-1,1]',
             checkpoint_params=directory_manifest(checkpoint/'params'),config=repr(cfg))
         self.expected=[''];self.env=None
-        policy=create_trained_policy(cfg,checkpoint,norm_stats=load_normalization(norm))
+        norm_stats=load_normalization(norm)
+        validate_normalization_contract(norm_stats)
+        policy=create_trained_policy(cfg,checkpoint,norm_stats=norm_stats)
         self.checked=PromptCheckedPolicy(policy,lambda:self.expected[0])
         self.model=AlignedOpenPIModel.__new__(AlignedOpenPIModel)
         self.model.policy=self.checked;self.model.noise_shape=(cfg.model.action_horizon,cfg.model.action_dim)
