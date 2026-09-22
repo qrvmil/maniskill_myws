@@ -177,3 +177,50 @@ permits at most three processes on distinct tasks, each with its own simulator,
 policy and explicit per-episode noise. Final variants remain sequential. The
 runtime records the gate's decision and source hashes; actual execution mode must
 be read from that evidence rather than assumed from this design.
+
+## Reusing the evaluator and notebook
+
+From the repository root, the pinned environment is created by
+`bash scripts/pld/setup_libero.sh`. On this instance, it is already installed at
+`third_party/openpi/.venv`. The runtime verifies the JAX numerical contract before
+constructing a policy. The notebook additionally uses `nbformat`, `nbclient`,
+`nbconvert` and `ipykernel`, installed into that same environment; its kernel is
+named `pi0-multitask`.
+
+The following evaluates the final three-task model on H1 into a separate rerun
+directory. Change the checkpoint, task, episode count, initial seed or video count
+directly. `--seeds 10002,10005` supplies an explicit seed list instead.
+
+```bash
+export PYTHONPATH=/workspace/LIBERO:src
+export HF_LEROBOT_HOME=/workspace/multitask-sft/lerobot
+export MUJOCO_GL=egl JAX_PLATFORMS=cuda
+export XLA_FLAGS=--xla_gpu_autotune_level=0
+export XLA_PYTHON_CLIENT_PREALLOCATE=false
+export OMP_NUM_THREADS=4 TORCH_COMPILE_DISABLE=1
+third_party/openpi/.venv/bin/python scripts/eval_multitask_sft.py \
+  --checkpoint /workspace/multitask-sft/C/checkpoints/pi0_libero_seen_lora32/EXP-001/3001 \
+  --variant C --task H1 --episodes 50 --seed-start 10000 --videos 2 \
+  --output /workspace/multitask-sft/reruns/C-H1
+```
+
+Each output directory is single-use. A compatible external checkpoint can provide
+its exact statistics file with `--normalization /path/to/norm_stats.json` and an
+explicit variant label. That label describes training membership; the evaluator
+does not infer an external checkpoint's training data. `--task all` evaluates all
+five tasks, while `--serial` explicitly disables parallel dispatch.
+
+The notebook's first code cell contains all editable evaluation settings. Its
+default mode reads committed evidence on CPU. Set `LIVE_EVALUATION=True`, choose
+the checkpoint and seeds, then restart the pinned kernel and run all cells for a
+new GPU evaluation. Its final comparison tables remain the registered primary
+experiment; exploratory rollouts have separate output directories.
+
+The complete primary pipeline is `scripts/run_multitask_sft.py`, after fetching
+the three sources with `scripts/prepare_multitask_sft.py fetch` and preparing each
+variant with `scripts/prepare_multitask_sft.py prepare`. On this Vast instance it
+runs through the recorded supervisor wrapper and configuration. Dataset and
+checkpoint roots are defined in `multitask_data.py`; a fresh training reproduction
+requires a fresh experiment root. The collector exports lightweight evidence, and
+`scripts/report_multitask_sft.py` checks all required cells before writing the
+statistics and six PNG/PDF figure pairs.
