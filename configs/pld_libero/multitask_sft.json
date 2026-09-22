@@ -1,0 +1,151 @@
+{
+  "source_commit": "c9b14ef43f7a94213536ebb97f3056bfd9f9dd87",
+  "openpi_revision": "981483dca0fd9acba698fea00aa6e52d56a66c58",
+  "libero_revision": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+  "tasks": {
+    "D0": {
+      "suite": "libero_spatial",
+      "name": "pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate",
+      "horizon": 220,
+      "distance": "D0"
+    },
+    "D1": {
+      "suite": "libero_spatial",
+      "name": "pick_up_the_black_bowl_next_to_the_plate_and_place_it_on_the_plate",
+      "horizon": 220,
+      "distance": "D1"
+    },
+    "D2": {
+      "suite": "libero_goal",
+      "name": "put_the_bowl_on_the_stove",
+      "horizon": 280,
+      "distance": "D2"
+    },
+    "H1": {
+      "suite": "libero_spatial",
+      "name": "pick_up_the_black_bowl_next_to_the_ramekin_and_place_it_on_the_plate",
+      "horizon": 220,
+      "distance": "H1"
+    },
+    "H2": {
+      "suite": "libero_object",
+      "name": "pick_up_the_alphabet_soup_and_place_it_in_the_basket",
+      "horizon": 280,
+      "distance": "H2"
+    }
+  },
+  "train_sets": {
+    "A": [
+      "D0"
+    ],
+    "B": [
+      "D0",
+      "D1"
+    ],
+    "C": [
+      "D0",
+      "D1",
+      "D2"
+    ]
+  },
+  "seeds": [
+    10000,
+    10001,
+    10002,
+    10003,
+    10004,
+    10005,
+    10006,
+    10007,
+    10008,
+    10009,
+    10010,
+    10011,
+    10012,
+    10013,
+    10014,
+    10015,
+    10016,
+    10017,
+    10018,
+    10019,
+    10020,
+    10021,
+    10022,
+    10023,
+    10024,
+    10025,
+    10026,
+    10027,
+    10028,
+    10029,
+    10030,
+    10031,
+    10032,
+    10033,
+    10034,
+    10035,
+    10036,
+    10037,
+    10038,
+    10039,
+    10040,
+    10041,
+    10042,
+    10043,
+    10044,
+    10045,
+    10046,
+    10047,
+    10048,
+    10049
+  ],
+  "updates": [
+    0,
+    500,
+    1000,
+    2000,
+    3001
+  ],
+  "training_seed": 0,
+  "batch_size": 8,
+  "lora_rank": 32,
+  "lora_alpha": 32,
+  "demos_per_task": 50,
+  "sampler": "uniform task, shuffled cycling frames within task; A historical native sampler",
+  "normalization": "per-corpus official chunk weighting",
+  "final_tasks": [
+    "D0",
+    "D1",
+    "D2",
+    "H1",
+    "H2"
+  ],
+  "intermediate_tasks": [
+    "D0",
+    "D1",
+    "D2"
+  ],
+  "secondary": "optional fixed50 demos, numeric first 25/25 or17/17/16; only after primary",
+  "image_sensitivity": {
+    "tasks": [
+      "D0",
+      "H1"
+    ],
+    "seeds": [
+      10000,
+      10001,
+      10002,
+      10003,
+      10004,
+      10005,
+      10006,
+      10007,
+      10008,
+      10009
+    ],
+    "donor": "cyclic next seed within task",
+    "noise": "same per observation"
+  },
+  "seed_collision_check": "no exact seed matches in tracked configuration or prior audit JSON seed fields"
+}
