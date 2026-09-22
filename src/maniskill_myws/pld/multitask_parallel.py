@@ -10,6 +10,27 @@ from .multitask_protocol import TASKS,sha256
 from .libero_artifacts import write_json
 
 
+def execution_signature():
+    import importlib.metadata
+    import hashlib
+    sources={p.name:sha256(p) for p in (ROOT/'src/maniskill_myws/pld').glob('*.py')}
+    packages={p:importlib.metadata.version(p) for p in
+              ('jax','jaxlib','jax-cuda12-plugin','jax-cuda12-pjrt','torch','numpy','mujoco','robosuite','flax','orbax-checkpoint')}
+    dependencies={}
+    for name,path in [('openpi',ROOT/'third_party/openpi'),('LIBERO',Path('/workspace/LIBERO'))]:
+        dependencies[name]={
+            'revision':subprocess.check_output(['git','-C',str(path),'rev-parse','HEAD'],text=True).strip(),
+            'diff_sha256':hashlib.sha256(subprocess.check_output(['git','-C',str(path),'diff','HEAD'])).hexdigest()}
+    checkpoint=WORK/'A/checkpoints/pi0_libero_seen_lora32/EXP-001/0'
+    identity=[(str(p.relative_to(checkpoint)),p.stat().st_size,p.stat().st_mtime_ns)
+              for p in sorted(checkpoint.rglob('*')) if p.is_file()]
+    gpu=subprocess.check_output(['nvidia-smi','--query-gpu=uuid,name,driver_version','--format=csv,noheader'],text=True).strip()
+    return dict(sources=sources,packages=packages,dependencies=dependencies,gpu=gpu,
+        config=sha256(ROOT/'configs/pld_libero/d0_base_d1_residual.json'),
+        checkpoint=str(checkpoint),checkpoint_files=identity,
+        environment={k:os.environ.get(k) for k in ('JAX_PLATFORMS','XLA_FLAGS','XLA_PYTHON_CLIENT_PREALLOCATE','MUJOCO_GL')})
+
+
 def compare_rollouts(reference,other):
     if len(reference)!=len(other):raise ValueError('Parallel validation episode count differs')
     keys=('seed','success','length','reset_hash','trajectory_hash','image_hash')
@@ -29,12 +50,16 @@ def validate_parallel():
     root=WORK/'parallel_validation';root.mkdir(parents=True,exist_ok=True)
     checkpoint=WORK/'A/checkpoints/pi0_libero_seen_lora32/EXP-001/0'
     if not checkpoint.exists():return False
-    signature={name:sha256(ROOT/'src/maniskill_myws/pld'/name) for name in
-               ['multitask_eval.py','multitask_parallel.py','libero_backend.py','libero_runner.py','libero_runtime.py']}
+    signature=execution_signature()
+    # Normalize tuples to their serialized representation for exact cache comparison.
+    signature=json.loads(json.dumps(signature))
     existing=root/'decision.json'
     if existing.exists():
         old=json.loads(existing.read_text())
-        if old['source_signature']!=signature:raise ValueError('Parallel validation code changed; use serial or revalidate in a fresh directory')
+        if old['source_signature']!=signature:
+            print('PARALLEL_CACHE_STALE: execution identity changed; using serial',flush=True)
+            write_json(root/'last_fallback.json',dict(reason='Execution identity changed',source_signature=signature))
+            return False
         return old['safe']
     common=['--checkpoint',str(checkpoint),'--variant','A','--task','D0','--episodes','2','--videos','0']
     safe=False;reason=''

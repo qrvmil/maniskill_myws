@@ -156,3 +156,22 @@ def test_parallel_validation_requires_identical_full_rollouts():
     for key in ('success','length','reset_hash','trajectory_hash','image_hash'):
         other=copy.deepcopy(reference);other[0][key]='different'
         with pytest.raises(ValueError):compare_rollouts(reference,other)
+
+
+def test_parallel_source_drift_falls_back_to_serial(tmp_path,monkeypatch):
+    import json
+    from maniskill_myws.pld import multitask_parallel as m
+    checkpoint=tmp_path/'A/checkpoints/pi0_libero_seen_lora32/EXP-001/0';checkpoint.mkdir(parents=True)
+    validation=tmp_path/'parallel_validation';validation.mkdir()
+    (validation/'decision.json').write_text(json.dumps({'safe':True,'source_signature':{'old':'source'}}))
+    monkeypatch.setattr(m,'WORK',tmp_path)
+    monkeypatch.setattr(m,'execution_signature',lambda:{'new':'source'},raising=False)
+    assert m.validate_parallel() is False
+
+
+def test_parallel_signature_covers_inference_and_config():
+    from maniskill_myws.pld.multitask_parallel import execution_signature
+    signature=execution_signature()
+    assert 'libero_experiment.py' in signature['sources']
+    assert 'multitask_data.py' in signature['sources']
+    assert 'config' in signature and 'packages' in signature and 'gpu' in signature

@@ -82,12 +82,12 @@ if LIVE_EVALUATION:
     meta = save_video(run_output / "one_rollout", VARIANT, TASK, one_row, one_transitions)
     video_path = run_output / "one_rollout" / meta["filename"]
 else:
-    choices = sorted((REPO / "videos/multitask_sft").glob(f"train_{'_'.join(TRAIN_SETS[VARIANT])}_{TASK}_seed*.mp4"))
+    choices = sorted((REPO / "videos/multitask_sft").glob(f"train_{'_'.join(TRAIN_SETS[VARIANT])}_{TASK}_seed*.mp4")) if UPDATES == 3001 else []
     video_path = choices[0] if choices else None
 if video_path is not None:
     display(Video(str(video_path), embed=True, width=640))
 else:
-    display(Markdown("No representative video is available for this selection."))
+    display(Markdown("No representative video is available for this selection. Committed videos are final (3001-update) checkpoints only; enable live evaluation to create an intermediate-checkpoint video."))
 ''')
 md('## 8. Run N paired episodes\nThe helper verifies each task/seed reset hash against the shared registry. Changing seeds is valid for a new evaluation, but comparisons require the same seeds and reset states on both sides.')
 code('''if LIVE_EVALUATION:

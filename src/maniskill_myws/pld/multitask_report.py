@@ -143,7 +143,7 @@ def figures(episodes,summaries,sensitivity,output):
             ys=[100*summarize(episodes[v][u][t])['success_rate'] for u in UPDATES]
             ax.plot(UPDATES,ys,label=t+(' (seen)' if t in TRAIN_SETS[v] else ' (held-out)'),
                 color=color,marker=marker,ls='-' if t in TRAIN_SETS[v] else '--')
-        axis(ax);ax.set_title('Train '+LABELS[v]);ax.set_xticks(UPDATES,rotation=40)
+        axis(ax);ax.set_title('Train '+LABELS[v]);ax.set_xticks(UPDATES,[str(u) for u in UPDATES],rotation=40)
         ax.set_xlabel('Completed optimizer updates');ax.legend(frameon=False,fontsize=9)
     fig.suptitle('SFT trajectory · N = 50 per point; update 0 is saved LoRA initialization')
     save(fig,'sft_trajectory')

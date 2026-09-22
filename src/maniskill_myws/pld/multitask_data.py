@@ -173,6 +173,9 @@ def prepare(variant):
     provenance=norm.with_name('normalization_provenance.json')
     if existed:
         validate_cached_provenance(json.loads(provenance.read_text()) if provenance.exists() else None,binding)
+        saved_config=WORK/variant/'train_config.txt'
+        if not saved_config.exists() or saved_config.read_text()!=repr(cfg):
+            raise ValueError('Existing normalization recipe differs or is missing')
     write_json(WORK/variant/'binding.json',binding)
     if not existed:write_json(provenance,binding)
     (WORK/variant/'train_config.txt').write_text(repr(cfg))
