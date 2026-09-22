@@ -20,12 +20,48 @@ class EvalConfig:
     videos: int=2
     normalization: str|None=None
     reset_dir: str|None=None
+    seen_tasks: tuple|None=None
 
     def __post_init__(self):
-        if self.variant not in TRAIN_SETS or self.task not in TASKS:raise ValueError('Unknown variant/task')
+        if self.variant not in (*TRAIN_SETS,'external') or self.task not in TASKS:raise ValueError('Unknown variant/task')
         if not self.seeds or len(set(self.seeds))!=len(self.seeds):raise ValueError('Seeds must be nonempty and unique')
         if self.videos<0:raise ValueError('Negative video count')
         self.seeds=tuple(sorted(self.seeds))
+        if self.variant in TRAIN_SETS:
+            if self.seen_tasks is not None and tuple(self.seen_tasks)!=TRAIN_SETS[self.variant]:
+                raise ValueError('Cannot override registered training membership; use external mode')
+            self.seen_tasks=TRAIN_SETS[self.variant]
+        elif self.seen_tasks is not None:
+            self.seen_tasks=tuple(self.seen_tasks)
+            if len(set(self.seen_tasks))!=len(self.seen_tasks) or any(t not in TASKS for t in self.seen_tasks):
+                raise ValueError('Seen tasks must be unique registered task IDs')
+
+    def is_seen(self,task):
+        return None if self.seen_tasks is None else task in self.seen_tasks
+
+
+def infer_variant(checkpoint,variant=None):
+    if variant is not None:
+        if variant not in (*TRAIN_SETS,'external'):raise ValueError('Unknown variant')
+        return variant
+    matches=[v for v in TRAIN_SETS if (Path(checkpoint)/'assets'/repo_id(v)/'norm_stats.json').is_file()]
+    if len(matches)>1:raise ValueError('Ambiguous checkpoint assets; supply --variant explicitly')
+    return matches[0] if matches else 'external'
+
+
+def resolve_normalization(config):
+    checkpoint=Path(config.checkpoint).resolve()
+    if config.normalization:
+        norm=Path(config.normalization).resolve()
+    elif config.variant in TRAIN_SETS:
+        norm=checkpoint/'assets'/repo_id(config.variant)/'norm_stats.json'
+    else:
+        candidates=list(checkpoint.glob('assets/**/norm_stats.json'))
+        if len(candidates)!=1:
+            raise ValueError('External checkpoint needs one normalization file in assets or explicit --normalization')
+        norm=candidates[0]
+    if not norm.is_file():raise ValueError('Checkpoint normalization missing; supply normalization explicitly')
+    return norm
 
 
 def paired_reset(env,seed,registry):
@@ -68,8 +104,9 @@ def save_video(folder,variant,task,row,transitions):
     frames=[np.concatenate(t['images'],axis=1) for t in transitions]
     frames.append(np.concatenate(transitions[-1]['next_images'],axis=1))
     imageio.mimwrite(path,frames,fps=20)
-    metadata=dict(variant=variant,train_tasks=list(TRAIN_SETS[variant]),task=task,
-        seen=task in TRAIN_SETS[variant],filename=path.name,
+    metadata=dict(variant=variant,train_tasks=list(TRAIN_SETS[variant]) if variant in TRAIN_SETS else None,task=task,
+        seen=task in TRAIN_SETS[variant] if variant in TRAIN_SETS else row['seen'],filename=path.name,
+        checkpoint=row.get('checkpoint'),seen_tasks=row.get('seen_tasks'),
         **{k:row[k] for k in ('seed','success','length','reset_hash','trajectory_hash','image_hash')},
         expected_frames=row['length']+1,includes_terminal_frame=True,fps=20,
         camera_views=['agentview','wrist'],origin='evaluation',**validate_video(path,row['length']+1))
@@ -88,11 +125,11 @@ class EvaluationSession:
         from .libero_sanity import PromptCheckedPolicy
         from .libero_backend import ChunkedBasePolicy
         torch.set_num_threads(2);torch.manual_seed(0);np.random.seed(0)
-        self.config=config;cfg=train_config(config.variant)
+        self.config=config;cfg=train_config(config.variant if config.variant in TRAIN_SETS else 'A')
         checkpoint=Path(config.checkpoint).resolve()
-        norm=Path(config.normalization) if config.normalization else checkpoint/'assets'/repo_id(config.variant)/'norm_stats.json'
-        if not norm.is_file():raise ValueError('Checkpoint normalization missing; supply normalization explicitly')
+        norm=resolve_normalization(config)
         self.binding=dict(checkpoint=str(checkpoint),variant=config.variant,normalization_path=str(norm),
+            seen_tasks=config.seen_tasks,
             normalization_sha256=sha256(norm),action_horizon=cfg.model.action_horizon,replan_steps=5,
             action_contract='7D normalized LIBERO OSC, inverse norm once, clip [-1,1]',
             checkpoint_params=directory_manifest(checkpoint/'params'),config=repr(cfg))
@@ -126,7 +163,7 @@ class EvaluationSession:
         row,transitions=run_episode(self.env,self.base,seed=seed,image_size=V4['rl_image_size'],record_progress=stages)
         row.pop('physics_states')
         row.update(variant=self.config.variant,task=self.task,prompt=self.env.prompt,
-            seen=self.task in TRAIN_SETS[self.config.variant],checkpoint=self.config.checkpoint)
+            seen=self.config.is_seen(self.task),seen_tasks=self.config.seen_tasks,checkpoint=self.config.checkpoint)
         if stages:row['ever_reached_10cm']=row['task_progress']['minimum_reach_distance']<.1
         return row,transitions
 
@@ -201,7 +238,8 @@ class EvaluationSession:
 def build_parser():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--checkpoint',required=True)
-    parser.add_argument('--variant',choices=list(TRAIN_SETS),default=None)
+    parser.add_argument('--variant',choices=[*TRAIN_SETS,'external'],default=None)
+    parser.add_argument('--seen-tasks',default=None,help='External mode: comma-separated registered tasks seen in training, or none; omit when unknown')
     parser.add_argument('--task',default='H1',help='D0/D1/D2/H1/H2, comma-separated, or all')
     parser.add_argument('--episodes',type=int,default=50)
     parser.add_argument('--seed-start',type=int,default=10000)
@@ -224,15 +262,13 @@ def main():
     args=build_parser().parse_args()
     os.environ.setdefault('MUJOCO_GL','egl');os.environ.setdefault('XLA_PYTHON_CLIENT_PREALLOCATE','false')
     configure_base_inference(V4)
-    checkpoint=Path(args.checkpoint).resolve();variant=args.variant
-    if variant is None:
-        matches=[v for v in TRAIN_SETS if (checkpoint/'assets'/repo_id(v)/'norm_stats.json').exists()]
-        if len(matches)!=1:raise ValueError('Cannot infer variant: supply --variant and --normalization')
-        variant=matches[0]
+    checkpoint=Path(args.checkpoint).resolve();variant=infer_variant(checkpoint,args.variant)
     tasks=[] if args.sensitivity_only else (list(TASKS) if args.task=='all' else args.task.split(','))
     seeds=tuple(map(int,args.seeds.split(','))) if args.seeds else tuple(range(args.seed_start,args.seed_start+args.episodes))
-    config=EvalConfig(str(checkpoint),variant,tasks[0] if tasks else 'D0',seeds,args.videos,args.normalization,args.reset_dir)
-    output=Path(args.output) if args.output else WORK/'eval'/variant/checkpoint.name
+    seen_tasks=None if args.seen_tasks is None else (() if args.seen_tasks=='none' else tuple(t.strip() for t in args.seen_tasks.split(',')))
+    config=EvalConfig(str(checkpoint),variant,tasks[0] if tasks else 'D0',seeds,args.videos,args.normalization,args.reset_dir,seen_tasks)
+    default_output=WORK/'external_eval'/checkpoint.name if variant=='external' else WORK/'eval'/variant/checkpoint.name
+    output=Path(args.output) if args.output else default_output
     output.mkdir(parents=True,exist_ok=True)
     with RunArtifacts(output/args.runtime_label,vars(args)) as run:
         session=EvaluationSession(config,run=run)

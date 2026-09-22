@@ -104,6 +104,8 @@ def select_videos(rows,count=2):
 
 
 def video_name(variant,task,row):
+    if variant=='external':
+        return f'external_{task}_seed{row["seed"]}_{"success" if row["success"] else "failure"}.mp4'
     return f'train_{"_".join(TRAIN_SETS[variant])}_{task}_seed{row["seed"]}_{"success" if row["success"] else "failure"}.mp4'
 
 

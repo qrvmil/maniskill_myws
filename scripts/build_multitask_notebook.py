@@ -19,7 +19,7 @@ code('''from pathlib import Path
 import os, sys
 REPO = next(p for p in [Path.cwd(), *Path.cwd().parents] if (p / "src/maniskill_myws").exists())
 EXPERIMENT_ROOT = Path("/workspace/multitask-sft")
-VARIANT = "C"                 # A: D0; B: D0+D1; C: D0+D1+D2
+VARIANT = "C"                 # A/B/C, or "external" for another compatible checkpoint
 UPDATES = 3001
 CHECKPOINT = EXPERIMENT_ROOT / VARIANT / "checkpoints/pi0_libero_seen_lora32/EXP-001" / str(UPDATES)
 TASK = "H1"                   # D0, D1, D2, H1, H2
@@ -31,6 +31,7 @@ LIVE_EVALUATION = False
 EVIDENCE = REPO / "docs/multitask_sft/evidence/eval"
 LIBERO_ROOT = Path("/workspace/LIBERO")
 NORMALIZATION = None           # checkpoint's own statistics by default
+SEEN_TASKS = None              # external mode only: None = unknown; e.g. ("D0", "H1")
 ''',tags=['parameters'])
 md('## 2. Load reusable helpers\nInstall the pinned environment with `bash scripts/pld/setup_libero.sh`. Select its Python kernel. Core evaluation lives in repository modules; the notebook supplies configuration and presentation.')
 code('''import json
@@ -44,7 +45,9 @@ from maniskill_myws.pld.multitask_protocol import TASKS, TRAIN_SETS, prompt, sum
 from maniskill_myws.pld.multitask_eval import EvalConfig, EvaluationSession, save_video
 from maniskill_myws.pld.multitask_report import read_results, analysis, LABELS
 seeds = tuple(SEED_LIST) if SEED_LIST is not None else tuple(range(SEED_START, SEED_START + N_EPISODES))
-config = EvalConfig(str(CHECKPOINT), VARIANT, TASK, seeds, VIDEOS_PER_OUTCOME, NORMALIZATION)
+config = EvalConfig(str(CHECKPOINT), VARIANT, TASK, seeds, VIDEOS_PER_OUTCOME, NORMALIZATION, seen_tasks=SEEN_TASKS)
+if VARIANT == "external" and not LIVE_EVALUATION:
+    raise ValueError("External checkpoints require LIVE_EVALUATION=True; cached evidence covers A/B/C")
 ''')
 md('## 3. Available trained checkpoints\nDirectory names count completed optimizer updates. Update 0 is the saved LoRA initialization, including the pinned implementation’s small random functional LoRA perturbation.')
 code('''checkpoint_rows = []
@@ -55,7 +58,7 @@ for variant in TRAIN_SETS:
 display(pd.DataFrame(checkpoint_rows))
 ''')
 md('## 4. Evaluation tasks and seen/held-out status')
-code('''display(pd.DataFrame([{"Task": key, "Suite": value["suite"], "Instruction": prompt(key), "Seen in selected variant": key in TRAIN_SETS[VARIANT], "Horizon": value["horizon"]} for key, value in TASKS.items()]))
+code('''display(pd.DataFrame([{"Task": key, "Suite": value["suite"], "Instruction": prompt(key), "Seen in selected checkpoint": config.is_seen(key) if config.is_seen(key) is not None else "Unknown", "Horizon": value["horizon"]} for key, value in TASKS.items()]))
 ''')
 md('## 5. Load one policy and inspect its contract\nNormalization is loaded from the selected checkpoint. Inference checks the exact prompt immediately before tokenization. Native cameras are rotated 180°, resized/padded to 224, and accompanied by 8D proprioception. π₀ predicts 50 actions; the adapter inverse-normalizes once, returns 7D OSC commands, clips to [−1,1], and executes 5 before replanning.')
 code('''session = None
@@ -146,7 +149,7 @@ code('''display(Image(filename=str(REPO / "docs/multitask_sft/heldout_generaliza
 display(Image(filename=str(REPO / "docs/multitask_sft/sft_trajectory.png")))
 display(Image(filename=str(REPO / "docs/multitask_sft/image_sensitivity.png")))
 ''')
-md('## 16. Change task or checkpoint and rerun\nEdit only the configuration cell: for example, set `VARIANT="B"`, point `CHECKPOINT` at its 1,000-update directory, set `TASK="D1"`, `N_EPISODES=5`, `VIDEOS_PER_OUTCOME=1`, and enable `LIVE_EVALUATION`. Then restart the kernel and run all cells. Arbitrary compatible π₀ LoRA32 checkpoints can be supplied with their own normalization file. The command-line equivalent is:\n\n```bash\nPYTHONPATH=/workspace/LIBERO:src third_party/openpi/.venv/bin/python scripts/eval_multitask_sft.py \\\n  --checkpoint /path/to/checkpoint --variant B --task H1 \\\n  --episodes 50 --seed-start 10000 --videos 2\n```\n\nUse the human report for interpretation and the methods appendix for provenance. Never replace the preregistered final table with an exploratory rerun.')
+md('## 16. Change task or checkpoint and rerun\nEdit only the configuration cell: for example, set `VARIANT="B"`, point `CHECKPOINT` at its 1,000-update directory, set `TASK="D1"`, `N_EPISODES=5`, `VIDEOS_PER_OUTCOME=1`, and enable `LIVE_EVALUATION`. Then restart the kernel and run all cells. For another compatible π₀ LoRA32 checkpoint, set `VARIANT="external"`, assign `CHECKPOINT`, and enable live evaluation. Its unique normalization asset is discovered automatically, or supply `NORMALIZATION`. Leave `SEEN_TASKS=None` when SFT exposure is unknown, or provide a tuple of registered task IDs; unknown exposure stays explicitly unknown. External evaluations run serially. The command-line equivalent of the registered B example is:\n\n```bash\nPYTHONPATH=/workspace/LIBERO:src third_party/openpi/.venv/bin/python scripts/eval_multitask_sft.py \\\n  --checkpoint /path/to/checkpoint --variant B --task H1 \\\n  --episodes 50 --seed-start 10000 --videos 2\n```\n\nUse the human report for interpretation and the methods appendix for provenance. Never replace the preregistered final table with an exploratory rerun.')
 code('''if session is not None:
     session.close()
 ''')

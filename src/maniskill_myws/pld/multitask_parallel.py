@@ -88,14 +88,10 @@ def dispatch(args):
     if args.serial or args.sensitivity_only:return False
     tasks=list(TASKS) if args.task=='all' else args.task.split(',')
     if len(tasks)<2 or not all(t in TASKS for t in tasks):return False
+    from .multitask_eval import infer_variant
+    variant=infer_variant(args.checkpoint,args.variant)
+    if variant=='external' or args.seen_tasks is not None:return False
     if not validate_parallel():return False
-    from .multitask_protocol import TRAIN_SETS
-    from .multitask_data import repo_id
-    variant=args.variant
-    if variant is None:
-        matches=[v for v in TRAIN_SETS if (Path(args.checkpoint)/'assets'/repo_id(v)/'norm_stats.json').exists()]
-        if len(matches)!=1:raise ValueError('Supply compatible variant')
-        variant=matches[0]
     output=Path(args.output) if args.output else WORK/'eval'/variant/Path(args.checkpoint).name
     output.mkdir(parents=True,exist_ok=True)
     common=['--checkpoint',args.checkpoint,'--variant',variant,'--episodes',str(args.episodes),

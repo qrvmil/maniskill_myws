@@ -204,17 +204,29 @@ third_party/openpi/.venv/bin/python scripts/eval_multitask_sft.py \
   --output /workspace/multitask-sft/reruns/C-H1
 ```
 
-Each output directory is single-use. A compatible external checkpoint can provide
-its exact statistics file with `--normalization /path/to/norm_stats.json` and an
-explicit variant label. That label describes training membership; the evaluator
-does not infer an external checkpoint's training data. `--task all` evaluates all
-five tasks, while `--serial` explicitly disables parallel dispatch.
+Each output directory is single-use. A compatible external checkpoint can use
+`--variant external` and its exact statistics file with
+`--normalization /path/to/norm_stats.json`. With one statistics file under its
+`assets` directory, discovery is automatic. A/B/C labels are inferred only from
+their registered asset IDs; `--variant external` overrides that convention when
+evaluating another checkpoint. Compatibility means the same π₀ LoRA32 architecture,
+action horizon50 and LIBERO state/action contract used here.
+
+External mode records training exposure as unknown (`seen: null`) by default.
+Supply `--seen-tasks D0,H1` to identify which of the five registered evaluation
+tasks were included in that checkpoint's SFT, or `--seen-tasks none` when none were.
+This does not alter the registered A/B/C training sets. External runs use serial
+execution and default to `/workspace/multitask-sft/external_eval`, outside the
+primary evidence tree. `--task all` evaluates all five tasks; primary runs can also
+request serial execution with `--serial`.
 
 The notebook's first code cell contains all editable evaluation settings. Its
 default mode reads committed evidence on CPU. Set `LIVE_EVALUATION=True`, choose
 the checkpoint and seeds, then restart the pinned kernel and run all cells for a
 new GPU evaluation. Its final comparison tables remain the registered primary
 experiment; exploratory rollouts have separate output directories.
+For another compatible checkpoint, set `VARIANT="external"`, supply its
+`CHECKPOINT`, and optionally set `NORMALIZATION` and `SEEN_TASKS` in that same cell.
 
 The complete primary pipeline is `scripts/run_multitask_sft.py`, after fetching
 the three sources with `scripts/prepare_multitask_sft.py fetch` and preparing each
