@@ -1,0 +1,10 @@
+{
+  "train_D0_D0_seed10000_failure.mp4": "Lifts the bowl and moves it toward the plate; the terminal view shows the bowl tilted beside the plate.",
+  "train_D0_D1_seed10000_failure.mp4": "Descends through the table center and continues toward the near edge while the bowl stays beside the plate.",
+  "train_D0_D2_seed10000_failure.mp4": "Lifts the bowl and carries it toward the near-left table edge, ending away from the stove.",
+  "train_D0_D0_seed10001_failure.mp4": "Repositions the gripper around the center bowl; the terminal frame shows the bowl still near its starting position.",
+  "train_D0_D0_seed10002_success.mp4": "Lifts the center bowl, carries it leftward, and lowers it onto the plate.",
+  "train_D0_D0_seed10003_success.mp4": "Lifts the center bowl and moves it diagonally toward the plate, lowering the bowl onto it.",
+  "train_D0_D1_seed10001_failure.mp4": "Moves through the table center and ends with the gripper beside the plate; the bowl remains on the table.",
+  "train_D0_D2_seed10001_failure.mp4": "Carries the bowl toward the near-left edge of the table; the terminal view shows it away from the stove."
+}
