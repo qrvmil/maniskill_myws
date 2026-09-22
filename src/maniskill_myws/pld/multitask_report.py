@@ -33,8 +33,38 @@ def heldout_paired(before,after):
         method='equal-task mean of within-task paired seed bootstrap; fixed H1/H2; 10000 draws seed0')
 
 
+def validate_evaluation_binding(rows,binding,saved,variant,task,updates):
+    if (binding['variant']!=variant or binding['task']!=task or binding['seeds']!=list(SEEDS)
+            or Path(binding['checkpoint']).name!=str(updates) or saved['optimizer_updates']!=updates
+            or binding['checkpoint_params']!=saved['params_files']
+            or binding['normalization_sha256']!=saved['normalization_sha256']):
+        raise ValueError('Evaluation checkpoint/count/normalization provenance mismatch')
+    if any(r['checkpoint']!=binding['checkpoint'] or r['variant']!=variant or r['task']!=task
+           or r['seen']!=(task in TRAIN_SETS[variant]) for r in rows):
+        raise ValueError('Episode binding differs from evaluated checkpoint')
+
+
+def validate_sensitivity(rows):
+    expected={(v,t,s) for v in TRAIN_SETS for t in ('D0','H1') for s in SEEDS[:10]}
+    keys=[(r['variant'],r['task'],r['seed']) for r in rows]
+    if len(keys)!=len(set(keys)) or set(keys)!=expected:
+        raise ValueError('Image sensitivity bank is incomplete or duplicated')
+    bank={};noise={}
+    for row in rows:
+        task=row['task'];seed=row['seed']
+        if bank.setdefault(task,row['bank_sha256'])!=row['bank_sha256']:
+            raise ValueError('Models used different image observations')
+        if noise.setdefault((task,seed),row['noise_sha256'])!=row['noise_sha256']:
+            raise ValueError('Models used different flow noise')
+        if row['donor_seed']!=SEEDS[(SEEDS.index(seed)+1)%10]:
+            raise ValueError('Image shuffle donor differs from registration')
+        values=np.array([row[k] for k in ('first_action_l2','first5_mean_l2','chunk_mean_l2')])
+        if not np.isfinite(values).all() or np.any(values<0):raise ValueError('Invalid image action differences')
+
+
 def read_results(root,*,require_trajectory=True):
     root=Path(root);episodes={};summaries=[];sensitivity=[]
+    training=root.parent/'training' if (root.parent/'training').is_dir() else root.parent
     for v in TRAIN_SETS:
         episodes[v]={}
         for update in UPDATES if require_trajectory else (3001,):
@@ -46,10 +76,14 @@ def read_results(root,*,require_trajectory=True):
                 if [r['seed'] for r in rows]!=list(SEEDS):raise ValueError(f'Wrong final sample: {folder}')
                 if any(r['variant']!=v or r['task']!=task or r['seen']!=(task in TRAIN_SETS[v]) for r in rows):
                     raise ValueError('Episode model/task/seen metadata differs')
+                binding=json.loads((folder/'binding.json').read_text())
+                saved=json.loads((training/v/f'update_{update}.json').read_text())
+                validate_evaluation_binding(rows,binding,saved,v,task,update)
                 episodes[v][update][task]=rows
                 summaries.append(dict(variant=v,train_set=LABELS[v],updates=update,task=task,
                     seen=task in TRAIN_SETS[v],**summarize(rows)))
         sensitivity.extend(json.loads((root/v/'3001/image_sensitivity.json').read_text()))
+    validate_sensitivity(sensitivity)
     # Every overlapping cell must share the exact task-specific resets.
     for task in TASKS:
         reference=episodes['A'][3001][task]
