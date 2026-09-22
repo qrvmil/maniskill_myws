@@ -17,11 +17,11 @@ def copy(source,target):
 
 for name in ('base_inventory.json','base_manifest.json','task_preflight.json','data_preflight.json','initial_parameter_sha256.json','gpu_pipeline_complete.json'):
     copy(WORK/name,OUT/name)
-for folder in ('setup','paired_resets','parallel_validation'):
+for folder in ('setup','paired_resets','parallel_validation','image_bank'):
     source=WORK/folder
     if source.exists():
         for path in source.rglob('*'):
-            if path.is_file() and path.suffix in ('.json','.txt','.md','.log'):
+            if path.is_file() and path.suffix in ('.json','.txt','.md','.log','.npz'):
                 copy(path,OUT/folder/path.relative_to(source))
 for variant in TRAIN_SETS:
     for path in (WORK/variant).glob('*'):
@@ -34,7 +34,7 @@ for folder in ('eval','runtime'):
     source=WORK/folder
     if source.exists():
         for path in source.rglob('*'):
-            if path.is_file() and path.suffix in ('.json','.jsonl','.txt','.py','.sh','.patch','.md'):
+            if path.is_file() and path.suffix in ('.json','.jsonl','.txt','.py','.sh','.patch','.md','.npz'):
                 copy(path,OUT/folder/path.relative_to(source))
 # Video publication copies retain matching sidecars. Never publish parallel-gate test clips.
 video_root=ROOT/'videos/multitask_sft';video_root.mkdir(parents=True,exist_ok=True)

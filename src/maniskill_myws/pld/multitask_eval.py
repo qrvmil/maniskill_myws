@@ -158,7 +158,7 @@ class EvaluationSession:
         """10 initial observations/task; cyclic same-task image shuffle, identical flow noise."""
         from .libero_backend import openpi_observation
         bank_dir=Path(bank_dir or WORK/'image_bank');bank_dir.mkdir(parents=True,exist_ok=True)
-        rows=[]
+        rows=[];correct_actions=[];shuffled_actions=[]
         for task in ('D0','H1'):
             self.set_task(task)
             path=bank_dir/f'{task}.npz'
@@ -183,11 +183,15 @@ class EvaluationSession:
                 noise=np.random.default_rng(int(seed)).standard_normal(self.model.noise_shape).astype(np.float32)
                 correct=self.checked.infer(obs,noise=noise.copy())['actions']
                 changed=self.checked.infer(shuffled,noise=noise.copy())['actions']
+                correct_actions.append(np.array(correct,copy=True));shuffled_actions.append(np.array(changed,copy=True))
                 rows.append(dict(variant=self.config.variant,task=task,seed=int(seed),
                     donor_seed=int(bank['seeds'][j]),bank_sha256=sha256(path),
                     noise_sha256=__import__('hashlib').sha256(noise.tobytes()).hexdigest(),
                     **action_changes(correct,changed)))
             print('IMAGE_SENSITIVITY_COMPLETE',self.config.variant,task,flush=True)
+        action_path=Path(output).with_name('image_sensitivity_actions.npz')
+        np.savez_compressed(action_path,correct=np.stack(correct_actions),shuffled=np.stack(shuffled_actions),
+                            tasks=[r['task'] for r in rows],seeds=[r['seed'] for r in rows])
         write_json(output,rows);return rows
 
     def close(self):

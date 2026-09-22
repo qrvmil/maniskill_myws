@@ -3,7 +3,7 @@ import csv
 import json
 from pathlib import Path
 import numpy as np
-from .multitask_protocol import TASKS,TRAIN_SETS,SEEDS,UPDATES,summarize,paired_change
+from .multitask_protocol import TASKS,TRAIN_SETS,SEEDS,UPDATES,summarize,paired_change,action_changes
 from .libero_artifacts import write_json
 
 LABELS={'A':'D0','B':'D0 + D1','C':'D0 + D1 + D2'}
@@ -62,6 +62,17 @@ def validate_sensitivity(rows):
         if not np.isfinite(values).all() or np.any(values<0):raise ValueError('Invalid image action differences')
 
 
+def validate_sensitivity_actions(rows,arrays):
+    if len(rows)!=len(arrays['correct']) or len(rows)!=len(arrays['shuffled']):
+        raise ValueError('Recorded image sensitivity action count differs')
+    for i,row in enumerate(rows):
+        if str(arrays['tasks'][i])!=row['task'] or int(arrays['seeds'][i])!=row['seed']:
+            raise ValueError('Recorded action observations differ')
+        recalculated=action_changes(arrays['correct'][i],arrays['shuffled'][i])
+        if any(not np.isclose(row[k],value,rtol=1e-6,atol=1e-7) for k,value in recalculated.items()):
+            raise ValueError('Image sensitivity measurement differs from recorded actions')
+
+
 def read_results(root,*,require_trajectory=True):
     root=Path(root);episodes={};summaries=[];sensitivity=[]
     training=root.parent/'training' if (root.parent/'training').is_dir() else root.parent
@@ -82,7 +93,10 @@ def read_results(root,*,require_trajectory=True):
                 episodes[v][update][task]=rows
                 summaries.append(dict(variant=v,train_set=LABELS[v],updates=update,task=task,
                     seen=task in TRAIN_SETS[v],**summarize(rows)))
-        sensitivity.extend(json.loads((root/v/'3001/image_sensitivity.json').read_text()))
+        variant_sensitivity=json.loads((root/v/'3001/image_sensitivity.json').read_text())
+        with np.load(root/v/'3001/image_sensitivity_actions.npz') as arrays:
+            validate_sensitivity_actions(variant_sensitivity,arrays)
+        sensitivity.extend(variant_sensitivity)
     validate_sensitivity(sensitivity)
     # Every overlapping cell must share the exact task-specific resets.
     for task in TASKS:

@@ -45,3 +45,14 @@ def test_sensitivity_comparison_requires_same_observations_and_noise():
     with pytest.raises(ValueError):validate_sensitivity(rows)
     rows[-1]['noise_sha256']=str(rows[-1]['seed']);rows[-1]['bank_sha256']='different'
     with pytest.raises(ValueError):validate_sensitivity(rows)
+
+
+def test_saved_action_arrays_reproduce_sensitivity_measurements():
+    import numpy as np
+    from maniskill_myws.pld.multitask_report import validate_sensitivity_actions
+    correct=np.zeros((1,50,7),np.float32);shuffled=correct.copy()
+    shuffled[0,:,0]=3*np.arange(1,51);shuffled[0,:,1]=4*np.arange(1,51)
+    row=dict(task='H1',seed=10000,first_action_l2=5.,first5_mean_l2=15.,chunk_mean_l2=127.5)
+    arrays=dict(correct=correct,shuffled=shuffled,tasks=np.array(['H1']),seeds=np.array([10000]))
+    validate_sensitivity_actions([row],arrays)
+    with pytest.raises(ValueError):validate_sensitivity_actions([dict(row,first5_mean_l2=5.)],arrays)
