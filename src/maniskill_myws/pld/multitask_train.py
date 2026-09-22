@@ -4,7 +4,7 @@ import json
 import os
 import numpy as np
 from .multitask_protocol import BalancedSampler,TRAIN_SETS,UPDATES,sha256,require_binding
-from .multitask_data import WORK,DATA,ROOT,repo_id,train_config,load_script
+from .multitask_data import WORK,DATA,BASE,ROOT,repo_id,train_config,load_script
 from .libero_artifacts import write_json
 from .libero_protocol import directory_manifest,verify_directory
 from .libero_sanity import completed_updates
@@ -33,6 +33,7 @@ def train(variant):
     logging.basicConfig(level=logging.INFO)
     binding=json.loads((WORK/variant/'binding.json').read_text())
     require_binding(binding,variant,sha256(WORK/'base_manifest.json'))
+    verify_directory(BASE,json.loads((WORK/'base_manifest.json').read_text()))
     audit_path=DATA/repo_id(variant)/'source_audit.json'
     if sha256(audit_path)!=binding['source_audit_sha256']:raise ValueError('Source audit drift')
     audit=json.loads(audit_path.read_text())

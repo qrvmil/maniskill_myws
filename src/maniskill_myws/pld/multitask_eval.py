@@ -44,6 +44,11 @@ class PairedEnv:
         return result
 
 
+def load_normalization(path):
+    from openpi.shared.normalize import deserialize_json
+    return deserialize_json(Path(path).read_text())
+
+
 def save_video(folder,variant,task,row,transitions):
     import imageio.v2 as imageio
     from .libero_sanity_videos import validate_video
@@ -70,7 +75,6 @@ class EvaluationSession:
         configure_base_inference(V4);require_base_inference_runtime(V4)
         import torch
         from openpi.policies.policy_config import create_trained_policy
-        from openpi.shared.normalize import load
         from .libero_experiment import AlignedOpenPIModel
         from .libero_sanity import PromptCheckedPolicy
         from .libero_backend import ChunkedBasePolicy
@@ -84,7 +88,7 @@ class EvaluationSession:
             action_contract='7D normalized LIBERO OSC, inverse norm once, clip [-1,1]',
             checkpoint_params=directory_manifest(checkpoint/'params'),config=repr(cfg))
         self.expected=[''];self.env=None
-        policy=create_trained_policy(cfg,checkpoint,norm_stats=load(norm.parent))
+        policy=create_trained_policy(cfg,checkpoint,norm_stats=load_normalization(norm))
         self.checked=PromptCheckedPolicy(policy,lambda:self.expected[0])
         self.model=AlignedOpenPIModel.__new__(AlignedOpenPIModel)
         self.model.policy=self.checked;self.model.noise_shape=(cfg.model.action_horizon,cfg.model.action_dim)

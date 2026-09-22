@@ -18,7 +18,10 @@ TASKS={
     'H1':dict(suite='libero_spatial',name='pick_up_the_black_bowl_next_to_the_ramekin_and_place_it_on_the_plate',horizon=220),
     'H2':dict(suite='libero_object',name='pick_up_the_alphabet_soup_and_place_it_in_the_basket',horizon=280),
 }
-for _key,_task in TASKS.items():_task['distance']=_key
+BDDL_HASHES={'D0': '5e19880ebc844f86b89f63b172aab0b7a89f85b6e6955891f544f0ea7d0795d5', 'D1': 'c8fbb9effa27b947d04d26862d75273d93cac1806734e53836cd472a08aec1fe', 'D2': 'c6812d6c988be830412aa6fc4801af04d60f8c4565d2625763b6a0f2b843a87f', 'H1': '53a7516571412a2f46a27cbf8482d3b76dbad4221858c8f6b565d506c274e61d', 'H2': 'df088984da13131f8332ee0f13a7896c6a97afd02ee5007a42e8fc5e0893571e'}
+for _key,_task in TASKS.items():
+    _task['distance']=_key
+    _task['bddl_sha256']=BDDL_HASHES[_key]
 
 
 def prompt(task):return TASKS[task]['name'].replace('_',' ')

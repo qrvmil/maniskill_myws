@@ -123,3 +123,27 @@ def test_cached_normalization_cannot_be_relabelled():
     validate_cached_provenance(good,good)
     with pytest.raises(ValueError):validate_cached_provenance(dict(good,source_audit_sha256='foreign'),good)
     with pytest.raises(ValueError):validate_cached_provenance(None,good)
+
+
+def test_normalization_reads_exact_requested_file(tmp_path):
+    pytest.importorskip('openpi')
+    from maniskill_myws.pld.multitask_eval import load_normalization
+    from openpi.shared.normalize import NormStats,serialize_json
+    custom=tmp_path/'custom.json'
+    custom.write_text(serialize_json({'state':NormStats(mean=np.array([3.]),std=np.array([2.]))}))
+    (tmp_path/'norm_stats.json').write_text(serialize_json({'state':NormStats(mean=np.array([99.]),std=np.array([1.]))}))
+    assert load_normalization(custom)['state'].mean[0]==3
+
+
+def test_notebook_has_one_config_cell_and_reuses_evaluation_api():
+    import json
+    from pathlib import Path
+    nb=json.loads(Path('notebooks/01_multitask_sft_eval.ipynb').read_text())
+    parameters=[c for c in nb['cells'] if 'parameters' in c.get('metadata',{}).get('tags',[])]
+    assert len(parameters)==1
+    source=''.join(parameters[0]['source'])
+    assert all(k in source for k in ('CHECKPOINT','TASK','N_EPISODES','SEED_LIST','VIDEOS_PER_OUTCOME'))
+    codes='\n'.join(''.join(c['source']) for c in nb['cells'] if c['cell_type']=='code')
+    assert 'EvaluationSession(config)' in codes and 'session.evaluate(' in codes and 'session.run_one(' in codes
+    for c in nb['cells']:
+        if c['cell_type']=='code':compile(''.join(c['source']),'<notebook>','exec')
