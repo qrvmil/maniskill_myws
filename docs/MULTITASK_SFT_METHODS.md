@@ -155,6 +155,17 @@ every0.5s are recorded. Training runs serially under supervisor with JAX
 preallocation disabled. No scientific hyperparameter changes are allowed in
 response to memory or outcomes.
 
+A container restart interrupted the first C attempt after its last logged step
+1,480; its latest durable checkpoint was at1,000 completed updates. The interrupted
+checkpoints, runtime records and logs were preserved separately. C was restarted
+independently from the official base with the original seed and recipe; the
+interrupted attempt is excluded from the primary comparison. Recovery verified all
+265 recorded package versions and actual Torch/JAX GPU operations before training.
+One-time setup and experiment services no longer autostart concurrently after a
+container restart; the pipeline is started explicitly after environment checks.
+The incident and verification records are under
+`evidence/setup/recovery_20260922T200705Z`.
+
 The preregistered optional secondary is the data-matched50-demo control: first25
 numeric demonstrations per task for B, first17/17/16 for C; A is shared. It is run
 only if affordable after the primary study. The main report must state whether it
