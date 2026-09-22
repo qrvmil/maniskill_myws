@@ -202,6 +202,12 @@ policy and explicit per-episode noise. Final variants remain sequential. The
 runtime records the gate's decision and source hashes; actual execution mode must
 be read from that evidence rather than assumed from this design.
 
+The gate passed on this instance: all three concurrent workers matched the serial
+reference exactly for both registered seeds, including trajectory and camera
+hashes. The saved rollouts were independently compared again. Primary evaluation
+therefore uses up to three distinct tasks concurrently; this bounded check is
+evidence for that execution mode, not an exhaustive numerical equivalence proof.
+
 ## Reusing the evaluator and notebook
 
 From the repository root, the pinned environment is created by
