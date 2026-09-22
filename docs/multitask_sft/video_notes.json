@@ -6,5 +6,7 @@
   "train_D0_D0_seed10002_success.mp4": "Lifts the center bowl, carries it leftward, and lowers it onto the plate.",
   "train_D0_D0_seed10003_success.mp4": "Lifts the center bowl and moves it diagonally toward the plate, lowering the bowl onto it.",
   "train_D0_D1_seed10001_failure.mp4": "Moves through the table center and ends with the gripper beside the plate; the bowl remains on the table.",
-  "train_D0_D2_seed10001_failure.mp4": "Carries the bowl toward the near-left edge of the table; the terminal view shows it away from the stove."
+  "train_D0_D2_seed10001_failure.mp4": "Carries the bowl toward the near-left edge of the table; the terminal view shows it away from the stove.",
+  "train_D0_H1_seed10000_failure.mp4": "Descends over the empty center of the table and makes small gripper adjustments there; the bowls remain on the table.",
+  "train_D0_H1_seed10001_failure.mp4": "Lowers toward the empty table center, briefly shifts left, and returns to small adjustments above the tabletop."
 }
