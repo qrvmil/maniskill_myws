@@ -1,0 +1,12 @@
+.........F                                                               [100%]
+=================================== FAILURES ===================================
+_____________ test_evaluation_config_and_notebook_helper_contract ______________
+
+    def test_evaluation_config_and_notebook_helper_contract():
+>       from maniskill_myws.pld.multitask_eval import EvalConfig,paired_reset,build_parser
+E       ModuleNotFoundError: No module named 'maniskill_myws.pld.multitask_eval'
+
+tests/test_multitask_sft.py:105: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_multitask_sft.py::test_evaluation_config_and_notebook_helper_contract
+1 failed, 9 passed in 0.28s

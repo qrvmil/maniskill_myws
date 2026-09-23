@@ -1,0 +1,7 @@
+{
+  "compared_logged_points": 149,
+  "through_logged_step": 1480,
+  "rounded_gradient_loss_parameter_norms_match": true,
+  "mismatched_steps": [],
+  "scope": "Printed training metrics only, not proof of full parameter equality"
+}

@@ -1,0 +1,12 @@
+{
+  "task_rates": {
+    "H1": 0.0,
+    "H2": 0.0
+  },
+  "heldout_mean": 0.0,
+  "stratified_bootstrap_95ci": [
+    0.0,
+    0.0
+  ],
+  "method": "fixed tasks; equal task weights; seed bootstrap within each task; seed0,10000 draws"
+}

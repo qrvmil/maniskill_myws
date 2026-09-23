@@ -1,0 +1,22 @@
+ss........................................................s............. [ 45%]
+..........................s.......s..................s.................. [ 90%]
+...............                                                          [100%]
+=============================== warnings summary ===============================
+tests/test_pld_d1_demonstrations.py::test_rejects_payload_even_when_payload_sidecar_is_rehashed[actions]
+  /root/maniskill_myws/third_party/openpi/.venv/lib/python3.11/site-packages/robosuite/__init__.py:22: DeprecationWarning: invalid escape sequence '\ '
+    __logo__ = """
+
+tests/test_pld_d1_demonstrations.py::test_rejects_payload_even_when_payload_sidecar_is_rehashed[actions]
+  /root/maniskill_myws/third_party/openpi/.venv/lib/python3.11/site-packages/robosuite/macros.py:53: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
+    ROBOSUITE_DEFAULT_LOGGER.warn("No private macro file found!")
+
+tests/test_pld_d1_demonstrations.py::test_rejects_payload_even_when_payload_sidecar_is_rehashed[actions]
+  /root/maniskill_myws/third_party/openpi/.venv/lib/python3.11/site-packages/robosuite/macros.py:54: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
+    ROBOSUITE_DEFAULT_LOGGER.warn("It is recommended to use a private macro file")
+
+tests/test_pld_d1_demonstrations.py::test_rejects_payload_even_when_payload_sidecar_is_rehashed[actions]
+  /root/maniskill_myws/third_party/openpi/.venv/lib/python3.11/site-packages/robosuite/macros.py:55: DeprecationWarning: The 'warn' method is deprecated, use 'warning' instead
+    ROBOSUITE_DEFAULT_LOGGER.warn("To setup, run: python {}/scripts/setup_macros.py".format(robosuite.__path__[0]))
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+153 passed, 6 skipped, 4 warnings in 39.74s

@@ -73,7 +73,7 @@ def validate_sensitivity_actions(rows,arrays):
             raise ValueError('Image sensitivity measurement differs from recorded actions')
 
 
-def read_results(root,*,require_trajectory=True):
+def read_results(root,*,require_trajectory=True,allow_incomplete_trajectory=False):
     root=Path(root);episodes={};summaries=[];sensitivity=[]
     training=root.parent/'training' if (root.parent/'training').is_dir() else root.parent
     for v in TRAIN_SETS:
@@ -82,7 +82,9 @@ def read_results(root,*,require_trajectory=True):
             episodes[v][update]={}
             for task in TASKS if update==3001 else ('D0','D1','D2'):
                 folder=root/v/str(update)/task
-                if not (folder/'complete.json').is_file():raise ValueError(f'Incomplete evaluation: {folder}')
+                if not (folder/'complete.json').is_file():
+                    if allow_incomplete_trajectory and update!=3001:continue
+                    raise ValueError(f'Incomplete evaluation: {folder}')
                 rows=json.loads((folder/'episodes.json').read_text())
                 if [r['seed'] for r in rows]!=list(SEEDS):raise ValueError(f'Wrong final sample: {folder}')
                 if any(r['variant']!=v or r['task']!=task or r['seen']!=(task in TRAIN_SETS[v]) for r in rows):
@@ -188,12 +190,13 @@ def figures(episodes,summaries,sensitivity,output):
     fig,axes=plt.subplots(1,3,figsize=(14,4.5),sharey=True,layout='constrained')
     for ax,v in zip(axes,TRAIN_SETS):
         for t,color,marker in [('D0','#245a81','o'),('D1','#c27c22','s'),('D2','#7a518a','^')]:
-            ys=[100*summarize(episodes[v][u][t])['success_rate'] for u in UPDATES]
+            ys=[100*summarize(episodes[v][u][t])['success_rate']
+                if t in episodes[v].get(u,{}) else np.nan for u in UPDATES]
             ax.plot(UPDATES,ys,label=t+(' (seen)' if t in TRAIN_SETS[v] else ' (held-out)'),
                 color=color,marker=marker,ls='-' if t in TRAIN_SETS[v] else '--')
         axis(ax);ax.set_title('Train '+LABELS[v]);ax.set_xticks(UPDATES,[str(u) for u in UPDATES],rotation=40)
         ax.set_xlabel('Completed optimizer updates');ax.legend(frameon=False,fontsize=9)
-    fig.suptitle('SFT trajectory · N = 50 per point; update 0 is saved LoRA initialization')
+    fig.suptitle('SFT trajectory · N = 50 per measured point; missing points omitted\nUpdate 0 is saved LoRA initialization; no interpolation across missing checkpoints')
     save(fig,'sft_trajectory')
     fig,axes=plt.subplots(1,2,figsize=(10,4.5),layout='constrained',sharey=True)
     metrics=['first_action_l2','first5_mean_l2','chunk_mean_l2']
@@ -214,9 +217,9 @@ def figures(episodes,summaries,sensitivity,output):
     save(fig,'image_sensitivity')
 
 
-def export(root,output):
+def export(root,output,*,allow_incomplete_trajectory=False):
     output=Path(output);output.mkdir(parents=True,exist_ok=True)
-    episodes,summaries,sensitivity=read_results(root)
+    episodes,summaries,sensitivity=read_results(root,allow_incomplete_trajectory=allow_incomplete_trajectory)
     stats=analysis(episodes)
     write_json(output/'statistics.json',stats);write_json(output/'summaries.json',summaries)
     write_json(output/'image_sensitivity.json',sensitivity)

@@ -1,0 +1,11 @@
+{
+  "workers": 3,
+  "tasks": [
+    "D0",
+    "D1",
+    "D2",
+    "H1",
+    "H2"
+  ],
+  "validation_sha256": "8e08971d2677c2575318ccbd0f135088332af5a98df351bda924284bf8c360c9"
+}

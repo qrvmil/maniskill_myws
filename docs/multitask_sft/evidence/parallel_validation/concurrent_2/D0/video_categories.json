@@ -1,0 +1,10 @@
+{
+  "success": {
+    "available": 0,
+    "saved": 0
+  },
+  "failure": {
+    "available": 2,
+    "saved": 0
+  }
+}

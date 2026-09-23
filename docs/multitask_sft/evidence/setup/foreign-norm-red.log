@@ -1,0 +1,13 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_________ test_normalization_dimensions_reject_foreign_robot_contract __________
+
+    def test_normalization_dimensions_reject_foreign_robot_contract():
+        from types import SimpleNamespace
+>       from maniskill_myws.pld.multitask_eval import validate_normalization_contract
+E       ImportError: cannot import name 'validate_normalization_contract' from 'maniskill_myws.pld.multitask_eval' (/root/maniskill_myws/src/maniskill_myws/pld/multitask_eval.py)
+
+tests/test_multitask_sft.py:182: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_multitask_sft.py::test_normalization_dimensions_reject_foreign_robot_contract
+1 failed in 0.08s

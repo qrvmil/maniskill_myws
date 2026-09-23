@@ -1,0 +1,13 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_________ test_saved_action_arrays_reproduce_sensitivity_measurements __________
+
+    def test_saved_action_arrays_reproduce_sensitivity_measurements():
+        import numpy as np
+>       from maniskill_myws.pld.multitask_report import validate_sensitivity_actions
+E       ImportError: cannot import name 'validate_sensitivity_actions' from 'maniskill_myws.pld.multitask_report' (/root/maniskill_myws/src/maniskill_myws/pld/multitask_report.py)
+
+tests/test_multitask_report.py:52: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_multitask_report.py::test_saved_action_arrays_reproduce_sensitivity_measurements
+1 failed in 0.05s

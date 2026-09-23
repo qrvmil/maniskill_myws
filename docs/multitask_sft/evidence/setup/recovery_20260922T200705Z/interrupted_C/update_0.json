@@ -1,0 +1,31 @@
+{
+  "variant": "C",
+  "optimizer_updates": 0,
+  "upstream_loop_index": null,
+  "checkpoint": "/workspace/multitask-sft/C/checkpoints/pi0_libero_seen_lora32/EXP-001/0",
+  "normalization_sha256": "ecad97851b8c9330ddd6387791049fd512302aa75384c7ca36d2670e9cac6878",
+  "params_files": {
+    "_METADATA": "b42febdd8778ac04f4ec232b88b2e02e74a1ba5e778405c2cc76cb8ef7c9a3e6",
+    "_sharding": "d3d8fe25753b9e0891db8889eab68ab8d8956246cce910b95a946434cfacdbc7",
+    "array_metadatas/process_0": "405763dcd4ee76fff6cd352170126c5916c7c1ecf2a5d2e339b4719eea8d246d",
+    "d/d1ac0d05ef5f1c5937346f95e3aa5de4": "9c6b1747d126a60f82407f14945f3248ca3ff4d3a3acc4d6455393b6f1f43ac8",
+    "manifest.ocdbt": "ffb6079871f7aa10108d7a7f869aec907aa57837ccc6d407221f2fb46b111019",
+    "ocdbt.process_0/d/086ccd6dc8fd6aaf33427ca697b3309a": "78de8853f24d5481a76638e72d40cb5d98cbb816cf37c7b79d76ace50071c2b8",
+    "ocdbt.process_0/d/165ec1df7aa143fa6d0459379b280bb1": "4e3fd85fe1da1869f9314d2338414c8fc9b26ee84c09289b1e33857a239579ad",
+    "ocdbt.process_0/d/1c303f322cf9a8cc6da26033cc7f6f44": "40b2b4e07441d4eddb67a3fa0a2540a59a98e57e6c4974e04907056959eeb983",
+    "ocdbt.process_0/d/266a2d9e0243d8e678e3445ef95f4d05": "cd13816d13327e9142aaee7381a36f59a726bb33aa4a9cda40b4f56c0e50c244",
+    "ocdbt.process_0/d/4ddf69f3a9e17324c2086c2d4b7d4179": "afae75b7d8e0a199e3061baa69c67bd80f2aed437ac7f94091488deb6c471732",
+    "ocdbt.process_0/d/4fcc1a3f1a7938ecf4de6b76157d3e2b": "cf60e5bf3121898b01f051e3935340dbcdba4dd737402c96a157f269d7c087ab",
+    "ocdbt.process_0/d/5c3c3ac6f32845b9730cdc981cf4f8a9": "446cdf1f2b6c8f80a6002fb529d3eadf7adf5185157be30b4ce317d3d978f712",
+    "ocdbt.process_0/d/76b8d049f910f4e61af27de95f82b935": "a22b72bb376fafef6fe7e82a9e11335e4ad17ad07156c2b6d4ff71627c0b2aef",
+    "ocdbt.process_0/d/7d281228919c07d09a1c1df8a62848eb": "91f9ea775bd69edca8ecf5edf3b27b66d55cdedc21a49808867665ed467f4d99",
+    "ocdbt.process_0/d/812dfa96893ac37285d45788210ae74b": "fff2f8b328c86ab34912c01d5758210df1805bcd73e3709be401d1989b9b18c3",
+    "ocdbt.process_0/d/89a7fd630927fa8f57378569643348c0": "ea30486ac09e22de094ea3079125de767aefb9607680f08e01ca248fd5ab3628",
+    "ocdbt.process_0/d/90aeddb2871f93f29414ff087e5316cb": "c3dec454486a2e48a7771dc3dd55fe99a530a0e1e66108e57958e8505f7cb53e",
+    "ocdbt.process_0/d/a75823d500be6127ded4a23be0eba1d7": "61550c7f4d4002c97851245a62c6e5035faf60be9b69cafaffcef0ca75ce07c7",
+    "ocdbt.process_0/d/dd718da4823a03f52db5a43254bd9efa": "80f9b2266c905d937e57373529c332a0acce0a9c81c659e68adaabd9384af1e1",
+    "ocdbt.process_0/d/dfbf3725dd8b1e0bea04b45e9fdaf6fd": "44221e7b9920fa8ac7c63e96fa6e39014cbf4d6f75c2f87269ac2532d5972c98",
+    "ocdbt.process_0/d/e9ae49307604aa7ecd40c9b7067fd058": "1b18d0ab735452f3612cb05551379d1b35891b50f85c98f4629e5392988913a0",
+    "ocdbt.process_0/manifest.ocdbt": "744f867fc5c7f30bb44828495a2362d09a7675c28771e188bbcd2dc5f1231666"
+  }
+}

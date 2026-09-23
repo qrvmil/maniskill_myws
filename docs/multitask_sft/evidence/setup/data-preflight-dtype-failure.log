@@ -1,0 +1,41 @@
+START ['scripts/prepare_multitask_sft.py', 'prepare', '--variant', 'A']
+NORMALIZATION_BOUND A b4ea07567b2cc2bbd5670167efa540730ef4e98b3e507ce1610473c948401f44
+START ['scripts/prepare_multitask_sft.py', 'prepare', '--variant', 'B']
+NORMALIZATION_BOUND B e5cbe62ae014e047c178279a53ce840efa40e1754c492dd1f492415feada29c3
+START ['scripts/prepare_multitask_sft.py', 'prepare', '--variant', 'C']
+NORMALIZATION_BOUND C ecad97851b8c9330ddd6387791049fd512302aa75384c7ca36d2670e9cac6878
+START ['scripts/check_multitask_data.py']
+
+Resolving data files:   0% 0/50 [00:00<?, ?it/s]
+Resolving data files: 100% 50/50 [00:00<00:00, 187748.61it/s]
+Traceback (most recent call last):
+  File "/root/maniskill_myws/scripts/check_multitask_data.py", line 26, in <module>
+    np.testing.assert_array_equal(item['actions'][0],native['actions'][frame+1])
+  File "/root/maniskill_myws/third_party/openpi/.venv/lib/python3.11/site-packages/numpy/testing/_private/utils.py", line 920, in assert_array_equal
+    assert_array_compare(operator.__eq__, x, y, err_msg=err_msg,
+  File "/.uv/python_install/cpython-3.11.16-linux-x86_64-gnu/lib/python3.11/contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/root/maniskill_myws/third_party/openpi/.venv/lib/python3.11/site-packages/numpy/testing/_private/utils.py", line 797, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Arrays are not equal
+
+Mismatched elements: 2 / 7 (28.6%)
+Max absolute difference: 2.12873733e-09
+Max relative difference: 3.78737848e-08
+ x: array([ 0.120536,  0.      , -0.      ,  0.      ,  0.      , -0.004286,
+       -1.      ], dtype=float32)
+ y: array([ 0.120536,  0.      , -0.      ,  0.      ,  0.      , -0.004286,
+       -1.      ])
+Traceback (most recent call last):
+  File "/root/maniskill_myws/scripts/run_multitask_sft.py", line 44, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/root/maniskill_myws/scripts/run_multitask_sft.py", line 24, in main
+    run(['scripts/check_multitask_data.py'])
+  File "/root/maniskill_myws/scripts/run_multitask_sft.py", line 13, in run
+    subprocess.run([sys.executable,'-u',*cmd],cwd=ROOT,check=True)
+  File "/.uv/python_install/cpython-3.11.16-linux-x86_64-gnu/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/root/maniskill_myws/third_party/openpi/.venv/bin/python', '-u', 'scripts/check_multitask_data.py']' returned non-zero exit status 1.

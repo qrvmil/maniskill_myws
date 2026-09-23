@@ -1,0 +1,23 @@
+{
+  "variant": "C",
+  "optimizer_updates": 500,
+  "parameter_files_verified": 21,
+  "normalization_sha256": "ecad97851b8c9330ddd6387791049fd512302aa75384c7ca36d2670e9cac6878",
+  "normalization_file_rehashed": true,
+  "consumed_examples": 4000,
+  "task_counts": {
+    "D0": 1281,
+    "D1": 1393,
+    "D2": 1326
+  },
+  "task_frequencies": {
+    "D0": 0.32025,
+    "D1": 0.34825,
+    "D2": 0.3315
+  },
+  "lookahead_examples_excluded": 8,
+  "restarted_C": true,
+  "sampling_matches_interrupted_attempt": true,
+  "finite_logged_training_points": 52,
+  "latest_logged_step_checked": 510
+}

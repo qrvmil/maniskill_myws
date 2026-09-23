@@ -1,0 +1,19 @@
+{
+  "observed_container_start_utc": "2026-09-22T20:07:05Z",
+  "cause": "Container restart; underlying cause not established",
+  "last_logged_upstream_step": 1480,
+  "last_durable_optimizer_updates": 1000,
+  "completed_variants_preserved": [
+    "A",
+    "B"
+  ],
+  "interrupted_checkpoint_archive": "/workspace/multitask-sft/interrupted/20260922T200705Z/C",
+  "interrupted_runtime": "/workspace/multitask-sft/runtime/train_C_interrupted_20260922T200705Z",
+  "recovery": "Restart C independently from official base with original seed0 and exact recipe; interrupted trajectory excluded from primary results",
+  "setup_race": "One-time setup and pipeline autostarted concurrently; pipeline failed importing torchvision while setup reinstalled packages",
+  "automatic_start_disabled": [
+    "multitask_setup",
+    "multitask_prepare",
+    "multitask_pipeline"
+  ]
+}

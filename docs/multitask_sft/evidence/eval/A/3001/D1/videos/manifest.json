@@ -1,0 +1,68 @@
+[
+  {
+    "variant": "A",
+    "train_tasks": [
+      "D0"
+    ],
+    "task": "D1",
+    "seen": false,
+    "filename": "train_D0_D1_seed10000_failure.mp4",
+    "checkpoint": "/workspace/multitask-sft/A/checkpoints/pi0_libero_seen_lora32/EXP-001/3001",
+    "seen_tasks": [
+      "D0"
+    ],
+    "seed": 10000,
+    "success": false,
+    "length": 220,
+    "reset_hash": "af9fd92940d607a5957d9977d7dd88b72074a4e15d832e5515b3ecdd684cae8d",
+    "trajectory_hash": "f47ecba370a4befc5db8cfc3d962c6f82f46137fef9b3c1e775fa49a963289e0",
+    "image_hash": "b3135b63f2dbb951a50dec9477b248d07392afb9801a39b8c58a4f9b8b148b66",
+    "expected_frames": 221,
+    "includes_terminal_frame": true,
+    "fps": 20,
+    "camera_views": [
+      "agentview",
+      "wrist"
+    ],
+    "origin": "evaluation",
+    "frames": 221,
+    "width": 256,
+    "height": 128,
+    "bytes": 149440,
+    "sha256": "dbb092b5f898aa0bcf49428acb8b422bda27e531fe865e04089d86bbc4218909",
+    "full_decode_passed": true
+  },
+  {
+    "variant": "A",
+    "train_tasks": [
+      "D0"
+    ],
+    "task": "D1",
+    "seen": false,
+    "filename": "train_D0_D1_seed10001_failure.mp4",
+    "checkpoint": "/workspace/multitask-sft/A/checkpoints/pi0_libero_seen_lora32/EXP-001/3001",
+    "seen_tasks": [
+      "D0"
+    ],
+    "seed": 10001,
+    "success": false,
+    "length": 220,
+    "reset_hash": "cc12ade267e5d8a1cf218a1f590879159d082935e8e0fe427daeecb22b6e119c",
+    "trajectory_hash": "30af04fc625565b96eeef75cd61a035c565b70584a9f7d9a2f1004c07be05f83",
+    "image_hash": "f6f2babb42f3cf6e0a454c31152fea783ecd04ed2de6779851807886c4cec8d0",
+    "expected_frames": 221,
+    "includes_terminal_frame": true,
+    "fps": 20,
+    "camera_views": [
+      "agentview",
+      "wrist"
+    ],
+    "origin": "evaluation",
+    "frames": 221,
+    "width": 256,
+    "height": 128,
+    "bytes": 153325,
+    "sha256": "b80526e5939412210766d725505ace72429481419fc34b4368b8294f8098de72",
+    "full_decode_passed": true
+  }
+]

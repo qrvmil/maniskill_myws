@@ -1,0 +1,20 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+______ test_heldout_mean_equal_weights_and_no_cross_task_episode_pooling _______
+
+    def test_heldout_mean_equal_weights_and_no_cross_task_episode_pooling():
+>       from maniskill_myws.pld.multitask_report import heldout_summary
+E       ModuleNotFoundError: No module named 'maniskill_myws.pld.multitask_report'
+
+tests/test_multitask_report.py:5: ModuleNotFoundError
+______ test_equal_task_paired_aggregate_requires_pairing_within_each_task ______
+
+    def test_equal_task_paired_aggregate_requires_pairing_within_each_task():
+>       from maniskill_myws.pld.multitask_report import heldout_paired
+E       ModuleNotFoundError: No module named 'maniskill_myws.pld.multitask_report'
+
+tests/test_multitask_report.py:13: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_multitask_report.py::test_heldout_mean_equal_weights_and_no_cross_task_episode_pooling
+FAILED tests/test_multitask_report.py::test_equal_task_paired_aggregate_requires_pairing_within_each_task
+2 failed in 0.04s

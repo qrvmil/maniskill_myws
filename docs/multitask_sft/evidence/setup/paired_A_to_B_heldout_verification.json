@@ -1,0 +1,42 @@
+{
+  "gain_pp": 0.0,
+  "bootstrap_95_pp": [
+    0.0,
+    0.0
+  ],
+  "per_task": {
+    "H1": {
+      "n": 50,
+      "rescue": 0,
+      "harm": 0,
+      "gain_pp": 0.0,
+      "bootstrap_95_pp": [
+        0.0,
+        0.0
+      ],
+      "bootstrap_draws": 10000,
+      "bootstrap_seed": 0,
+      "exact_boundary_95_pp": [
+        -5.815507911697226,
+        5.815507911697226
+      ]
+    },
+    "H2": {
+      "n": 50,
+      "rescue": 0,
+      "harm": 0,
+      "gain_pp": 0.0,
+      "bootstrap_95_pp": [
+        0.0,
+        0.0
+      ],
+      "bootstrap_draws": 10000,
+      "bootstrap_seed": 0,
+      "exact_boundary_95_pp": [
+        -5.815507911697226,
+        5.815507911697226
+      ]
+    }
+  },
+  "method": "equal-task mean of within-task paired seed bootstrap; fixed H1/H2; 10000 draws seed0"
+}

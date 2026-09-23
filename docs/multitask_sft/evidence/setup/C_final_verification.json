@@ -1,0 +1,50 @@
+{
+  "variant": "C",
+  "completed_updates": 3001,
+  "checkpoints": [
+    {
+      "optimizer_updates": 0,
+      "parameter_files_verified": 22,
+      "normalization_file_rehashed": true
+    },
+    {
+      "optimizer_updates": 500,
+      "parameter_files_verified": 21,
+      "normalization_file_rehashed": true
+    },
+    {
+      "optimizer_updates": 1000,
+      "parameter_files_verified": 21,
+      "normalization_file_rehashed": true
+    },
+    {
+      "optimizer_updates": 2000,
+      "parameter_files_verified": 20,
+      "normalization_file_rehashed": true
+    },
+    {
+      "optimizer_updates": 3001,
+      "parameter_files_verified": 20,
+      "normalization_file_rehashed": true
+    }
+  ],
+  "normalization_sha256": "ecad97851b8c9330ddd6387791049fd512302aa75384c7ca36d2670e9cac6878",
+  "consumed_examples": 24008,
+  "consumed_indices_recomputed": true,
+  "task_counts": {
+    "D0": 7954,
+    "D1": 8080,
+    "D2": 7974
+  },
+  "task_frequencies": {
+    "D0": 0.3313062312562479,
+    "D1": 0.33655448183938685,
+    "D2": 0.3321392869043652
+  },
+  "lookahead_examples_excluded": 8,
+  "finite_logged_training_points": 301,
+  "wall_seconds": 9357.178380590001,
+  "device_peak_sampled_used_mib": 33120,
+  "restarted_C": true,
+  "all_ABC_initialization_hashes_match": true
+}

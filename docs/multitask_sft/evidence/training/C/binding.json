@@ -1,0 +1,30 @@
+{
+  "variant": "C",
+  "training_tasks": [
+    "D0",
+    "D1",
+    "D2"
+  ],
+  "demo_counts": {
+    "D0": 50,
+    "D1": 50,
+    "D2": 50
+  },
+  "normalization_path": "/workspace/multitask-sft/C/assets/pi0_libero_seen_lora32/local/multitask_C/norm_stats.json",
+  "normalization_sha256": "ecad97851b8c9330ddd6387791049fd512302aa75384c7ca36d2670e9cac6878",
+  "normalization_training_tasks": [
+    "D0",
+    "D1",
+    "D2"
+  ],
+  "normalization_method": "official OpenPI chunk-weighted mean/std; complete batches, batch8",
+  "normalization_frames_used": 16776,
+  "base_uri": "gs://openpi-assets/checkpoints/pi0_base",
+  "base_manifest_sha256": "c24b2ceb96411f3ae7d13b5c77e89ea152bf65b076d254afc2575e69bec995bc",
+  "source_audit_sha256": "1a9b39c8b80e0ad29be738ef651c74787f50a473214343c03216c87717a87ef5",
+  "task_frame_counts": [
+    5832,
+    5913,
+    5031
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "checkpoint": "/workspace/multitask-sft/A/checkpoints/pi0_libero_seen_lora32/EXP-001/3001",
+  "variant": "A",
+  "seen_tasks": null,
+  "task": "H2",
+  "episodes": 50,
+  "seed_start": 10000,
+  "seeds": null,
+  "videos": 2,
+  "normalization": null,
+  "output": "/workspace/multitask-sft/eval/A/3001",
+  "image_sensitivity": false,
+  "serial": true,
+  "runtime_label": "runtime_H2",
+  "reset_dir": null,
+  "sensitivity_only": false
+}

@@ -1,0 +1,437 @@
+{
+  "heldout": {
+    "A": {
+      "task_rates": {
+        "H1": 0.0,
+        "H2": 0.0
+      },
+      "heldout_mean": 0.0,
+      "stratified_bootstrap_95ci": [
+        0.0,
+        0.0
+      ],
+      "method": "fixed tasks; equal task weights; seed bootstrap within each task; seed0,10000 draws"
+    },
+    "B": {
+      "task_rates": {
+        "H1": 0.0,
+        "H2": 0.0
+      },
+      "heldout_mean": 0.0,
+      "stratified_bootstrap_95ci": [
+        0.0,
+        0.0
+      ],
+      "method": "fixed tasks; equal task weights; seed bootstrap within each task; seed0,10000 draws"
+    },
+    "C": {
+      "task_rates": {
+        "H1": 0.0,
+        "H2": 0.0
+      },
+      "heldout_mean": 0.0,
+      "stratified_bootstrap_95ci": [
+        0.0,
+        0.0
+      ],
+      "method": "fixed tasks; equal task weights; seed bootstrap within each task; seed0,10000 draws"
+    }
+  },
+  "comparisons": {
+    "A_to_B": {
+      "tasks": {
+        "D0": {
+          "n": 50,
+          "rescue": 7,
+          "harm": 14,
+          "gain_pp": -14.000000000000002,
+          "bootstrap_95_pp": [
+            -32.0,
+            4.0
+          ],
+          "bootstrap_draws": 10000,
+          "bootstrap_seed": 0,
+          "exact_boundary_95_pp": null
+        },
+        "D1": {
+          "n": 50,
+          "rescue": 9,
+          "harm": 0,
+          "gain_pp": 18.0,
+          "bootstrap_95_pp": [
+            8.0,
+            30.0
+          ],
+          "bootstrap_draws": 10000,
+          "bootstrap_seed": 0,
+          "exact_boundary_95_pp": null
+        },
+        "D2": {
+          "n": 50,
+          "rescue": 0,
+          "harm": 0,
+          "gain_pp": 0.0,
+          "bootstrap_95_pp": [
+            0.0,
+            0.0
+          ],
+          "bootstrap_draws": 10000,
+          "bootstrap_seed": 0,
+          "exact_boundary_95_pp": [
+            -5.815507911697226,
+            5.815507911697226
+          ]
+        },
+        "H1": {
+          "n": 50,
+          "rescue": 0,
+          "harm": 0,
+          "gain_pp": 0.0,
+          "bootstrap_95_pp": [
+            0.0,
+            0.0
+          ],
+          "bootstrap_draws": 10000,
+          "bootstrap_seed": 0,
+          "exact_boundary_95_pp": [
+            -5.815507911697226,
+            5.815507911697226
+          ]
+        },
+        "H2": {
+          "n": 50,
+          "rescue": 0,
+          "harm": 0,
+          "gain_pp": 0.0,
+          "bootstrap_95_pp": [
+            0.0,
+            0.0
+          ],
+          "bootstrap_draws": 10000,
+          "bootstrap_seed": 0,
+          "exact_boundary_95_pp": [
+            -5.815507911697226,
+            5.815507911697226
+          ]
+        }
+      },
+      "heldout": {
+        "gain_pp": 0.0,
+        "bootstrap_95_pp": [
+          0.0,
+          0.0
+        ],
+        "per_task": {
+          "H1": {
+            "n": 50,
+            "rescue": 0,
+            "harm": 0,
+            "gain_pp": 0.0,
+            "bootstrap_95_pp": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_draws": 10000,
+            "bootstrap_seed": 0,
+            "exact_boundary_95_pp": [
+              -5.815507911697226,
+              5.815507911697226
+            ]
+          },
+          "H2": {
+            "n": 50,
+            "rescue": 0,
+            "harm": 0,
+            "gain_pp": 0.0,
+            "bootstrap_95_pp": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_draws": 10000,
+            "bootstrap_seed": 0,
+            "exact_boundary_95_pp": [
+              -5.815507911697226,
+              5.815507911697226
+            ]
+          }
+        },
+        "method": "equal-task mean of within-task paired seed bootstrap; fixed H1/H2; 10000 draws seed0"
+      }
+    },
+    "A_to_C": {
+      "tasks": {
+        "D0": {
+          "n": 50,
+          "rescue": 6,
+          "harm": 20,
+          "gain_pp": -28.000000000000004,
+          "bootstrap_95_pp": [
+            -46.0,
+            -10.0
+          ],
+          "bootstrap_draws": 10000,
+          "bootstrap_seed": 0,
+          "exact_boundary_95_pp": null
+        },
+        "D1": {
+          "n": 50,
+          "rescue": 19,
+          "harm": 0,
+          "gain_pp": 38.0,
+          "bootstrap_95_pp": [
+            24.0,
+            52.0
+          ],
+          "bootstrap_draws": 10000,
+          "bootstrap_seed": 0,
+          "exact_boundary_95_pp": null
+        },
+        "D2": {
+          "n": 50,
+          "rescue": 31,
+          "harm": 0,
+          "gain_pp": 62.0,
+          "bootstrap_95_pp": [
+            48.0,
+            76.0
+          ],
+          "bootstrap_draws": 10000,
+          "bootstrap_seed": 0,
+          "exact_boundary_95_pp": null
+        },
+        "H1": {
+          "n": 50,
+          "rescue": 0,
+          "harm": 0,
+          "gain_pp": 0.0,
+          "bootstrap_95_pp": [
+            0.0,
+            0.0
+          ],
+          "bootstrap_draws": 10000,
+          "bootstrap_seed": 0,
+          "exact_boundary_95_pp": [
+            -5.815507911697226,
+            5.815507911697226
+          ]
+        },
+        "H2": {
+          "n": 50,
+          "rescue": 0,
+          "harm": 0,
+          "gain_pp": 0.0,
+          "bootstrap_95_pp": [
+            0.0,
+            0.0
+          ],
+          "bootstrap_draws": 10000,
+          "bootstrap_seed": 0,
+          "exact_boundary_95_pp": [
+            -5.815507911697226,
+            5.815507911697226
+          ]
+        }
+      },
+      "heldout": {
+        "gain_pp": 0.0,
+        "bootstrap_95_pp": [
+          0.0,
+          0.0
+        ],
+        "per_task": {
+          "H1": {
+            "n": 50,
+            "rescue": 0,
+            "harm": 0,
+            "gain_pp": 0.0,
+            "bootstrap_95_pp": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_draws": 10000,
+            "bootstrap_seed": 0,
+            "exact_boundary_95_pp": [
+              -5.815507911697226,
+              5.815507911697226
+            ]
+          },
+          "H2": {
+            "n": 50,
+            "rescue": 0,
+            "harm": 0,
+            "gain_pp": 0.0,
+            "bootstrap_95_pp": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_draws": 10000,
+            "bootstrap_seed": 0,
+            "exact_boundary_95_pp": [
+              -5.815507911697226,
+              5.815507911697226
+            ]
+          }
+        },
+        "method": "equal-task mean of within-task paired seed bootstrap; fixed H1/H2; 10000 draws seed0"
+      }
+    },
+    "B_to_C": {
+      "tasks": {
+        "D0": {
+          "n": 50,
+          "rescue": 6,
+          "harm": 13,
+          "gain_pp": -14.000000000000002,
+          "bootstrap_95_pp": [
+            -30.0,
+            4.0
+          ],
+          "bootstrap_draws": 10000,
+          "bootstrap_seed": 0,
+          "exact_boundary_95_pp": null
+        },
+        "D1": {
+          "n": 50,
+          "rescue": 15,
+          "harm": 5,
+          "gain_pp": 20.0,
+          "bootstrap_95_pp": [
+            4.0,
+            36.0
+          ],
+          "bootstrap_draws": 10000,
+          "bootstrap_seed": 0,
+          "exact_boundary_95_pp": null
+        },
+        "D2": {
+          "n": 50,
+          "rescue": 31,
+          "harm": 0,
+          "gain_pp": 62.0,
+          "bootstrap_95_pp": [
+            48.0,
+            76.0
+          ],
+          "bootstrap_draws": 10000,
+          "bootstrap_seed": 0,
+          "exact_boundary_95_pp": null
+        },
+        "H1": {
+          "n": 50,
+          "rescue": 0,
+          "harm": 0,
+          "gain_pp": 0.0,
+          "bootstrap_95_pp": [
+            0.0,
+            0.0
+          ],
+          "bootstrap_draws": 10000,
+          "bootstrap_seed": 0,
+          "exact_boundary_95_pp": [
+            -5.815507911697226,
+            5.815507911697226
+          ]
+        },
+        "H2": {
+          "n": 50,
+          "rescue": 0,
+          "harm": 0,
+          "gain_pp": 0.0,
+          "bootstrap_95_pp": [
+            0.0,
+            0.0
+          ],
+          "bootstrap_draws": 10000,
+          "bootstrap_seed": 0,
+          "exact_boundary_95_pp": [
+            -5.815507911697226,
+            5.815507911697226
+          ]
+        }
+      },
+      "heldout": {
+        "gain_pp": 0.0,
+        "bootstrap_95_pp": [
+          0.0,
+          0.0
+        ],
+        "per_task": {
+          "H1": {
+            "n": 50,
+            "rescue": 0,
+            "harm": 0,
+            "gain_pp": 0.0,
+            "bootstrap_95_pp": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_draws": 10000,
+            "bootstrap_seed": 0,
+            "exact_boundary_95_pp": [
+              -5.815507911697226,
+              5.815507911697226
+            ]
+          },
+          "H2": {
+            "n": 50,
+            "rescue": 0,
+            "harm": 0,
+            "gain_pp": 0.0,
+            "bootstrap_95_pp": [
+              0.0,
+              0.0
+            ],
+            "bootstrap_draws": 10000,
+            "bootstrap_seed": 0,
+            "exact_boundary_95_pp": [
+              -5.815507911697226,
+              5.815507911697226
+            ]
+          }
+        },
+        "method": "equal-task mean of within-task paired seed bootstrap; fixed H1/H2; 10000 draws seed0"
+      }
+    }
+  },
+  "seen_unseen": {
+    "A": {
+      "seen_tasks": [
+        "D0"
+      ],
+      "unseen_tasks": [
+        "D1",
+        "D2",
+        "H1",
+        "H2"
+      ],
+      "mean_seen_sr": 0.7,
+      "mean_unseen_sr": 0.0
+    },
+    "B": {
+      "seen_tasks": [
+        "D0",
+        "D1"
+      ],
+      "unseen_tasks": [
+        "D2",
+        "H1",
+        "H2"
+      ],
+      "mean_seen_sr": 0.37,
+      "mean_unseen_sr": 0.0
+    },
+    "C": {
+      "seen_tasks": [
+        "D0",
+        "D1",
+        "D2"
+      ],
+      "unseen_tasks": [
+        "H1",
+        "H2"
+      ],
+      "mean_seen_sr": 0.47333333333333333,
+      "mean_unseen_sr": 0.0
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "original_package_versions_matched": 265,
+  "torch": "2.7.1+cu128",
+  "jax": "0.5.3",
+  "gpu": "NVIDIA CMP 170HX",
+  "torch_gpu_op": true,
+  "jax_gpu_jit": true,
+  "auto_processor_import": true
+}

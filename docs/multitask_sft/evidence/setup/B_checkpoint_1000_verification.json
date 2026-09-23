@@ -1,0 +1,16 @@
+{
+  "variant": "B",
+  "optimizer_updates": 1000,
+  "parameter_files_verified": 21,
+  "normalization_sha256": "e5cbe62ae014e047c178279a53ce840efa40e1754c492dd1f492415feada29c3",
+  "consumed_examples": 8000,
+  "task_counts": {
+    "D0": 4042,
+    "D1": 3958
+  },
+  "task_frequencies": {
+    "D0": 0.50525,
+    "D1": 0.49475
+  },
+  "lookahead_examples_excluded": 8
+}

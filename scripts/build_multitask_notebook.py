@@ -28,6 +28,7 @@ SEED_START = 10000
 SEED_LIST = None               # e.g. [10002, 10005]; overrides N_EPISODES
 VIDEOS_PER_OUTCOME = 2
 LIVE_EVALUATION = False
+ALLOW_INCOMPLETE_TRAJECTORY = True  # User-requested cutoff; final N50 cells still mandatory
 EVIDENCE = REPO / "docs/multitask_sft/evidence/eval"
 LIBERO_ROOT = Path("/workspace/LIBERO")
 NORMALIZATION = None           # checkpoint's own statistics by default
@@ -118,7 +119,7 @@ selected = select_videos(rows, VIDEOS_PER_OUTCOME)
 display(pd.DataFrame([{k:r[k] for k in ("seed","success","length")} for r in selected]))
 ''')
 md('## 12. Compare checkpoints on paired seeds\nA positive gain means rescue episodes exceed harm episodes. Bootstrap intervals resample pairs within each task; boundary-degenerate bootstrap intervals are accompanied by an exact bound in the detailed statistics.')
-code('''episodes, summaries, sensitivity = read_results(EVIDENCE)
+code('''episodes, summaries, sensitivity = read_results(EVIDENCE, allow_incomplete_trajectory=ALLOW_INCOMPLETE_TRAJECTORY)
 comparisons = analysis(episodes)
 before = episodes["A"][3001][TASK]
 after = episodes["C"][3001][TASK]

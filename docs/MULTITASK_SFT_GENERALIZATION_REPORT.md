@@ -4,6 +4,13 @@ Primary fixed-compute comparison: three independent SFT runs, evaluated at exact
 3,001 completed optimizer updates. Each model/task result uses the same 50
 registered reset seeds for that task.
 
+**Publication cutoff (23 September 2026):** at the user's request, remaining
+intermediate evaluations were stopped to publish the available results promptly.
+All 15 final N=50 cells and all image-sensitivity measurements are complete.
+Twelve of 36 planned intermediate N=50 cells completed. Interrupted B/500 runs
+retain 38/39/29 episodes for D0/D1/D2 as raw evidence only; they are excluded from
+the fixed-N comparisons and trajectory points. No missing result is treated as zero.
+
 ## TL;DR
 
 - **Increasing SFT from one to three tasks produced no observed common held-out
@@ -194,6 +201,17 @@ pointwise intervals, without correction for multiple comparisons.
 These means use equal task weights, but their membership changes across models.
 They summarize each model's evaluation set; the common H1/H2 mean is the aligned
 generalization comparison.
+
+The available training trajectory covers update 0 for all models, update 500
+for A, and the final checkpoints. All update-0 D0/D1/D2 cells were 0/50. A's
+D0 success rose to 2/50 at update 500 and 35/50 at update 3001; its D1/D2 stayed
+at 0/50 at these measured points. The missing intermediate points prevent a
+comparison of learning speed across models. Each update-0 policy includes the
+saved LoRA initialization and its own corpus normalization, not dense zero-shot π₀.
+
+![Available checkpoint trajectory; missing evaluations remain gaps](multitask_sft/sft_trajectory.png)
+
+[Trajectory PDF](multitask_sft/sft_trajectory.pdf).
 
 ## 6. Behavior stages
 

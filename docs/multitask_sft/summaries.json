@@ -1,0 +1,407 @@
+[
+  {
+    "variant": "A",
+    "train_set": "D0",
+    "updates": 0,
+    "task": "D0",
+    "seen": true,
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 220.0
+  },
+  {
+    "variant": "A",
+    "train_set": "D0",
+    "updates": 0,
+    "task": "D1",
+    "seen": false,
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 220.0
+  },
+  {
+    "variant": "A",
+    "train_set": "D0",
+    "updates": 0,
+    "task": "D2",
+    "seen": false,
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 280.0
+  },
+  {
+    "variant": "A",
+    "train_set": "D0",
+    "updates": 500,
+    "task": "D0",
+    "seen": true,
+    "n": 50,
+    "successes": 2,
+    "success_rate": 0.04,
+    "wilson_95ci": [
+      0.011038884327619805,
+      0.1346009068750702
+    ],
+    "mean_episode_length": 217.4
+  },
+  {
+    "variant": "A",
+    "train_set": "D0",
+    "updates": 500,
+    "task": "D1",
+    "seen": false,
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 220.0
+  },
+  {
+    "variant": "A",
+    "train_set": "D0",
+    "updates": 500,
+    "task": "D2",
+    "seen": false,
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 280.0
+  },
+  {
+    "variant": "A",
+    "train_set": "D0",
+    "updates": 3001,
+    "task": "D0",
+    "seen": true,
+    "n": 50,
+    "successes": 35,
+    "success_rate": 0.7,
+    "wilson_95ci": [
+      0.562496495355466,
+      0.8089644649911906
+    ],
+    "mean_episode_length": 138.46
+  },
+  {
+    "variant": "A",
+    "train_set": "D0",
+    "updates": 3001,
+    "task": "D1",
+    "seen": false,
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 220.0
+  },
+  {
+    "variant": "A",
+    "train_set": "D0",
+    "updates": 3001,
+    "task": "D2",
+    "seen": false,
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 280.0
+  },
+  {
+    "variant": "A",
+    "train_set": "D0",
+    "updates": 3001,
+    "task": "H1",
+    "seen": false,
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 220.0
+  },
+  {
+    "variant": "A",
+    "train_set": "D0",
+    "updates": 3001,
+    "task": "H2",
+    "seen": false,
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 280.0
+  },
+  {
+    "variant": "B",
+    "train_set": "D0 + D1",
+    "updates": 0,
+    "task": "D0",
+    "seen": true,
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 220.0
+  },
+  {
+    "variant": "B",
+    "train_set": "D0 + D1",
+    "updates": 0,
+    "task": "D1",
+    "seen": true,
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 220.0
+  },
+  {
+    "variant": "B",
+    "train_set": "D0 + D1",
+    "updates": 0,
+    "task": "D2",
+    "seen": false,
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 280.0
+  },
+  {
+    "variant": "B",
+    "train_set": "D0 + D1",
+    "updates": 3001,
+    "task": "D0",
+    "seen": true,
+    "n": 50,
+    "successes": 28,
+    "success_rate": 0.56,
+    "wilson_95ci": [
+      0.4230602802165686,
+      0.6883780078874284
+    ],
+    "mean_episode_length": 170.7
+  },
+  {
+    "variant": "B",
+    "train_set": "D0 + D1",
+    "updates": 3001,
+    "task": "D1",
+    "seen": true,
+    "n": 50,
+    "successes": 9,
+    "success_rate": 0.18,
+    "wilson_95ci": [
+      0.09770192670234178,
+      0.30796053674300783
+    ],
+    "mean_episode_length": 198.9
+  },
+  {
+    "variant": "B",
+    "train_set": "D0 + D1",
+    "updates": 3001,
+    "task": "D2",
+    "seen": false,
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 280.0
+  },
+  {
+    "variant": "B",
+    "train_set": "D0 + D1",
+    "updates": 3001,
+    "task": "H1",
+    "seen": false,
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 220.0
+  },
+  {
+    "variant": "B",
+    "train_set": "D0 + D1",
+    "updates": 3001,
+    "task": "H2",
+    "seen": false,
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 280.0
+  },
+  {
+    "variant": "C",
+    "train_set": "D0 + D1 + D2",
+    "updates": 0,
+    "task": "D0",
+    "seen": true,
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 220.0
+  },
+  {
+    "variant": "C",
+    "train_set": "D0 + D1 + D2",
+    "updates": 0,
+    "task": "D1",
+    "seen": true,
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 220.0
+  },
+  {
+    "variant": "C",
+    "train_set": "D0 + D1 + D2",
+    "updates": 0,
+    "task": "D2",
+    "seen": true,
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 280.0
+  },
+  {
+    "variant": "C",
+    "train_set": "D0 + D1 + D2",
+    "updates": 3001,
+    "task": "D0",
+    "seen": true,
+    "n": 50,
+    "successes": 21,
+    "success_rate": 0.42,
+    "wilson_95ci": [
+      0.2937500335471198,
+      0.5576655823142176
+    ],
+    "mean_episode_length": 173.42
+  },
+  {
+    "variant": "C",
+    "train_set": "D0 + D1 + D2",
+    "updates": 3001,
+    "task": "D1",
+    "seen": true,
+    "n": 50,
+    "successes": 19,
+    "success_rate": 0.38,
+    "wilson_95ci": [
+      0.25862789310193596,
+      0.5184955306900703
+    ],
+    "mean_episode_length": 173.5
+  },
+  {
+    "variant": "C",
+    "train_set": "D0 + D1 + D2",
+    "updates": 3001,
+    "task": "D2",
+    "seen": true,
+    "n": 50,
+    "successes": 31,
+    "success_rate": 0.62,
+    "wilson_95ci": [
+      0.4815044693099298,
+      0.7413721068980641
+    ],
+    "mean_episode_length": 161.0
+  },
+  {
+    "variant": "C",
+    "train_set": "D0 + D1 + D2",
+    "updates": 3001,
+    "task": "H1",
+    "seen": false,
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 220.0
+  },
+  {
+    "variant": "C",
+    "train_set": "D0 + D1 + D2",
+    "updates": 3001,
+    "task": "H2",
+    "seen": false,
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 280.0
+  }
+]

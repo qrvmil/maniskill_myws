@@ -5,6 +5,18 @@ This document specifies the primary experiment. Runtime evidence is collected in
 `/workspace/multitask-sft` on the execution instance. The experiment is not complete
 until the main report contains measured results and the completion checks pass.
 
+On 23 September 2026 the user requested immediate publication instead of waiting
+for remaining intermediate evaluations. All 15 final N=50 cells and 60 image
+perturbation measurements completed. Twelve of 36 intermediate cells completed:
+all A/B/C update-0 D0/D1/D2 cells and A/update-500 D0/D1/D2. Interrupted B/update-500
+saved 38, 39 and 29 episodes respectively. These partial rows remain in raw evidence
+but are excluded from fixed-N summaries. Unstarted checkpoints remain missing.
+The pipeline and its workers were stopped. The original preregistration is retained;
+`multitask_sft/evidence/setup/user_requested_cutoff.json` records this user-directed deviation.
+Publication uses `scripts/report_multitask_sft.py --allow-incomplete-trajectory`;
+the option never permits incomplete final evaluations. Notebook cached mode uses
+the same explicit option. Missing trajectory points are gaps, with no interpolation.
+
 ## Registration and source
 
 The branch begins at `c9b14ef43f7a94213536ebb97f3056bfd9f9dd87` in

@@ -1,0 +1,38 @@
+{
+  "bleach": {
+    "old": "6.4.0",
+    "new": null
+  },
+  "defusedxml": {
+    "old": "0.7.1",
+    "new": null
+  },
+  "jupyterlab_pygments": {
+    "old": "0.3.0",
+    "new": null
+  },
+  "mistune": {
+    "old": "3.3.4",
+    "new": null
+  },
+  "nbclient": {
+    "old": "0.11.0",
+    "new": null
+  },
+  "nbconvert": {
+    "old": "7.17.1",
+    "new": null
+  },
+  "pandocfilters": {
+    "old": "1.5.1",
+    "new": null
+  },
+  "tinycss2": {
+    "old": "1.5.1",
+    "new": null
+  },
+  "webencodings": {
+    "old": "0.6.1",
+    "new": null
+  }
+}

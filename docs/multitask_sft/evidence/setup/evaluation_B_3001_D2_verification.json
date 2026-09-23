@@ -1,0 +1,22 @@
+{
+  "variant": "B",
+  "task": "D2",
+  "updates": 3001,
+  "seen": false,
+  "n": 50,
+  "successes": 0,
+  "success_rate": 0.0,
+  "wilson_95ci": [
+    6.938893903907228e-18,
+    0.07134759913335872
+  ],
+  "mean_episode_length": 280.0,
+  "registered_seeds_and_resets_verified": true,
+  "initial_state_arrays_rehashed": true,
+  "checkpoint_and_normalization_binding_verified": true,
+  "representative_seeds": [
+    10000,
+    10001
+  ],
+  "runtime_wall_seconds": 5800.636900152
+}

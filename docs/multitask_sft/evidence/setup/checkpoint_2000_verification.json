@@ -1,0 +1,11 @@
+{
+  "variant": "A",
+  "optimizer_updates": 2000,
+  "upstream_loop_index": 1999,
+  "parameter_manifest_verified": true,
+  "files": 23,
+  "normalization_sha256": "b4ea07567b2cc2bbd5670167efa540730ef4e98b3e507ce1610473c948401f44",
+  "optimizer_examples": 16000,
+  "fetched_examples": 16008,
+  "lookahead_examples_excluded": 8
+}

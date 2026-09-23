@@ -1,0 +1,13 @@
+{
+  "n": 50,
+  "rescue": 9,
+  "harm": 0,
+  "gain_pp": 18.0,
+  "bootstrap_95_pp": [
+    8.0,
+    30.0
+  ],
+  "bootstrap_draws": 10000,
+  "bootstrap_seed": 0,
+  "exact_boundary_95_pp": null
+}

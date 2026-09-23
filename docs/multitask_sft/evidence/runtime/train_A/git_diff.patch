@@ -1,0 +1,83 @@
+diff --git a/configs/pld_libero/multitask_sft.json b/configs/pld_libero/multitask_sft.json
+index 4c8c039..5eb6df5 100644
+--- a/configs/pld_libero/multitask_sft.json
++++ b/configs/pld_libero/multitask_sft.json
+@@ -7,31 +7,36 @@
+       "suite": "libero_spatial",
+       "name": "pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate",
+       "horizon": 220,
+-      "distance": "D0"
++      "distance": "D0",
++      "bddl_sha256": "5e19880ebc844f86b89f63b172aab0b7a89f85b6e6955891f544f0ea7d0795d5"
+     },
+     "D1": {
+       "suite": "libero_spatial",
+       "name": "pick_up_the_black_bowl_next_to_the_plate_and_place_it_on_the_plate",
+       "horizon": 220,
+-      "distance": "D1"
++      "distance": "D1",
++      "bddl_sha256": "c8fbb9effa27b947d04d26862d75273d93cac1806734e53836cd472a08aec1fe"
+     },
+     "D2": {
+       "suite": "libero_goal",
+       "name": "put_the_bowl_on_the_stove",
+       "horizon": 280,
+-      "distance": "D2"
++      "distance": "D2",
++      "bddl_sha256": "c6812d6c988be830412aa6fc4801af04d60f8c4565d2625763b6a0f2b843a87f"
+     },
+     "H1": {
+       "suite": "libero_spatial",
+       "name": "pick_up_the_black_bowl_next_to_the_ramekin_and_place_it_on_the_plate",
+       "horizon": 220,
+-      "distance": "H1"
++      "distance": "H1",
++      "bddl_sha256": "53a7516571412a2f46a27cbf8482d3b76dbad4221858c8f6b565d506c274e61d"
+     },
+     "H2": {
+       "suite": "libero_object",
+       "name": "pick_up_the_alphabet_soup_and_place_it_in_the_basket",
+       "horizon": 280,
+-      "distance": "H2"
++      "distance": "H2",
++      "bddl_sha256": "df088984da13131f8332ee0f13a7896c6a97afd02ee5007a42e8fc5e0893571e"
+     }
+   },
+   "train_sets": {
+diff --git a/src/maniskill_myws/pld/multitask_protocol.py b/src/maniskill_myws/pld/multitask_protocol.py
+index 0965fa8..b983850 100644
+--- a/src/maniskill_myws/pld/multitask_protocol.py
++++ b/src/maniskill_myws/pld/multitask_protocol.py
+@@ -18,7 +18,10 @@ TASKS={
+     'H1':dict(suite='libero_spatial',name='pick_up_the_black_bowl_next_to_the_ramekin_and_place_it_on_the_plate',horizon=220),
+     'H2':dict(suite='libero_object',name='pick_up_the_alphabet_soup_and_place_it_in_the_basket',horizon=280),
+ }
+-for _key,_task in TASKS.items():_task['distance']=_key
++BDDL_HASHES={'D0': '5e19880ebc844f86b89f63b172aab0b7a89f85b6e6955891f544f0ea7d0795d5', 'D1': 'c8fbb9effa27b947d04d26862d75273d93cac1806734e53836cd472a08aec1fe', 'D2': 'c6812d6c988be830412aa6fc4801af04d60f8c4565d2625763b6a0f2b843a87f', 'H1': '53a7516571412a2f46a27cbf8482d3b76dbad4221858c8f6b565d506c274e61d', 'H2': 'df088984da13131f8332ee0f13a7896c6a97afd02ee5007a42e8fc5e0893571e'}
++for _key,_task in TASKS.items():
++    _task['distance']=_key
++    _task['bddl_sha256']=BDDL_HASHES[_key]
+ 
+ 
+ def prompt(task):return TASKS[task]['name'].replace('_',' ')
+diff --git a/src/maniskill_myws/pld/multitask_train.py b/src/maniskill_myws/pld/multitask_train.py
+index a67c77b..01c50a6 100644
+--- a/src/maniskill_myws/pld/multitask_train.py
++++ b/src/maniskill_myws/pld/multitask_train.py
+@@ -4,7 +4,7 @@ import json
+ import os
+ import numpy as np
+ from .multitask_protocol import BalancedSampler,TRAIN_SETS,UPDATES,sha256,require_binding
+-from .multitask_data import WORK,DATA,ROOT,repo_id,train_config,load_script
++from .multitask_data import WORK,DATA,BASE,ROOT,repo_id,train_config,load_script
+ from .libero_artifacts import write_json
+ from .libero_protocol import directory_manifest,verify_directory
+ from .libero_sanity import completed_updates
+@@ -33,6 +33,7 @@ def train(variant):
+     logging.basicConfig(level=logging.INFO)
+     binding=json.loads((WORK/variant/'binding.json').read_text())
+     require_binding(binding,variant,sha256(WORK/'base_manifest.json'))
++    verify_directory(BASE,json.loads((WORK/'base_manifest.json').read_text()))
+     audit_path=DATA/repo_id(variant)/'source_audit.json'
+     if sha256(audit_path)!=binding['source_audit_sha256']:raise ValueError('Source audit drift')
+     audit=json.loads(audit_path.read_text())

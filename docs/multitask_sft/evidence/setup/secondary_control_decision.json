@@ -1,0 +1,9 @@
+{
+  "decision_utc": "2026-09-23T04:43:29.548541+00:00",
+  "preregistered_design": "50 total demos; B first25 numeric demos per task; C first17/17/16; A shared",
+  "registration": "configs/pld_libero/multitask_sft.json",
+  "launched": false,
+  "measured_primary_B_C_training_hours": 4.976483373514724,
+  "additional_final_evaluation_episodes": 500,
+  "reason": "Approximately five additional training hours plus final evaluation would materially extend the study. No secondary outcomes were generated or used."
+}

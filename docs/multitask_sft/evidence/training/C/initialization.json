@@ -1,0 +1,6 @@
+{
+  "parameter_sha256": "43f7c62aedacb8ee93fbbd829c93a878335368b12a4864419e2fc9128cbc7d47",
+  "independent_base_load": true,
+  "base_manifest_sha256": "c24b2ceb96411f3ae7d13b5c77e89ea152bf65b076d254afc2575e69bec995bc",
+  "functional_lora_perturbation": true
+}

@@ -1,0 +1,297 @@
+{
+  "safe": true,
+  "reason": "Three concurrent independent policy/simulator processes exactly match serial outcomes, lengths, reset, trajectory and image hashes on two D0 seeds.",
+  "source_signature": {
+    "sources": {
+      "__init__.py": "9cd6c734c1e835c37ca7ed4eaaa6479da03abb31d84a6240dac6e1eb56d8f95b",
+      "env_device.py": "b25cb90aedc92f21decd6ca487857abd5e3782406e74cb9d8e155e5981842e4e",
+      "h5_replay.py": "bac8e2342bef704d13527e946645526d14e225f59df266f649049f54a6d7b3a1",
+      "libero_adaptation_selection.py": "08e767b90230ad2a41c7f15bbf28fac465dc37b59d14049315136e6a32d0b733",
+      "libero_alignment.py": "39648d2ff3ba380e493b89499c6f218df7d5acf96473c11dda94cc282a6dad6a",
+      "libero_artifacts.py": "c4ef821cd34a7a6bf6ef36364b79281184453546496e058a82f3d731609cdeba",
+      "libero_backend.py": "521d2cf1e382d5f9c113999d1ff8ce29e4677b9d585e37e57b4ae193a70f0e35",
+      "libero_counterfactual.py": "37303a0e21d3242906c288f5feb98c91982cc2ac3f05ad1bb63f7bebb44fa0d3",
+      "libero_cpu_sft.py": "57fef8921f717a0c1a78477de40bcdddc139c4978e1d877e11d00bbd733a9708",
+      "libero_demonstrations.py": "27fa6e82f87e695ef94f29a54b9715af1dd2f728103e446470a672aba828e983",
+      "libero_diagnostics.py": "7c93698dcfdddeca9bf4085e04554f31b930eeca0924d08a0b868861bbf73098",
+      "libero_experiment.py": "00e335df069211e5884f3743013627592b7708ab7bf26864c54bbd8e824828b4",
+      "libero_gpu_sft.py": "344343486f50f00d2c8322aeef595ef59fa080b1c10146ced280f8023680784a",
+      "libero_openpi.py": "95c3aed2102c7b6b65b5e5bf2e6137bfd3bf29b652df181c2654da1f15aa21be",
+      "libero_progress.py": "ccc97bfd6b8db8d9e031b2be2470ff17ae1d4a230c2d03a3fee7a0617971255e",
+      "libero_protocol.py": "e9511bbce9a1a82b526ef5e8bebe48b67307236146741e36211b8f9997d8004a",
+      "libero_runner.py": "c3c729606ef9536ae2e8f9f419c4ebb950219ee3bf9e8ba464e3b1261674afbc",
+      "libero_runtime.py": "ccc92d58df8a181af5153f5b72f8d65b50fa3a61e6f15184d1d02b87b041b793",
+      "libero_sanity.py": "ccccfc269c6be8c320c30736bfebc754139d0d607732d3a1465a16ad204d68e3",
+      "libero_sanity_videos.py": "443075c478fc0eb89e86a03716f0efe6bba30f838331f3f3b3dc1c4e149b01f3",
+      "libero_selection.py": "5d8a34478b8a587be59de58ede6222a531bead12d111e452b17f1e5f8c5e258b",
+      "libero_summary.py": "c3cdbab3712904aa38337a69c9462e66fce749466c47f611fea9980b01b50a0d",
+      "libero_training_state.py": "898ff5a9779e85e62b822da6aef8cc16deb3d2fca17492bfd59e6d440729d676",
+      "path_visualizer.py": "d76d470ee930d8946f57401d0009432f4df7679fcf54b5c508e27f4fff2927f2",
+      "policies.py": "1d950a8db1fcf08cd7e5d7acb45c8bd4d0366699859884d6acd1c804a2204d1e",
+      "replay_buffer.py": "3862b5d3172e9e28f8a2642dd8c23657e4203c7f60ca700cecb432ca99358c24",
+      "sac.py": "28e02e06db8d7178cd24f60b809be74b67c8a6dec147e03930eb06f372bdf781",
+      "serl_encoder.py": "01ca130fe47f3851af68d01b9e03081b436860d1c2d483f503e274e02bbf44aa",
+      "state.py": "1870bfefdb3b62bb37a11570e199f7b381ab0a7a109ede07e1e6ca06c3e241d4",
+      "train_common.py": "d32b99131c3c1b3e19d6c3519d534c9c0eade95ed54dba9380df2c8d8b036c05",
+      "multitask_protocol.py": "700fa4004fcd859efa6be95eb980023604317db71a7d78ab1110eb7bcb5ba023",
+      "multitask_data.py": "af98f50f4095883151a55ea557166e03d57bc4f2d766541471a90d3815d2c8f1",
+      "multitask_train.py": "b32b39628727d8e92ec5f5ae282cde3a4538ba6453be718030fef68b5ccbade1",
+      "multitask_eval.py": "667385794713057a3bd0c1430335adbfbd90189d4c7835c405f5108c3dda8e45",
+      "multitask_report.py": "53dd685553799d46bbaea29ad8803548112e31b70290149e5ef8b6396ac9e902",
+      "multitask_parallel.py": "3cca8046c029f99c4db7a63513fb0ff29950d2c94bb39630bed8fa42d84ac4b3"
+    },
+    "packages": {
+      "jax": "0.5.3",
+      "jaxlib": "0.5.3",
+      "jax-cuda12-plugin": "0.5.3",
+      "jax-cuda12-pjrt": "0.5.3",
+      "torch": "2.7.1+cu128",
+      "numpy": "1.26.4",
+      "mujoco": "3.2.7",
+      "robosuite": "1.4.1",
+      "flax": "0.10.2",
+      "orbax-checkpoint": "0.11.13"
+    },
+    "dependencies": {
+      "openpi": {
+        "revision": "981483dca0fd9acba698fea00aa6e52d56a66c58",
+        "diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "LIBERO": {
+        "revision": "8f1084e3132a39270c3a13ebe37270a43ece2a01",
+        "diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "gpu": "GPU-804bdabb-6e90-59a1-5e5f-d894d7446036, NVIDIA CMP 170HX, 610.43.03",
+    "config": "b1f376cb628098e8d162f4c6da42809ae9142d08ea1a1129ee976635080a2070",
+    "checkpoint": "/workspace/multitask-sft/A/checkpoints/pi0_libero_seen_lora32/EXP-001/0",
+    "checkpoint_files": [
+      [
+        "_CHECKPOINT_METADATA",
+        426,
+        1790085653097677794
+      ],
+      [
+        "assets/local/multitask_A/norm_stats.json",
+        1956,
+        1790085646377984503
+      ],
+      [
+        "params/_METADATA",
+        32125,
+        1790085653060679483
+      ],
+      [
+        "params/_sharding",
+        17433,
+        1790085653044680213
+      ],
+      [
+        "params/array_metadatas/process_0",
+        12618,
+        1790085649160857485
+      ],
+      [
+        "params/d/770391ff6d490d3ffa87e699f393f5d3",
+        2692,
+        1790085653087678250
+      ],
+      [
+        "params/manifest.ocdbt",
+        118,
+        1790085653091678068
+      ],
+      [
+        "params/ocdbt.process_0/d/14582d96989fcb0582788672afbad8fa",
+        946090831,
+        1790085651691741967
+      ],
+      [
+        "params/ocdbt.process_0/d/1e85dee8887fa8442901046b01772da2",
+        497051743,
+        1790085650308805089
+      ],
+      [
+        "params/ocdbt.process_0/d/24365de28f988f46b6def08172371ff0",
+        384180762,
+        1790085649816827545
+      ],
+      [
+        "params/ocdbt.process_0/d/407aaff031076dbf06d543882c1d31c7",
+        829842368,
+        1790085651332758352
+      ],
+      [
+        "params/ocdbt.process_0/d/6dbaa955c376021bebe4a69045ecb4ba",
+        95973755,
+        1790085649324850000
+      ],
+      [
+        "params/ocdbt.process_0/d/8fdabdaf63d0fd3898aac5f30c0a8f59",
+        496772848,
+        1790085650560793587
+      ],
+      [
+        "params/ocdbt.process_0/d/a118861c3f088bf103d9385ee862ee5b",
+        55336,
+        1790085649184856390
+      ],
+      [
+        "params/ocdbt.process_0/d/a35e55accc705d831d15431bc8523bfe",
+        5679,
+        1790085649169857074
+      ],
+      [
+        "params/ocdbt.process_0/d/b14a3058135cc0ca077135dcc2e63c48",
+        1174,
+        1790085649141858352
+      ],
+      [
+        "params/ocdbt.process_0/d/befaa7702ba60c9d8362a323da894801",
+        236114300,
+        1790085649989819649
+      ],
+      [
+        "params/ocdbt.process_0/d/c1340895e592919456b02a24903f6956",
+        287456436,
+        1790085649429845208
+      ],
+      [
+        "params/ocdbt.process_0/d/d690ce7a7821db669dc0c9ee57dc1979",
+        946038209,
+        1790085652837689661
+      ],
+      [
+        "params/ocdbt.process_0/d/e04b5462217c8cc9ab20c0ccc4c47741",
+        93254962,
+        1790085649264852738
+      ],
+      [
+        "params/ocdbt.process_0/d/e146ca9303b0ca74a4ef9fe27cd6ecec",
+        946032307,
+        1790085652454707142
+      ],
+      [
+        "params/ocdbt.process_0/d/e8c95c587b7f12e19ac32d4a59c0ce8c",
+        501729201,
+        1790085649614836764
+      ],
+      [
+        "params/ocdbt.process_0/d/fcc1937db65d5a300777a71402adce22",
+        1341,
+        1790085649155857713
+      ],
+      [
+        "params/ocdbt.process_0/d/feac32937138ffb96839ae948acbb90f",
+        213,
+        1790085649132858763
+      ],
+      [
+        "params/ocdbt.process_0/manifest.ocdbt",
+        140,
+        1790085653040680396
+      ],
+      [
+        "train_state/_METADATA",
+        62029,
+        1790085650893778389
+      ],
+      [
+        "train_state/_sharding",
+        28685,
+        1790085650871779393
+      ],
+      [
+        "train_state/array_metadatas/process_0",
+        20601,
+        1790085650665788795
+      ],
+      [
+        "train_state/d/18ff8c3157def35a0a6554998bd4ae1e",
+        1885,
+        1790085653071678981
+      ],
+      [
+        "train_state/manifest.ocdbt",
+        116,
+        1790085653075678798
+      ],
+      [
+        "train_state/ocdbt.process_0/d/135631d94103b69cc7a9eed30b8bd805",
+        1177,
+        1790085650687787791
+      ],
+      [
+        "train_state/ocdbt.process_0/d/411adf788b545eed60119e3f4b4ce65c",
+        14258,
+        1790085650771783957
+      ],
+      [
+        "train_state/ocdbt.process_0/d/4122d9a7ebdf1c8124d4ad1440e69161",
+        18232,
+        1790085650863779758
+      ],
+      [
+        "train_state/ocdbt.process_0/d/6a025c4f1c19e7b1175be41d335ef9ce",
+        18174,
+        1790085650848780443
+      ],
+      [
+        "train_state/ocdbt.process_0/d/8efe62a91af19f7f7eb47b75ac9b1fa1",
+        171,
+        1790085650597791899
+      ],
+      [
+        "train_state/ocdbt.process_0/d/a34333af7713c5a1efad54ebcfbb323e",
+        1344,
+        1790085650700787198
+      ],
+      [
+        "train_state/ocdbt.process_0/d/c6760f46d798541fe3f773ce7dc22a07",
+        32496,
+        1790085650790783090
+      ],
+      [
+        "train_state/ocdbt.process_0/d/d28fd248e831d17f3bdafaa0cded9d2d",
+        5390,
+        1790085650739785417
+      ],
+      [
+        "train_state/ocdbt.process_0/d/da392d6f1d08a80e5f5be1ee3655567e",
+        1151,
+        1790085650679788156
+      ],
+      [
+        "train_state/ocdbt.process_0/d/ddc45230c01ce49e94b07280613bc5d4",
+        18219,
+        1790085650856780077
+      ],
+      [
+        "train_state/ocdbt.process_0/d/f2f2fba9852d1c549faa16b5d692fdb9",
+        18156,
+        1790085650829781310
+      ],
+      [
+        "train_state/ocdbt.process_0/manifest.ocdbt",
+        522,
+        1790085650868779530
+      ]
+    ],
+    "environment": {
+      "JAX_PLATFORMS": "cuda",
+      "XLA_FLAGS": "--xla_gpu_autotune_level=0",
+      "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+      "MUJOCO_GL": "egl"
+    }
+  },
+  "task": "D0",
+  "variant": "A",
+  "updates": 0,
+  "seeds": [
+    10000,
+    10001
+  ],
+  "workers": 3,
+  "checkpoint": "/workspace/multitask-sft/A/checkpoints/pi0_libero_seen_lora32/EXP-001/0",
+  "uses_heldout_outcomes": false
+}

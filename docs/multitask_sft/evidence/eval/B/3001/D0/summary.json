@@ -1,0 +1,10 @@
+{
+  "n": 50,
+  "successes": 28,
+  "success_rate": 0.56,
+  "wilson_95ci": [
+    0.4230602802165686,
+    0.6883780078874284
+  ],
+  "mean_episode_length": 170.7
+}

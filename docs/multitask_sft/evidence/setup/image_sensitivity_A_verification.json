@@ -1,0 +1,20 @@
+{
+  "variant": "A",
+  "n_observations": 20,
+  "raw_actions_recomputed": true,
+  "bank_prompt_seeds_resets_hashes_verified": true,
+  "flow_noise_hashes_recomputed": true,
+  "mean_action_changes": {
+    "D0": {
+      "first_action_l2": 0.08243020514314084,
+      "first5_mean_l2": 0.07065816906340824,
+      "chunk_mean_l2": 0.19601324552776517
+    },
+    "H1": {
+      "first_action_l2": 0.09510013509532592,
+      "first5_mean_l2": 0.07855679113974433,
+      "chunk_mean_l2": 0.17899486843307105
+    }
+  },
+  "runtime_wall_seconds": 65.73178195999935
+}

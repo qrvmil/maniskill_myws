@@ -1,0 +1,49 @@
+{
+  "date_utc": "2026-09-23T01:49:30.078307+00:00",
+  "command": "/root/maniskill_myws/third_party/openpi/.venv/bin/python /root/maniskill_myws/scripts/eval_multitask_sft.py --checkpoint /workspace/multitask-sft/B/checkpoints/pi0_libero_seen_lora32/EXP-001/3001 --variant B --episodes 50 --seed-start 10000 --videos 2 --output /workspace/multitask-sft/eval/B/3001 --task H1 --runtime-label runtime_H1 --serial",
+  "config": {
+    "checkpoint": "/workspace/multitask-sft/B/checkpoints/pi0_libero_seen_lora32/EXP-001/3001",
+    "variant": "B",
+    "seen_tasks": null,
+    "task": "H1",
+    "episodes": 50,
+    "seed_start": 10000,
+    "seeds": null,
+    "videos": 2,
+    "normalization": null,
+    "output": "/workspace/multitask-sft/eval/B/3001",
+    "image_sensitivity": false,
+    "serial": true,
+    "runtime_label": "runtime_H1",
+    "reset_dir": null,
+    "sensitivity_only": false
+  },
+  "git_commit": "d32a8923c4d2db408dc2d6d0aac30f6506644833",
+  "git_status": "?? docs/multitask_sft/evidence/",
+  "gpu": "name, memory.total [MiB], driver_version\nNVIDIA CMP 170HX, 65536 MiB, 610.43.03",
+  "torch_version": "2.7.1+cu128",
+  "cuda_version": "12.8",
+  "environment": {
+    "XLA_FLAGS": "--xla_gpu_autotune_level=0",
+    "JAX_PLATFORMS": "cuda",
+    "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+    "MUJOCO_GL": "egl",
+    "HF_LEROBOT_HOME": "/workspace/multitask-sft/lerobot",
+    "PYTHONPATH": "/workspace/LIBERO:/root/maniskill_myws/src",
+    "TORCH_COMPILE_DISABLE": "1",
+    "OMP_NUM_THREADS": "4"
+  },
+  "status": "COMPLETED",
+  "checkpoint": null,
+  "cuda_phase_peaks": {
+    "base_inference": {
+      "allocated_bytes": 0,
+      "reserved_bytes": 0
+    }
+  },
+  "wall_seconds": 3454.0469650250016,
+  "process_peak_rss_bytes": 12617216000,
+  "device_peak_sampled_used_mib": 27001,
+  "torch_peak_allocated_bytes": 0,
+  "torch_peak_reserved_bytes": 0
+}

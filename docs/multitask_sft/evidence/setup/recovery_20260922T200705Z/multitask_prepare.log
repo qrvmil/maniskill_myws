@@ -1,0 +1,29 @@
+SOURCE_VERIFIED D0 5832
+SOURCE_VERIFIED D1 5913
+SOURCE_VERIFIED D2 5031
+OFFICIAL_BASE_VERIFIED 33
+Traceback (most recent call last):
+  File "/root/maniskill_myws/scripts/prepare_multitask_sft.py", line 9, in <module>
+    for variant in ('A','B','C'):prepare(variant)
+                                 ^^^^^^^^^^^^^^^^
+  File "/root/maniskill_myws/src/maniskill_myws/pld/multitask_data.py", line 159, in prepare
+    audit=convert(variant);cfg=train_config(variant)
+          ^^^^^^^^^^^^^^^^
+  File "/root/maniskill_myws/src/maniskill_myws/pld/multitask_data.py", line 112, in convert
+    from lerobot.common.datasets.lerobot_dataset import LeRobotDataset
+  File "/root/maniskill_myws/third_party/openpi/.venv/lib/python3.11/site-packages/lerobot/common/datasets/lerobot_dataset.py", line 22, in <module>
+    import datasets
+  File "/root/maniskill_myws/third_party/openpi/.venv/lib/python3.11/site-packages/datasets/__init__.py", line 17, in <module>
+    from .arrow_dataset import Dataset
+  File "/root/maniskill_myws/third_party/openpi/.venv/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 72, in <module>
+    from . import config
+  File "/root/maniskill_myws/third_party/openpi/.venv/lib/python3.11/site-packages/datasets/config.py", line 53, in <module>
+    TORCH_VERSION = version.parse(importlib.metadata.version("torch"))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/maniskill_myws/third_party/openpi/.venv/lib/python3.11/site-packages/packaging/version.py", line 56, in parse
+    return Version(version)
+           ^^^^^^^^^^^^^^^^
+  File "/root/maniskill_myws/third_party/openpi/.venv/lib/python3.11/site-packages/packaging/version.py", line 200, in __init__
+    match = self._regex.search(version)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: expected string or bytes-like object, got 'NoneType'

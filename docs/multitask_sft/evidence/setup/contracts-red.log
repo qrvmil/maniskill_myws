@@ -1,0 +1,111 @@
+FFFFFFF                                                                  [100%]
+=================================== FAILURES ===================================
+____________________ test_nested_tasks_and_heldout_leakage _____________________
+
+    def test_nested_tasks_and_heldout_leakage():
+>       m=module()
+          ^^^^^^^^
+
+tests/test_multitask_sft.py:13: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def module():
+>       from maniskill_myws.pld import multitask_protocol
+E       ImportError: cannot import name 'multitask_protocol' from 'maniskill_myws.pld' (/root/maniskill_myws/src/maniskill_myws/pld/__init__.py)
+
+tests/test_multitask_sft.py:8: ImportError
+____ test_balanced_sampler_ignores_unequal_task_lengths_and_is_reproducible ____
+
+    def test_balanced_sampler_ignores_unequal_task_lengths_and_is_reproducible():
+>       m=module()
+          ^^^^^^^^
+
+tests/test_multitask_sft.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def module():
+>       from maniskill_myws.pld import multitask_protocol
+E       ImportError: cannot import name 'multitask_protocol' from 'maniskill_myws.pld' (/root/maniskill_myws/src/maniskill_myws/pld/__init__.py)
+
+tests/test_multitask_sft.py:8: ImportError
+_______________ test_normalization_and_initialization_provenance _______________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-1/test_normalization_and_initial0')
+
+    def test_normalization_and_initialization_provenance(tmp_path):
+>       m=module();norm=tmp_path/'norm.json';norm.write_text('{}')
+          ^^^^^^^^
+
+tests/test_multitask_sft.py:35: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def module():
+>       from maniskill_myws.pld import multitask_protocol
+E       ImportError: cannot import name 'multitask_protocol' from 'maniskill_myws.pld' (/root/maniskill_myws/src/maniskill_myws/pld/__init__.py)
+
+tests/test_multitask_sft.py:8: ImportError
+______ test_paired_statistics_reject_different_resets_and_duplicate_seeds ______
+
+    def test_paired_statistics_reject_different_resets_and_duplicate_seeds():
+>       m=module()
+          ^^^^^^^^
+
+tests/test_multitask_sft.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def module():
+>       from maniskill_myws.pld import multitask_protocol
+E       ImportError: cannot import name 'multitask_protocol' from 'maniskill_myws.pld' (/root/maniskill_myws/src/maniskill_myws/pld/__init__.py)
+
+tests/test_multitask_sft.py:8: ImportError
+_____________ test_video_selection_sorted_categories_and_metadata ______________
+
+    def test_video_selection_sorted_categories_and_metadata():
+>       m=module()
+          ^^^^^^^^
+
+tests/test_multitask_sft.py:61: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def module():
+>       from maniskill_myws.pld import multitask_protocol
+E       ImportError: cannot import name 'multitask_protocol' from 'maniskill_myws.pld' (/root/maniskill_myws/src/maniskill_myws/pld/__init__.py)
+
+tests/test_multitask_sft.py:8: ImportError
+________________ test_image_sensitivity_measures_action_vectors ________________
+
+    def test_image_sensitivity_measures_action_vectors():
+>       m=module();a=np.zeros((50,7));b=a.copy();b[:,0]=2
+          ^^^^^^^^
+
+tests/test_multitask_sft.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def module():
+>       from maniskill_myws.pld import multitask_protocol
+E       ImportError: cannot import name 'multitask_protocol' from 'maniskill_myws.pld' (/root/maniskill_myws/src/maniskill_myws/pld/__init__.py)
+
+tests/test_multitask_sft.py:8: ImportError
+_______________________ test_action_contract_and_prompt ________________________
+
+    def test_action_contract_and_prompt():
+>       m=module()
+          ^^^^^^^^
+
+tests/test_multitask_sft.py:80: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def module():
+>       from maniskill_myws.pld import multitask_protocol
+E       ImportError: cannot import name 'multitask_protocol' from 'maniskill_myws.pld' (/root/maniskill_myws/src/maniskill_myws/pld/__init__.py)
+
+tests/test_multitask_sft.py:8: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_multitask_sft.py::test_nested_tasks_and_heldout_leakage - I...
+FAILED tests/test_multitask_sft.py::test_balanced_sampler_ignores_unequal_task_lengths_and_is_reproducible
+FAILED tests/test_multitask_sft.py::test_normalization_and_initialization_provenance
+FAILED tests/test_multitask_sft.py::test_paired_statistics_reject_different_resets_and_duplicate_seeds
+FAILED tests/test_multitask_sft.py::test_video_selection_sorted_categories_and_metadata
+FAILED tests/test_multitask_sft.py::test_image_sensitivity_measures_action_vectors
+FAILED tests/test_multitask_sft.py::test_action_contract_and_prompt - ImportE...
+7 failed in 0.16s

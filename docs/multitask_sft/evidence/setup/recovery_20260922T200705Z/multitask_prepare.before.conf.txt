@@ -1,0 +1,8 @@
+[program:multitask_prepare]
+environment=PROC_NAME="%(program_name)s"
+command=/opt/supervisor-scripts/multitask_prepare.sh
+autostart=true
+autorestart=false
+stdout_logfile=/dev/stdout
+redirect_stderr=true
+stdout_logfile_maxbytes=0

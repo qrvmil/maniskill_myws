@@ -1,0 +1,35 @@
+{
+  "variant": "A",
+  "completed_updates": 3001,
+  "checkpoints": [
+    {
+      "optimizer_updates": 0,
+      "parameter_files_verified": 23
+    },
+    {
+      "optimizer_updates": 500,
+      "parameter_files_verified": 23
+    },
+    {
+      "optimizer_updates": 1000,
+      "parameter_files_verified": 22
+    },
+    {
+      "optimizer_updates": 2000,
+      "parameter_files_verified": 23
+    },
+    {
+      "optimizer_updates": 3001,
+      "parameter_files_verified": 21
+    }
+  ],
+  "normalization_sha256": "b4ea07567b2cc2bbd5670167efa540730ef4e98b3e507ce1610473c948401f44",
+  "consumed_examples": 24008,
+  "task_counts": [
+    24008
+  ],
+  "task_frequencies": [
+    1.0
+  ],
+  "lookahead_examples_excluded": 8
+}

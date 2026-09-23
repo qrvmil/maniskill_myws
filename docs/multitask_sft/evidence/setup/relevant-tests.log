@@ -1,0 +1,24 @@
+...........s.F...................................                        [100%]
+=================================== FAILURES ===================================
+____________ test_scientific_commands_fail_closed_without_alignment ____________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-11/test_scientific_commands_fail_0')
+
+    def test_scientific_commands_fail_closed_without_alignment(tmp_path):
+        import os,subprocess,sys
+        cfg=json.loads(Path('configs/pld_libero/anchor_bowl.json').read_text())
+        cfg['device']='cpu'
+        config_path=tmp_path/'cpu_config.json';config_path.write_text(json.dumps(cfg))
+        for mode in ['base','collect','train','eval']:
+            p=subprocess.run([sys.executable,'scripts/pld/run_libero.py',mode,
+                              '--config',str(config_path),'--output',str(tmp_path/mode)],
+                             env=dict(os.environ,CUDA_VISIBLE_DEVICES=''),capture_output=True,text=True)
+            assert p.returncode != 0
+>           assert 'aligned-base manifest' in p.stderr
+E           assert 'aligned-base manifest' in 'Traceback (most recent call last):\n  File "/root/maniskill_myws/scripts/pld/run_libero.py", line 146, in <module>\n ...# noqa: F401\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named \'libero\'\n'
+E            +  where 'Traceback (most recent call last):\n  File "/root/maniskill_myws/scripts/pld/run_libero.py", line 146, in <module>\n ...# noqa: F401\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named \'libero\'\n' = CompletedProcess(args=['/root/maniskill_myws/third_party/openpi/.venv/bin/python', 'scripts/pld/run_libero.py', 'base'... noqa: F401\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nModuleNotFoundError: No module named \'libero\'\n').stderr
+
+tests/test_pld_libero.py:289: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_pld_libero.py::test_scientific_commands_fail_closed_without_alignment
+1 failed, 47 passed, 1 skipped in 10.52s

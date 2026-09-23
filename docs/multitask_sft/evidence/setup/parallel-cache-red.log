@@ -1,0 +1,44 @@
+.FF                                                                      [100%]
+=================================== FAILURES ===================================
+_______________ test_parallel_source_drift_falls_back_to_serial ________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-22/test_parallel_source_drift_fal0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x75bc5fd06c10>
+
+    def test_parallel_source_drift_falls_back_to_serial(tmp_path,monkeypatch):
+        import json
+        from maniskill_myws.pld import multitask_parallel as m
+        checkpoint=tmp_path/'A/checkpoints/pi0_libero_seen_lora32/EXP-001/0';checkpoint.mkdir(parents=True)
+        validation=tmp_path/'parallel_validation';validation.mkdir()
+        (validation/'decision.json').write_text(json.dumps({'safe':True,'source_signature':{'old':'source'}}))
+        monkeypatch.setattr(m,'WORK',tmp_path)
+        monkeypatch.setattr(m,'execution_signature',lambda:{'new':'source'},raising=False)
+>       assert m.validate_parallel() is False
+
+tests/test_multitask_sft.py:169: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def validate_parallel():
+        root=WORK/'parallel_validation';root.mkdir(parents=True,exist_ok=True)
+        checkpoint=WORK/'A/checkpoints/pi0_libero_seen_lora32/EXP-001/0'
+        if not checkpoint.exists():return False
+        signature={name:sha256(ROOT/'src/maniskill_myws/pld'/name) for name in
+                   ['multitask_eval.py','multitask_parallel.py','libero_backend.py','libero_runner.py','libero_runtime.py']}
+        existing=root/'decision.json'
+        if existing.exists():
+            old=json.loads(existing.read_text())
+>           if old['source_signature']!=signature:raise ValueError('Parallel validation code changed; use serial or revalidate in a fresh directory')
+E           ValueError: Parallel validation code changed; use serial or revalidate in a fresh directory
+
+src/maniskill_myws/pld/multitask_parallel.py:37: ValueError
+_____________ test_parallel_signature_covers_inference_and_config ______________
+
+    def test_parallel_signature_covers_inference_and_config():
+>       from maniskill_myws.pld.multitask_parallel import execution_signature
+E       ImportError: cannot import name 'execution_signature' from 'maniskill_myws.pld.multitask_parallel' (/root/maniskill_myws/src/maniskill_myws/pld/multitask_parallel.py)
+
+tests/test_multitask_sft.py:173: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_multitask_sft.py::test_parallel_source_drift_falls_back_to_serial
+FAILED tests/test_multitask_sft.py::test_parallel_signature_covers_inference_and_config
+2 failed, 1 passed, 13 deselected in 0.09s

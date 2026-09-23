@@ -1,0 +1,29 @@
+{
+  "variant": "B",
+  "task": "D0",
+  "updates": 3001,
+  "seen": true,
+  "n": 50,
+  "successes": 28,
+  "success_rate": 0.56,
+  "wilson_95ci": [
+    0.4230602802165686,
+    0.6883780078874284
+  ],
+  "mean_episode_length": 170.7,
+  "registered_seeds_and_resets_verified": true,
+  "initial_state_arrays_rehashed": true,
+  "checkpoint_and_normalization_binding_verified": true,
+  "representative_seeds": [
+    10000,
+    10001,
+    10002,
+    10008
+  ],
+  "runtime_wall_seconds": 3566.254954314998,
+  "stage_counts": {
+    "reach": 50,
+    "grasp": 39,
+    "lift": 38
+  }
+}

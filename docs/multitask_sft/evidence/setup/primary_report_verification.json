@@ -1,0 +1,13 @@
+{
+  "verified_utc": "2026-09-23T04:49:08.827350+00:00",
+  "report_sha256": "da713d6fa1ab5ab7f91b02631b93b8c66bb66bd841b6fbd31dc8cab6a0591a74",
+  "checked_table_rows": {
+    "paired": 9,
+    "stages": 9,
+    "sensitivity": 6,
+    "membership": 3
+  },
+  "all_local_links_exist": true,
+  "required_sections_verified": true,
+  "tldr_bullets": 7
+}

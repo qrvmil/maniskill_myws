@@ -1,0 +1,19 @@
+{
+  "variant": "B",
+  "optimizer_updates": 2000,
+  "parameter_files_verified": 21,
+  "normalization_sha256": "e5cbe62ae014e047c178279a53ce840efa40e1754c492dd1f492415feada29c3",
+  "normalization_file_rehashed": true,
+  "consumed_examples": 16000,
+  "task_counts": {
+    "D0": 8066,
+    "D1": 7934
+  },
+  "task_frequencies": {
+    "D0": 0.504125,
+    "D1": 0.495875
+  },
+  "lookahead_examples_excluded": 8,
+  "finite_logged_training_points": 202,
+  "latest_logged_step_checked": 2010
+}

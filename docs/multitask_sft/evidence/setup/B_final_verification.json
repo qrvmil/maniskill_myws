@@ -1,0 +1,45 @@
+{
+  "variant": "B",
+  "completed_updates": 3001,
+  "checkpoints": [
+    {
+      "optimizer_updates": 0,
+      "parameter_files_verified": 21,
+      "normalization_file_rehashed": true
+    },
+    {
+      "optimizer_updates": 500,
+      "parameter_files_verified": 22,
+      "normalization_file_rehashed": true
+    },
+    {
+      "optimizer_updates": 1000,
+      "parameter_files_verified": 21,
+      "normalization_file_rehashed": true
+    },
+    {
+      "optimizer_updates": 2000,
+      "parameter_files_verified": 21,
+      "normalization_file_rehashed": true
+    },
+    {
+      "optimizer_updates": 3001,
+      "parameter_files_verified": 23,
+      "normalization_file_rehashed": true
+    }
+  ],
+  "normalization_sha256": "e5cbe62ae014e047c178279a53ce840efa40e1754c492dd1f492415feada29c3",
+  "consumed_examples": 24008,
+  "task_counts": {
+    "D0": 12020,
+    "D1": 11988
+  },
+  "task_frequencies": {
+    "D0": 0.5006664445184938,
+    "D1": 0.49933355548150615
+  },
+  "lookahead_examples_excluded": 8,
+  "finite_logged_training_points": 301,
+  "wall_seconds": 8558.161764063007,
+  "device_peak_sampled_used_mib": 33120
+}

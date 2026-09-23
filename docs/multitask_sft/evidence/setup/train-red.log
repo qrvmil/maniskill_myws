@@ -1,0 +1,12 @@
+.......F.                                                                [100%]
+=================================== FAILURES ===================================
+________ test_training_save_and_sampling_account_for_upstream_lookahead ________
+
+    def test_training_save_and_sampling_account_for_upstream_lookahead():
+>       from maniskill_myws.pld.multitask_train import sampling_summary,require_identical_initialization
+E       ModuleNotFoundError: No module named 'maniskill_myws.pld.multitask_train'
+
+tests/test_multitask_sft.py:88: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_multitask_sft.py::test_training_save_and_sampling_account_for_upstream_lookahead
+1 failed, 8 passed in 0.27s

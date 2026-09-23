@@ -1,0 +1,785 @@
+Submodule 'third_party/openpi' (https://github.com/bitqjy/openpi) registered for path 'third_party/openpi'
+Cloning into '/root/maniskill_myws/third_party/openpi'...
+Submodule path 'third_party/openpi': checked out '981483dca0fd9acba698fea00aa6e52d56a66c58'
+Cloning into '/workspace/LIBERO'...
+remote: Enumerating objects: 1788, done.        
+Receiving objects:   0% (1/1788)
+Receiving objects:   1% (18/1788)
+Receiving objects:   2% (36/1788)
+Receiving objects:   3% (54/1788)
+Receiving objects:   4% (72/1788)
+Receiving objects:   5% (90/1788)
+Receiving objects:   6% (108/1788)
+Receiving objects:   7% (126/1788)
+Receiving objects:   8% (144/1788)
+Receiving objects:   9% (161/1788)
+Receiving objects:  10% (179/1788)
+Receiving objects:  11% (197/1788)
+Receiving objects:  12% (215/1788)
+Receiving objects:  13% (233/1788)
+Receiving objects:  14% (251/1788)
+Receiving objects:  15% (269/1788)
+Receiving objects:  16% (287/1788)
+Receiving objects:  17% (304/1788)
+Receiving objects:  18% (322/1788)
+Receiving objects:  19% (340/1788), 10.29 MiB | 20.55 MiB/s
+Receiving objects:  19% (351/1788), 22.05 MiB | 22.04 MiB/s
+Receiving objects:  20% (358/1788), 22.05 MiB | 22.04 MiB/s
+Receiving objects:  21% (376/1788), 22.05 MiB | 22.04 MiB/s
+Receiving objects:  22% (394/1788), 22.05 MiB | 22.04 MiB/s
+Receiving objects:  23% (412/1788), 22.05 MiB | 22.04 MiB/s
+Receiving objects:  24% (430/1788), 36.21 MiB | 24.13 MiB/s
+Receiving objects:  25% (447/1788), 36.21 MiB | 24.13 MiB/s
+Receiving objects:  26% (465/1788), 36.21 MiB | 24.13 MiB/s
+Receiving objects:  27% (483/1788), 36.21 MiB | 24.13 MiB/s
+Receiving objects:  27% (492/1788), 59.26 MiB | 29.63 MiB/s
+Receiving objects:  28% (501/1788), 59.26 MiB | 29.63 MiB/s
+Receiving objects:  29% (519/1788), 59.26 MiB | 29.63 MiB/s
+Receiving objects:  30% (537/1788), 80.28 MiB | 32.11 MiB/s
+Receiving objects:  31% (555/1788), 80.28 MiB | 32.11 MiB/s
+Receiving objects:  31% (566/1788), 100.77 MiB | 33.59 MiB/s
+Receiving objects:  32% (573/1788), 100.77 MiB | 33.59 MiB/s
+Receiving objects:  33% (591/1788), 120.63 MiB | 34.46 MiB/s
+Receiving objects:  34% (608/1788), 120.63 MiB | 34.46 MiB/s
+Receiving objects:  34% (617/1788), 140.10 MiB | 33.71 MiB/s
+Receiving objects:  35% (626/1788), 140.10 MiB | 33.71 MiB/s
+Receiving objects:  36% (644/1788), 140.10 MiB | 33.71 MiB/s
+Receiving objects:  36% (648/1788), 160.11 MiB | 33.02 MiB/s
+Receiving objects:  37% (662/1788), 160.11 MiB | 33.02 MiB/s
+Receiving objects:  38% (680/1788), 175.12 MiB | 33.53 MiB/s
+Receiving objects:  39% (698/1788), 175.12 MiB | 33.53 MiB/s
+Receiving objects:  39% (710/1788), 185.97 MiB | 33.34 MiB/s
+Receiving objects:  40% (716/1788), 185.97 MiB | 33.34 MiB/s
+Receiving objects:  41% (734/1788), 185.97 MiB | 33.34 MiB/s
+Receiving objects:  42% (751/1788), 185.97 MiB | 33.34 MiB/s
+Receiving objects:  43% (769/1788), 185.97 MiB | 33.34 MiB/s
+Receiving objects:  44% (787/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  45% (805/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  46% (823/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  47% (841/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  48% (859/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  49% (877/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  50% (894/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  51% (912/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  52% (930/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  53% (948/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  54% (966/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  55% (984/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  56% (1002/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  57% (1020/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  58% (1038/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  59% (1055/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  60% (1073/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  61% (1091/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  62% (1109/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  63% (1127/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  64% (1145/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  65% (1163/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  66% (1181/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  67% (1198/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  68% (1216/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  69% (1234/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  70% (1252/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  71% (1270/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  72% (1288/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  73% (1306/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  74% (1324/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  75% (1341/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  76% (1359/1788), 205.16 MiB | 33.42 MiB/s
+Receiving objects:  76% (1366/1788), 217.52 MiB | 31.31 MiB/s
+Receiving objects:  76% (1366/1788), 237.58 MiB | 26.70 MiB/s
+Receiving objects:  77% (1377/1788), 237.58 MiB | 26.70 MiB/s
+Receiving objects:  78% (1395/1788), 237.58 MiB | 26.70 MiB/s
+Receiving objects:  79% (1413/1788), 237.58 MiB | 26.70 MiB/s
+Receiving objects:  79% (1421/1788), 265.24 MiB | 24.21 MiB/s
+Receiving objects:  79% (1424/1788), 290.25 MiB | 22.66 MiB/s
+Receiving objects:  79% (1424/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects:  80% (1431/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects:  81% (1449/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects:  82% (1467/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects:  83% (1485/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects:  84% (1502/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects:  85% (1520/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects:  86% (1538/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects:  87% (1556/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects:  88% (1574/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects:  89% (1592/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects:  90% (1610/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects:  91% (1628/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects:  92% (1645/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects:  93% (1663/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects:  94% (1681/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects:  95% (1699/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects:  96% (1717/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects:  97% (1735/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects:  98% (1753/1788), 302.77 MiB | 22.97 MiB/s
+remote: Total 1788 (delta 0), reused 0 (delta 0), pack-reused 1788 (from 1)        
+Receiving objects:  99% (1771/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects: 100% (1788/1788), 302.77 MiB | 22.97 MiB/s
+Receiving objects: 100% (1788/1788), 316.00 MiB | 27.96 MiB/s, done.
+Resolving deltas:   0% (0/746)
+Resolving deltas:   1% (8/746)
+Resolving deltas:   2% (17/746)
+Resolving deltas:   3% (23/746)
+Resolving deltas:   4% (30/746)
+Resolving deltas:   5% (38/746)
+Resolving deltas:   6% (49/746)
+Resolving deltas:   7% (53/746)
+Resolving deltas:   8% (60/746)
+Resolving deltas:   9% (71/746)
+Resolving deltas:  10% (75/746)
+Resolving deltas:  11% (83/746)
+Resolving deltas:  12% (90/746)
+Resolving deltas:  13% (97/746)
+Resolving deltas:  14% (105/746)
+Resolving deltas:  15% (112/746)
+Resolving deltas:  16% (120/746)
+Resolving deltas:  17% (127/746)
+Resolving deltas:  18% (136/746)
+Resolving deltas:  19% (142/746)
+Resolving deltas:  20% (150/746)
+Resolving deltas:  21% (157/746)
+Resolving deltas:  22% (165/746)
+Resolving deltas:  23% (172/746)
+Resolving deltas:  24% (180/746)
+Resolving deltas:  25% (187/746)
+Resolving deltas:  26% (194/746)
+Resolving deltas:  27% (202/746)
+Resolving deltas:  28% (209/746)
+Resolving deltas:  29% (217/746)
+Resolving deltas:  30% (225/746)
+Resolving deltas:  31% (232/746)
+Resolving deltas:  32% (241/746)
+Resolving deltas:  33% (247/746)
+Resolving deltas:  34% (254/746)
+Resolving deltas:  35% (262/746)
+Resolving deltas:  36% (269/746)
+Resolving deltas:  37% (278/746)
+Resolving deltas:  38% (284/746)
+Resolving deltas:  39% (291/746)
+Resolving deltas:  40% (299/746)
+Resolving deltas:  41% (306/746)
+Resolving deltas:  42% (314/746)
+Resolving deltas:  43% (321/746)
+Resolving deltas:  44% (329/746)
+Resolving deltas:  45% (336/746)
+Resolving deltas:  46% (344/746)
+Resolving deltas:  47% (351/746)
+Resolving deltas:  48% (363/746)
+Resolving deltas:  49% (371/746)
+Resolving deltas:  50% (374/746)
+Resolving deltas:  51% (382/746)
+Resolving deltas:  52% (388/746)
+Resolving deltas:  53% (396/746)
+Resolving deltas:  54% (404/746)
+Resolving deltas:  55% (411/746)
+Resolving deltas:  56% (418/746)
+Resolving deltas:  57% (427/746)
+Resolving deltas:  58% (433/746)
+Resolving deltas:  59% (441/746)
+Resolving deltas:  60% (448/746)
+Resolving deltas:  61% (456/746)
+Resolving deltas:  62% (465/746)
+Resolving deltas:  63% (471/746)
+Resolving deltas:  64% (478/746)
+Resolving deltas:  66% (496/746)
+Resolving deltas:  67% (500/746)
+Resolving deltas:  68% (508/746)
+Resolving deltas:  69% (518/746)
+Resolving deltas:  70% (524/746)
+Resolving deltas:  71% (534/746)
+Resolving deltas:  72% (538/746)
+Resolving deltas:  73% (545/746)
+Resolving deltas:  74% (553/746)
+Resolving deltas:  75% (562/746)
+Resolving deltas:  76% (567/746)
+Resolving deltas:  77% (575/746)
+Resolving deltas:  78% (582/746)
+Resolving deltas:  79% (590/746)
+Resolving deltas:  80% (599/746)
+Resolving deltas:  81% (605/746)
+Resolving deltas:  82% (613/746)
+Resolving deltas:  83% (620/746)
+Resolving deltas:  84% (627/746)
+Resolving deltas:  85% (635/746)
+Resolving deltas:  86% (642/746)
+Resolving deltas:  87% (650/746)
+Resolving deltas:  88% (658/746)
+Resolving deltas:  89% (665/746)
+Resolving deltas:  90% (672/746)
+Resolving deltas:  91% (680/746)
+Resolving deltas:  92% (687/746)
+Resolving deltas:  93% (694/746)
+Resolving deltas:  94% (702/746)
+Resolving deltas:  95% (709/746)
+Resolving deltas:  96% (717/746)
+Resolving deltas:  97% (724/746)
+Resolving deltas:  98% (732/746)
+Resolving deltas:  99% (739/746)
+Resolving deltas: 100% (746/746)
+Resolving deltas: 100% (746/746), done.
+Updating files:  37% (423/1116)
+Updating files:  38% (425/1116)
+Updating files:  39% (436/1116)
+Updating files:  40% (447/1116)
+Updating files:  41% (458/1116)
+Updating files:  42% (469/1116)
+Updating files:  43% (480/1116)
+Updating files:  44% (492/1116)
+Updating files:  45% (503/1116)
+Updating files:  46% (514/1116)
+Updating files:  47% (525/1116)
+Updating files:  48% (536/1116)
+Updating files:  49% (547/1116)
+Updating files:  50% (558/1116)
+Updating files:  51% (570/1116)
+Updating files:  52% (581/1116)
+Updating files:  53% (592/1116)
+Updating files:  54% (603/1116)
+Updating files:  55% (614/1116)
+Updating files:  56% (625/1116)
+Updating files:  57% (637/1116)
+Updating files:  58% (648/1116)
+Updating files:  59% (659/1116)
+Updating files:  60% (670/1116)
+Updating files:  61% (681/1116)
+Updating files:  62% (692/1116)
+Updating files:  63% (704/1116)
+Updating files:  64% (715/1116)
+Updating files:  65% (726/1116)
+Updating files:  66% (737/1116)
+Updating files:  67% (748/1116)
+Updating files:  68% (759/1116)
+Updating files:  69% (771/1116)
+Updating files:  70% (782/1116)
+Updating files:  71% (793/1116)
+Updating files:  72% (804/1116)
+Updating files:  73% (815/1116)
+Updating files:  74% (826/1116)
+Updating files:  75% (837/1116)
+Updating files:  76% (849/1116)
+Updating files:  77% (860/1116)
+Updating files:  78% (871/1116)
+Updating files:  79% (882/1116)
+Updating files:  80% (893/1116)
+Updating files:  81% (904/1116)
+Updating files:  82% (916/1116)
+Updating files:  83% (927/1116)
+Updating files:  84% (938/1116)
+Updating files:  85% (949/1116)
+Updating files:  86% (960/1116)
+Updating files:  87% (971/1116)
+Updating files:  88% (983/1116)
+Updating files:  89% (994/1116)
+Updating files:  90% (1005/1116)
+Updating files:  91% (1016/1116)
+Updating files:  92% (1027/1116)
+Updating files:  93% (1038/1116)
+Updating files:  94% (1050/1116)
+Updating files:  95% (1061/1116)
+Updating files:  96% (1072/1116)
+Updating files:  97% (1083/1116)
+Updating files:  98% (1094/1116)
+Updating files:  99% (1105/1116)
+Updating files: 100% (1116/1116)
+Updating files: 100% (1116/1116), done.
+Note: switching to '8f1084e3132a39270c3a13ebe37270a43ece2a01'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at 8f1084e Add support for dataset download from huggingface
+warning: The `tool.uv.dev-dependencies` field (used in `packages/openpi-client/pyproject.toml`) is deprecated and will be removed in a future release; use `dependency-groups.dev` instead
+Using CPython 3.11.16
+Creating virtual environment at: .venv
+Resolved 281 packages in 9ms
+   Building openpi-client @ file:///root/maniskill_myws/third_party/openpi/packages/openpi-client
+   Updating https://github.com/huggingface/lerobot (0cf864870cf29f4738d3ade893e6fd13fbd7cdb5)
+   Building openpi @ file:///root/maniskill_myws/third_party/openpi
+Downloading numpy (17.4MiB)
+Downloading sympy (6.0MiB)
+Downloading h5py (4.3MiB)
+Downloading nvidia-cuda-cupti-cu12 (8.5MiB)
+Downloading hf-transfer (3.4MiB)
+Downloading imageio-ffmpeg (28.1MiB)
+Downloading pandas (12.5MiB)
+Downloading scipy (35.9MiB)
+Downloading numba (3.7MiB)
+Downloading opencv-python-headless (47.7MiB)
+Downloading pillow (4.4MiB)
+Downloading llvmlite (40.4MiB)
+Downloading nvidia-cublas-cu12 (374.9MiB)
+Downloading opencv-python (60.1MiB)
+Downloading nvidia-cusparselt-cu12 (149.5MiB)
+Downloading nvidia-cusolver-cu12 (150.9MiB)
+Downloading nvidia-cuda-nvrtc-cu12 (22.6MiB)
+Downloading nvidia-nccl-cu12 (192.0MiB)
+Downloading nvidia-curand-cu12 (53.7MiB)
+Downloading nvidia-cufft-cu12 (190.9MiB)
+Downloading nvidia-cusparse-cu12 (206.5MiB)
+Downloading nvidia-cudnn-cu12 (544.5MiB)
+Downloading nvidia-nvjitlink-cu12 (18.8MiB)
+Downloading tensorstore (17.5MiB)
+Downloading cmake (26.6MiB)
+Downloading jaxlib (100.2MiB)
+Downloading torchvision (7.1MiB)
+Downloading labmaze (4.7MiB)
+Downloading polars (34.6MiB)
+Downloading ruff (11.0MiB)
+Downloading torch (783.1MiB)
+Downloading lxml (4.7MiB)
+Downloading virtualenv (5.8MiB)
+Downloading mujoco (4.4MiB)
+Downloading nvidia-cuda-nvcc-cu12 (38.7MiB)
+Downloading triton (148.5MiB)
+Downloading jax-cuda12-pjrt (99.8MiB)
+Downloading pyarrow (40.3MiB)
+Downloading dm-control (37.5MiB)
+Downloading jax-cuda12-plugin (15.9MiB)
+Downloading numcodecs (8.4MiB)
+Downloading diffusers (3.4MiB)
+Downloading fonttools (4.7MiB)
+Downloading wandb (20.4MiB)
+Downloading rerun-sdk (68.1MiB)
+Downloading hf-xet (4.9MiB)
+Downloading matplotlib (8.2MiB)
+Downloading pyopengl (3.0MiB)
+Downloading transformers (10.3MiB)
+Downloading av (33.7MiB)
+ Downloaded hf-transfer
+ Downloaded pyopengl
+Downloading tokenizers (2.9MiB)
+Downloading debugpy (3.0MiB)
+ Downloaded diffusers
+ Downloaded numba
+Downloading jax (2.3MiB)
+Downloading widgetsnbextension (2.1MiB)
+ Downloaded h5py
+Downloading ml-dtypes (2.1MiB)
+ Downloaded mujoco
+ Downloaded pillow
+Downloading networkx (1.9MiB)
+Downloading pydantic-core (1.9MiB)
+ Downloaded labmaze
+ Downloaded fonttools
+Downloading aiohttp (1.6MiB)
+Downloading jedi (1.5MiB)
+ Downloaded lxml
+Downloading kiwisolver (1.4MiB)
+ Downloaded hf-xet
+Downloading torchcodec (1.3MiB)
+ Downloaded virtualenv
+ Downloaded widgetsnbextension
+Downloading pygments (1.2MiB)
+ Downloaded jax
+ Downloaded sympy
+Downloading sentencepiece (1.2MiB)
+Downloading setuptools (1.1MiB)
+Downloading nvidia-cufile-cu12 (1.1MiB)
+ Downloaded tokenizers
+ Downloaded kiwisolver
+ Downloaded debugpy
+ Downloaded jedi
+ Downloaded pydantic-core
+ Downloaded ml-dtypes
+ Downloaded aiohttp
+ Downloaded networkx
+Downloading pymunk (1.0MiB)
+ Downloaded torchcodec
+ Downloaded pygments
+ Downloaded nvidia-cufile-cu12
+ Downloaded setuptools
+ Downloaded torchvision
+ Downloaded sentencepiece
+ Downloaded pymunk
+   Building tree==0.2.4
+   Building evdev==1.9.2
+ Downloaded matplotlib
+ Downloaded nvidia-cuda-cupti-cu12
+ Downloaded numcodecs
+   Building antlr4-python3-runtime==4.9.3
+ Downloaded transformers
+ Downloaded ruff
+ Downloaded pandas
+      Built openpi-client @ file:///root/maniskill_myws/third_party/openpi/packages/openpi-client
+      Built openpi @ file:///root/maniskill_myws/third_party/openpi
+      Built tree==0.2.4
+      Built antlr4-python3-runtime==4.9.3
+ Downloaded jax-cuda12-plugin
+ Downloaded numpy
+ Downloaded tensorstore
+ Downloaded nvidia-nvjitlink-cu12
+      Built evdev==1.9.2
+    Updated https://github.com/huggingface/lerobot (0cf864870cf29f4738d3ade893e6fd13fbd7cdb5)
+   Building lerobot @ git+https://github.com/huggingface/lerobot@0cf864870cf29f4738d3ade893e6fd13fbd7cdb5
+ Downloaded wandb
+ Downloaded nvidia-cuda-nvrtc-cu12
+      Built lerobot @ git+https://github.com/huggingface/lerobot@0cf864870cf29f4738d3ade893e6fd13fbd7cdb5
+ Downloaded imageio-ffmpeg
+ Downloaded cmake
+ Downloaded polars
+ Downloaded scipy
+ Downloaded av
+ Downloaded dm-control
+ Downloaded llvmlite
+ Downloaded nvidia-cuda-nvcc-cu12
+ Downloaded pyarrow
+ Downloaded opencv-python-headless
+ Downloaded nvidia-curand-cu12
+ Downloaded opencv-python
+ Downloaded rerun-sdk
+ Downloaded jax-cuda12-pjrt
+ Downloaded jaxlib
+ Downloaded nvidia-cusparselt-cu12
+ Downloaded nvidia-cusolver-cu12
+ Downloaded nvidia-nccl-cu12
+ Downloaded nvidia-cufft-cu12
+ Downloaded nvidia-cusparse-cu12
+ Downloaded triton
+ Downloaded nvidia-cublas-cu12
+ Downloaded nvidia-cudnn-cu12
+ Downloaded torch
+Prepared 242 packages in 51.05s
+Installed 242 packages in 6.41s
+ + absl-py==2.3.0
+ + aiohappyeyeballs==2.6.1
+ + aiohttp==3.12.4
+ + aiosignal==1.3.2
+ + annotated-types==0.7.0
+ + antlr4-python3-runtime==4.9.3
+ + asttokens==3.0.0
+ + attrs==25.3.0
+ + augmax==0.4.1
+ + av==14.4.0
+ + beartype==0.19.0
+ + beautifulsoup4==4.13.4
+ + blinker==1.9.0
+ + cachetools==5.5.2
+ + certifi==2025.4.26
+ + cffi==1.17.1
+ + cfgv==3.4.0
+ + charset-normalizer==3.4.2
+ + chex==0.1.89
+ + click==8.2.1
+ + cloudpickle==3.1.1
+ + cmake==4.0.2
+ + comm==0.2.2
+ + contourpy==1.3.2
+ + crc32c==2.7.1
+ + cycler==0.12.1
+ + datasets==3.6.0
+ + debugpy==1.8.14
+ + decorator==5.2.1
+ + deepdiff==8.5.0
+ + diffusers==0.33.1
+ + dill==0.3.8
+ + distlib==0.3.9
+ + dm-control==1.0.14
+ + dm-env==1.6
+ + dm-tree==0.1.9
+ + docker-pycreds==0.4.0
+ + docstring-parser==0.16
+ + donfig==0.8.1.post1
+ + draccus==0.10.0
+ + einops==0.8.1
+ + equinox==0.12.2
+ + etils==1.12.2
+ + evdev==1.9.2
+ + executing==2.2.0
+ + farama-notifications==0.0.4
+ + filelock==3.18.0
+ + flask==3.1.1
+ + flatbuffers==25.2.10
+ + flax==0.10.2
+ + fonttools==4.58.1
+ + frozenlist==1.6.0
+ + fsspec==2025.3.0
+ + gcsfs==2025.3.0
+ + gdown==5.2.0
+ + gitdb==4.0.12
+ + gitpython==3.1.44
+ + glfw==2.9.0
+ + google-api-core==2.24.2
+ + google-auth==2.40.2
+ + google-auth-oauthlib==1.2.2
+ + google-cloud-core==2.4.3
+ + google-cloud-storage==3.1.0
+ + google-crc32c==1.7.1
+ + google-resumable-media==2.7.2
+ + googleapis-common-protos==1.70.0
+ + gym-aloha==0.1.1
+ + gymnasium==0.29.1
+ + h5py==3.13.0
+ + hf-transfer==0.1.9
+ + hf-xet==1.1.2
+ + huggingface-hub==0.32.3
+ + humanize==4.12.3
+ + identify==2.6.12
+ + idna==3.10
+ + imageio==2.37.0
+ + imageio-ffmpeg==0.6.0
+ + importlib-metadata==8.7.0
+ + importlib-resources==6.5.2
+ + iniconfig==2.1.0
+ + inquirerpy==0.3.4
+ + ipykernel==6.29.5
+ + ipython==9.2.0
+ + ipython-pygments-lexers==1.1.1
+ + ipywidgets==8.1.7
+ + itsdangerous==2.2.0
+ + jax==0.5.3
+ + jax-cuda12-pjrt==0.5.3
+ + jax-cuda12-plugin==0.5.3
+ + jaxlib==0.5.3
+ + jaxtyping==0.2.36
+ + jedi==0.19.2
+ + jinja2==3.1.6
+ + jsonlines==4.0.0
+ + jupyter-client==8.6.3
+ + jupyter-core==5.8.1
+ + jupyterlab-widgets==3.0.15
+ + kiwisolver==1.4.8
+ + labmaze==1.0.6
+ + lerobot==0.1.0 (from git+https://github.com/huggingface/lerobot@0cf864870cf29f4738d3ade893e6fd13fbd7cdb5)
+ + llvmlite==0.44.0
+ + lxml==5.4.0
+ + markdown-it-py==3.0.0
+ + markupsafe==3.0.2
+ + matplotlib==3.10.3
+ + matplotlib-inline==0.1.7
+ + mdurl==0.1.2
+ + mergedeep==1.3.4
+ + ml-collections==1.0.0
+ + ml-dtypes==0.4.1
+ + mpmath==1.3.0
+ + msgpack==1.1.0
+ + mujoco==2.3.7
+ + multidict==6.4.4
+ + multiprocess==0.70.16
+ + mypy-extensions==1.1.0
+ + nest-asyncio==1.6.0
+ + networkx==3.5
+ + nodeenv==1.9.1
+ + numba==0.61.2
+ + numcodecs==0.16.1
+ + numpy==1.26.4
+ + numpydantic==1.6.9
+ + nvidia-cublas-cu12==12.6.4.1
+ + nvidia-cuda-cupti-cu12==12.6.80
+ + nvidia-cuda-nvcc-cu12==12.9.41
+ + nvidia-cuda-nvrtc-cu12==12.6.77
+ + nvidia-cuda-runtime-cu12==12.6.77
+ + nvidia-cudnn-cu12==9.5.1.17
+ + nvidia-cufft-cu12==11.3.0.4
+ + nvidia-cufile-cu12==1.11.1.6
+ + nvidia-curand-cu12==10.3.7.77
+ + nvidia-cusolver-cu12==11.7.1.2
+ + nvidia-cusparse-cu12==12.5.4.2
+ + nvidia-cusparselt-cu12==0.6.3
+ + nvidia-ml-py==12.575.51
+ + nvidia-nccl-cu12==2.26.2
+ + nvidia-nvjitlink-cu12==12.6.85
+ + nvidia-nvtx-cu12==12.6.77
+ + oauthlib==3.2.2
+ + omegaconf==2.3.0
+ + opencv-python==4.11.0.86
+ + opencv-python-headless==4.11.0.86
+ + openpi==0.1.0 (from file:///root/maniskill_myws/third_party/openpi)
+ + openpi-client==0.1.0 (from file:///root/maniskill_myws/third_party/openpi/packages/openpi-client)
+ + opt-einsum==3.4.0
+ + optax==0.2.4
+ + orbax-checkpoint==0.11.13
+ + orderly-set==5.4.1
+ + packaging==25.0
+ + pandas==2.2.3
+ + parso==0.8.4
+ + pexpect==4.9.0
+ + pfzy==0.3.4
+ + pillow==11.2.1
+ + platformdirs==4.3.8
+ + pluggy==1.6.0
+ + polars==1.30.0
+ + pre-commit==4.2.0
+ + prompt-toolkit==3.0.51
+ + propcache==0.3.1
+ + proto-plus==1.26.1
+ + protobuf==4.25.8
+ + psutil==7.0.0
+ + ptyprocess==0.7.0
+ + pure-eval==0.2.3
+ + pyarrow==20.0.0
+ + pyasn1==0.6.1
+ + pyasn1-modules==0.4.2
+ + pycparser==2.22
+ + pydantic==2.11.5
+ + pydantic-core==2.33.2
+ + pygments==2.19.1
+ + pymunk==7.0.0
+ + pynput==1.8.1
+ + pynvml==12.0.0
+ + pyopengl==3.1.9
+ + pyparsing==3.2.3
+ + pysocks==1.7.1
+ + pytest==8.3.5
+ + python-dateutil==2.9.0.post0
+ + python-xlib==0.33
+ + pytz==2025.2
+ + pyyaml==6.0.2
+ + pyyaml-include==1.4.1
+ + pyzmq==26.4.0
+ + regex==2024.11.6
+ + requests==2.32.3
+ + requests-oauthlib==2.0.0
+ + rerun-sdk==0.23.1
+ + rich==14.0.0
+ + rsa==4.9.1
+ + ruff==0.11.12
+ + safetensors==0.5.3
+ + scipy==1.15.3
+ + sentencepiece==0.2.0
+ + sentry-sdk==2.29.1
+ + setproctitle==1.3.6
+ + setuptools==80.9.0
+ + shtab==1.7.2
+ + simplejson==3.20.1
+ + six==1.17.0
+ + smmap==5.0.2
+ + soupsieve==2.7
+ + stack-data==0.6.3
+ + svgwrite==1.4.3
+ + sympy==1.14.0
+ + tensorstore==0.1.74
+ + termcolor==3.1.0
+ + tokenizers==0.21.1
+ + toml==0.10.2
+ + toolz==1.0.0
+ + torch==2.7.1
+ + torchcodec==0.4.0
+ + torchvision==0.22.1
+ + tornado==6.5.1
+ + tqdm==4.67.1
+ + tqdm-loggable==0.2
+ + traitlets==5.14.3
+ + transformers==4.53.2
+ + tree==0.2.4
+ + treescope==0.1.9
+ + triton==3.3.1
+ + typeguard==4.4.2
+ + typing-extensions==4.13.2
+ + typing-inspect==0.9.0
+ + typing-inspection==0.4.1
+ + tyro==0.9.22
+ + tzdata==2025.2
+ + urllib3==2.4.0
+ + virtualenv==20.31.2
+ + wadler-lindig==0.1.6
+ + wandb==0.19.11
+ + wcwidth==0.2.13
+ + websockets==15.0.1
+ + werkzeug==3.1.3
+ + widgetsnbextension==4.0.14
+ + wrapt==1.14.1
+ + xxhash==3.5.0
+ + yarl==1.20.0
+ + zarr==3.0.8
+ + zipp==3.22.0
+Using Python 3.11.16 environment at: third_party/openpi/.venv
+Resolved 28 packages in 784ms
+Downloading nvidia-cufile-cu12 (1.1MiB)
+Downloading nvidia-cuda-cupti-cu12 (9.8MiB)
+Downloading torchvision (8.3MiB)
+Downloading torch (991.2MiB)
+Downloading nvidia-cufft-cu12 (184.2MiB)
+Downloading nvidia-cublas-cu12 (581.4MiB)
+Downloading nvidia-cuda-nvrtc-cu12 (83.9MiB)
+Downloading nvidia-cusparse-cu12 (278.5MiB)
+Downloading nvidia-cusolver-cu12 (248.3MiB)
+Downloading nvidia-nvjitlink-cu12 (37.4MiB)
+Downloading nvidia-curand-cu12 (60.7MiB)
+Downloading nvidia-cudnn-cu12 (693.2MiB)
+ Downloaded nvidia-cufile-cu12
+ Downloaded torchvision
+ Downloaded nvidia-cuda-cupti-cu12
+ Downloaded nvidia-nvjitlink-cu12
+ Downloaded nvidia-curand-cu12
+ Downloaded nvidia-cuda-nvrtc-cu12
+ Downloaded nvidia-cufft-cu12
+ Downloaded nvidia-cusolver-cu12
+ Downloaded nvidia-cusparse-cu12
+ Downloaded nvidia-cublas-cu12
+ Downloaded torch
+ Downloaded nvidia-cudnn-cu12
+Prepared 14 packages in 26.33s
+Uninstalled 14 packages in 577ms
+Installed 14 packages in 4.25s
+ - nvidia-cublas-cu12==12.6.4.1
+ + nvidia-cublas-cu12==12.8.3.14
+ - nvidia-cuda-cupti-cu12==12.6.80
+ + nvidia-cuda-cupti-cu12==12.8.57
+ - nvidia-cuda-nvrtc-cu12==12.6.77
+ + nvidia-cuda-nvrtc-cu12==12.8.61
+ - nvidia-cuda-runtime-cu12==12.6.77
+ + nvidia-cuda-runtime-cu12==12.8.57
+ - nvidia-cudnn-cu12==9.5.1.17
+ + nvidia-cudnn-cu12==9.7.1.26
+ - nvidia-cufft-cu12==11.3.0.4
+ + nvidia-cufft-cu12==11.3.3.41
+ - nvidia-cufile-cu12==1.11.1.6
+ + nvidia-cufile-cu12==1.13.0.11
+ - nvidia-curand-cu12==10.3.7.77
+ + nvidia-curand-cu12==10.3.9.55
+ - nvidia-cusolver-cu12==11.7.1.2
+ + nvidia-cusolver-cu12==11.7.2.55
+ - nvidia-cusparse-cu12==12.5.4.2
+ + nvidia-cusparse-cu12==12.5.7.53
+ - nvidia-nvjitlink-cu12==12.6.85
+ + nvidia-nvjitlink-cu12==12.8.61
+ - nvidia-nvtx-cu12==12.6.77
+ + nvidia-nvtx-cu12==12.8.55
+ - torch==2.7.1
+ + torch==2.7.1+cu128
+ - torchvision==0.22.1
+ + torchvision==0.22.1+cu128
+Using Python 3.11.16 environment at: third_party/openpi/.venv
+Resolved 48 packages in 1.47s
+   Building gym==0.26.2
+   Building bddl==1.0.1
+Downloading mujoco (6.1MiB)
+Downloading robosuite (184.6MiB)
+ Downloaded mujoco
+      Built bddl==1.0.1
+      Built gym==0.26.2
+ Downloaded robosuite
+Prepared 15 packages in 8.24s
+Uninstalled 1 package in 5ms
+Installed 15 packages in 555ms
+ + bddl==1.0.1
+ + easydict==1.13
+ + fastjsonschema==2.22.2
+ + future==1.0.0
+ + gym==0.26.2
+ + gym-notices==0.1.0
+ + jsonschema==4.26.0
+ + jsonschema-specifications==2025.9.1
+ + jupytext==1.19.5
+ + mdit-py-plugins==0.6.1
+ - mujoco==2.3.7
+ + mujoco==3.2.7
+ + nbformat==5.11.1
+ + referencing==0.37.0
+ + robosuite==1.4.1
+ + rpds-py==2026.6.3
+2.7.1+cu128 12.8 NVIDIA CMP 170HX
+2.0

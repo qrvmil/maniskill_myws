@@ -1,0 +1,13 @@
+Using Python 3.11.16 environment at: third_party/openpi/.venv
+Resolved 50 packages in 427ms
+Prepared 9 packages in 55ms
+Installed 9 packages in 71ms
+ + bleach==6.4.0
+ + defusedxml==0.7.1
+ + jupyterlab-pygments==0.3.0
+ + mistune==3.3.4
+ + nbclient==0.11.0
+ + nbconvert==7.17.1
+ + pandocfilters==1.5.1
+ + tinycss2==1.5.1
+ + webencodings==0.6.1

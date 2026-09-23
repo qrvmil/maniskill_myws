@@ -1,0 +1,37 @@
+{
+  "variant": "C",
+  "train_tasks": [
+    "D0",
+    "D1",
+    "D2"
+  ],
+  "task": "D1",
+  "seen": true,
+  "filename": "train_D0_D1_D2_D1_seed10004_success.mp4",
+  "checkpoint": "/workspace/multitask-sft/C/checkpoints/pi0_libero_seen_lora32/EXP-001/3001",
+  "seen_tasks": [
+    "D0",
+    "D1",
+    "D2"
+  ],
+  "seed": 10004,
+  "success": true,
+  "length": 93,
+  "reset_hash": "80503cbd216db6b3e5d598fedd35938d9e228f8589113990bb5c21f5e51456d2",
+  "trajectory_hash": "b4b4276f20b76d6587631c43dec0079c2f571e287ca84682475e3741bcc2c282",
+  "image_hash": "e75eee2d1256e1ff6371d91c3e8f6c6b7c30100eb1af957b61c56aef13e5826d",
+  "expected_frames": 94,
+  "includes_terminal_frame": true,
+  "fps": 20,
+  "camera_views": [
+    "agentview",
+    "wrist"
+  ],
+  "origin": "evaluation",
+  "frames": 94,
+  "width": 256,
+  "height": 128,
+  "bytes": 107828,
+  "sha256": "c6b8012009c71f9348706c079e5bccf5ec1e4635f949907721d74c3fcde0a726",
+  "full_decode_passed": true
+}

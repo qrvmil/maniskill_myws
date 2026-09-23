@@ -1,0 +1,1144 @@
+from __future__ import annotations
+
+from dataclasses import asdict, dataclass
+from copy import deepcopy
+from pathlib import Path
+from typing import Any
+
+import numpy as np
+import torch
+from torch import nn
+from torch.distributions import Normal
+import torch.nn.functional as F
+
+from .replay_buffer import ReplayBatch
+
+
+@dataclass
+class SACConfig:
+    state_dim: int
+    action_dim: int
+    hidden_dim: int = 256
+    actor_lr: float = 3e-4
+    critic_lr: float = 3e-4
+    alpha_lr: float = 3e-4
+    gamma: float = 0.99
+    tau: float = 0.005
+    action_scale: float = 0.1
+    target_entropy: float | None = None
+    alpha_min: float = 1e-4
+    alpha_max: float = 10.0
+    actor_update_interval: int = 2
+    grad_clip_norm: float = 1.0
+    cql_alpha: float = 0.0
+    cql_random_actions: int = 10
+    calql_alpha: float = 5.0
+    calql_n_actions: int = 10
+    calql_temp: float = 1.0
+    calql_importance_sample: bool = True
+    calql_max_target_backup: bool = True
+    calql_backup_entropy: bool = False
+    otf_backup_actions: int = 0
+    otf_include_base_action: bool = True
+    otf_backup_entropy: bool = False
+    visual_encoder: str = "none"
+    image_shape: tuple[int, ...] | None = None
+    visual_latent_dim: int = 256
+    action_low: tuple[float, ...] | None = None
+    action_high: tuple[float, ...] | None = None
+    residual_actor_impl: str = "state_dependent_std"
+    residual_density: str = "physical"
+    shared_visual_encoder: bool = False
+    actor_q_reduction: str = "min"
+    optimizer_warmup_steps: int = 0
+    temperature_impl: str = "log_alpha"
+    weight_decay: float = .01
+
+
+class MLP(nn.Module):
+    def __init__(self, in_dim: int, out_dim: int, hidden_dim: int) -> None:
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(in_dim, hidden_dim),
+            nn.LayerNorm(hidden_dim),
+            nn.Tanh(),
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.LayerNorm(hidden_dim),
+            nn.Tanh(),
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.LayerNorm(hidden_dim),
+            nn.Tanh(),
+            nn.Linear(hidden_dim, out_dim),
+        )
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        return self.net(x)
+
+
+def _num_groups(channels: int) -> int:
+    for groups in (8, 4, 2, 1):
+        if channels % groups == 0:
+            return groups
+    return 1
+
+
+class ResNetV1Block(nn.Module):
+    def __init__(self, in_channels: int, out_channels: int, stride: int = 1) -> None:
+        super().__init__()
+        self.conv1 = nn.Conv2d(
+            in_channels, out_channels, kernel_size=3, stride=stride, padding=1, bias=False
+        )
+        self.norm1 = nn.GroupNorm(_num_groups(out_channels), out_channels)
+        self.conv2 = nn.Conv2d(out_channels, out_channels, kernel_size=3, padding=1, bias=False)
+        self.norm2 = nn.GroupNorm(_num_groups(out_channels), out_channels)
+        if stride != 1 or in_channels != out_channels:
+            self.shortcut = nn.Sequential(
+                nn.Conv2d(in_channels, out_channels, kernel_size=1, stride=stride, bias=False),
+                nn.GroupNorm(_num_groups(out_channels), out_channels),
+            )
+        else:
+            self.shortcut = nn.Identity()
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        out = F.relu(self.norm1(self.conv1(x)), inplace=True)
+        out = self.norm2(self.conv2(out))
+        out = out + self.shortcut(x)
+        return F.relu(out, inplace=True)
+
+
+class ResNetV1_10Encoder(nn.Module):
+    """Compact ResNetV1-10 style visual encoder used by the residual RL policy."""
+
+    def __init__(self, image_shape: tuple[int, ...], latent_dim: int) -> None:
+        super().__init__()
+        if len(image_shape) != 4:
+            raise ValueError(f"Expected image_shape=(views,H,W,C), got {image_shape}")
+        views, _, _, channels = image_shape
+        in_channels = int(views) * int(channels)
+        self.stem = nn.Sequential(
+            nn.Conv2d(in_channels, 32, kernel_size=7, stride=2, padding=3, bias=False),
+            nn.GroupNorm(_num_groups(32), 32),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=3, stride=2, padding=1),
+        )
+        self.blocks = nn.Sequential(
+            ResNetV1Block(32, 32, stride=1),
+            ResNetV1Block(32, 64, stride=2),
+            ResNetV1Block(64, 128, stride=2),
+            ResNetV1Block(128, 256, stride=2),
+        )
+        self.head = nn.Sequential(
+            nn.AdaptiveAvgPool2d((1, 1)),
+            nn.Flatten(),
+            nn.Linear(256, latent_dim),
+            nn.LayerNorm(latent_dim),
+            nn.Tanh(),
+        )
+
+    def forward(self, images: torch.Tensor) -> torch.Tensor:
+        return self.head(self.blocks(self.stem(images)))
+
+
+class ObservationEncoder(nn.Module):
+    def __init__(
+        self,
+        state_dim: int,
+        *,
+        image_shape: tuple[int, ...] | None,
+        visual_encoder: str,
+        visual_latent_dim: int,
+    ) -> None:
+        super().__init__()
+        self.state_dim = int(state_dim)
+        self.image_shape = image_shape
+        self.visual_encoder_name = visual_encoder
+        if visual_encoder == "none" or image_shape is None:
+            self.visual: nn.Module | None = None
+            self.out_dim = self.state_dim
+        elif visual_encoder == "resnet10":
+            self.visual = ResNetV1_10Encoder(image_shape, int(visual_latent_dim))
+            self.out_dim = self.state_dim + int(visual_latent_dim)
+        elif visual_encoder == "serl_resnet10":
+            from .serl_encoder import SERLResNet10Encoder
+            self.visual = SERLResNet10Encoder(image_shape, int(visual_latent_dim))
+            self.out_dim = self.state_dim + image_shape[0] * int(visual_latent_dim)
+        else:
+            raise ValueError(f"Unsupported visual_encoder: {visual_encoder}")
+
+    def forward(self, obs: torch.Tensor, images: torch.Tensor | None = None) -> torch.Tensor:
+        if self.visual is None:
+            return obs
+        if images is None:
+            raise ValueError("Visual observation encoder requires images")
+        visual_features = self.visual(images)
+        return torch.cat([obs, visual_features], dim=-1)
+
+
+class GaussianResidualActor(nn.Module):
+    def __init__(
+        self,
+        state_dim: int,
+        action_dim: int,
+        hidden_dim: int,
+        action_scale: float,
+        *,
+        image_shape: tuple[int, ...] | None,
+        visual_encoder: str,
+        visual_latent_dim: int,
+        impl: str = "state_dependent_std",
+        density: str = "physical",
+        stop_visual_gradient: bool = False,
+    ) -> None:
+        super().__init__()
+        self.action_dim = int(action_dim)
+        if impl not in ("state_dependent_std", "serl_uniform_std"):
+            raise ValueError(f"Unknown actor implementation: {impl}")
+        if density not in ("unit", "physical"):
+            raise ValueError(f"Unknown residual density: {density}")
+        self.impl, self.density = impl, density
+        self.stop_visual_gradient = stop_visual_gradient
+        self.obs_encoder = ObservationEncoder(
+            state_dim,
+            image_shape=image_shape,
+            visual_encoder=visual_encoder,
+            visual_latent_dim=visual_latent_dim,
+        )
+        self.body = MLP(self.obs_encoder.out_dim + action_dim,
+                        action_dim if impl == "serl_uniform_std" else 2 * action_dim, hidden_dim)
+        if impl == "serl_uniform_std":
+            self.log_stds = nn.Parameter(torch.zeros(action_dim))
+        self.register_buffer("scale", torch.full((action_dim,), float(action_scale)))
+
+    def forward(
+        self,
+        obs: torch.Tensor,
+        base_action: torch.Tensor,
+        images: torch.Tensor | None = None,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        features = self.obs_encoder(obs, images)
+        if self.stop_visual_gradient:
+            features = features.detach()
+        out = self.body(torch.cat([features, base_action], dim=-1))
+        if self.impl == "serl_uniform_std":
+            return out, self.log_stds.clamp(np.log(1e-5), np.log(10.)).expand_as(out)
+        mean, log_std = torch.chunk(out, 2, dim=-1)
+        log_std = torch.clamp(log_std, -5.0, 2.0)
+        return mean, log_std
+
+    def sample(
+        self,
+        obs: torch.Tensor,
+        base_action: torch.Tensor,
+        images: torch.Tensor | None = None,
+        deterministic: bool = False,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        mean, log_std = self(obs, base_action, images)
+        return self.sample_distribution(mean, log_std, deterministic)
+
+    def sample_distribution(self, mean, log_std, deterministic=False):
+        if deterministic:
+            raw = mean
+        else:
+            raw = Normal(mean, log_std.exp()).rsample()
+        squashed = torch.tanh(raw)
+        delta = squashed * self.scale
+        if deterministic:
+            log_prob = torch.zeros((mean.shape[0], 1), device=mean.device)
+        else:
+            normal = Normal(mean, log_std.exp())
+            correction = 2 * (np.log(2.) - raw - F.softplus(-2 * raw))
+            if self.density == "physical":
+                correction = correction + self.scale.log()
+            log_prob = (normal.log_prob(raw) - correction).sum(dim=-1, keepdim=True)
+        return delta, log_prob
+
+
+class QNetwork(nn.Module):
+    def __init__(
+        self,
+        state_dim: int,
+        action_dim: int,
+        hidden_dim: int,
+        *,
+        image_shape: tuple[int, ...] | None,
+        visual_encoder: str,
+        visual_latent_dim: int,
+    ) -> None:
+        super().__init__()
+        self.obs_encoder = ObservationEncoder(
+            state_dim,
+            image_shape=image_shape,
+            visual_encoder=visual_encoder,
+            visual_latent_dim=visual_latent_dim,
+        )
+        self.q = MLP(self.obs_encoder.out_dim + action_dim, 1, hidden_dim)
+
+    def forward(
+        self, obs: torch.Tensor, action: torch.Tensor, images: torch.Tensor | None = None
+    ) -> torch.Tensor:
+        features = self.obs_encoder(obs, images)
+        return self.q(torch.cat([features, action], dim=-1))
+
+
+class ResidualSAC:
+    def __init__(self, config: SACConfig, *, device: str | torch.device = "cpu") -> None:
+        self.config = config
+        self.device = torch.device(device)
+        image_shape = (
+            tuple(int(x) for x in config.image_shape)
+            if config.image_shape is not None
+            else None
+        )
+        visual_encoder = "none" if image_shape is None else config.visual_encoder
+        self.actor = GaussianResidualActor(
+            config.state_dim,
+            config.action_dim,
+            config.hidden_dim,
+            config.action_scale,
+            impl=config.residual_actor_impl,
+            density=config.residual_density,
+            stop_visual_gradient=config.shared_visual_encoder,
+            image_shape=image_shape,
+            visual_encoder=visual_encoder,
+            visual_latent_dim=config.visual_latent_dim,
+        ).to(self.device)
+        self.q1 = QNetwork(
+            config.state_dim,
+            config.action_dim,
+            config.hidden_dim,
+            image_shape=image_shape,
+            visual_encoder=visual_encoder,
+            visual_latent_dim=config.visual_latent_dim,
+        ).to(self.device)
+        self.q2 = QNetwork(
+            config.state_dim,
+            config.action_dim,
+            config.hidden_dim,
+            image_shape=image_shape,
+            visual_encoder=visual_encoder,
+            visual_latent_dim=config.visual_latent_dim,
+        ).to(self.device)
+        self.q1_target = QNetwork(
+            config.state_dim,
+            config.action_dim,
+            config.hidden_dim,
+            image_shape=image_shape,
+            visual_encoder=visual_encoder,
+            visual_latent_dim=config.visual_latent_dim,
+        ).to(self.device)
+        self.q2_target = QNetwork(
+            config.state_dim,
+            config.action_dim,
+            config.hidden_dim,
+            image_shape=image_shape,
+            visual_encoder=visual_encoder,
+            visual_latent_dim=config.visual_latent_dim,
+        ).to(self.device)
+        if config.residual_actor_impl == "serl_uniform_std":
+            for model in (self.actor,self.q1,self.q2,self.q1_target,self.q2_target):
+                for module in model.modules():
+                    if isinstance(module,nn.Linear):
+                        nn.init.xavier_uniform_(module.weight)
+                        nn.init.zeros_(module.bias)
+                    elif isinstance(module,nn.LayerNorm):
+                        module.eps = 1e-6
+        if config.shared_visual_encoder:
+            self.actor.obs_encoder = self.q1.obs_encoder
+            self.q2.obs_encoder = self.q1.obs_encoder
+            self.q2_target.obs_encoder = self.q1_target.obs_encoder
+        self.q1_target.load_state_dict(self.q1.state_dict())
+        self.q2_target.load_state_dict(self.q2.state_dict())
+
+        self.actor_params = [p for name,p in self.actor.named_parameters()
+                             if p.requires_grad and not (config.shared_visual_encoder and name.startswith("obs_encoder."))]
+        self.critic_params = list(dict.fromkeys(p for m in (self.q1,self.q2)
+                                                for p in m.parameters() if p.requires_grad))
+        self.actor_opt = torch.optim.AdamW(self.actor_params, lr=config.actor_lr, weight_decay=config.weight_decay)
+        self.q_opt = torch.optim.AdamW(self.critic_params, lr=config.critic_lr, weight_decay=config.weight_decay)
+        initial_temperature = np.log(np.expm1(1.)) if config.temperature_impl == "serl_softplus" else 0.
+        self.log_alpha = torch.tensor(float(initial_temperature), device=self.device, requires_grad=True)
+        self.alpha_opt = torch.optim.AdamW([self.log_alpha], lr=config.alpha_lr,
+            weight_decay=0. if config.temperature_impl == "serl_softplus" else config.weight_decay)
+        self.actor_optimizer_steps = self.critic_optimizer_steps = 0
+        self._offline_actor_state = None
+        self.target_entropy = self._default_target_entropy()
+        low = config.action_low if config.action_low is not None else (-1.0,) * config.action_dim
+        high = config.action_high if config.action_high is not None else (1.0,) * config.action_dim
+        self.action_low = torch.as_tensor(low, dtype=torch.float32, device=self.device)
+        self.action_high = torch.as_tensor(high, dtype=torch.float32, device=self.device)
+        self.total_updates = 0
+
+    @property
+    def alpha(self) -> torch.Tensor:
+        return F.softplus(self.log_alpha) if self.config.temperature_impl == "serl_softplus" and self._offline_actor_state is None else self.log_alpha.exp()
+
+    def _default_target_entropy(self) -> float:
+        if self.config.target_entropy is not None:
+            return float(self.config.target_entropy)
+        if self.config.residual_density == "unit":
+            return -float(self.config.action_dim)/2
+        # The residual actor samples delta = action_scale * tanh(raw). Because
+        # log_prob includes that scale correction, the usual -|A| SAC target is
+        # shifted by log(action_scale) per action dimension.
+        scale = max(float(self.config.action_scale), 1e-6)
+        return -float(self.config.action_dim) + float(self.config.action_dim) * np.log(scale)
+
+    def _images_to_tensor(self, images: np.ndarray | None) -> torch.Tensor | None:
+        if images is None:
+            return None
+        tensor = torch.as_tensor(images, dtype=torch.float32, device=self.device) / 255.0
+        if tensor.ndim != 5:
+            raise ValueError(f"Expected images with shape (B,V,H,W,C), got {tuple(tensor.shape)}")
+        return tensor.permute(0, 1, 4, 2, 3).reshape(
+            tensor.shape[0], tensor.shape[1] * tensor.shape[4], tensor.shape[2], tensor.shape[3]
+        )
+
+    def _repeat_images(self, images: torch.Tensor | None, n_actions: int) -> torch.Tensor | None:
+        if images is None:
+            return None
+        batch_size = images.shape[0]
+        return images[:, None].expand(batch_size, n_actions, *images.shape[1:]).reshape(
+            batch_size * n_actions, *images.shape[1:]
+        )
+
+    def _to_tensor_batch(self, batch: ReplayBatch) -> dict[str, torch.Tensor]:
+        return {
+            "obs": torch.as_tensor(batch.obs, dtype=torch.float32, device=self.device),
+            "actions": torch.as_tensor(batch.actions, dtype=torch.float32, device=self.device),
+            "base_actions": torch.as_tensor(
+                batch.base_actions, dtype=torch.float32, device=self.device
+            ),
+            "rewards": torch.as_tensor(batch.rewards, dtype=torch.float32, device=self.device).unsqueeze(-1),
+            "next_obs": torch.as_tensor(batch.next_obs, dtype=torch.float32, device=self.device),
+            "next_base_actions": torch.as_tensor(
+                batch.next_base_actions, dtype=torch.float32, device=self.device
+            ),
+            "dones": torch.as_tensor(batch.dones, dtype=torch.float32, device=self.device).unsqueeze(-1),
+            "mc_returns": torch.as_tensor(
+                batch.mc_returns, dtype=torch.float32, device=self.device
+            ).unsqueeze(-1),
+            "images": self._images_to_tensor(batch.images),
+            "next_images": self._images_to_tensor(batch.next_images),
+        }
+
+    def _clip_action(self, action: torch.Tensor) -> torch.Tensor:
+        return torch.max(torch.min(action, self.action_high), self.action_low)
+
+    def _sample_policy_actions(
+        self,
+        obs: torch.Tensor,
+        base_actions: torch.Tensor,
+        n_actions: int,
+        images: torch.Tensor | None = None,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        if self._offline_actor_state is not None:
+            base_actions = torch.zeros_like(base_actions)
+        batch_size = obs.shape[0]
+        n = max(1, int(n_actions))
+        mean, log_std = self.actor(obs, base_actions, images)
+        mean = mean[:, None].expand(-1, n, -1).reshape(batch_size*n, -1)
+        log_std = log_std[:, None].expand(-1, n, -1).reshape(batch_size*n, -1)
+        flat_base = base_actions[:, None].expand(-1, n, -1).reshape(batch_size*n, -1)
+        delta, logp = self.actor.sample_distribution(mean, log_std)
+        self._candidate_clip = ((flat_base+delta < self.action_low) | (flat_base+delta > self.action_high)).any(-1).reshape(batch_size,n)
+        actions = self._clip_action(flat_base + delta).reshape(
+            batch_size, n, self.config.action_dim
+        )
+        return actions, logp.reshape(batch_size, n)
+
+    def _q_for_action_set(
+        self,
+        q_net: QNetwork,
+        obs: torch.Tensor,
+        actions: torch.Tensor,
+        images: torch.Tensor | None = None,
+    ) -> torch.Tensor:
+        batch_size, n_actions, _ = actions.shape
+        features = q_net.obs_encoder(obs, images)
+        features = features[:, None].expand(-1, n_actions, -1)
+        return q_net.q(torch.cat([features, actions], dim=-1)).squeeze(-1)
+
+    def _otf_candidate_actions(
+        self,
+        obs: torch.Tensor,
+        base_actions: torch.Tensor,
+        n_actions: int,
+        *,
+        images: torch.Tensor | None = None,
+        include_base_action: bool,
+    ) -> tuple[torch.Tensor, torch.Tensor]:
+        actions, logp = self._sample_policy_actions(obs, base_actions, n_actions, images)
+        if not include_base_action:
+            return actions, logp
+        batch_size = obs.shape[0]
+        base_candidate = self._clip_action(base_actions).reshape(
+            batch_size, 1, self.config.action_dim
+        )
+        self._candidate_clip = torch.cat([torch.zeros((batch_size,1),device=self.device,dtype=torch.bool), self._candidate_clip],1)
+        base_logp = torch.zeros((batch_size, 1), dtype=logp.dtype, device=self.device)
+        return torch.cat([base_candidate, actions], dim=1), torch.cat([base_logp, logp], dim=1)
+
+    def _select_otf_action_tensors(
+        self,
+        obs: torch.Tensor,
+        base_actions: torch.Tensor,
+        n_actions: int,
+        *,
+        images: torch.Tensor | None = None,
+        include_base_action: bool,
+        use_target_critic: bool,
+        soft_value: bool,
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
+        actions, logp = self._otf_candidate_actions(
+            obs,
+            base_actions,
+            n_actions,
+            images=images,
+            include_base_action=include_base_action,
+        )
+        candidate_clip = self._candidate_clip
+        q1_net = self.q1_target if use_target_critic else self.q1
+        q2_net = self.q2_target if use_target_critic else self.q2
+        q_values = torch.min(
+            self._q_for_action_set(q1_net, obs, actions, images),
+            self._q_for_action_set(q2_net, obs, actions, images),
+        )
+        values = q_values - self.alpha.detach() * logp if soft_value else q_values
+        selected_idx = values.argmax(dim=1, keepdim=True)
+        gather_idx = selected_idx.unsqueeze(-1).expand(-1, -1, self.config.action_dim)
+        selected_action = actions.gather(1, gather_idx).squeeze(1)
+        selected_logp = logp.gather(1, selected_idx)
+        selected_q = q_values.gather(1, selected_idx)
+        selected_value = values.gather(1, selected_idx)
+        if include_base_action:
+            selected_base = (selected_idx == 0).float()
+        else:
+            selected_base = torch.zeros_like(selected_idx, dtype=torch.float32)
+        self.last_otf_metrics = {
+            "otf_base_selected": float(selected_base.mean().detach().cpu()),
+            "otf_candidates": float(actions.shape[1]),
+            "otf_selected_clipped": float(candidate_clip.gather(1, selected_idx).float().mean().detach().cpu()),
+            "q_sampled_residual": float(q_values[:, int(include_base_action):].mean().detach().cpu()),
+            "entropy": float(-logp[:, int(include_base_action):].mean().detach().cpu()),
+        }
+        return selected_action, selected_logp, selected_q, selected_value, selected_base
+
+    def select_delta(
+        self,
+        obs: np.ndarray,
+        base_action: np.ndarray,
+        *,
+        images: np.ndarray | None = None,
+        deterministic: bool = True,
+    ) -> np.ndarray:
+        self.actor.eval()
+        with torch.no_grad():
+            obs_t = torch.as_tensor(obs, dtype=torch.float32, device=self.device).reshape(
+                1, self.config.state_dim
+            )
+            base_t = torch.as_tensor(base_action, dtype=torch.float32, device=self.device).reshape(
+                1, self.config.action_dim
+            )
+            images_t = self._images_to_tensor(images[None] if images is not None else None)
+            delta, _ = self.actor.sample(obs_t, base_t, images_t, deterministic=deterministic)
+        self.actor.train()
+        return delta.squeeze(0).cpu().numpy().astype(np.float32)
+
+    def select_action(
+        self,
+        obs: np.ndarray,
+        base_action: np.ndarray,
+        *,
+        images: np.ndarray | None = None,
+        deterministic: bool = True,
+    ) -> np.ndarray:
+        delta = self.select_delta(obs, base_action, images=images, deterministic=deterministic)
+        action = np.asarray(base_action, dtype=np.float32) + delta
+        low = np.asarray(self.action_low.cpu(), dtype=np.float32)
+        high = np.asarray(self.action_high.cpu(), dtype=np.float32)
+        return np.clip(action, low, high).astype(np.float32)
+
+    def select_action_otf(
+        self,
+        obs: np.ndarray,
+        base_action: np.ndarray,
+        *,
+        n_actions: int,
+        images: np.ndarray | None = None,
+        include_base_action: bool | None = None,
+    ) -> np.ndarray:
+        self.actor.eval()
+        self.q1.eval()
+        self.q2.eval()
+        if include_base_action is None:
+            include_base_action = self.config.otf_include_base_action
+        with torch.no_grad():
+            obs_t = torch.as_tensor(obs, dtype=torch.float32, device=self.device).reshape(
+                1, self.config.state_dim
+            )
+            base_t = torch.as_tensor(base_action, dtype=torch.float32, device=self.device).reshape(
+                1, self.config.action_dim
+            )
+            images_t = self._images_to_tensor(images[None] if images is not None else None)
+            action, _, _, _, _ = self._select_otf_action_tensors(
+                obs_t,
+                base_t,
+                n_actions,
+                images=images_t,
+                include_base_action=include_base_action,
+                use_target_critic=False,
+                soft_value=False,
+            )
+        self.actor.train()
+        self.q1.train()
+        self.q2.train()
+        return action.squeeze(0).cpu().numpy().astype(np.float32)
+
+    def pretrain_critic_calql(self, batch: ReplayBatch) -> dict[str, float]:
+        b = self._to_tensor_batch(batch)
+        with torch.no_grad():
+            n = int(self.config.calql_n_actions)
+            if self.config.calql_max_target_backup:
+                next_actions, next_logp = self._sample_policy_actions(
+                    b["next_obs"], b["next_base_actions"], n, b["next_images"]
+                )
+                q_next = torch.min(
+                    self._q_for_action_set(
+                        self.q1_target, b["next_obs"], next_actions, b["next_images"]
+                    ),
+                    self._q_for_action_set(
+                        self.q2_target, b["next_obs"], next_actions, b["next_images"]
+                    ),
+                )
+                if self.config.calql_backup_entropy:
+                    q_next = q_next - self.alpha.detach() * next_logp
+                target_q_next = q_next.gather(1, q_next.argmax(dim=1, keepdim=True))
+            else:
+                next_actions, next_logp = self._sample_policy_actions(
+                    b["next_obs"], b["next_base_actions"], 1, b["next_images"]
+                )
+                target_q_next = torch.min(
+                    self._q_for_action_set(
+                        self.q1_target, b["next_obs"], next_actions, b["next_images"]
+                    ),
+                    self._q_for_action_set(
+                        self.q2_target, b["next_obs"], next_actions, b["next_images"]
+                    ),
+                )
+                if self.config.calql_backup_entropy:
+                    target_q_next = target_q_next - self.alpha.detach() * next_logp
+            target_q = b["rewards"] + self.config.gamma * (1.0 - b["dones"]) * target_q_next
+
+        q1 = self.q1(b["obs"], b["actions"], b["images"])
+        q2 = self.q2(b["obs"], b["actions"], b["images"])
+        q1_bellman = F.mse_loss(q1, target_q)
+        q2_bellman = F.mse_loss(q2, target_q)
+        q1_cql, q1_calql_metrics = self._calql_penalty(self.q1, b, q1)
+        q2_cql, q2_calql_metrics = self._calql_penalty(self.q2, b, q2)
+        q1_loss = q1_bellman + self.config.calql_alpha * q1_cql
+        q2_loss = q2_bellman + self.config.calql_alpha * q2_cql
+        q_loss = q1_loss + q2_loss
+
+        self.q_opt.zero_grad(set_to_none=True)
+        q_loss.backward()
+        if self.config.grad_clip_norm > 0:
+            nn.utils.clip_grad_norm_(
+                self.critic_params,
+                self.config.grad_clip_norm,
+            )
+        critic_lr = self._optimizer_step(self.q_opt, "critic")
+        self.update_targets()
+        self.total_updates += 1
+
+        metrics: dict[str, float] = {
+            "critic_lr": critic_lr,
+            "actor_lr": float(self.actor_opt.param_groups[0]["lr"]),
+            "critic_optimizer_steps": float(self.critic_optimizer_steps),
+            "actor_optimizer_steps": float(self.actor_optimizer_steps),
+            "q_loss": float(q_loss.detach().cpu()),
+            "q1": float(q1.mean().detach().cpu()),
+            "q2": float(q2.mean().detach().cpu()),
+            "target_q": float(target_q.mean().detach().cpu()),
+            "q1_bellman_loss": float(q1_bellman.detach().cpu()),
+            "q2_bellman_loss": float(q2_bellman.detach().cpu()),
+            "q1_calql_loss": float(q1_cql.detach().cpu()),
+            "q2_calql_loss": float(q2_cql.detach().cpu()),
+            "alpha": float(self.alpha.detach().cpu()),
+            "calql_alpha": float(self.config.calql_alpha),
+            "mc_return": float(b["mc_returns"].mean().detach().cpu()),
+        }
+        metrics.update({f"q1_{k}": v for k, v in q1_calql_metrics.items()})
+        metrics.update({f"q2_{k}": v for k, v in q2_calql_metrics.items()})
+        if self._offline_actor_state is not None:
+            metrics.update(self._update_actor(b,offline=True))
+        return metrics
+
+    def update(self, batch: ReplayBatch, *, update_actor: bool = True) -> dict[str, float]:
+        b = self._to_tensor_batch(batch)
+        otf_metrics: dict[str, float] = {}
+        with torch.no_grad():
+            if self.config.otf_backup_actions > 0:
+                _, _, q_next, backup_value, selected_base = self._select_otf_action_tensors(
+                    b["next_obs"],
+                    b["next_base_actions"],
+                    self.config.otf_backup_actions,
+                    images=b["next_images"],
+                    include_base_action=self.config.otf_include_base_action,
+                    use_target_critic=True,
+                    soft_value=self.config.otf_backup_entropy,
+                )
+                target_next = backup_value if self.config.otf_backup_entropy else q_next
+                target_q = b["rewards"] + self.config.gamma * (1.0 - b["dones"]) * target_next
+                otf_metrics = {
+                    "otf_backup_q": float(q_next.mean().detach().cpu()),
+                    "otf_backup_value": float(backup_value.mean().detach().cpu()),
+                    "otf_backup_base_rate": float(selected_base.mean().detach().cpu()),
+                    "otf_backup_candidates": float(
+                        int(self.config.otf_backup_actions)
+                        + int(bool(self.config.otf_include_base_action))
+                    ),
+                }
+            else:
+                next_delta, next_logp = self.actor.sample(
+                    b["next_obs"], b["next_base_actions"], b["next_images"]
+                )
+                next_action = self._clip_action(b["next_base_actions"] + next_delta)
+                q_next = torch.min(
+                    self.q1_target(b["next_obs"], next_action, b["next_images"]),
+                    self.q2_target(b["next_obs"], next_action, b["next_images"]),
+                )
+                target_q = b["rewards"] + self.config.gamma * (1.0 - b["dones"]) * (
+                    q_next - self.alpha.detach() * next_logp
+                )
+
+        q1 = self.q1(b["obs"], b["actions"], b["images"])
+        q2 = self.q2(b["obs"], b["actions"], b["images"])
+        q1_loss = F.mse_loss(q1, target_q)
+        q2_loss = F.mse_loss(q2, target_q)
+
+        if self.config.cql_alpha > 0.0:
+            q1_loss = q1_loss + self.config.cql_alpha * self._cql_penalty(
+                self.q1, b["obs"], q1, b["images"]
+            )
+            q2_loss = q2_loss + self.config.cql_alpha * self._cql_penalty(
+                self.q2, b["obs"], q2, b["images"]
+            )
+
+        q_loss = q1_loss + q2_loss
+        self.q_opt.zero_grad(set_to_none=True)
+        q_loss.backward()
+        if self.config.grad_clip_norm > 0:
+            nn.utils.clip_grad_norm_(
+                self.critic_params,
+                self.config.grad_clip_norm,
+            )
+        critic_lr = self._optimizer_step(self.q_opt, "critic")
+
+        metrics: dict[str, float] = {
+            "critic_lr": critic_lr,
+            "actor_lr": float(self.actor_opt.param_groups[0]["lr"]),
+            "critic_optimizer_steps": float(self.critic_optimizer_steps),
+            "actor_optimizer_steps": float(self.actor_optimizer_steps),
+            "q_loss": float(q_loss.detach().cpu()),
+            "q1": float(q1.mean().detach().cpu()),
+            "q2": float(q2.mean().detach().cpu()),
+            "alpha": float(self.alpha.detach().cpu()),
+            "target_q": float(target_q.mean().detach().cpu()),
+            "q1_bellman_loss": float(F.mse_loss(q1, target_q).detach().cpu()),
+            "q2_bellman_loss": float(F.mse_loss(q2, target_q).detach().cpu()),
+            "actor_updates_enabled": float(update_actor),
+        }
+        metrics.update(otf_metrics)
+
+        self.total_updates += 1
+        self.update_targets()
+        if update_actor and self.total_updates % max(1, self.config.actor_update_interval) == 0:
+            metrics.update(self._update_actor(b))
+        return metrics
+
+    def actor_q(self, q1, q2):
+        if self.config.actor_q_reduction == "mean":
+            return (q1 + q2) / 2
+        if self.config.actor_q_reduction == "min":
+            return torch.minimum(q1,q2)
+        raise ValueError("Unknown actor Q reduction")
+
+    def temperature_loss(self, logp):
+        multiplier = self.alpha if self.config.temperature_impl == "serl_softplus" and self._offline_actor_state is None else self.log_alpha
+        return -(multiplier * (logp + self.target_entropy).detach()).mean()
+
+    def _optimizer_step(self, optimizer, kind):
+        counter = getattr(self, kind + "_optimizer_steps")
+        base_lr = self.config.actor_lr if kind == "actor" else self.config.critic_lr
+        warmup = self.config.optimizer_warmup_steps
+        if self._offline_actor_state is not None:
+            base_lr = 1e-4 if kind == "actor" else 3e-4
+            warmup = 0
+        lr = base_lr * min(counter / warmup, 1.) if warmup else base_lr
+        for group in optimizer.param_groups:
+            group['lr'] = lr
+        optimizer.step()
+        setattr(self, kind + "_optimizer_steps", counter + 1)
+        return lr
+
+    def _update_actor(self, b, *, offline=False):
+        # Critic parameters are constants for policy gradients; preserve dQ/da.
+        for p in self.critic_params:
+            p.requires_grad_(False)
+        try:
+            base = torch.zeros_like(b['base_actions']) if offline else b['base_actions']
+            delta, logp = self.actor.sample(b['obs'], base, b['images'])
+            action = delta if offline else self._clip_action(base + delta)
+            q1 = self.q1(b['obs'], action, b['images'])
+            q2 = self.q2(b['obs'], action, b['images'])
+            q = torch.minimum(q1,q2) if offline else self.actor_q(q1,q2)
+            actor_loss = (self.alpha.detach()*logp-q).mean()
+            self.actor_opt.zero_grad(set_to_none=True)
+            actor_loss.backward()
+            if self.config.grad_clip_norm > 0:
+                nn.utils.clip_grad_norm_(self.actor_params,self.config.grad_clip_norm)
+            actor_lr = self._optimizer_step(self.actor_opt, "actor")
+        finally:
+            for p in self.critic_params:
+                p.requires_grad_(True)
+        alpha_loss = self.temperature_loss(logp)
+        self.alpha_opt.zero_grad(set_to_none=True)
+        alpha_loss.backward()
+        self.alpha_opt.step()
+        with torch.no_grad():
+            low, high = self.config.alpha_min, self.config.alpha_max
+            transform = (lambda x: np.log(np.expm1(x))) if self.config.temperature_impl == "serl_softplus" and self._offline_actor_state is None else np.log
+            self.log_alpha.clamp_(transform(low),transform(high))
+        return dict(actor_loss=float(actor_loss.detach()),alpha_loss=float(alpha_loss.detach()),
+                    entropy=float(-logp.detach().mean()),actor_lr=actor_lr,
+                    actor_optimizer_steps=float(self.actor_optimizer_steps))
+
+    def set_action_scale(self, scale):
+        if not 0 < scale <= 1:
+            raise ValueError("Physical residual scale must be in (0,1]")
+        if self.config.residual_density != "unit":
+            raise ValueError("Scale scheduling requires unit-density coordinates")
+        self.config.action_scale = float(scale)
+        self.actor.scale.fill_(scale)
+
+    def update_targets(self):
+        # Shared visual parameters must receive exactly one Polyak update.
+        seen = set()
+        with torch.no_grad():
+            for src,dst in ((self.q1,self.q1_target),(self.q2,self.q2_target)):
+                for p,t in zip(src.parameters(),dst.parameters()):
+                    if id(t) not in seen:
+                        t.mul_(1-self.config.tau).add_(p,alpha=self.config.tau)
+                        seen.add(id(t))
+
+    def begin_calql(self, mode):
+        if mode == "critic_only_residual":
+            return
+        if mode != "auxiliary_full_action" or self._offline_actor_state is not None:
+            raise ValueError("Invalid Cal-QL initialization mode/state")
+        # Preserve a freshly initialized ONLINE actor, never transfer the offline head.
+        self._offline_actor_state = (self.actor,self.actor_opt,self.actor_params,
+            self.log_alpha,self.alpha_opt,self.actor_optimizer_steps,self.target_entropy,self.q_opt,self.critic_optimizer_steps)
+        self.actor = deepcopy(self.actor)
+        if self.config.shared_visual_encoder:
+            self.actor.obs_encoder = self.q1.obs_encoder
+        self.actor.scale.fill_(1.)
+        self.actor.density = "unit"
+        self.actor_params = [p for name,p in self.actor.named_parameters() if p.requires_grad
+            and not (self.config.shared_visual_encoder and name.startswith('obs_encoder.'))]
+        self.actor_opt = torch.optim.Adam(self.actor_params,lr=1e-4)
+        self.q_opt = torch.optim.Adam(self.critic_params,lr=3e-4)
+        self.critic_optimizer_steps = 0
+        self.log_alpha = torch.zeros((),device=self.device,requires_grad=True)
+        self.alpha_opt = torch.optim.Adam([self.log_alpha],lr=1e-4)
+        self.actor_optimizer_steps = 0
+        self.target_entropy = -float(self.config.action_dim)
+
+    def finish_calql(self):
+        if self._offline_actor_state is not None:
+            (self.actor,self.actor_opt,self.actor_params,self.log_alpha,self.alpha_opt,
+             self.actor_optimizer_steps,self.target_entropy,self.q_opt,self.critic_optimizer_steps) = self._offline_actor_state
+            self._offline_actor_state = None
+
+    def _cql_penalty(
+        self,
+        q_net: QNetwork,
+        obs: torch.Tensor,
+        q_data: torch.Tensor,
+        images: torch.Tensor | None = None,
+    ) -> torch.Tensor:
+        batch_size = obs.shape[0]
+        n = int(self.config.cql_random_actions)
+        low = self.action_low.view(1, 1, -1)
+        high = self.action_high.view(1, 1, -1)
+        random_actions = low + torch.rand(
+            (batch_size, n, self.config.action_dim), device=self.device
+        ) * (high - low)
+        obs_rep = obs[:, None, :].expand(batch_size, n, self.config.state_dim)
+        q_rand = q_net(
+            obs_rep.reshape(batch_size * n, self.config.state_dim),
+            random_actions.reshape(batch_size * n, self.config.action_dim),
+            self._repeat_images(images, n),
+        ).reshape(batch_size, n)
+        return (torch.logsumexp(q_rand, dim=1, keepdim=True) - np.log(n) - q_data).mean()
+
+    def _calql_penalty(
+        self, q_net: QNetwork, b: dict[str, torch.Tensor], q_data: torch.Tensor
+    ) -> tuple[torch.Tensor, dict[str, float]]:
+        batch_size = b["obs"].shape[0]
+        n = max(1, int(self.config.calql_n_actions))
+        low = self.action_low.view(1, 1, -1)
+        high = self.action_high.view(1, 1, -1)
+        random_actions = low + torch.rand(
+            (batch_size, n, self.config.action_dim), device=self.device
+        ) * (high - low)
+        q_rand = self._q_for_action_set(q_net, b["obs"], random_actions, b["images"])
+
+        with torch.no_grad():
+            current_actions, current_logp = self._sample_policy_actions(
+                b["obs"], b["base_actions"], n, b["images"]
+            )
+            next_actions, next_logp = self._sample_policy_actions(
+                b["next_obs"], b["next_base_actions"], n, b["next_images"]
+            )
+        q_current = self._q_for_action_set(q_net, b["obs"], current_actions, b["images"])
+        # The reference Cal-QL implementation samples next-state actions but
+        # evaluates them under the current state for the conservative term.
+        q_next = self._q_for_action_set(q_net, b["obs"], next_actions, b["images"])
+
+        lower_bounds = b["mc_returns"].expand_as(q_current)
+        bound_rate_current = (q_current < lower_bounds).float().mean()
+        bound_rate_next = (q_next < lower_bounds).float().mean()
+        q_current = torch.maximum(q_current, lower_bounds)
+        q_next = torch.maximum(q_next, lower_bounds)
+
+        if self.config.calql_importance_sample:
+            random_log_density = -torch.log(
+                torch.clamp(self.action_high - self.action_low, min=1e-6)
+            ).sum()
+            cql_values = torch.cat(
+                [
+                    q_rand - random_log_density,
+                    q_next - next_logp,
+                    q_current - current_logp,
+                ],
+                dim=1,
+            )
+        else:
+            cql_values = torch.cat([q_rand, q_data, q_next, q_current], dim=1)
+
+        temp = max(float(self.config.calql_temp), 1e-6)
+        cql_ood = torch.logsumexp(cql_values / temp, dim=1, keepdim=True) * temp
+        cql_diff = (cql_ood - q_data).mean()
+        metrics = {
+            "calql_diff": float(cql_diff.detach().cpu()),
+            "calql_bound_rate_current": float(bound_rate_current.detach().cpu()),
+            "calql_bound_rate_next": float(bound_rate_next.detach().cpu()),
+            "calql_q_rand": float(q_rand.mean().detach().cpu()),
+            "calql_q_current": float(q_current.mean().detach().cpu()),
+            "calql_q_next": float(q_next.mean().detach().cpu()),
+        }
+        return cql_diff, metrics
+
+    def _soft_update(self, src: nn.Module, dst: nn.Module) -> None:
+        tau = float(self.config.tau)
+        with torch.no_grad():
+            for p, p_targ in zip(src.parameters(), dst.parameters()):
+                p_targ.data.mul_(1.0 - tau).add_(tau * p.data)
+
+    def save(self, path: str | Path) -> None:
+        path = Path(path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        torch.save(
+            {
+                "config": asdict(self.config),
+                "actor": self.actor.state_dict(),
+                "q1": self.q1.state_dict(),
+                "q2": self.q2.state_dict(),
+                "q1_target": self.q1_target.state_dict(),
+                "q2_target": self.q2_target.state_dict(),
+                "actor_opt": self.actor_opt.state_dict(),
+                "q_opt": self.q_opt.state_dict(),
+                "alpha_opt": self.alpha_opt.state_dict(),
+                "actor_optimizer_steps": self.actor_optimizer_steps,
+                "critic_optimizer_steps": self.critic_optimizer_steps,
+                "log_alpha": self.log_alpha.detach().cpu(),
+                "total_updates": self.total_updates,
+            },
+            path,
+        )
+
+    def load_critics(self, path: str | Path) -> None:
+        try:
+            payload: dict[str, Any] = torch.load(path, map_location=self.device, weights_only=False)
+        except TypeError:  # Older torch versions do not expose weights_only.
+            payload = torch.load(path, map_location=self.device)
+        self.q1.load_state_dict(payload["q1"])
+        self.q2.load_state_dict(payload["q2"])
+        self.q1_target.load_state_dict(payload.get("q1_target", payload["q1"]))
+        self.q2_target.load_state_dict(payload.get("q2_target", payload["q2"]))
+
+    def _visual_modules(self) -> dict[str, nn.Module]:
+        modules: dict[str, nn.Module] = {}
+        for name, model in (
+            ("actor", self.actor),
+            ("q1", self.q1),
+            ("q2", self.q2),
+            ("q1_target", self.q1_target),
+            ("q2_target", self.q2_target),
+        ):
+            visual = model.obs_encoder.visual
+            if visual is not None:
+                modules[name] = visual
+        return modules
+
+    @staticmethod
+    def _strip_visual_prefix(state_dict: dict[str, torch.Tensor]) -> dict[str, torch.Tensor]:
+        prefixes = (
+            "actor.obs_encoder.visual.",
+            "q1.obs_encoder.visual.",
+            "q2.obs_encoder.visual.",
+            "obs_encoder.visual.",
+            "visual.",
+        )
+        stripped: dict[str, torch.Tensor] = {}
+        for key, value in state_dict.items():
+            if not torch.is_tensor(value):
+                continue
+            out_key = key
+            for prefix in prefixes:
+                if key.startswith(prefix):
+                    out_key = key[len(prefix) :]
+                    break
+            stripped[out_key] = value
+        return stripped
+
+    @staticmethod
+    def _extract_visual_state_dict(payload: dict[str, Any]) -> dict[str, torch.Tensor]:
+        for top_key in (
+            "visual",
+            "actor",
+            "q1",
+            "q2",
+            "q1_target",
+            "q2_target",
+            "state_dict",
+            "model_state_dict",
+        ):
+            value = payload.get(top_key)
+            if isinstance(value, dict):
+                state = {
+                    key[len("obs_encoder.visual.") :]: tensor
+                    for key, tensor in value.items()
+                    if key.startswith("obs_encoder.visual.") and torch.is_tensor(tensor)
+                }
+                if state:
+                    return state
+                stripped = ResidualSAC._strip_visual_prefix(value)
+                if stripped:
+                    return stripped
+
+        raw_state = {
+            key: value
+            for key, value in payload.items()
+            if isinstance(key, str) and torch.is_tensor(value)
+        }
+        if raw_state:
+            return ResidualSAC._strip_visual_prefix(raw_state)
+        raise ValueError("Could not find visual encoder weights in checkpoint payload")
+
+    @staticmethod
+    def _compatible_state_dict(
+        module: nn.Module, state_dict: dict[str, torch.Tensor]
+    ) -> dict[str, torch.Tensor]:
+        target = module.state_dict()
+        compatible: dict[str, torch.Tensor] = {}
+        for key, value in state_dict.items():
+            if key in target and tuple(target[key].shape) == tuple(value.shape):
+                compatible[key] = value
+        return compatible
+
+    def load_visual_encoder(self, path: str | Path) -> dict[str, int]:
+        """
+        Load a visual encoder checkpoint into actor and critics.
+
+        The checkpoint may be a full ResidualSAC checkpoint, an actor-only
+        checkpoint, or a raw visual state_dict. Only shape-compatible visual
+        encoder tensors are loaded, so checkpoints with a different projection
+        head can still initialize the shared convolutional trunk.
+        """
+        if self.config.visual_encoder == "serl_resnet10":
+            return {name: module.load_pretrained(path) for name,module in self._visual_modules().items()}
+        try:
+            payload: dict[str, Any] = torch.load(path, map_location=self.device, weights_only=False)
+        except TypeError:  # Older torch versions do not expose weights_only.
+            payload = torch.load(path, map_location=self.device)
+        if not isinstance(payload, dict):
+            raise ValueError(f"Expected checkpoint dict in {path}")
+        visual_state = self._extract_visual_state_dict(payload)
+        loaded: dict[str, int] = {}
+        for name, module in self._visual_modules().items():
+            compatible = self._compatible_state_dict(module, visual_state)
+            if not compatible:
+                loaded[name] = 0
+                continue
+            module.load_state_dict(compatible, strict=False)
+            loaded[name] = len(compatible)
+        return loaded
+
+    def init_actor_visual_from_critic(self, source: str = "q1") -> bool:
+        """Initialize the actor visual encoder from a loaded critic visual encoder."""
+        modules = self._visual_modules()
+        actor_visual = modules.get("actor")
+        source_visual = modules.get(source)
+        if actor_visual is None or source_visual is None:
+            return False
+        actor_visual.load_state_dict(source_visual.state_dict())
+        return True
+
+    def save_actor(self, path: str | Path) -> None:
+        path = Path(path)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        torch.save(
+            {
+                "config": asdict(self.config),
+                "actor": self.actor.state_dict(),
+                "total_updates": self.total_updates,
+            },
+            path,
+        )
+
+    def load_actor(self, path: str | Path) -> None:
+        try:
+            payload: dict[str, Any] = torch.load(path, map_location=self.device, weights_only=False)
+        except TypeError:  # Older torch versions do not expose weights_only.
+            payload = torch.load(path, map_location=self.device)
+        self.actor.load_state_dict(payload["actor"])
+
+    @classmethod
+    def load(cls, path: str | Path, *, device: str | torch.device = "cpu") -> "ResidualSAC":
+        try:
+            payload: dict[str, Any] = torch.load(path, map_location=device, weights_only=False)
+        except TypeError:  # Older torch versions do not expose weights_only.
+            payload = torch.load(path, map_location=device)
+        cfg_dict = dict(payload["config"])
+        if isinstance(cfg_dict.get("action_low"), list):
+            cfg_dict["action_low"] = tuple(cfg_dict["action_low"])
+        if isinstance(cfg_dict.get("action_high"), list):
+            cfg_dict["action_high"] = tuple(cfg_dict["action_high"])
+        if isinstance(cfg_dict.get("image_shape"), list):
+            cfg_dict["image_shape"] = tuple(cfg_dict["image_shape"])
+        agent = cls(SACConfig(**cfg_dict), device=device)
+        agent.actor.load_state_dict(payload["actor"])
+        agent.q1.load_state_dict(payload["q1"])
+        agent.q2.load_state_dict(payload["q2"])
+        agent.q1_target.load_state_dict(payload["q1_target"])
+        agent.q2_target.load_state_dict(payload["q2_target"])
+        agent.log_alpha.data.copy_(payload["log_alpha"].to(agent.device))
+        agent.total_updates = int(payload.get("total_updates", 0))
+        for name in ('actor_opt','q_opt','alpha_opt'):
+            if name in payload:
+                getattr(agent,name).load_state_dict(payload[name])
+        agent.actor_optimizer_steps = int(payload.get('actor_optimizer_steps',0))
+        agent.critic_optimizer_steps = int(payload.get('critic_optimizer_steps',0))
+        return agent

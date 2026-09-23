@@ -1,0 +1,142 @@
+[
+  {
+    "variant": "B",
+    "train_tasks": [
+      "D0",
+      "D1"
+    ],
+    "task": "D0",
+    "seen": true,
+    "filename": "train_D0_D1_D0_seed10000_success.mp4",
+    "checkpoint": "/workspace/multitask-sft/B/checkpoints/pi0_libero_seen_lora32/EXP-001/3001",
+    "seen_tasks": [
+      "D0",
+      "D1"
+    ],
+    "seed": 10000,
+    "success": true,
+    "length": 148,
+    "reset_hash": "6d9b1d2f0281228535bd76b42517b04d827482c6a128883793db7a6bb3bb3f4a",
+    "trajectory_hash": "61abba15ed5ba8a28a671cbb2b798e00f233095b03821d6569e3caca5d568138",
+    "image_hash": "b0a4a060eaafe5c9b5c41f16e5788f1c9202cef21dd00fcf151b8c025754a2cc",
+    "expected_frames": 149,
+    "includes_terminal_frame": true,
+    "fps": 20,
+    "camera_views": [
+      "agentview",
+      "wrist"
+    ],
+    "origin": "evaluation",
+    "frames": 149,
+    "width": 256,
+    "height": 128,
+    "bytes": 146719,
+    "sha256": "9a3af82a9460d40b489077af9cbb89abd7806ceb4fdea9d5377f8ef71823c52b",
+    "full_decode_passed": true
+  },
+  {
+    "variant": "B",
+    "train_tasks": [
+      "D0",
+      "D1"
+    ],
+    "task": "D0",
+    "seen": true,
+    "filename": "train_D0_D1_D0_seed10001_failure.mp4",
+    "checkpoint": "/workspace/multitask-sft/B/checkpoints/pi0_libero_seen_lora32/EXP-001/3001",
+    "seen_tasks": [
+      "D0",
+      "D1"
+    ],
+    "seed": 10001,
+    "success": false,
+    "length": 220,
+    "reset_hash": "8ab7244f72e0b16dee6c7486cddaa1e1b96d8143d36c4db6a5bf7c72cccba005",
+    "trajectory_hash": "b4f03869bb995059d04a81a7bd09b4e05d33bc976bdae9a9406c9275123afdbc",
+    "image_hash": "efbd43eb2b3eb3d3ce023a3434afd574529191cd85427030db171b7a1d84abc8",
+    "expected_frames": 221,
+    "includes_terminal_frame": true,
+    "fps": 20,
+    "camera_views": [
+      "agentview",
+      "wrist"
+    ],
+    "origin": "evaluation",
+    "frames": 221,
+    "width": 256,
+    "height": 128,
+    "bytes": 265477,
+    "sha256": "6eb89a1aee8be963782e09ff911cd01480ea4fa1592bbabb872c940c43b22ae2",
+    "full_decode_passed": true
+  },
+  {
+    "variant": "B",
+    "train_tasks": [
+      "D0",
+      "D1"
+    ],
+    "task": "D0",
+    "seen": true,
+    "filename": "train_D0_D1_D0_seed10002_success.mp4",
+    "checkpoint": "/workspace/multitask-sft/B/checkpoints/pi0_libero_seen_lora32/EXP-001/3001",
+    "seen_tasks": [
+      "D0",
+      "D1"
+    ],
+    "seed": 10002,
+    "success": true,
+    "length": 89,
+    "reset_hash": "771e08fa62f8cf3c81caf970eb4654aaa574fc11a0420c5abe92f99792283981",
+    "trajectory_hash": "9fe7519467abb26ea9b032ccd76a64780ef9d79c52e89b505b61de313455cd93",
+    "image_hash": "8a101538882f0dbf206199cd155520d34fc1cf0dc5ce12161e63c2b0957ea9f0",
+    "expected_frames": 90,
+    "includes_terminal_frame": true,
+    "fps": 20,
+    "camera_views": [
+      "agentview",
+      "wrist"
+    ],
+    "origin": "evaluation",
+    "frames": 90,
+    "width": 256,
+    "height": 128,
+    "bytes": 101008,
+    "sha256": "b962a1f70419e1645ea7de27d0c3b34b0c5c322b0ce671a022bb4d6b22e63b11",
+    "full_decode_passed": true
+  },
+  {
+    "variant": "B",
+    "train_tasks": [
+      "D0",
+      "D1"
+    ],
+    "task": "D0",
+    "seen": true,
+    "filename": "train_D0_D1_D0_seed10008_failure.mp4",
+    "checkpoint": "/workspace/multitask-sft/B/checkpoints/pi0_libero_seen_lora32/EXP-001/3001",
+    "seen_tasks": [
+      "D0",
+      "D1"
+    ],
+    "seed": 10008,
+    "success": false,
+    "length": 220,
+    "reset_hash": "a1d10dbe040562bc8d959c2e15750804e97243393a5229427c014b7c466e8f92",
+    "trajectory_hash": "3c8bdab8f5e0afdae76a315913225d71ad47a8cd1a98f894b26ca19a2008c476",
+    "image_hash": "192a23d1f0cf3f79933ba2903f702f48784202251a2963606cfff489d3edcea6",
+    "expected_frames": 221,
+    "includes_terminal_frame": true,
+    "fps": 20,
+    "camera_views": [
+      "agentview",
+      "wrist"
+    ],
+    "origin": "evaluation",
+    "frames": 221,
+    "width": 256,
+    "height": 128,
+    "bytes": 211221,
+    "sha256": "bacdab9dad43617544289f37fbc847ec1134980f15ab66122aa7c1af1595347b",
+    "full_decode_passed": true
+  }
+]

@@ -1,0 +1,7 @@
+Using Python 3.12.14 environment at: /venv/main
+Resolved 5 packages in 367ms
+Prepared 3 packages in 86ms
+Installed 3 packages in 43ms
+ + iniconfig==2.3.0
+ + pluggy==1.6.0
+ + pytest==9.1.1

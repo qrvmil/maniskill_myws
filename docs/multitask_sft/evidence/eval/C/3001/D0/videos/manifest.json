@@ -1,0 +1,150 @@
+[
+  {
+    "variant": "C",
+    "train_tasks": [
+      "D0",
+      "D1",
+      "D2"
+    ],
+    "task": "D0",
+    "seen": true,
+    "filename": "train_D0_D1_D2_D0_seed10000_failure.mp4",
+    "checkpoint": "/workspace/multitask-sft/C/checkpoints/pi0_libero_seen_lora32/EXP-001/3001",
+    "seen_tasks": [
+      "D0",
+      "D1",
+      "D2"
+    ],
+    "seed": 10000,
+    "success": false,
+    "length": 220,
+    "reset_hash": "6d9b1d2f0281228535bd76b42517b04d827482c6a128883793db7a6bb3bb3f4a",
+    "trajectory_hash": "6dd52fa4d8513f85c5873ac5c1b15b43c66df9e697002572469da900b148f404",
+    "image_hash": "55bd912e85880a65a032a02b3147a24f61a2bf068b80d6859ff96208a01085a8",
+    "expected_frames": 221,
+    "includes_terminal_frame": true,
+    "fps": 20,
+    "camera_views": [
+      "agentview",
+      "wrist"
+    ],
+    "origin": "evaluation",
+    "frames": 221,
+    "width": 256,
+    "height": 128,
+    "bytes": 226586,
+    "sha256": "8f88f4ac8643beaf0b61a3dc7aa77e29c444e82e915b0a2a9068745b2e235729",
+    "full_decode_passed": true
+  },
+  {
+    "variant": "C",
+    "train_tasks": [
+      "D0",
+      "D1",
+      "D2"
+    ],
+    "task": "D0",
+    "seen": true,
+    "filename": "train_D0_D1_D2_D0_seed10001_failure.mp4",
+    "checkpoint": "/workspace/multitask-sft/C/checkpoints/pi0_libero_seen_lora32/EXP-001/3001",
+    "seen_tasks": [
+      "D0",
+      "D1",
+      "D2"
+    ],
+    "seed": 10001,
+    "success": false,
+    "length": 220,
+    "reset_hash": "8ab7244f72e0b16dee6c7486cddaa1e1b96d8143d36c4db6a5bf7c72cccba005",
+    "trajectory_hash": "c0e8c3012ac69816e7be8edd3607ad75987c2eb3dfb456a011ecebdd5fa30512",
+    "image_hash": "b93e76e95a5e9115f5ccd3062a4732af096adba58b14f56a28081403f97ff40d",
+    "expected_frames": 221,
+    "includes_terminal_frame": true,
+    "fps": 20,
+    "camera_views": [
+      "agentview",
+      "wrist"
+    ],
+    "origin": "evaluation",
+    "frames": 221,
+    "width": 256,
+    "height": 128,
+    "bytes": 217614,
+    "sha256": "7a6d95ffa224b278285d2cb4637d38b69eb3c67ddf121660b8a6f2a34892692a",
+    "full_decode_passed": true
+  },
+  {
+    "variant": "C",
+    "train_tasks": [
+      "D0",
+      "D1",
+      "D2"
+    ],
+    "task": "D0",
+    "seen": true,
+    "filename": "train_D0_D1_D2_D0_seed10002_success.mp4",
+    "checkpoint": "/workspace/multitask-sft/C/checkpoints/pi0_libero_seen_lora32/EXP-001/3001",
+    "seen_tasks": [
+      "D0",
+      "D1",
+      "D2"
+    ],
+    "seed": 10002,
+    "success": true,
+    "length": 105,
+    "reset_hash": "771e08fa62f8cf3c81caf970eb4654aaa574fc11a0420c5abe92f99792283981",
+    "trajectory_hash": "acc73e3b4450c5ab38c6e3d073fddab3e7e861e7ab4e649b034a7333a2f2d455",
+    "image_hash": "3e2d6f2e25094ae8cc50354b2f1de1d551c85ed2275183f5fe09ff2de5cd9337",
+    "expected_frames": 106,
+    "includes_terminal_frame": true,
+    "fps": 20,
+    "camera_views": [
+      "agentview",
+      "wrist"
+    ],
+    "origin": "evaluation",
+    "frames": 106,
+    "width": 256,
+    "height": 128,
+    "bytes": 111959,
+    "sha256": "2152a7caea0c8db884d60992fa2c1f9cec1d65490ba0d357aee6ac4f846d5918",
+    "full_decode_passed": true
+  },
+  {
+    "variant": "C",
+    "train_tasks": [
+      "D0",
+      "D1",
+      "D2"
+    ],
+    "task": "D0",
+    "seen": true,
+    "filename": "train_D0_D1_D2_D0_seed10003_success.mp4",
+    "checkpoint": "/workspace/multitask-sft/C/checkpoints/pi0_libero_seen_lora32/EXP-001/3001",
+    "seen_tasks": [
+      "D0",
+      "D1",
+      "D2"
+    ],
+    "seed": 10003,
+    "success": true,
+    "length": 105,
+    "reset_hash": "97eec5b2cc5471fb44d955b2a9e5d22d78718f3f8be7959da9666d9c9f6eacef",
+    "trajectory_hash": "5b31af76dc79a9ffe8a29d07ebb62de237e7cb8b233fa6778c09ecf96303b326",
+    "image_hash": "5df3d6fd9a2113e0d978b85fee5c4abf71709a6f39ec7e33501745e318890955",
+    "expected_frames": 106,
+    "includes_terminal_frame": true,
+    "fps": 20,
+    "camera_views": [
+      "agentview",
+      "wrist"
+    ],
+    "origin": "evaluation",
+    "frames": 106,
+    "width": 256,
+    "height": 128,
+    "bytes": 116126,
+    "sha256": "a67dba6e856dd22c258aab5bc38a270a6fc0331cf3b139b322031ce408461eca",
+    "full_decode_passed": true
+  }
+]

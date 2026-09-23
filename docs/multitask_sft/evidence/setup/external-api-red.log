@@ -1,0 +1,92 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+______ test_external_configuration_preserves_unknown_or_explicit_exposure ______
+
+    def test_external_configuration_preserves_unknown_or_explicit_exposure():
+        from maniskill_myws.pld.multitask_eval import EvalConfig
+>       unknown = EvalConfig('/foreign/checkpoint', 'external')
+
+tests/test_multitask_external_eval.py:10: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:10: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = EvalConfig(checkpoint='/foreign/checkpoint', variant='external', task='H1', seeds=(10000, 10001, 10002, 10003, 10004, ...9, 10040, 10041, 10042, 10043, 10044, 10045, 10046, 10047, 10048, 10049), videos=2, normalization=None, reset_dir=None)
+
+    def __post_init__(self):
+>       if self.variant not in TRAIN_SETS or self.task not in TASKS:raise ValueError('Unknown variant/task')
+E       ValueError: Unknown variant/task
+
+src/maniskill_myws/pld/multitask_eval.py:25: ValueError
+__ test_normalizer_discovery_is_unambiguous_and_primary_binding_stays_strict ___
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-31/test_normalizer_discovery_is_u0')
+
+    def test_normalizer_discovery_is_unambiguous_and_primary_binding_stays_strict(tmp_path):
+>       from maniskill_myws.pld.multitask_eval import EvalConfig, infer_variant, resolve_normalization
+E       ImportError: cannot import name 'infer_variant' from 'maniskill_myws.pld.multitask_eval' (/root/maniskill_myws/src/maniskill_myws/pld/multitask_eval.py)
+
+tests/test_multitask_external_eval.py:20: ImportError
+_______ test_external_multitask_cli_never_runs_the_primary_parallel_gate _______
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-31/test_external_multitask_cli_ne0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7bd5f6b944d0>
+
+    def test_external_multitask_cli_never_runs_the_primary_parallel_gate(tmp_path, monkeypatch):
+        from maniskill_myws.pld.multitask_eval import build_parser
+        from maniskill_myws.pld import multitask_parallel
+        def forbidden():
+            pytest.fail('An external checkpoint must not launch the primary validation gate')
+        monkeypatch.setattr(multitask_parallel, 'validate_parallel', forbidden)
+        args = build_parser().parse_args(['--checkpoint', str(tmp_path), '--task', 'all'])
+>       assert multitask_parallel.dispatch(args) is False
+
+tests/test_multitask_external_eval.py:44: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/maniskill_myws/pld/multitask_parallel.py:91: in dispatch
+    if not validate_parallel():return False
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    def forbidden():
+>       pytest.fail('An external checkpoint must not launch the primary validation gate')
+E       Failed: An external checkpoint must not launch the primary validation gate
+
+tests/test_multitask_external_eval.py:41: Failed
+___________ test_external_rollout_and_video_keep_unknown_seen_status ___________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-31/test_external_rollout_and_vide0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7bd5ea184150>
+
+    def test_external_rollout_and_video_keep_unknown_seen_status(tmp_path, monkeypatch):
+        from maniskill_myws.pld.multitask_eval import EvalConfig, EvaluationSession, save_video
+        from maniskill_myws.pld.multitask_protocol import prompt
+        from maniskill_myws.pld import libero_runner
+        frame = np.zeros((128, 128, 3), dtype=np.uint8)
+        transitions = [dict(images=(frame, frame), next_images=(frame, frame))]
+        row = dict(seed=10000, success=False, length=1, reset_hash='synthetic',
+                   trajectory_hash='synthetic', image_hash='synthetic', physics_states=[],
+                   task_progress=dict(minimum_reach_distance=.2))
+        monkeypatch.setattr(libero_runner, 'run_episode', lambda *a, **kw: (dict(row), transitions))
+        session = EvaluationSession.__new__(EvaluationSession)
+>       session.config = EvalConfig('/foreign/checkpoint', 'external')
+
+tests/test_multitask_external_eval.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+<string>:10: in __init__
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = EvalConfig(checkpoint='/foreign/checkpoint', variant='external', task='H1', seeds=(10000, 10001, 10002, 10003, 10004, ...9, 10040, 10041, 10042, 10043, 10044, 10045, 10046, 10047, 10048, 10049), videos=2, normalization=None, reset_dir=None)
+
+    def __post_init__(self):
+>       if self.variant not in TRAIN_SETS or self.task not in TASKS:raise ValueError('Unknown variant/task')
+E       ValueError: Unknown variant/task
+
+src/maniskill_myws/pld/multitask_eval.py:25: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_multitask_external_eval.py::test_external_configuration_preserves_unknown_or_explicit_exposure
+FAILED tests/test_multitask_external_eval.py::test_normalizer_discovery_is_unambiguous_and_primary_binding_stays_strict
+FAILED tests/test_multitask_external_eval.py::test_external_multitask_cli_never_runs_the_primary_parallel_gate
+FAILED tests/test_multitask_external_eval.py::test_external_rollout_and_video_keep_unknown_seen_status
+4 failed in 0.10s

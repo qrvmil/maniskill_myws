@@ -1,0 +1,13 @@
+{
+  "initialization_hashes": {
+    "A": "43f7c62aedacb8ee93fbbd829c93a878335368b12a4864419e2fc9128cbc7d47",
+    "B": "43f7c62aedacb8ee93fbbd829c93a878335368b12a4864419e2fc9128cbc7d47",
+    "C": "43f7c62aedacb8ee93fbbd829c93a878335368b12a4864419e2fc9128cbc7d47",
+    "C_interrupted": "43f7c62aedacb8ee93fbbd829c93a878335368b12a4864419e2fc9128cbc7d47"
+  },
+  "all_identical": true,
+  "parameter_files_verified": 22,
+  "normalization_file_rehashed": true,
+  "normalization_sha256": "ecad97851b8c9330ddd6387791049fd512302aa75384c7ca36d2670e9cac6878",
+  "restarted_C": true
+}

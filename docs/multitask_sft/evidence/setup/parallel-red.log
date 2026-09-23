@@ -1,0 +1,12 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________ test_parallel_validation_requires_identical_full_rollouts ___________
+
+    def test_parallel_validation_requires_identical_full_rollouts():
+>       from maniskill_myws.pld.multitask_parallel import compare_rollouts
+E       ModuleNotFoundError: No module named 'maniskill_myws.pld.multitask_parallel'
+
+tests/test_multitask_sft.py:153: ModuleNotFoundError
+=========================== short test summary info ============================
+FAILED tests/test_multitask_sft.py::test_parallel_validation_requires_identical_full_rollouts
+1 failed in 0.07s

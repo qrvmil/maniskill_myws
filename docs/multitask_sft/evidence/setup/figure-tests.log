@@ -1,0 +1,87 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___________________ test_all_six_figures_render_png_and_pdf ____________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-19/test_all_six_figures_render_pn0')
+
+    def test_all_six_figures_render_png_and_pdf(tmp_path):
+        from maniskill_myws.pld.multitask_protocol import TASKS,TRAIN_SETS,UPDATES,summarize
+        from maniskill_myws.pld.multitask_report import figures
+        episodes={};summaries=[];sensitivity=[]
+        for v in TRAIN_SETS:
+            episodes[v]={}
+            for update in UPDATES:
+                episodes[v][update]={}
+                for task in TASKS if update==3001 else ('D0','D1','D2'):
+                    rows=[dict(seed=i,reset_hash=str(i),success=i%2==0,length=10,ever_reached_10cm=True,
+                               task_progress=dict(ever_grasped=False,ever_lifted_3cm=False)) for i in range(50)]
+                    episodes[v][update][task]=rows
+                    summaries.append(dict(variant=v,task=task,updates=update,**summarize(rows)))
+            for task in ('D0','H1'):
+                for seed in range(10):sensitivity.append(dict(variant=v,task=task,first_action_l2=.1,first5_mean_l2=.2,chunk_mean_l2=.3))
+>       figures(episodes,summaries,sensitivity,tmp_path)
+
+tests/test_multitask_figures.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/maniskill_myws/pld/multitask_report.py:146: in figures
+    axis(ax);ax.set_title('Train '+LABELS[v]);ax.set_xticks(UPDATES,rotation=40)
+third_party/openpi/.venv/lib/python3.11/site-packages/matplotlib/axes/_base.py:74: in wrapper
+    return get_method(self)(*args, **kwargs)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <matplotlib.axis.XAxis object at 0x7c4410548ed0>
+ticks = (0, 500, 1000, 2000, 3001), labels = None, minor = False
+kwargs = {'rotation': 40}, first_key = 'rotation'
+
+    def set_ticks(self, ticks, labels=None, *, minor=False, **kwargs):
+        """
+        Set this Axis' tick locations and optionally tick labels.
+    
+        If necessary, the view limits of the Axis are expanded so that all
+        given ticks are visible.
+    
+        Parameters
+        ----------
+        ticks : 1D array-like
+            Array of tick locations (either floats or in axis units). The axis
+            `.Locator` is replaced by a `~.ticker.FixedLocator`.
+    
+            Pass an empty list (``set_ticks([])``) to remove all ticks.
+    
+            Some tick formatters will not label arbitrary tick positions;
+            e.g. log formatters only label decade ticks by default. In
+            such a case you can set a formatter explicitly on the axis
+            using `.Axis.set_major_formatter` or provide formatted
+            *labels* yourself.
+    
+        labels : list of str, optional
+            Tick labels for each location in *ticks*; must have the same length as
+            *ticks*. If set, the labels are used as is, via a `.FixedFormatter`.
+            If not set, the labels are generated using the axis tick `.Formatter`.
+    
+        minor : bool, default: False
+            If ``False``, set only the major ticks; if ``True``, only the minor ticks.
+    
+        **kwargs
+            `.Text` properties for the labels. Using these is only allowed if
+            you pass *labels*. In other cases, please use `~.Axes.tick_params`.
+    
+        Notes
+        -----
+        The mandatory expansion of the view limits is an intentional design
+        choice to prevent the surprise of a non-visible tick. If you need
+        other limits, you should set the limits explicitly after setting the
+        ticks.
+        """
+        if labels is None and kwargs:
+            first_key = next(iter(kwargs))
+>           raise ValueError(
+                f"Incorrect use of keyword argument {first_key!r}. Keyword arguments "
+                "other than 'minor' modify the text labels and can only be used if "
+                "'labels' are passed as well.")
+E           ValueError: Incorrect use of keyword argument 'rotation'. Keyword arguments other than 'minor' modify the text labels and can only be used if 'labels' are passed as well.
+
+third_party/openpi/.venv/lib/python3.11/site-packages/matplotlib/axis.py:2214: ValueError
+=========================== short test summary info ============================
+FAILED tests/test_multitask_figures.py::test_all_six_figures_render_png_and_pdf
+1 failed in 3.60s

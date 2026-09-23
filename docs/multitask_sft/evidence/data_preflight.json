@@ -1,0 +1,4202 @@
+[
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_0",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_0",
+    "frame": 101,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_1",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_1",
+    "frame": 121,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_2",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_2",
+    "frame": 120,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_3",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_3",
+    "frame": 100,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_4",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_4",
+    "frame": 109,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_5",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_5",
+    "frame": 109,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_6",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_6",
+    "frame": 107,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_7",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_7",
+    "frame": 121,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_8",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_8",
+    "frame": 109,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_9",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_9",
+    "frame": 108,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_10",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_10",
+    "frame": 107,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_11",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_11",
+    "frame": 99,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_12",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_12",
+    "frame": 122,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_13",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_13",
+    "frame": 120,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_14",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_14",
+    "frame": 112,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_15",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_15",
+    "frame": 134,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_16",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_16",
+    "frame": 103,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_17",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_17",
+    "frame": 162,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_18",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_18",
+    "frame": 105,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_19",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_19",
+    "frame": 96,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_20",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_20",
+    "frame": 115,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_21",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_21",
+    "frame": 106,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_22",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_22",
+    "frame": 115,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_23",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_23",
+    "frame": 115,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_24",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_24",
+    "frame": 104,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_25",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_25",
+    "frame": 115,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_26",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_26",
+    "frame": 141,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_27",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_27",
+    "frame": 123,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_28",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_28",
+    "frame": 109,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_29",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_29",
+    "frame": 108,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_30",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_30",
+    "frame": 113,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_31",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_31",
+    "frame": 120,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_32",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_32",
+    "frame": 117,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_33",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_33",
+    "frame": 119,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_34",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_34",
+    "frame": 129,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_35",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_35",
+    "frame": 138,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_36",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_36",
+    "frame": 119,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_37",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_37",
+    "frame": 127,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_38",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_38",
+    "frame": 112,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_39",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_39",
+    "frame": 113,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_40",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_40",
+    "frame": 106,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_41",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_41",
+    "frame": 104,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_42",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_42",
+    "frame": 136,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_43",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_43",
+    "frame": 91,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_44",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_44",
+    "frame": 98,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_45",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_45",
+    "frame": 124,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_46",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_46",
+    "frame": 123,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_47",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_47",
+    "frame": 115,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_48",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_48",
+    "frame": 129,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_49",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "A",
+    "task": "D0",
+    "demo": "demo_49",
+    "frame": 133,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_0",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_0",
+    "frame": 101,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_1",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_1",
+    "frame": 121,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_2",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_2",
+    "frame": 120,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_3",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_3",
+    "frame": 100,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_4",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_4",
+    "frame": 109,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_5",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_5",
+    "frame": 109,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_6",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_6",
+    "frame": 107,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_7",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_7",
+    "frame": 121,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_8",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_8",
+    "frame": 109,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_9",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_9",
+    "frame": 108,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_10",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_10",
+    "frame": 107,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_11",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_11",
+    "frame": 99,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_12",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_12",
+    "frame": 122,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_13",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_13",
+    "frame": 120,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_14",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_14",
+    "frame": 112,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_15",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_15",
+    "frame": 134,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_16",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_16",
+    "frame": 103,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_17",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_17",
+    "frame": 162,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_18",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_18",
+    "frame": 105,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_19",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_19",
+    "frame": 96,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_20",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_20",
+    "frame": 115,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_21",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_21",
+    "frame": 106,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_22",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_22",
+    "frame": 115,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_23",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_23",
+    "frame": 115,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_24",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_24",
+    "frame": 104,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_25",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_25",
+    "frame": 115,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_26",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_26",
+    "frame": 141,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_27",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_27",
+    "frame": 123,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_28",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_28",
+    "frame": 109,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_29",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_29",
+    "frame": 108,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_30",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_30",
+    "frame": 113,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_31",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_31",
+    "frame": 120,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_32",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_32",
+    "frame": 117,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_33",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_33",
+    "frame": 119,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_34",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_34",
+    "frame": 129,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_35",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_35",
+    "frame": 138,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_36",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_36",
+    "frame": 119,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_37",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_37",
+    "frame": 127,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_38",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_38",
+    "frame": 112,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_39",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_39",
+    "frame": 113,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_40",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_40",
+    "frame": 106,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_41",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_41",
+    "frame": 104,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_42",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_42",
+    "frame": 136,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_43",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_43",
+    "frame": 91,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_44",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_44",
+    "frame": 98,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_45",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_45",
+    "frame": 124,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_46",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_46",
+    "frame": 123,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_47",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_47",
+    "frame": 115,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_48",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_48",
+    "frame": 129,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_49",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D0",
+    "demo": "demo_49",
+    "frame": 133,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_0",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_0",
+    "frame": 113,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_1",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_1",
+    "frame": 105,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_2",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_2",
+    "frame": 136,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_3",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_3",
+    "frame": 155,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_4",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_4",
+    "frame": 136,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_5",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_5",
+    "frame": 111,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_6",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_6",
+    "frame": 108,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_7",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_7",
+    "frame": 105,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_8",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_8",
+    "frame": 102,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_9",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_9",
+    "frame": 124,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_10",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_10",
+    "frame": 114,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_11",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_11",
+    "frame": 123,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_12",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_12",
+    "frame": 104,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_13",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_13",
+    "frame": 135,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_14",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_14",
+    "frame": 95,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_15",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_15",
+    "frame": 150,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_16",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_16",
+    "frame": 112,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_17",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_17",
+    "frame": 163,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_18",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_18",
+    "frame": 97,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_19",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_19",
+    "frame": 102,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_20",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_20",
+    "frame": 123,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_21",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_21",
+    "frame": 125,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_22",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_22",
+    "frame": 98,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_23",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_23",
+    "frame": 108,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_24",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_24",
+    "frame": 109,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_25",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_25",
+    "frame": 138,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_26",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_26",
+    "frame": 107,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_27",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_27",
+    "frame": 114,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_28",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_28",
+    "frame": 122,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_29",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_29",
+    "frame": 171,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_30",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_30",
+    "frame": 94,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_31",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_31",
+    "frame": 114,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_32",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_32",
+    "frame": 93,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_33",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_33",
+    "frame": 107,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_34",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_34",
+    "frame": 120,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_35",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_35",
+    "frame": 109,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_36",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_36",
+    "frame": 119,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_37",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_37",
+    "frame": 108,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_38",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_38",
+    "frame": 103,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_39",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_39",
+    "frame": 121,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_40",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_40",
+    "frame": 112,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_41",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_41",
+    "frame": 118,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_42",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_42",
+    "frame": 95,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_43",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_43",
+    "frame": 97,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_44",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_44",
+    "frame": 115,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_45",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_45",
+    "frame": 111,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_46",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_46",
+    "frame": 131,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_47",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_47",
+    "frame": 111,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_48",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_48",
+    "frame": 167,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_49",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "B",
+    "task": "D1",
+    "demo": "demo_49",
+    "frame": 113,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_0",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_0",
+    "frame": 101,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_1",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_1",
+    "frame": 121,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_2",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_2",
+    "frame": 120,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_3",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_3",
+    "frame": 100,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_4",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_4",
+    "frame": 109,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_5",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_5",
+    "frame": 109,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_6",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_6",
+    "frame": 107,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_7",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_7",
+    "frame": 121,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_8",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_8",
+    "frame": 109,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_9",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_9",
+    "frame": 108,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_10",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_10",
+    "frame": 107,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_11",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_11",
+    "frame": 99,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_12",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_12",
+    "frame": 122,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_13",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_13",
+    "frame": 120,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_14",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_14",
+    "frame": 112,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_15",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_15",
+    "frame": 134,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_16",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_16",
+    "frame": 103,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_17",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_17",
+    "frame": 162,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_18",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_18",
+    "frame": 105,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_19",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_19",
+    "frame": 96,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_20",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_20",
+    "frame": 115,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_21",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_21",
+    "frame": 106,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_22",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_22",
+    "frame": 115,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_23",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_23",
+    "frame": 115,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_24",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_24",
+    "frame": 104,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_25",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_25",
+    "frame": 115,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_26",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_26",
+    "frame": 141,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_27",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_27",
+    "frame": 123,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_28",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_28",
+    "frame": 109,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_29",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_29",
+    "frame": 108,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_30",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_30",
+    "frame": 113,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_31",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_31",
+    "frame": 120,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_32",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_32",
+    "frame": 117,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_33",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_33",
+    "frame": 119,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_34",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_34",
+    "frame": 129,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_35",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_35",
+    "frame": 138,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_36",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_36",
+    "frame": 119,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_37",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_37",
+    "frame": 127,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_38",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_38",
+    "frame": 112,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_39",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_39",
+    "frame": 113,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_40",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_40",
+    "frame": 106,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_41",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_41",
+    "frame": 104,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_42",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_42",
+    "frame": 136,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_43",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_43",
+    "frame": 91,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_44",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_44",
+    "frame": 98,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_45",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_45",
+    "frame": 124,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_46",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_46",
+    "frame": 123,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_47",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_47",
+    "frame": 115,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_48",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_48",
+    "frame": 129,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_49",
+    "frame": 0,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D0",
+    "demo": "demo_49",
+    "frame": 133,
+    "prompt": "pick up the black bowl from table center and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_0",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_0",
+    "frame": 113,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_1",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_1",
+    "frame": 105,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_2",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_2",
+    "frame": 136,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_3",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_3",
+    "frame": 155,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_4",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_4",
+    "frame": 136,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_5",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_5",
+    "frame": 111,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_6",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_6",
+    "frame": 108,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_7",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_7",
+    "frame": 105,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_8",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_8",
+    "frame": 102,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_9",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_9",
+    "frame": 124,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_10",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_10",
+    "frame": 114,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_11",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_11",
+    "frame": 123,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_12",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_12",
+    "frame": 104,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_13",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_13",
+    "frame": 135,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_14",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_14",
+    "frame": 95,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_15",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_15",
+    "frame": 150,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_16",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_16",
+    "frame": 112,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_17",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_17",
+    "frame": 163,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_18",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_18",
+    "frame": 97,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_19",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_19",
+    "frame": 102,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_20",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_20",
+    "frame": 123,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_21",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_21",
+    "frame": 125,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_22",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_22",
+    "frame": 98,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_23",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_23",
+    "frame": 108,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_24",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_24",
+    "frame": 109,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_25",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_25",
+    "frame": 138,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_26",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_26",
+    "frame": 107,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_27",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_27",
+    "frame": 114,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_28",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_28",
+    "frame": 122,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_29",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_29",
+    "frame": 171,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_30",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_30",
+    "frame": 94,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_31",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_31",
+    "frame": 114,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_32",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_32",
+    "frame": 93,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_33",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_33",
+    "frame": 107,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_34",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_34",
+    "frame": 120,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_35",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_35",
+    "frame": 109,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_36",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_36",
+    "frame": 119,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_37",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_37",
+    "frame": 108,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_38",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_38",
+    "frame": 103,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_39",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_39",
+    "frame": 121,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_40",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_40",
+    "frame": 112,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_41",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_41",
+    "frame": 118,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_42",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_42",
+    "frame": 95,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_43",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_43",
+    "frame": 97,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_44",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_44",
+    "frame": 115,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_45",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_45",
+    "frame": 111,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_46",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_46",
+    "frame": 131,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_47",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_47",
+    "frame": 111,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_48",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_48",
+    "frame": 167,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_49",
+    "frame": 0,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D1",
+    "demo": "demo_49",
+    "frame": 113,
+    "prompt": "pick up the black bowl next to the plate and place it on the plate"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_0",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_0",
+    "frame": 92,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_1",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_1",
+    "frame": 97,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_2",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_2",
+    "frame": 108,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_3",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_3",
+    "frame": 95,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_4",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_4",
+    "frame": 102,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_5",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_5",
+    "frame": 97,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_6",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_6",
+    "frame": 110,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_7",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_7",
+    "frame": 90,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_8",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_8",
+    "frame": 99,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_9",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_9",
+    "frame": 92,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_10",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_10",
+    "frame": 94,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_11",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_11",
+    "frame": 91,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_12",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_12",
+    "frame": 109,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_13",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_13",
+    "frame": 92,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_14",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_14",
+    "frame": 121,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_15",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_15",
+    "frame": 100,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_16",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_16",
+    "frame": 95,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_17",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_17",
+    "frame": 112,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_18",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_18",
+    "frame": 102,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_19",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_19",
+    "frame": 104,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_20",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_20",
+    "frame": 117,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_21",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_21",
+    "frame": 90,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_22",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_22",
+    "frame": 102,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_23",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_23",
+    "frame": 98,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_24",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_24",
+    "frame": 98,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_25",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_25",
+    "frame": 102,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_26",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_26",
+    "frame": 90,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_27",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_27",
+    "frame": 102,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_28",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_28",
+    "frame": 100,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_29",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_29",
+    "frame": 89,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_30",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_30",
+    "frame": 106,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_31",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_31",
+    "frame": 112,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_32",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_32",
+    "frame": 88,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_33",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_33",
+    "frame": 101,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_34",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_34",
+    "frame": 96,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_35",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_35",
+    "frame": 90,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_36",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_36",
+    "frame": 97,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_37",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_37",
+    "frame": 89,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_38",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_38",
+    "frame": 101,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_39",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_39",
+    "frame": 97,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_40",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_40",
+    "frame": 113,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_41",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_41",
+    "frame": 93,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_42",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_42",
+    "frame": 96,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_43",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_43",
+    "frame": 100,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_44",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_44",
+    "frame": 93,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_45",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_45",
+    "frame": 96,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_46",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_46",
+    "frame": 117,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_47",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_47",
+    "frame": 113,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_48",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_48",
+    "frame": 89,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_49",
+    "frame": 0,
+    "prompt": "put the bowl on the stove"
+  },
+  {
+    "variant": "C",
+    "task": "D2",
+    "demo": "demo_49",
+    "frame": 104,
+    "prompt": "put the bowl on the stove"
+  }
+]

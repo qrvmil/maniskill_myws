@@ -1,0 +1,142 @@
+[
+  {
+    "variant": "B",
+    "train_tasks": [
+      "D0",
+      "D1"
+    ],
+    "task": "D1",
+    "seen": true,
+    "filename": "train_D0_D1_D1_seed10000_failure.mp4",
+    "checkpoint": "/workspace/multitask-sft/B/checkpoints/pi0_libero_seen_lora32/EXP-001/3001",
+    "seen_tasks": [
+      "D0",
+      "D1"
+    ],
+    "seed": 10000,
+    "success": false,
+    "length": 220,
+    "reset_hash": "af9fd92940d607a5957d9977d7dd88b72074a4e15d832e5515b3ecdd684cae8d",
+    "trajectory_hash": "bac88b1c1ce7ced316581fb224104739c21d84ccc070c5ef7fc5bd305c50e035",
+    "image_hash": "750f1ced28ce3a4ab855104f7023bdc910d211ced9365a15a5013dd7f70df30d",
+    "expected_frames": 221,
+    "includes_terminal_frame": true,
+    "fps": 20,
+    "camera_views": [
+      "agentview",
+      "wrist"
+    ],
+    "origin": "evaluation",
+    "frames": 221,
+    "width": 256,
+    "height": 128,
+    "bytes": 244417,
+    "sha256": "b271be99c329ae41b336cfca837d9cf744a572c0bda16c6d4d14e5066765f9d8",
+    "full_decode_passed": true
+  },
+  {
+    "variant": "B",
+    "train_tasks": [
+      "D0",
+      "D1"
+    ],
+    "task": "D1",
+    "seen": true,
+    "filename": "train_D0_D1_D1_seed10001_failure.mp4",
+    "checkpoint": "/workspace/multitask-sft/B/checkpoints/pi0_libero_seen_lora32/EXP-001/3001",
+    "seen_tasks": [
+      "D0",
+      "D1"
+    ],
+    "seed": 10001,
+    "success": false,
+    "length": 220,
+    "reset_hash": "cc12ade267e5d8a1cf218a1f590879159d082935e8e0fe427daeecb22b6e119c",
+    "trajectory_hash": "20289891c8c5301e89bac2d51321258a885725e10d05a7cf407a7a9185923e23",
+    "image_hash": "588427511ad9d6b279488b818cd6799a85c945d3fa1305f6656a0eb00acf9142",
+    "expected_frames": 221,
+    "includes_terminal_frame": true,
+    "fps": 20,
+    "camera_views": [
+      "agentview",
+      "wrist"
+    ],
+    "origin": "evaluation",
+    "frames": 221,
+    "width": 256,
+    "height": 128,
+    "bytes": 193421,
+    "sha256": "0cdd08d4c62c53fa5aad948679bdaf2126e48db8697e8bdef558c21ea3aab691",
+    "full_decode_passed": true
+  },
+  {
+    "variant": "B",
+    "train_tasks": [
+      "D0",
+      "D1"
+    ],
+    "task": "D1",
+    "seen": true,
+    "filename": "train_D0_D1_D1_seed10002_success.mp4",
+    "checkpoint": "/workspace/multitask-sft/B/checkpoints/pi0_libero_seen_lora32/EXP-001/3001",
+    "seen_tasks": [
+      "D0",
+      "D1"
+    ],
+    "seed": 10002,
+    "success": true,
+    "length": 88,
+    "reset_hash": "32388dc25b2a11dabc0883c304b7bea61050fdae3d9dd89f906ad92241717dd4",
+    "trajectory_hash": "613b12e7ae8f0e87e0fb8768af9a00df79adbd171395cb631f77e447a3d27f61",
+    "image_hash": "7c1814b5d178b79b5a613a91f1779dae5d2aa41c369df3d2b1608f23f52f6eb2",
+    "expected_frames": 89,
+    "includes_terminal_frame": true,
+    "fps": 20,
+    "camera_views": [
+      "agentview",
+      "wrist"
+    ],
+    "origin": "evaluation",
+    "frames": 89,
+    "width": 256,
+    "height": 128,
+    "bytes": 83506,
+    "sha256": "1b88c82bd4fafc11a47c5680a80b3ee135a9a2afecef8b273048388aab1eda42",
+    "full_decode_passed": true
+  },
+  {
+    "variant": "B",
+    "train_tasks": [
+      "D0",
+      "D1"
+    ],
+    "task": "D1",
+    "seen": true,
+    "filename": "train_D0_D1_D1_seed10010_success.mp4",
+    "checkpoint": "/workspace/multitask-sft/B/checkpoints/pi0_libero_seen_lora32/EXP-001/3001",
+    "seen_tasks": [
+      "D0",
+      "D1"
+    ],
+    "seed": 10010,
+    "success": true,
+    "length": 98,
+    "reset_hash": "0af11937816dd545161932b61534361d9cf814cc79d661bb1a9e0263e3b5cc6f",
+    "trajectory_hash": "41c0f6e0ad80cfabcfa24cafe6256d2cb11ad4741a0bce395c6856ee7bc6dc9c",
+    "image_hash": "77881022c1413a230de17577c07147a7b372a9be5f487768b10beb8b30ab2c00",
+    "expected_frames": 99,
+    "includes_terminal_frame": true,
+    "fps": 20,
+    "camera_views": [
+      "agentview",
+      "wrist"
+    ],
+    "origin": "evaluation",
+    "frames": 99,
+    "width": 256,
+    "height": 128,
+    "bytes": 100507,
+    "sha256": "9f54ea341f732ec96478603b8bb41f03feae830015622a458bd30cc9766e77d6",
+    "full_decode_passed": true
+  }
+]

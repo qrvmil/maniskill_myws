@@ -1,0 +1,72 @@
+[
+  {
+    "variant": "B",
+    "train_tasks": [
+      "D0",
+      "D1"
+    ],
+    "task": "H2",
+    "seen": false,
+    "filename": "train_D0_D1_H2_seed10000_failure.mp4",
+    "checkpoint": "/workspace/multitask-sft/B/checkpoints/pi0_libero_seen_lora32/EXP-001/3001",
+    "seen_tasks": [
+      "D0",
+      "D1"
+    ],
+    "seed": 10000,
+    "success": false,
+    "length": 280,
+    "reset_hash": "0dbee6f34afe5b8de1a1820f80b1a8434cf49a7bb9eb20695fa49b3eb33d2a49",
+    "trajectory_hash": "9c62013ef5c355a000729b91a6f2e49e481ba00b25a83863b98fd20a19b34ec0",
+    "image_hash": "e8cc51fe17850dea7c26756303f0f0e5d04bcb125cb72b31c4aa828d00d133b2",
+    "expected_frames": 281,
+    "includes_terminal_frame": true,
+    "fps": 20,
+    "camera_views": [
+      "agentview",
+      "wrist"
+    ],
+    "origin": "evaluation",
+    "frames": 281,
+    "width": 256,
+    "height": 128,
+    "bytes": 157838,
+    "sha256": "50a0094e83e8fec0ec9b0113b1f229ff16cad45d64f4b298c6adb7e664303b69",
+    "full_decode_passed": true
+  },
+  {
+    "variant": "B",
+    "train_tasks": [
+      "D0",
+      "D1"
+    ],
+    "task": "H2",
+    "seen": false,
+    "filename": "train_D0_D1_H2_seed10001_failure.mp4",
+    "checkpoint": "/workspace/multitask-sft/B/checkpoints/pi0_libero_seen_lora32/EXP-001/3001",
+    "seen_tasks": [
+      "D0",
+      "D1"
+    ],
+    "seed": 10001,
+    "success": false,
+    "length": 280,
+    "reset_hash": "e21f00f87ff871756313a038fa6c44b3970231f54d93baaaf72404fb117e24d3",
+    "trajectory_hash": "9b7f9caced4651732ffdf1ac970a008ba148be34caeb58f9b6a05de36ec20168",
+    "image_hash": "82639d0a38285523f2182d72fdce5343dd21bf92adafe604f50f96533b89158e",
+    "expected_frames": 281,
+    "includes_terminal_frame": true,
+    "fps": 20,
+    "camera_views": [
+      "agentview",
+      "wrist"
+    ],
+    "origin": "evaluation",
+    "frames": 281,
+    "width": 256,
+    "height": 128,
+    "bytes": 152616,
+    "sha256": "19b995756cbc2430b35373a11d32ca72c0a6c68a538fcdc0b745626fc66f241d",
+    "full_decode_passed": true
+  }
+]

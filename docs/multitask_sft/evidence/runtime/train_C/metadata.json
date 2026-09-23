@@ -1,0 +1,29 @@
+{
+  "date_utc": "2026-09-22T20:11:23.808473+00:00",
+  "command": "/root/maniskill_myws/third_party/openpi/.venv/bin/python scripts/train_multitask_sft.py --variant C",
+  "config": {
+    "variant": "C"
+  },
+  "git_commit": "5a005cb5449a0709688c636282fdbb78c8fb1099",
+  "git_status": "?? docs/multitask_sft/evidence/",
+  "gpu": "name, memory.total [MiB], driver_version\nNVIDIA CMP 170HX, 65536 MiB, 610.43.03",
+  "torch_version": "2.7.1+cu128",
+  "cuda_version": "12.8",
+  "environment": {
+    "XLA_FLAGS": "--xla_gpu_autotune_level=0",
+    "JAX_PLATFORMS": "cuda",
+    "XLA_PYTHON_CLIENT_PREALLOCATE": "false",
+    "MUJOCO_GL": "egl",
+    "HF_LEROBOT_HOME": "/workspace/multitask-sft/lerobot",
+    "PYTHONPATH": "/workspace/LIBERO:/root/maniskill_myws/src",
+    "TORCH_COMPILE_DISABLE": "1",
+    "OMP_NUM_THREADS": "4"
+  },
+  "status": "COMPLETED",
+  "checkpoint": null,
+  "wall_seconds": 9357.178380590001,
+  "process_peak_rss_bytes": 33552224256,
+  "device_peak_sampled_used_mib": 33120,
+  "torch_peak_allocated_bytes": 0,
+  "torch_peak_reserved_bytes": 0
+}

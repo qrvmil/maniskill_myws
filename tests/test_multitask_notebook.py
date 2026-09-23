@@ -60,7 +60,20 @@ def test_cached_notebook_executes_all_cells_without_gpu(tmp_path, monkeypatch):
                             shuffled=shuffled, tasks=[r['task'] for r in sensitivity],
                             seeds=[r['seed'] for r in sensitivity])
 
-    export(evidence / 'eval', output)
+    from maniskill_myws.pld.multitask_report import read_results
+    interrupted = evidence / 'eval/B/500/D0/complete.json'
+    interrupted.unlink()  # Partial rows exist but must not enter the N50 analysis.
+    with pytest.raises(ValueError, match='Incomplete evaluation'):
+        read_results(evidence / 'eval')
+    episodes, summaries, _ = read_results(evidence / 'eval', allow_incomplete_trajectory=True)
+    assert 'D0' not in episodes['B'][500]
+    assert len(summaries) == 50
+    final_marker = evidence / 'eval/C/3001/H1/complete.json'
+    final_marker.unlink()
+    with pytest.raises(ValueError, match='Incomplete evaluation'):
+        read_results(evidence / 'eval', allow_incomplete_trajectory=True)
+    write(final_marker, dict(synthetic_fixture=True))
+    export(evidence / 'eval', output, allow_incomplete_trajectory=True)
     notebook = nbformat.read(repository / 'notebooks/01_multitask_sft_eval.ipynb', as_version=4)
     notebook.cells.insert(0, nbformat.v4.new_markdown_cell(
         '# SYNTHETIC EXECUTION TEST — NOT EXPERIMENT RESULTS\nAll observations are artificial fixtures.'))

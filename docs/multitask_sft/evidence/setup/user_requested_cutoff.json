@@ -1,0 +1,29 @@
+{
+  "utc": "2026-09-23T10:53:11.307145+00:00",
+  "reason": "User requested immediate stop of remaining diagnostics and publication to GitHub and Hugging Face",
+  "final_evaluations_complete": true,
+  "pipeline_stopped": true,
+  "complete_intermediate_cells": 12,
+  "planned_intermediate_cells": 36,
+  "interrupted_cells": [
+    {
+      "variant": "B",
+      "updates": 500,
+      "task": "D0",
+      "saved_episodes": 38
+    },
+    {
+      "variant": "B",
+      "updates": 500,
+      "task": "D1",
+      "saved_episodes": 39
+    },
+    {
+      "variant": "B",
+      "updates": 500,
+      "task": "D2",
+      "saved_episodes": 29
+    }
+  ],
+  "partial_rows_excluded_from_N50_analysis": true
+}

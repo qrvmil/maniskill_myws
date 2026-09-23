@@ -1,0 +1,15 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________________ test_normalization_reads_exact_requested_file _________________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-14/test_normalization_reads_exact0')
+
+    def test_normalization_reads_exact_requested_file(tmp_path):
+        pytest.importorskip('openpi')
+>       from maniskill_myws.pld.multitask_eval import load_normalization
+E       ImportError: cannot import name 'load_normalization' from 'maniskill_myws.pld.multitask_eval' (/root/maniskill_myws/src/maniskill_myws/pld/multitask_eval.py)
+
+tests/test_multitask_sft.py:130: ImportError
+=========================== short test summary info ============================
+FAILED tests/test_multitask_sft.py::test_normalization_reads_exact_requested_file
+1 failed in 0.08s

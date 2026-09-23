@@ -1,0 +1,37 @@
+[
+  {
+    "figure": "generalization_matrix",
+    "pdf_pages": 1,
+    "pdf_bytes": 23897,
+    "pdf_text_extracted": true,
+    "png_visually_reviewed": true
+  },
+  {
+    "figure": "heldout_generalization",
+    "pdf_pages": 1,
+    "pdf_bytes": 16065,
+    "pdf_text_extracted": true,
+    "png_visually_reviewed": true
+  },
+  {
+    "figure": "per_task_comparison",
+    "pdf_pages": 1,
+    "pdf_bytes": 14086,
+    "pdf_text_extracted": true,
+    "png_visually_reviewed": true
+  },
+  {
+    "figure": "behavior_stages",
+    "pdf_pages": 1,
+    "pdf_bytes": 14864,
+    "pdf_text_extracted": true,
+    "png_visually_reviewed": true
+  },
+  {
+    "figure": "image_sensitivity",
+    "pdf_pages": 1,
+    "pdf_bytes": 24211,
+    "pdf_text_extracted": true,
+    "png_visually_reviewed": true
+  }
+]
