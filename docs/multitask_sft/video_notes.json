@@ -38,5 +38,7 @@
   "train_D0_D1_D2_D2_seed10002_success.mp4": "Lifts the bowl from the table, carries it left, and lowers it onto the stove.",
   "train_D0_D1_D2_D2_seed10003_success.mp4": "Grasps and lifts the bowl, moves it toward the stove, and lowers it over the burner.",
   "train_D0_D1_D2_H1_seed10000_failure.mp4": "Moves above and beside the plate with repeated gripper adjustments; the bowl beside the ramekin stays on the right.",
-  "train_D0_D1_D2_H2_seed10000_failure.mp4": "Hovers above the package cluster and rotates the wrist; the packages remain outside the basket."
+  "train_D0_D1_D2_H2_seed10000_failure.mp4": "Hovers above the package cluster and rotates the wrist; the packages remain outside the basket.",
+  "train_D0_D1_D2_H1_seed10001_failure.mp4": "Lowers and repositions the gripper around the plate; the bowl beside the ramekin remains on the right side of the table.",
+  "train_D0_D1_D2_H2_seed10001_failure.mp4": "Rotates the wrist above the packages and lowers the gripper toward the right side of the cluster."
 }
