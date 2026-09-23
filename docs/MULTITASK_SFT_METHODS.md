@@ -77,6 +77,11 @@ by the unchanged official statistics loader). These are mean/std normalization
 statistics; no extra delta transform is applied to normalized OSC commands.
 Existing statistics may be reused only when their recorded corpus and hashes match.
 
+The [normalization comparison](multitask_sft/normalization_comparison.csv) records
+the mean and standard deviation of every one of the eight state and seven action
+coordinates for A/B/C. These 45 rows make the corpus-dependent scaling differences
+inspectable alongside the statistics files and hashes.
+
 Initial statistics hashes:
 
 | Variant | SHA256 |
@@ -179,12 +184,15 @@ container restart; the pipeline is started explicitly after environment checks.
 The incident and verification records are under
 `evidence/setup/recovery_20260922T200705Z`.
 
-The preregistered optional secondary is the data-matched50-demo control: first25
-numeric demonstrations per task for B, first17/17/16 for C; A is shared. It is run
-only if affordable after the primary study. The main report must state whether it
-was actually run. It is never mixed into the primary table. The primary comparison
-confounds task diversity, total unique data, per-task update exposure and corpus
-normalization; conclusions must preserve these distinctions.
+The preregistered optional secondary was the data-matched 50-demo control: the first
+25 numeric demonstrations per task for B, and 17/17/16 for C; A would be shared.
+It was not run. The completed primary B/C training runs took a combined 4.98 hours;
+repeating those optimizer budgets for the control would add approximately 5 hours
+of training before 500 additional final evaluation episodes. That would materially
+extend the study. The design was selected before outcomes; the runtime-based
+decision not to launch it was made after the primary final evaluations completed.
+The primary comparison therefore leaves task diversity, total unique data,
+per-task update exposure and corpus normalization confounded.
 
 The instance filesystem is not backed by a persistent volume. It survives a
 stop/start but not recycle/destroy. Lightweight results are committed; checkpoints
