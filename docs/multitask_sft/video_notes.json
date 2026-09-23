@@ -8,5 +8,7 @@
   "train_D0_D1_seed10001_failure.mp4": "Moves through the table center and ends with the gripper beside the plate; the bowl remains on the table.",
   "train_D0_D2_seed10001_failure.mp4": "Carries the bowl toward the near-left edge of the table; the terminal view shows it away from the stove.",
   "train_D0_H1_seed10000_failure.mp4": "Descends over the empty center of the table and makes small gripper adjustments there; the bowls remain on the table.",
-  "train_D0_H1_seed10001_failure.mp4": "Lowers toward the empty table center, briefly shifts left, and returns to small adjustments above the tabletop."
+  "train_D0_H1_seed10001_failure.mp4": "Lowers toward the empty table center, briefly shifts left, and returns to small adjustments above the tabletop.",
+  "train_D0_H2_seed10000_failure.mp4": "Moves into the cluster of packages; a tall package ends lying sideways to the right, outside the basket.",
+  "train_D0_H2_seed10001_failure.mp4": "Moves from the package cluster toward the basket with open fingers, then moves along the basket edge."
 }
