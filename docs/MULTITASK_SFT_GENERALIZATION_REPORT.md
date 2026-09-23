@@ -360,3 +360,5 @@ exposure explanations unresolved.
 The [methods appendix](MULTITASK_SFT_METHODS.md) records the reproducibility
 details. The [machine-readable primary analysis](multitask_sft/evidence/setup/final_checkpoint_analysis.json)
 contains all task-wise paired comparisons and task-membership summaries.
+
+The [public checkpoint archive](https://huggingface.co/qrvmil/pi0-multitask-sft-generalization) preserves all 15 saved checkpoints, including the three final policies and their normalization assets.

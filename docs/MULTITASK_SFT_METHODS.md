@@ -286,3 +286,20 @@ checkpoint roots are defined in `multitask_data.py`; a fresh training reproducti
 requires a fresh experiment root. The collector exports lightweight evidence, and
 `scripts/report_multitask_sft.py` checks all required cells before writing the
 statistics and six PNG/PDF figure pairs.
+
+## Published checkpoints
+
+All 15 checkpoints, including normalization assets and optimizer state, are
+available in the public [Hugging Face repository](https://huggingface.co/qrvmil/pi0-multitask-sft-generalization).
+The verified weight revision is `0e27d62f16cc276c33d5e3b2107cb1f24dce7792`.
+Paths are `checkpoints/{A,B,C}/{0,500,1000,2000,3001}`; choose `3001` for the
+registered final policies. Download the complete checkpoint directory, including
+its `params` and `assets` subdirectories. The Hub also contains the source/report
+snapshot under `repository/`.
+
+Publication verification covered all 3,723 uploaded files (133,999,146,403 bytes):
+394 large-file SHA256 values matched the uploader's cached local hashes, and
+3,329 regular Git blob hashes were independently recomputed. Every file size
+matched. The [verification record](multitask_sft/hf_publication_verified.json)
+records the immutable revision and scope. Visibility was made public with the
+user's explicit approval after the private-storage quota prevented completion.

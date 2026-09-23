@@ -1,0 +1,16 @@
+{
+  "verified_utc": "2026-09-23T11:38:02.990401+00:00",
+  "repository": "qrvmil/pi0-multitask-sft-generalization",
+  "revision": "0e27d62f16cc276c33d5e3b2107cb1f24dce7792",
+  "public": true,
+  "verified_files": 3723,
+  "verified_bytes": 133999146403,
+  "checkpoint_files": 611,
+  "checkpoints": 15,
+  "checks": {
+    "lfs_sha256": 394,
+    "git_blob_sha1": 3329
+  },
+  "method": "All sizes checked; LFS server SHA256 matched uploader cached hashes of unchanged local files; regular Git blob SHA1 recomputed from local bytes.",
+  "complete": true
+}
