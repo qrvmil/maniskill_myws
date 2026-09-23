@@ -53,16 +53,16 @@ from B. Every complete initialized parameter tree is hashed and compared with A,
 including LoRA parameters.
 
 The official pinned JAX trainer, model, freeze filter, image transformations and
-optimizer remain unchanged. Both Gemma LoRA variants use rank32/alpha32. Batch8,
-seed0, no EMA, action horizon50, 3,001 updates. The inherited AdamW recipe has
-b1=.9, b2=.95, eps=1e-8, weight_decay=1e-10, gradient clipping1.0. The inherited
-cosine schedule uses 1,000 warmup steps, peak LR2.5e-5, decay horizon30,000 and
-terminal LR2.5e-6. The schedule is not shortened to the experiment's update budget.
+optimizer remain unchanged. Both Gemma LoRA variants use rank 32 / alpha 32. Batch size 8,
+seed 0, no EMA, action horizon 50, 3,001 updates. The inherited AdamW recipe has
+b1=.9, b2=.95, eps=1e-8, weight_decay=1e-10, gradient clipping 1.0. The inherited
+cosine schedule uses 1,000 warmup steps, peak LR 2.5e-5, decay horizon 30,000 and
+terminal LR 2.5e-6. The schedule is not shortened to the experiment's update budget.
 Exact config repr and runtime source snapshots accompany each run.
 
 Save wrappers check the actual optimizer counter and preserve checkpoints at
 0/500/1000/2000/3001 completed updates. No N−1 directory interpretation is used.
-Update0 is the actual LoRA train state. Both LoRA factors are normally initialized
+Update 0 is the actual LoRA train state. Both LoRA factors are normally initialized
 in this pinned implementation, so it contains a small random functional
 perturbation relative to dense official base weights; it is not labeled dense
 zero-shot performance.
@@ -71,7 +71,7 @@ zero-shot performance.
 
 Each variant fits statistics using only its own training corpus. The official
 OpenPI chunk-weighted statistics path is used, including action-chunk overlap and
-terminal padding. Statistics are computed over complete batches of8; this uses
+terminal padding. Statistics are computed over complete batches of 8; this uses
 5,832/11,744/16,776 frames for A/B/C respectively (the last single B frame is omitted
 by the unchanged official statistics loader). These are mean/std normalization
 statistics; no extra delta transform is applied to normalized OSC commands.
@@ -92,33 +92,33 @@ Initial statistics hashes:
 
 The action contract is LIBERO's seven normalized OSC controller commands, not
 meters/radians. State is world EEF position, axis-angle orientation and two gripper
-joint positions (8D), padded internally to32. Both cameras are resized/padded to224;
+joint positions (8D), padded internally to 32. Both cameras are resized/padded to 224;
 the third model camera is masked. Outputs are inverse-normalized exactly once,
-trimmed to7 dimensions, clipped to[-1,1], and executed5 at a time before replanning.
+trimmed to 7 dimensions, clipped to [−1, 1], and executed 5 at a time before replanning.
 Exact task text is checked immediately before the official tokenizer on every
 inference call. The normalizer is loaded from the exact recorded file.
 
 ## Evaluation and behavior diagnostics
 
-Every task uses generated-seed resets and10 settling actions. D0/D1/H1 use the
-historical spatial horizon220; D2/H2 use the standard goal/object horizon280.
+Every task uses generated-seed resets and 10 settling actions. D0/D1/H1 use the
+historical spatial horizon 220; D2/H2 use the standard goal/object horizon 280.
 Task identity is enforced by registered BDDL hashes and exact simulator language.
 The same task/seed reset hash is required across every checkpoint. A mismatched
 reset fails the run; results are never silently paired across differing states.
 Per-episode flow noise comes from the inherited independent NumPy generator.
-JAX0.5.3 inference preserves `jax_cuda_autotune0_v1` with autotune level0.
+JAX 0.5.3 inference preserves `jax_cuda_autotune0_v1` with autotune level 0.
 
 D0/D1/H1 reuse the prior diagnostic definitions unchanged: ever EEF-to-target-body
-3D distance <.10m; robosuite target-object grasp contact; target bowl rising >.03m
+3D distance < 0.10 m; robosuite target-object grasp contact; target bowl rising > 0.03 m
 above post-settle height; and LIBERO binary success. Stages need not be nested.
 Sampled contact can miss a physical grasp. D2/H2 are scored by task success without
 misapplying bowl/plate-specific diagnostics.
 
 ## Statistics
 
-Report successes/N, SR, pointwise Wilson95% intervals and mean episode length.
+Report successes/N, SR, pointwise Wilson 95% intervals and mean episode length.
 Comparisons join episode pairs by seed and exact reset hash. Rescue/harm counts
-and mean gains are per task. Paired percentile bootstrap uses10,000 seed0 draws.
+and mean gains are per task. Paired percentile bootstrap uses 10,000 seed 0 draws.
 Constant-outcome bootstrap intervals are shown as degenerate, with an additional
 exact boundary bound rather than an implication of zero uncertainty.
 
@@ -132,31 +132,31 @@ the individual task results.
 
 ## Image-sensitivity diagnostic
 
-Use10 fixed initial observations each from D0 and H1 (seeds10000–10009). Cyclically
+Use 10 fixed initial observations each from D0 and H1 (seeds 10000–10009). Cyclically
 replace both cameras with those of the next seed in the same task. Keep the
 receiver's proprioception, exact prompt and flow noise unchanged. Record bank and
 noise hashes. Compare seven-dimensional inverse-normalized predicted actions
 before controller clipping: first-action Euclidean distance, mean Euclidean
-distance over the first5 actions, and mean over the full50-action chunk. This
+distance over the first 5 actions, and mean over the full 50-action chunk. This
 measures behavioral image sensitivity, not attention, grounding correctness, or
 whether larger perturbation improves task success.
 
 ## Videos
 
-For each final model/task, retain the first2 successes and first2 failures in seed
+For each final model/task, retain the first 2 successes and first 2 failures in seed
 order, or all available when a category has fewer. A zero category is recorded
-explicitly. Videos show the two policy camera views at128px each and20fps, including
-the terminal post-action observation (episode length+1 frames). Every video is
+explicitly. Videos show the two policy camera views at 128 px each and 20 fps, including
+the terminal post-action observation (episode length + 1 frames). Every video is
 fully decoded and independently frame-counted with ffmpeg/ffprobe; row metadata,
 seed, outcome, task, model, hashes and frame counts must match. Outcome-stratified
 examples illustrate behavior; they do not determine any success-rate estimate.
 
 ## Runtime and optional control
 
-Hardware: one NVIDIA CMP170HX,64GiB VRAM, driver610.43.03, system CUDA12.8.
-Pinned environment: Torch2.7.1+cu128, JAX/JAXlib/CUDA plugin/PJRT0.5.3,
-MuJoCo3.2.7, robosuite1.4.1, NumPy1.26.4. Package inventories and GPU usage sampled
-every0.5s are recorded. Training runs serially under supervisor with JAX
+Hardware: one NVIDIA CMP170HX, 64 GiB VRAM, driver 610.43.03, system CUDA 12.8.
+Pinned environment: Torch 2.7.1+cu128, JAX/JAXlib/CUDA plugin/PJRT 0.5.3,
+MuJoCo 3.2.7, robosuite 1.4.1, NumPy 1.26.4. Package inventories and GPU usage sampled
+every 0.5 s are recorded. Training runs serially under supervisor with JAX
 preallocation disabled. No scientific hyperparameter changes are allowed in
 response to memory or outcomes.
 
@@ -168,13 +168,13 @@ Completed primary training runs (wall time includes initialization and saves):
 | B | 3,001 | 12,020 / 11,988 / 0 | 8,558.16 s | 33,120 MiB |
 | C | 3,001 | 7,954 / 8,080 / 7,974 | 9,357.18 s | 33,120 MiB |
 
-Each run consumed3,001 batches of8; its final8 fetched lookahead examples were
+Each run consumed 3,001 batches of 8; its final 8 fetched lookahead examples were
 excluded. Saved sample indices independently reproduce the counts and per-batch
 task frequencies. All five checkpoint manifests and their actual normalization
 files were rehashed. Complete initialized parameter hashes match across A/B/C.
 
 A container restart interrupted the first C attempt after its last logged step
-1,480; its latest durable checkpoint was at1,000 completed updates. The interrupted
+1,480; its latest durable checkpoint was at 1,000 completed updates. The interrupted
 checkpoints, runtime records and logs were preserved separately. C was restarted
 independently from the official base with the original seed and recipe; the
 interrupted attempt is excluded from the primary comparison. Recovery verified all
@@ -182,7 +182,7 @@ interrupted attempt is excluded from the primary comparison. Recovery verified a
 One-time setup and experiment services no longer autostart concurrently after a
 container restart; the pipeline is started explicitly after environment checks.
 The incident and verification records are under
-`evidence/setup/recovery_20260922T200705Z`.
+`multitask_sft/evidence/setup/recovery_20260922T200705Z`.
 
 The preregistered optional secondary was the data-matched 50-demo control: the first
 25 numeric demonstrations per task for B, and 17/17/16 for C; A would be shared.
@@ -200,8 +200,8 @@ remain explicitly located and hashed rather than being silently added to Git.
 
 ## Parallel evaluation gate
 
-Before using parallel evaluation, the launcher compares serial A/update0/D0
-rollouts on seeds10000–10001 with three concurrent independent processes. Success,
+Before using parallel evaluation, the launcher compares serial A/update 0/D0
+rollouts on seeds 10000–10001 with three concurrent independent processes. Success,
 episode length, reset hash, complete physics/action trajectory hash and camera
 image hash must all match exactly for every process. This gate uses no H1/H2
 outcomes and changes no model choice. A failure selects serial execution. A pass
@@ -248,7 +248,7 @@ Each output directory is single-use. A compatible external checkpoint can use
 `assets` directory, discovery is automatic. A/B/C labels are inferred only from
 their registered asset IDs; `--variant external` overrides that convention when
 evaluating another checkpoint. Compatibility means the same π₀ LoRA32 architecture,
-action horizon50 and LIBERO state/action contract used here.
+action horizon 50 and LIBERO state/action contract used here.
 
 External mode records training exposure as unknown (`seen: null`) by default.
 Supply `--seen-tasks D0,H1` to identify which of the five registered evaluation
