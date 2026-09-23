@@ -10,5 +10,6 @@
   "train_D0_H1_seed10000_failure.mp4": "Descends over the empty center of the table and makes small gripper adjustments there; the bowls remain on the table.",
   "train_D0_H1_seed10001_failure.mp4": "Lowers toward the empty table center, briefly shifts left, and returns to small adjustments above the tabletop.",
   "train_D0_H2_seed10000_failure.mp4": "Moves into the cluster of packages; a tall package ends lying sideways to the right, outside the basket.",
-  "train_D0_H2_seed10001_failure.mp4": "Moves from the package cluster toward the basket with open fingers, then moves along the basket edge."
+  "train_D0_H2_seed10001_failure.mp4": "Moves from the package cluster toward the basket with open fingers, then moves along the basket edge.",
+  "train_D0_D1_D0_seed10000_success.mp4": "Closes the gripper around the center bowl, lifts it, and carries it leftward onto the plate."
 }
