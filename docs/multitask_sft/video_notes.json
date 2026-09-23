@@ -20,5 +20,7 @@
   "train_D0_D1_D1_seed10002_success.mp4": "Reaches left to the bowl beside the plate, lifts it, and moves it onto the plate.",
   "train_D0_D1_D2_seed10001_failure.mp4": "Repeatedly repositions around the bowl; the terminal view shows the bowl in front of the cabinet, to the right of the stove.",
   "train_D0_D1_D0_seed10008_failure.mp4": "Lifts the center bowl and carries it toward the plate, then continues left; the terminal view shows the bowl to the left of the plate.",
-  "train_D0_D1_D1_seed10010_success.mp4": "Lifts the bowl from beside the plate, shifts it over the plate, and lowers it onto the plate."
+  "train_D0_D1_D1_seed10010_success.mp4": "Lifts the bowl from beside the plate, shifts it over the plate, and lowers it onto the plate.",
+  "train_D0_D1_H1_seed10000_failure.mp4": "Moves the gripper over the plate and makes repeated small adjustments; the bowl beside the ramekin remains to the right.",
+  "train_D0_D1_H1_seed10001_failure.mp4": "Moves repeatedly above and beside the plate; the bowl near the ramekin stays on the right side of the table."
 }
