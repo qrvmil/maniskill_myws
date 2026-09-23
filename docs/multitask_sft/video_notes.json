@@ -16,5 +16,7 @@
   "train_D0_D1_D2_seed10000_failure.mp4": "Moves down over the bowl near the table center and ends there, away from the stove.",
   "train_D0_D1_D0_seed10001_failure.mp4": "Repositions the gripper around the center bowl; the terminal view shows the bowl close to its starting location, away from the plate.",
   "train_D0_D1_D0_seed10002_success.mp4": "Lifts the center bowl, carries it diagonally left, and lowers it onto the plate.",
-  "train_D0_D1_D1_seed10001_failure.mp4": "Reaches the bowl beside the plate and repeatedly repositions nearby; the terminal view shows the bowl still to the left of the plate."
+  "train_D0_D1_D1_seed10001_failure.mp4": "Reaches the bowl beside the plate and repeatedly repositions nearby; the terminal view shows the bowl still to the left of the plate.",
+  "train_D0_D1_D1_seed10002_success.mp4": "Reaches left to the bowl beside the plate, lifts it, and moves it onto the plate.",
+  "train_D0_D1_D2_seed10001_failure.mp4": "Repeatedly repositions around the bowl; the terminal view shows the bowl in front of the cabinet, to the right of the stove."
 }
