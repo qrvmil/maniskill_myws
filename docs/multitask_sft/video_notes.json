@@ -24,5 +24,9 @@
   "train_D0_D1_H1_seed10000_failure.mp4": "Moves the gripper over the plate and makes repeated small adjustments; the bowl beside the ramekin remains to the right.",
   "train_D0_D1_H1_seed10001_failure.mp4": "Moves repeatedly above and beside the plate; the bowl near the ramekin stays on the right side of the table.",
   "train_D0_D1_H2_seed10000_failure.mp4": "Lowers the gripper into the package cluster and shifts right, ending beside the packages.",
-  "train_D0_D1_H2_seed10001_failure.mp4": "Descends into the package cluster and repeatedly repositions on its right side."
+  "train_D0_D1_H2_seed10001_failure.mp4": "Descends into the package cluster and repeatedly repositions on its right side.",
+  "train_D0_D1_D2_D0_seed10000_failure.mp4": "Repositions around the center bowl, then moves the gripper left toward the plate; the bowl remains near the center.",
+  "train_D0_D1_D2_D1_seed10000_success.mp4": "Reaches the bowl beside the plate, lifts it, and lowers it onto the plate.",
+  "train_D0_D1_D2_D1_seed10001_failure.mp4": "Reaches beside the plate and makes repeated gripper adjustments; the bowl remains to the left of the plate at the end.",
+  "train_D0_D1_D2_D2_seed10000_failure.mp4": "Moves over the center bowl and then left above the stove; the bowl remains on the table to the right of the stove."
 }
