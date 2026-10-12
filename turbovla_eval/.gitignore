@@ -1,0 +1,16 @@
+# Record experiment evidence ignored by the parent repository.
+!*.json
+!*.mp4
+!*.log
+# Downloaded runtimes and model weights remain local.
+.venv/
+LIBERO/
+libero_config/
+datasets/
+__pycache__/
+.pytest_cache/
+assets/bert/
+assets/dinov3/
+*.pth
+*.pt
+*.safetensors

@@ -1,0 +1,20 @@
+{
+  "seed": 3,
+  "success": true,
+  "steps": 98,
+  "horizon": 220,
+  "truncated": false,
+  "prompt": "pick up the black bowl next to the plate and place it on the plate",
+  "sampled_reset_hash": "8d1fbf0d1785c75002a47f290b3b6d195d3a26b8c9a86cf95512ba804fd36d4b",
+  "reset_hash": "be511bd1ddd458ed0cc66fc98940934073bd259dc8e41b0dafe9250bc1380b86",
+  "policy_calls": 9,
+  "policy_wall_ms": 39.21392056832297,
+  "clipped_components": 0,
+  "video": "results/official_n50/videos/D1/episode_003.mp4",
+  "video_frames": 99,
+  "task": "D1",
+  "task_id": 8,
+  "episode": 3,
+  "rng_seed": 7,
+  "init_state_index": 3
+}

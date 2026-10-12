@@ -1,0 +1,14 @@
+{
+  "idle_mib": 1.0,
+  "peak_mib": 2026.0,
+  "delta_mib": 2025.0,
+  "delta_gib": 1.9775390625,
+  "delta_gb": 2.1233664,
+  "at_most_1_gib": false,
+  "at_most_1_gb": false,
+  "sample_interval_ms": 100,
+  "includes": "Full rollout process: policy + EGL LIBERO simulator + video recording",
+  "child_returncode": 0,
+  "isolated": false,
+  "limitation": "Brief concurrent standalone observation preparation. Not used as isolated rollout memory evidence."
+}

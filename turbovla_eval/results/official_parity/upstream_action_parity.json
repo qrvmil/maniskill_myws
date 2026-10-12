@@ -1,0 +1,14 @@
+[
+  {
+    "episode": 0,
+    "steps": 92,
+    "success": true,
+    "actions_identical": true
+  },
+  {
+    "episode": 1,
+    "steps": 97,
+    "success": true,
+    "actions_identical": true
+  }
+]

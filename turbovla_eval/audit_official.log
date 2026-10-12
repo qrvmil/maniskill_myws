@@ -1,0 +1,32 @@
+{
+  "D0": {
+    "episodes": 50,
+    "videos_verified": 50,
+    "init_state_indices": "0\u201349",
+    "rng_seed_once_per_task": 7
+  },
+  "D1": {
+    "episodes": 50,
+    "videos_verified": 50,
+    "init_state_indices": "0\u201349",
+    "rng_seed_once_per_task": 7
+  },
+  "D2": {
+    "episodes": 50,
+    "videos_verified": 50,
+    "init_state_indices": "0\u201349",
+    "rng_seed_once_per_task": 7
+  },
+  "H1": {
+    "episodes": 50,
+    "videos_verified": 50,
+    "init_state_indices": "0\u201349",
+    "rng_seed_once_per_task": 7
+  },
+  "H2": {
+    "episodes": 50,
+    "videos_verified": 50,
+    "init_state_indices": "0\u201349",
+    "rng_seed_once_per_task": 7
+  }
+}

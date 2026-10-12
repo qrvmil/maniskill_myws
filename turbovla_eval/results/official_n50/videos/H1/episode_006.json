@@ -1,0 +1,20 @@
+{
+  "seed": 6,
+  "success": true,
+  "steps": 105,
+  "horizon": 220,
+  "truncated": false,
+  "prompt": "pick up the black bowl next to the ramekin and place it on the plate",
+  "sampled_reset_hash": "74548b977713394a062b37d064eb857cc795b1dd9e3dd6f72236514b2f85404c",
+  "reset_hash": "60bdff561062b34a71f57157865b7e4b88dfa966a16f1ad73d866362a01daf2f",
+  "policy_calls": 9,
+  "policy_wall_ms": 39.41675324070578,
+  "clipped_components": 0,
+  "video": "results/official_n50/videos/H1/episode_006.mp4",
+  "video_frames": 106,
+  "task": "H1",
+  "task_id": 1,
+  "episode": 6,
+  "rng_seed": 7,
+  "init_state_index": 6
+}

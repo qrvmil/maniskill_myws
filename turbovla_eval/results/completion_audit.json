@@ -1,0 +1,36 @@
+{
+  "official_checkpoint_sha256": true,
+  "reference_n50": {
+    "episodes": 250,
+    "videos": 250
+  },
+  "official_n50": {
+    "episodes": 250,
+    "videos": 250
+  },
+  "01_turbovla_step_by_step.ipynb": {
+    "executed_code_cells": 14,
+    "errors": 0
+  },
+  "02_results_and_vram.ipynb": {
+    "executed_code_cells": 8,
+    "errors": 0
+  },
+  "vram_bf16": {
+    "delta_gib": 0.9208984375,
+    "delta_gb": 0.988807168,
+    "median_ms": 31.797103001736104
+  },
+  "vram_bf16_recheck": {
+    "delta_gib": 0.9208984375,
+    "delta_gb": 0.988807168,
+    "median_ms": 31.780054472619668
+  },
+  "vram_fp32": {
+    "delta_gib": 1.3876953125,
+    "delta_gb": 1.490026496,
+    "median_ms": 36.56617700471543
+  },
+  "visual_inspection": "Final HTML, figures and memory tables inspected; both embedded H264 videos decode in Chromium (readyState4,512x256,no error).",
+  "task_change_example": "cream_cheese task name verified against installed 40-task catalog"
+}

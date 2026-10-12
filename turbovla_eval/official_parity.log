@@ -1,0 +1,33 @@
+/workspace/turbovla_eval/.venv/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+[TurboVLAPolicy] model source: turbovla.models.turbovla
+[TurboVLAPolicy] precision=bf16, dinov3_output_hidden_states=True
+[TurboVLAPolicy] strict checkpoint load: /workspace/turbovla_eval/assets/turbovla_libero.pth (672 tensors)
+[TurboVLAPolicy] precision=bf16, model_parameter_dtype=bfloat16
+[TurboVLAPolicy] suite stats: path=/workspace/turbovla_eval/assets/libero_all4_stats.json, key=libero_all4_no_noops, normalize_binary_gripper=False
+[robosuite WARNING] No private macro file found! (macros.py:53)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:54)
+[robosuite WARNING] To setup, run: python /workspace/turbovla_eval/.venv/lib/python3.10/site-packages/robosuite/scripts/setup_macros.py (macros.py:55)
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+/workspace/turbovla_eval/.venv/lib/python3.10/site-packages/transformers/modeling_utils.py:1742: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+official D0 1/2 success=True steps=92
+official D0 2/2 success=True steps=97
+[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+[
+  {
+    "episode": 0,
+    "steps": 92,
+    "success": true,
+    "actions_identical": true
+  },
+  {
+    "episode": 1,
+    "steps": 97,
+    "success": true,
+    "actions_identical": true
+  }
+]

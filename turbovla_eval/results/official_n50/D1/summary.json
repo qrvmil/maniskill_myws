@@ -1,0 +1,10 @@
+{
+  "episodes": 50,
+  "successes": 50,
+  "success_rate": 1.0,
+  "ci95": [
+    0.9286524008666414,
+    1.0
+  ],
+  "mean_steps": 95.66
+}

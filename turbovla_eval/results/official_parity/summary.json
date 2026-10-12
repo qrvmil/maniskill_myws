@@ -1,0 +1,12 @@
+{
+  "D0": {
+    "episodes": 2,
+    "successes": 2,
+    "success_rate": 1.0,
+    "ci95": [
+      0.34238022750665303,
+      1.0
+    ],
+    "mean_steps": 94.5
+  }
+}

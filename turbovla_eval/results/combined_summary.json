@@ -1,0 +1,109 @@
+{
+  "tasks": [
+    {
+      "protocol": "reference_n50",
+      "task": "D0",
+      "episodes": 50,
+      "successes": 50,
+      "success_percent": 100.0,
+      "ci95_low_percent": 92.86524008666413,
+      "ci95_high_percent": 100,
+      "mean_steps": 92.68
+    },
+    {
+      "protocol": "reference_n50",
+      "task": "D1",
+      "episodes": 50,
+      "successes": 45,
+      "success_percent": 90.0,
+      "ci95_low_percent": 78.63976856252035,
+      "ci95_high_percent": 95.65242350681096,
+      "mean_steps": 105.12
+    },
+    {
+      "protocol": "reference_n50",
+      "task": "D2",
+      "episodes": 50,
+      "successes": 50,
+      "success_percent": 100.0,
+      "ci95_low_percent": 92.86524008666413,
+      "ci95_high_percent": 100,
+      "mean_steps": 86.56
+    },
+    {
+      "protocol": "reference_n50",
+      "task": "H1",
+      "episodes": 50,
+      "successes": 50,
+      "success_percent": 100.0,
+      "ci95_low_percent": 92.86524008666413,
+      "ci95_high_percent": 100,
+      "mean_steps": 103.82
+    },
+    {
+      "protocol": "reference_n50",
+      "task": "H2",
+      "episodes": 50,
+      "successes": 50,
+      "success_percent": 100.0,
+      "ci95_low_percent": 92.86524008666413,
+      "ci95_high_percent": 100,
+      "mean_steps": 138.4
+    },
+    {
+      "protocol": "official_n50",
+      "task": "D0",
+      "episodes": 50,
+      "successes": 50,
+      "success_percent": 100.0,
+      "ci95_low_percent": 92.86524008666413,
+      "ci95_high_percent": 100.0,
+      "mean_steps": 94.42
+    },
+    {
+      "protocol": "official_n50",
+      "task": "D1",
+      "episodes": 50,
+      "successes": 50,
+      "success_percent": 100.0,
+      "ci95_low_percent": 92.86524008666413,
+      "ci95_high_percent": 100.0,
+      "mean_steps": 95.66
+    },
+    {
+      "protocol": "official_n50",
+      "task": "D2",
+      "episodes": 50,
+      "successes": 49,
+      "success_percent": 98.0,
+      "ci95_low_percent": 89.50455641036218,
+      "ci95_high_percent": 99.64607407283539,
+      "mean_steps": 90.68
+    },
+    {
+      "protocol": "official_n50",
+      "task": "H1",
+      "episodes": 50,
+      "successes": 50,
+      "success_percent": 100.0,
+      "ci95_low_percent": 92.86524008666413,
+      "ci95_high_percent": 100.0,
+      "mean_steps": 105.34
+    },
+    {
+      "protocol": "official_n50",
+      "task": "H2",
+      "episodes": 50,
+      "successes": 49,
+      "success_percent": 98.0,
+      "ci95_low_percent": 89.50455641036218,
+      "ci95_high_percent": 99.64607407283539,
+      "mean_steps": 141.1
+    }
+  ],
+  "protocol_means_percent": {
+    "reference_n50": 98.0,
+    "official_n50": 99.2
+  },
+  "scope": "Five selected tasks only; released TurboVLA trained on all40, includingH1/H2."
+}

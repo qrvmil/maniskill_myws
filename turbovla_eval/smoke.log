@@ -1,0 +1,27 @@
+/workspace/turbovla_eval/.venv/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+[TurboVLAPolicy] model source: turbovla.models.turbovla
+[TurboVLAPolicy] precision=bf16, dinov3_output_hidden_states=True
+[TurboVLAPolicy] strict checkpoint load: /workspace/turbovla_eval/assets/turbovla_libero.pth (672 tensors)
+[TurboVLAPolicy] precision=bf16, model_parameter_dtype=bfloat16
+[TurboVLAPolicy] suite stats: path=/workspace/turbovla_eval/assets/libero_all4_stats.json, key=libero_all4_no_noops, normalize_binary_gripper=False
+[robosuite WARNING] No private macro file found! (macros.py:53)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:54)
+[robosuite WARNING] To setup, run: python /workspace/turbovla_eval/.venv/lib/python3.10/site-packages/robosuite/scripts/setup_macros.py (macros.py:55)
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+/workspace/turbovla_eval/.venv/lib/python3.10/site-packages/transformers/modeling_utils.py:1742: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+REAL CUDA FORWARD (12, 7) finite= True reset= {'sampled_reset_hash': 'fb588ccbc2c21c0b76a24eb587cc51273e9ff4c19a629c39f39156b458f5cca7', 'reset_hash': '6d9b1d2f0281228535bd76b42517b04d827482c6a128883793db7a6bb3bb3f4a'}
+[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+reference D0 1/1 success=True steps=91
+[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+reference D1 1/1 success=True steps=89
+[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+reference D2 1/1 success=True steps=85
+[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+reference H1 1/1 success=True steps=105
+[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+reference H2 1/1 success=True steps=137

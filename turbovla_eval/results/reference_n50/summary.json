@@ -1,0 +1,52 @@
+{
+  "D0": {
+    "episodes": 50,
+    "successes": 50,
+    "success_rate": 1.0,
+    "ci95": [
+      0.9286524008666414,
+      1
+    ],
+    "mean_steps": 92.68
+  },
+  "D1": {
+    "episodes": 50,
+    "successes": 45,
+    "success_rate": 0.9,
+    "ci95": [
+      0.7863976856252035,
+      0.9565242350681096
+    ],
+    "mean_steps": 105.12
+  },
+  "D2": {
+    "episodes": 50,
+    "successes": 50,
+    "success_rate": 1.0,
+    "ci95": [
+      0.9286524008666414,
+      1
+    ],
+    "mean_steps": 86.56
+  },
+  "H1": {
+    "episodes": 50,
+    "successes": 50,
+    "success_rate": 1.0,
+    "ci95": [
+      0.9286524008666414,
+      1
+    ],
+    "mean_steps": 103.82
+  },
+  "H2": {
+    "episodes": 50,
+    "successes": 50,
+    "success_rate": 1.0,
+    "ci95": [
+      0.9286524008666414,
+      1
+    ],
+    "mean_steps": 138.4
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "seed": 10032,
+  "success": true,
+  "steps": 87,
+  "horizon": 280,
+  "truncated": false,
+  "prompt": "put the bowl on the stove",
+  "sampled_reset_hash": "8d338d1df1792729e56dd26aff6fdaf384d3d65536275f5a501a2a261eba0962",
+  "reset_hash": "60eb7e030638068420da45ec86c7945d3428a312abab72c28c5ad4d9d6362ca8",
+  "policy_calls": 8,
+  "policy_wall_ms": 42.45422312669689,
+  "clipped_components": 0,
+  "video": "results/reference_n50/videos/D2/episode_032.mp4",
+  "video_frames": 88,
+  "task": "D2",
+  "task_id": 1,
+  "episode": 32,
+  "rng_seed": 10032,
+  "init_state_index": null
+}

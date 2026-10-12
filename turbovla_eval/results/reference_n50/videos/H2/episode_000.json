@@ -1,0 +1,20 @@
+{
+  "seed": 10000,
+  "success": true,
+  "steps": 137,
+  "horizon": 280,
+  "truncated": false,
+  "prompt": "pick up the alphabet soup and place it in the basket",
+  "sampled_reset_hash": "d8cc2300b48a717d159ce5e917578533cb356b1f7b539140d21481646b49a3fd",
+  "reset_hash": "0dbee6f34afe5b8de1a1820f80b1a8434cf49a7bb9eb20695fa49b3eb33d2a49",
+  "policy_calls": 12,
+  "policy_wall_ms": 37.47574159448656,
+  "clipped_components": 0,
+  "video": "results/reference_n50/videos/H2/episode_000.mp4",
+  "video_frames": 138,
+  "task": "H2",
+  "task_id": 0,
+  "episode": 0,
+  "rng_seed": 10000,
+  "init_state_index": null
+}

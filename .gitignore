@@ -248,3 +248,8 @@ third_party/XLeVR/project_plan
 paper_tools/
 # Track the frozen LIBERO experiment protocol.
 !configs/pld_libero/*.json
+
+# External dependency downloaded by the TurboVLA tutorial.
+/TurboVLA/
+
+/turbovla_libero_evaluation.zip

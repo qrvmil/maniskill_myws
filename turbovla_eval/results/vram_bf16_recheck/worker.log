@@ -1,0 +1,9 @@
+/workspace/turbovla_eval/.venv/lib/python3.10/site-packages/timm/models/layers/__init__.py:48: FutureWarning: Importing from timm.models.layers is deprecated, please import via timm.layers
+  warnings.warn(f"Importing from {__name__} is deprecated, please import via timm.layers", FutureWarning)
+[TurboVLAPolicy] model source: turbovla.models.turbovla
+[TurboVLAPolicy] precision=bf16, dinov3_output_hidden_states=True
+[TurboVLAPolicy] strict checkpoint load: /workspace/turbovla_eval/assets/turbovla_libero.pth (672 tensors)
+[TurboVLAPolicy] precision=bf16, model_parameter_dtype=bfloat16
+[TurboVLAPolicy] suite stats: path=/workspace/turbovla_eval/assets/libero_all4_stats.json, key=libero_all4_no_noops, normalize_binary_gripper=False
+/workspace/turbovla_eval/.venv/lib/python3.10/site-packages/transformers/modeling_utils.py:1742: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(

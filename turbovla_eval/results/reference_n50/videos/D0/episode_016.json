@@ -1,0 +1,20 @@
+{
+  "seed": 10016,
+  "success": true,
+  "steps": 92,
+  "horizon": 220,
+  "truncated": false,
+  "prompt": "pick up the black bowl from table center and place it on the plate",
+  "sampled_reset_hash": "ab4af7fbf0191a2b6a74dac812c757fec610b85a77b0ff882d163c7ec913be0d",
+  "reset_hash": "4fdc85b289aff298f911a42476450ad42d7eb30edb78f2df89b266e245bb27a9",
+  "policy_calls": 8,
+  "policy_wall_ms": 40.81160775240278,
+  "clipped_components": 0,
+  "video": "results/reference_n50/videos/D0/episode_016.mp4",
+  "video_frames": 93,
+  "task": "D0",
+  "task_id": 2,
+  "episode": 16,
+  "rng_seed": 10016,
+  "init_state_index": null
+}

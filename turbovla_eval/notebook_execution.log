@@ -1,0 +1,4 @@
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+01_turbovla_step_by_step.ipynb {'code_cells': 14, 'executed_cells': 14, 'errors': 0}
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+02_results_and_vram.ipynb {'code_cells': 8, 'executed_cells': 8, 'errors': 0}

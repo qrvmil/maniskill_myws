@@ -1,0 +1,11 @@
+{
+  "task": "D0",
+  "instruction": "pick up the black bowl from table center and place it on the plate",
+  "task_id": 2,
+  "seed": 10000,
+  "protocol": "reference",
+  "settle_steps": 10,
+  "observation_sha256": "1a4669288249d0e511ebee8a83d04924531d05680048266bad3c02be0719b633",
+  "sampled_reset_hash": "fb588ccbc2c21c0b76a24eb587cc51273e9ff4c19a629c39f39156b458f5cca7",
+  "reset_hash": "6d9b1d2f0281228535bd76b42517b04d827482c6a128883793db7a6bb3bb3f4a"
+}

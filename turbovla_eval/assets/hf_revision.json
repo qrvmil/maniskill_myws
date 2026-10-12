@@ -1,0 +1,11 @@
+{
+  "repo": "H-EmbodVis/TurboVLA",
+  "revision": "9cdb576ed9c56039b9c1149142ed654e876bad76",
+  "files": [
+    "checkpoints/libero/turbovla_libero.pth",
+    "libero_all4_stats.json",
+    "README.md",
+    "DINOv3_LICENSE.md",
+    "LICENSE"
+  ]
+}

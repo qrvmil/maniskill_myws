@@ -1,0 +1,22 @@
+{
+  "tasks": [
+    "D0",
+    "D1",
+    "D2",
+    "H1",
+    "H2"
+  ],
+  "episodes": 50,
+  "seed_start": 10000,
+  "protocol": "reference",
+  "precision": "bf16",
+  "chunk_size": 12,
+  "open_loop_steps": 12,
+  "settled_steps": 10,
+  "image_size": 256,
+  "all_selected_tasks_seen_by_release": true,
+  "clipped_actions": true,
+  "checkpoint_sha256": "d031ad7be05a2f5d04afb3194ed26b0cb46083685edee7a5e145078a37d26bab",
+  "rng_seed_once_per_task": null,
+  "episode_key_meaning": "RNG seed"
+}

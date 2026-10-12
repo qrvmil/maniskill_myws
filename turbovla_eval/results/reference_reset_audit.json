@@ -1,0 +1,40 @@
+{
+  "tasks": {
+    "D0": {
+      "episodes": 50,
+      "reference_covered": 50,
+      "reset_hash_matches": 50,
+      "reset_hash_mismatches": 0,
+      "videos_verified": 50
+    },
+    "D1": {
+      "episodes": 50,
+      "reference_covered": 50,
+      "reset_hash_matches": 50,
+      "reset_hash_mismatches": 0,
+      "videos_verified": 50
+    },
+    "D2": {
+      "episodes": 50,
+      "reference_covered": 50,
+      "reset_hash_matches": 50,
+      "reset_hash_mismatches": 0,
+      "videos_verified": 50
+    },
+    "H1": {
+      "episodes": 50,
+      "reference_covered": 50,
+      "reset_hash_matches": 50,
+      "reset_hash_mismatches": 0,
+      "videos_verified": 50
+    },
+    "H2": {
+      "episodes": 50,
+      "reference_covered": 50,
+      "reset_hash_matches": 50,
+      "reset_hash_mismatches": 0,
+      "videos_verified": 50
+    }
+  },
+  "interpretation": "Все 250 физических reset-состояний побайтово совпадают с исходным π₀-экспериментом по SHA256. Это позволяет сопоставлять исходы по seed; модели имеют разное обучающее покрытие и разные replan/preprocessing."
+}
