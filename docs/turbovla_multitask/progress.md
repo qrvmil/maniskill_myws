@@ -186,3 +186,25 @@ successes are not final task rates; wait for all75 episodes and verify records.
 Pipeline will archive/check all JSON+videos on HF, push the completed A eval,
 then independently train/publish/evaluate B and C. Do not start duplicate
 training or evaluation on continuation. Full notebook execution still pending.
+
+A evaluation fully completed and independently revalidated: exact75 episodes,
+15 per task and full reference config/hash contract. Success counts:
+D0=14/15(93.33%),D1=0/15,D2=0/15,H1=0/15,H2=0/15.
+All episode JSON and videos archived on HF and read-back/hash verified at
+9354bd7349bd4228109520876273b7ab7d5b4f70; publications/A_evaluation.json.
+Complete A evaluation evidence pushed at c3d4537.
+
+Pipeline now owns live B training childPID355422 under parentPID350369.
+Observed step900/3001. B config initialization SHA exactly matches A's
+ea1405220b85277d8caff59b888db27037ec8fc97971da62aa0c160dbeb39976,
+and its training tasks are exactly D0,D1. This verifies independent original
+initialization rather than continuation from A. Revalidate live PIDs on resume.
+Current A training/eval requirements are met; B,C,full matrix and executed
+notebook remain incomplete. Adjusted matrix styling to the user reference:
+same3×5 layout, blue0–100% scale, gold outlines for seen tasks, explicit3001
+EMA updates and15 paired resets. Actual rendering awaits all real cells.
+
+Final handoff should also replace the HF repo's initial access-probe status
+with a concise root model card linking all three verified model revisions,
+normalization files and the runnable notebook; retain the bundled licenses.
+Do this from completed evidence, after the pipeline's matrix and notebook QA.

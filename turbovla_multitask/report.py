@@ -57,6 +57,7 @@ def plot_matrix(cells,destination):
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
+    from matplotlib.patches import Rectangle
     lookup={(c['variant'],c['task']):c for c in cells}
     if set(lookup)!={(v,t) for v in TRAIN_SETS for t in TASKS} or len(cells)!=15:
         raise ValueError('Full unique3×5 matrix required')
@@ -65,10 +66,12 @@ def plot_matrix(cells,destination):
     im=ax.imshow(values,vmin=0,vmax=100,cmap='Blues',aspect='auto')
     ax.set_xticks(range(5),list(TASKS));ax.set_yticks(range(3),['Train D0','Train D0+D1','Train D0+D1+D2'])
     ax.set_xlabel('Evaluation task');ax.set_ylabel('TurboVLA training set')
-    ax.set_title('TurboVLA generalization •15 episodes per cell',pad=14)
+    ax.set_title('TurboVLA •3,001 optimizer updates (EMA)\nN=15 paired resets per cell; outlined cells were seen in training',pad=14)
     for i,v in enumerate(TRAIN_SETS):
         for j,t in enumerate(TASKS):
             c=lookup[v,t]
+            if c['seen']:
+                ax.add_patch(Rectangle((j-.46,i-.46),.92,.92,fill=False,edgecolor='#D19527',linewidth=2.5))
             ax.text(j,i,f"{c['success_rate']:.0%}\n{c['successes']}/15 ·{'seen' if c['seen'] else 'unseen'}",
                     ha='center',va='center',fontsize=11,color='white' if values[i,j]>55 else '#202020')
     fig.colorbar(im,ax=ax,label='Success rate (%)',shrink=.85)
