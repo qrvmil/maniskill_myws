@@ -60,3 +60,8 @@ for long jobs; shared logging.sh must be sourced BEFORE enabling shell nounset
 because it accesses optional positional$1. Continue committing/pushing logical
 blocks. Keep full scope active until matrix, executed readable notebook and all
 three verified HF weight publications are complete.
+
+Latest original-asset download probe: Hugging Face now states that the access
+request is awaiting review by the repository authors (still403). The request
+has been submitted; authorization has not yet been granted. Do not replace
+original DINOv3 with random or LIBERO-finetuned weights while waiting.
