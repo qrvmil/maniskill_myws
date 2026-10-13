@@ -93,3 +93,19 @@ from recorded actions/outcomes.26 scoped tests pass. Remaining scope is still
 all three real train runs, verified HF exports,225 rollouts, actual matrix and
 executed readable notebook. A main run is not complete merely because smoke
 or unit checks pass.
+
+Notebook draft: notebooks/02_turbovla_multitask_eval.ipynb, generated and
+nbformat/AST-validated. It exposes model selection, pinned HF download with
+hash checks, full strict model load, LIBERO observation,15 seeded rollouts,
+episode table/Wilson CI/video and the actual3×5 matrix. It is not yet executed;
+publication records and results do not yet exist. build_notebook.py must be
+rerun after completed report, followed by full notebook execution and visual
+inspection. Expected HF publication metadata location for notebook:
+docs/turbovla_multitask/publications/{A,B,C}.json.
+
+Independent read-only code review dispatched per requesting-code-review skill
+to agent /root/review_turbovla; findings pending. A training remains live;
+latest observed step720,allocated peak4810.9MiB,~0.37s/update. Check actual
+supervisor/PID and train.jsonl again on continuation; never infer completion
+from this recorded observation. New code and public-mirror evidence pushed
+at e5d0755; notebook draft is the next logical code block.

@@ -72,3 +72,8 @@ TurboVLA revision: `a3365e8f1787d30bafd99d2806edbf4dc82b5370`.
 LIBERO revision: `8f1084e3132a39270c3a13ebe37270a43ece2a01`.
 
 Current status and evidence are in `docs/turbovla_multitask/progress.md`.
+The readable tutorial is `notebooks/02_turbovla_multitask_eval.ipynb`.
+It is currently a draft; full execution and saved results require completed
+training, HF publication records and the full evaluated matrix. Regenerate
+with `python turbovla_multitask/build_notebook.py` after reporting results,
+then execute it top-to-bottom in the registered kernel.
