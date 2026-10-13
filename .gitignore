@@ -251,5 +251,6 @@ paper_tools/
 
 # External dependency downloaded by the TurboVLA tutorial.
 /TurboVLA/
+/TurboVLA
 
 /turbovla_libero_evaluation.zip
