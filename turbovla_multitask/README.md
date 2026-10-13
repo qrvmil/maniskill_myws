@@ -77,3 +77,11 @@ It is currently a draft; full execution and saved results require completed
 training, HF publication records and the full evaluated matrix. Regenerate
 with `python turbovla_multitask/build_notebook.py` after reporting results,
 then execute it top-to-bottom in the registered kernel.
+
+`run_pipeline.py` runs train →verified weight upload →evaluation →verified
+evidence archive for A, then B, then C, and pushes each completed block. It
+first waits for the already-running `turbovla_train_a` service to become terminal;
+it never starts a second copy while that job is live. Run the pipeline under
+supervisor (`turbovla_experiment` on this instance). It refuses to overwrite
+partial evaluation evidence or to commit unrelated staged changes. Its final
+state still leaves notebook execution/visual inspection for the agent.

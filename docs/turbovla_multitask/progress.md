@@ -130,3 +130,16 @@ Main A training observed live past1060/3001 updates. Required next steps:
    and evaluate each. Do not restart a live process on observation timeout.
 5. report.py builds actual225-episode matrix. build_notebook.py regenerates
    the final tutorial, then execute/inspect its saved outputs and remote weights.
+
+Ruling: automate the already-authorized sequential remaining steps in
+run_pipeline.py under supervisor turbovla_experiment. It waits for the live
+A service's authoritative terminal state, then verifies final metadata/hashes,
+uploads and read-verifies full weights, runs75 episodes, archives and verifies
+all episode JSON/video on HF, commits/pushes explicit evidence paths, then
+does independent B and C. An OS lock prevents duplicate controllers; the lock
+or pipeline_state.json is never treated as proof that a process is live.
+Partial evaluation evidence causes a stop for inspection, not replacement.
+The pipeline builds the actual matrix only after all three full evaluations;
+its terminal phase explicitly leaves final notebook execution/visual QA pending.
+Latest observed A step2200/3001; process347730 remains live.27 tests pass and
+new pipeline source compiles. Monitor actual supervisor handles and logs.
