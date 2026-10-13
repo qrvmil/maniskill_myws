@@ -233,3 +233,13 @@ remote models, matching original init hashes, full matrix and an executed,
 error-free notebook before publishing card/matrix/notebook and replacing our
 initial access-probe placeholder. Must run after final notebook QA, verify its
 downloaded artifacts and push generated metadata; do not execute prematurely.
+
+Current C live childPID360779 under supervisor parent350369, observed2000/3001
+updates. C original init SHA equals A and B exactly; train_tasks exactly
+D0,D1,D2. This independently verifies all three intended starting points.
+Portable notebook changes and actual encoder/full-policy parity audit pushed
+at e6d1055. Remaining work: wait for C train/publish/eval/archive and pipeline
+report, inspect actual matrix, execute notebook top-to-bottom, inspect saved
+images/video/HTML, publish_card.py, push final artifacts and requirement audit.
+Parent's terminal models_and_matrix_complete is not full-goal completion;
+notebook execution/inspection and final remote artifact checks still remain.
