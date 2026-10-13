@@ -12,7 +12,9 @@ All runs start from the same seed-0 policy initialization, not the previous run.
 
 Data source: pinned `openvla/modified_libero_rlds`, Spatial and Goal suites.
 Only the three exact training instructions are extracted into per-task HDF5
-files. These are the authors' 256px rotated, replayed no-noop demonstrations;
+files. The pinned official filtered counts are46 D0 /47 D1 /48 D2, rather than
+pi0's50 native demonstrations per task. These are the authors' 256px rotated,
+replayed no-noop demonstrations;
 they are not the 128px native pi0 input files. Use same-step RLDS observation →
 action alignment; never apply the native-HDF5 one-step shift to RLDS data.
 Compute state mean/std and arm-action min/max separately for A/B/C. Preserve

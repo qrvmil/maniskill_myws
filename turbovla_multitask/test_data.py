@@ -31,6 +31,11 @@ class DataContracts(unittest.TestCase):
         self.assertIsNone(data.task_for_instruction('pick up a held out object'))
         self.assertEqual(data.task_for_instruction('put the bowl on the stove'), 'D2')
 
+    def test_pinned_official_filtered_demo_counts_are_exact(self):
+        data.validate_demo_counts({'D0':46,'D1':47,'D2':48})
+        with self.assertRaisesRegex(ValueError,'counts'):
+            data.validate_demo_counts({'D0':45,'D1':47,'D2':48})
+
 
 if __name__ == '__main__':
     unittest.main()

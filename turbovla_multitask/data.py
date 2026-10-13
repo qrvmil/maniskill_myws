@@ -12,6 +12,12 @@ TRAIN_SETS = CONFIG['train_sets']
 DATA_REPO = 'openvla/modified_libero_rlds'
 DATA_REV = '6ce6aaaaabdbe590b1eef5cd29c0d33f14a08551'
 HF_REPO = 'qrvmil/turbovla-multitask-generalization'
+EXPECTED_DEMOS = {'D0':46,'D1':47,'D2':48}
+
+
+def validate_demo_counts(counts):
+    if counts != EXPECTED_DEMOS:
+        raise ValueError(f'Pinned official filtered demonstration counts differ: {counts}; expected {EXPECTED_DEMOS}')
 
 
 def training_tasks(tasks):

@@ -8,7 +8,7 @@ os.environ.setdefault('HF_HOME', '/workspace/.hf_home')
 os.environ.setdefault('TF_CPP_MIN_LOG_LEVEL', '2')
 os.environ.setdefault('USE_TF', '0')
 os.environ.setdefault('USE_FLAX', '0')
-from data import WORK, DATA_REPO, DATA_REV, TRAIN_SETS, TASKS, training_tasks, task_for_instruction, compute_stats
+from data import WORK, DATA_REPO, DATA_REV, TRAIN_SETS, TASKS, training_tasks, task_for_instruction, compute_stats, validate_demo_counts
 
 
 def sha256(path):
@@ -75,8 +75,7 @@ def prepare():
                 counts[t] += 1
                 lengths[t].append(len(steps))
                 print('EXTRACTED', t, counts[t], len(steps), flush=True)
-        if any(n != 50 for n in counts.values()):
-            raise ValueError(f'Expected 50 demonstrations/task, got {counts}')
+        validate_demo_counts(counts)
     finally:
         for handle in handles.values():
             handle.close()
