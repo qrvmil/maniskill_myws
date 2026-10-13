@@ -1,0 +1,12 @@
+{
+  "variant": "C",
+  "updates": 3001,
+  "finite_loss_and_gradients": true,
+  "initial_state_sha256": "ea1405220b85277d8caff59b888db27037ec8fc97971da62aa0c160dbeb39976",
+  "matches_A_initialization": true,
+  "checkpoint_sha256": "f3f9d9be6bac92bd91191ff539271d63d90b821314bfb92ae0ccab026087cf77",
+  "hf_revision": "cda0c763a2a9a77e7d4d0127e86fb9f732cd0929",
+  "remote_sha256_verified": true,
+  "first100_mean_loss": 0.35196915894746783,
+  "last100_mean_loss": 0.11356098547577859
+}

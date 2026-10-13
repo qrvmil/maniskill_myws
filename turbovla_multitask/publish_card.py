@@ -46,8 +46,8 @@ def publish_card():
         'are excluded from every training run.','',
         'Each checkpoint contains the complete raw and EMA policy state dicts,',
         'including both backbones. Primary evaluation uses EMA. BERT is frozen;',
-        'DINOv3 and remaining policy modules are trained for3001 AdamW updates',
-        '(batch8,LR5e-5,seed0,EMA0.999).','',
+        'DINOv3 and remaining policy modules are trained for 3001 AdamW updates',
+        '(batch 8,LR 5e-5,seed 0,EMA 0.999).','',
         '## Models','',
         '| Variant | Training tasks | Verified model revision |',
         '|---|---|---|']
@@ -56,23 +56,23 @@ def publish_card():
         lines.append(f'| {variant} | {"+".join(tasks)} | [{rev[:12]}](https://huggingface.co/{HF_REPO}/tree/{rev}/{variant}) |')
     lines+=['','Each model folder includes `final.pth`, its own `stats.json`, exact',
         'training configuration/log, source/initialization hashes and licenses.',
-        '`evaluation/` includes75 recorded episodes and dual-camera videos.','',
+        '`evaluation/` includes 75 recorded episodes and dual-camera videos.','',
         '| Task | Suite | Instruction |','|---|---|---|']
     for task,spec in TASKS.items():
         lines.append(f"| {task} | {spec['suite']} | {spec['name'].replace('_',' ')} |")
     lines+=[
         '## Results','',
-        'Successes out of15 episodes per cell; seeds10000–10014 are shared across',
-        'models.10 settling steps,12-action chunks,256px images, reference horizons',
-        '220(Spatial) and280(Goal/Object). Success is the LIBERO simulator predicate.','',
+        'Successes out of 15 episodes per cell; seeds 10000–10014 are shared across',
+        'models. 10 settling steps, 12-action chunks, 256px images, reference horizons',
+        '220 (Spatial) and280 (Goal/Object). Success is the LIBERO simulator predicate.','',
         '| Train set | D0 | D1 | D2 | H1 | H2 |','|---|---|---|---|---|---|']
     for variant,tasks in TRAIN_SETS.items():
         values=[f"{lookup[variant,task]['successes']}/15" for task in TASKS]
         lines.append('| '+'+'.join(tasks)+' | '+' | '.join(values)+' |')
     lines+=['','![Generalization matrix](generalization_matrix.png)','',
         '`generalization_matrix.csv` retains seen/unseen labels, exact rates and',
-        'Wilson95% confidence intervals. With15 episodes, one success changes the',
-        'rate by6.67 percentage points; these results do not establish universal',
+        'Wilson 95% confidence intervals. With 15 episodes, one success changes the',
+        'rate by 6.67 percentage points; these results do not establish universal',
         'zero-shot performance.','',
         '## Load and evaluate','',
         'The full executed walkthrough is [02_turbovla_multitask_eval.ipynb](02_turbovla_multitask_eval.ipynb).',
@@ -83,15 +83,15 @@ def publish_card():
         'Select A/B/C in the notebook. It downloads model and statistics from the',
         'verified revision, checks SHA256, loads the complete TurboVLAPolicy,',
         'restores both encoders from those full weights, connects LIBERO and',
-        'executes15 seeded episodes. This private repository',
+        'executes 15 seeded episodes. This private repository',
         'requires an authenticated HF token.','',
         '## Scope and provenance','',
-        'Data: pinned `openvla/modified_libero_rlds`;46/47/48 filtered demonstrations',
+        'Data: pinned `openvla/modified_libero_rlds`; 46/47/48 filtered demonstrations',
         'for D0/D1/D2. Images are already rotated256px no-noop replays; RLDS',
         'observation[t] aligns with action[t]. Statistics are fit to each own corpus.',
-        'These data differ from the pi0 comparison’s50 native128px demonstrations.',
-        'Our3001-update/batch8 experiment also differs from the paper’s joint',
-        '40k-update/batch128 recipe; it does not reproduce the paper’s aggregate SR.','',
+        'These data differ from the pi0 comparison’s 50 native 128px demonstrations.',
+        'Our 3001-update/batch 8 experiment also differs from the paper’s joint',
+        '40k-update/batch 128 recipe; it does not reproduce the paper’s aggregate SR.','',
         'Original ViT-B/16 is obtained from a pinned public NYU mirror. Full checksum,',
         'strict Meta/Transformers loads and forward parity are recorded in each',
         '`dinov3_conversion.json`. The small deterministic RoPE rounding difference',
