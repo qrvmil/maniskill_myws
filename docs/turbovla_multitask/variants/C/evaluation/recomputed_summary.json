@@ -1,0 +1,67 @@
+{
+  "D0": {
+    "variant": "C",
+    "task": "D0",
+    "seen": true,
+    "episodes": 15,
+    "successes": 14,
+    "success_rate": 0.9333333333333333,
+    "ci95": [
+      0.7018347012621998,
+      0.9881331045067315
+    ],
+    "mean_steps": 107.4
+  },
+  "D1": {
+    "variant": "C",
+    "task": "D1",
+    "seen": true,
+    "episodes": 15,
+    "successes": 12,
+    "success_rate": 0.8,
+    "ci95": [
+      0.5481455128483065,
+      0.9295245065301844
+    ],
+    "mean_steps": 119.66666666666667
+  },
+  "D2": {
+    "variant": "C",
+    "task": "D2",
+    "seen": true,
+    "episodes": 15,
+    "successes": 13,
+    "success_rate": 0.8666666666666667,
+    "ci95": [
+      0.6211801716767764,
+      0.9626387408969346
+    ],
+    "mean_steps": 113.73333333333333
+  },
+  "H1": {
+    "variant": "C",
+    "task": "H1",
+    "seen": false,
+    "episodes": 15,
+    "successes": 0,
+    "success_rate": 0.0,
+    "ci95": [
+      0.0,
+      0.20388330103584862
+    ],
+    "mean_steps": 220.0
+  },
+  "H2": {
+    "variant": "C",
+    "task": "H2",
+    "seen": false,
+    "episodes": 15,
+    "successes": 0,
+    "success_rate": 0.0,
+    "ci95": [
+      0.0,
+      0.20388330103584862
+    ],
+    "mean_steps": 280.0
+  }
+}

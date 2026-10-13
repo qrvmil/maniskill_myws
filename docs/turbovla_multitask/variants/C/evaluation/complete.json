@@ -1,0 +1,29 @@
+{
+  "total_episodes": 75,
+  "config": {
+    "variant": "C",
+    "train_tasks": [
+      "D0",
+      "D1",
+      "D2"
+    ],
+    "tasks": [
+      "D0",
+      "D1",
+      "D2",
+      "H1",
+      "H2"
+    ],
+    "episodes": 15,
+    "protocol": "reference",
+    "seed_start": 10000,
+    "settling_steps": 10,
+    "open_loop_steps": 12,
+    "image_size": 256,
+    "precision": "fp32",
+    "checkpoint_sha256": "f3f9d9be6bac92bd91191ff539271d63d90b821314bfb92ae0ccab026087cf77",
+    "stats_sha256": "560c6218d401220a6d4f3f85c9fc0aa8fa35c6278214e7159c50b2a59b5a68b4",
+    "primary_weights": "ema_model_state_dict",
+    "all_selected_tasks_seen_by_release": false
+  }
+}
