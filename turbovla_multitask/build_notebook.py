@@ -33,11 +33,11 @@ def build():
     ```bash
     export HF_HOME=/workspace/.hf_home
     bash turbovla_multitask/setup.sh
-    /workspace/turbovla-venv/bin/python turbovla_multitask/assets.py
     ```
 
-    `assets.py` получает исходный ViT-B/16 из публичного зеркала NYU, проверяет
-    хеш и соответствие модели Meta; доступ к gated-репозиторию Meta не требуется.
+    Полный чекпоинт уже содержит обученные DINOv3 и BERT. Ниже восстановим
+    их локальные файлы прямо из него; отдельно скачиваются только файлы
+    токенизатора BERT. Доступ к gated-репозиторию Meta не требуется.
     Для скачивания **наших** моделей из приватного HF-репозитория нужен ваш
     действующий HF-токен. Токен в notebook не записываем.''')
     code('''import os
@@ -58,6 +58,7 @@ def build():
     sys.path.insert(0, str(REPO / "turbovla_eval"))
 
     import torch
+    torch.set_num_threads(4)
     import pandas as pd
     import numpy as np
     from IPython.display import display, Image, Video
@@ -116,6 +117,15 @@ def build():
     assert sha256(stats_path) == metadata["stats_sha256"]
     print("Источник:", f"HF {HF_REPO}@{revision}" if DOWNLOAD_FROM_HF else "Локальные проверенные веса")
     print("Обновлений:", metadata["step"], "Веса:", metadata["primary_weights"])''')
+    md('''### Восстановить энкодеры из полного чекпоинта
+
+    Это энкодеры выбранной обученной модели. Исходные веса Meta и GroundingDINO
+    для оценки не скачиваем. Проверка strict load и хешей сохраняет соответствие
+    выбранному EMA-чекпоинту; отдельный каталог предотвращает смешение моделей.''')
+    code('''from prepare_eval_assets import prepare_policy_assets
+
+    dinov3_directory, bert_directory = prepare_policy_assets(checkpoint, WORK / "eval_assets")
+    print("Энкодеры восстановлены из выбранного чекпоинта.")''')
     md('''## 4. Загрузить полную TurboVLA
 
     Внутри модели — DINOv3 ViT-B/16, BERT, модуль взаимодействия vision-language
@@ -127,8 +137,8 @@ def build():
 
     policy = TurboVLAPolicy(
         ckpt_path=str(checkpoint),
-        dinov3_path=str(WORK / "assets/dinov3"),
-        bert_path=str(WORK / "assets/bert"),
+        dinov3_path=str(dinov3_directory),
+        bert_path=str(bert_directory),
         stats_path=str(stats_path),
         stats_key="train",
         precision="fp32",

@@ -77,6 +77,12 @@ It is currently a draft; full execution and saved results require completed
 training, HF publication records and the full evaluated matrix. Regenerate
 with `python turbovla_multitask/build_notebook.py` after reporting results,
 then execute it top-to-bottom in the registered kernel.
+For evaluation the notebook restores DINOv3 and BERT folders directly from
+the selected full EMA checkpoint using `prepare_eval_assets.py`; only small
+BERT tokenizer files are fetched. Original foundation weights/GroundingDINO
+are needed for training initialization, not for this evaluation path.
+After final notebook execution and visual inspection, `publish_card.py`
+publishes the full verified model card, matrix and executed notebook on HF.
 
 `run_pipeline.py` runs train →verified weight upload →evaluation →verified
 evidence archive for A, then B, then C, and pushes each completed block. It

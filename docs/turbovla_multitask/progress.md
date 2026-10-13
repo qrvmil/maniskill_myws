@@ -208,3 +208,28 @@ Final handoff should also replace the HF repo's initial access-probe status
 with a concise root model card linking all three verified model revisions,
 normalization files and the runnable notebook; retain the bundled licenses.
 Do this from completed evidence, after the pipeline's matrix and notebook QA.
+
+B completed3001 updates. Remote final SHA
+6b826614f4c4c0c945767be001b4cfefb58eb73562ace1b4943d4303849f52cf
+verified via authenticated model_info at a6684fc322079e39ad98bb9f2211c5839e8b0092.
+Contiguous steps and finite losses/gradients verified; first100 mean loss
+0.356238, last100 mean0.111333. Initialization matches A exactly.
+B full75-episode evaluation revalidated: D0=14/15,D1=13/15,D2=0/15,H1=0/15,H2=0/15.
+Weights/training evidence pushed at07de717; complete eval/archive evidence
+pushed at711f432. Pipeline has moved to independent C training (observed320
+updates, live parent350369; revalidate child PID and progress on continuation).
+
+Evaluation portability improvement: prepare_eval_assets.py restores211 DINO
+and199 BERT tensors from our full EMA checkpoint to per-checkpoint-hash folders.
+Only BERT tokenizer files are downloaded; no foundation model or GD weights
+needed for eval. Actual A restoration strict-loads; every saved encoder tensor
+equals its EMA source; cache hashes revalidate. Full CPU policy action output
+matches the prior initialization-folder load exactly (max difference0.0).
+Evidence eval_assets_audit.json. Notebook regenerated with this clearer flow;
+still draft until complete225-episode matrix and full execution/inspection.
+
+Prepared publish_card.py for final HF handoff. It requires all three verified
+remote models, matching original init hashes, full matrix and an executed,
+error-free notebook before publishing card/matrix/notebook and replacing our
+initial access-probe placeholder. Must run after final notebook QA, verify its
+downloaded artifacts and push generated metadata; do not execute prematurely.

@@ -1,0 +1,12 @@
+{
+  "variant": "A",
+  "strict_encoder_restore": true,
+  "exact_ema_tensor_parity": {
+    "dinov3": 211,
+    "bert": 199
+  },
+  "cache_revalidated": true,
+  "no_original_encoder_weights_required": true,
+  "full_policy_cpu_prediction_parity": true,
+  "max_action_difference": 0.0
+}
