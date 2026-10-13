@@ -1,0 +1,123 @@
+{
+  "source_repo": "openvla/modified_libero_rlds",
+  "source_revision": "6ce6aaaaabdbe590b1eef5cd29c0d33f14a08551",
+  "demos": {
+    "D0": 46,
+    "D1": 47,
+    "D2": 48
+  },
+  "hashes": {
+    "D0": "f2d5dba3c1c4e978c75921c3a8d8ee024d11682f2cb33e35dee916b65796184e",
+    "D1": "5697bdbf2e5c1fc2d698e17d24cea1d3fecfd750dc5e5fbb6ef29702c41fec39",
+    "D2": "5bcfcbcca1f16370a733e053b77fcb31dfbc8f22ec4c3ea1d0b984cbb674aeec"
+  },
+  "frames": {
+    "D0": 5343,
+    "D1": 5570,
+    "D2": 4854
+  },
+  "variants": {
+    "A": {
+      "training_tasks": [
+        "D0"
+      ],
+      "frame_counts": {
+        "D0": 5343
+      },
+      "stats_sha256": "f59bb7111e762c2e819aca152ef9f57cf34cff61fc7a9df332da07eb043ab722",
+      "batch_shapes": [
+        [
+          8,
+          2,
+          3,
+          256,
+          256
+        ],
+        [
+          8,
+          8
+        ],
+        [
+          8,
+          12,
+          7
+        ],
+        [
+          8,
+          12
+        ]
+      ],
+      "official_ImageNet_pixel_normalizer_parity": true
+    },
+    "B": {
+      "training_tasks": [
+        "D0",
+        "D1"
+      ],
+      "frame_counts": {
+        "D0": 5343,
+        "D1": 5570
+      },
+      "stats_sha256": "940ab33cb19a72300bff9749b349e16dd3c8f437f38d2c46c6b5784e539794fb",
+      "batch_shapes": [
+        [
+          8,
+          2,
+          3,
+          256,
+          256
+        ],
+        [
+          8,
+          8
+        ],
+        [
+          8,
+          12,
+          7
+        ],
+        [
+          8,
+          12
+        ]
+      ],
+      "official_ImageNet_pixel_normalizer_parity": true
+    },
+    "C": {
+      "training_tasks": [
+        "D0",
+        "D1",
+        "D2"
+      ],
+      "frame_counts": {
+        "D0": 5343,
+        "D1": 5570,
+        "D2": 4854
+      },
+      "stats_sha256": "560c6218d401220a6d4f3f85c9fc0aa8fa35c6278214e7159c50b2a59b5a68b4",
+      "batch_shapes": [
+        [
+          8,
+          2,
+          3,
+          256,
+          256
+        ],
+        [
+          8,
+          8
+        ],
+        [
+          8,
+          12,
+          7
+        ],
+        [
+          8,
+          12
+        ]
+      ],
+      "official_ImageNet_pixel_normalizer_parity": true
+    }
+  }
+}

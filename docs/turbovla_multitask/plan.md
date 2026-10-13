@@ -11,8 +11,8 @@ GitHub/HF publication; no additional publication confirmation is needed.
 - [x] Verify HF authenticated read/write, GitHub authentication and free4090.
 - [x] Set up pinned Python3.10 / torch2.3.1 / LIBERO / TurboVLA environment.
 - [x] Test chunk boundaries, normalization round trip and held-out exclusion.
-- [ ] Extract only D0/D1/D2 from pinned official modified RLDS suites.
-- [ ] Verify pinned official filtered46/47/48 demonstration counts, image/state/action dimensions and hashes.
+- [x] Extract only D0/D1/D2 from pinned official modified RLDS suites.
+- [x] Verify pinned official filtered46/47/48 demonstration counts, image/state/action dimensions and hashes.
 - [ ] Download original DINOv3/BERT/GroundingDINO; strict-check initialization.
 - [ ] Implement full train/checkpoint/resume/EMA/provenance paths and smoke one update.
 - [ ] Train A, publish weights, evaluate15 episodes/task; commit/push evidence.
