@@ -84,18 +84,18 @@ def report():
     output=ROOT/'docs'/'turbovla_multitask';output.mkdir(parents=True,exist_ok=True)
     write_json(output/'results.json',dict(cells=cells,provenance=provenance))
     with (output/'generalization_matrix.csv').open('w',newline='') as f:
-        writer=csv.DictWriter(f,fieldnames=['variant','train_set','task','seen','successes','episodes','success_rate','ci95_low','ci95_high'])
+        writer=csv.DictWriter(f,fieldnames=['variant','train_set','task','seen','successes','episodes','success_rate','ci95_low','ci95_high'],lineterminator='\n')
         writer.writeheader()
         for c in cells:
             writer.writerow({k:c[k] for k in ['variant','task','seen','successes','episodes','success_rate']}|
                             dict(train_set='+'.join(TRAIN_SETS[c['variant']]),ci95_low=c['ci95'][0],ci95_high=c['ci95'][1]))
     plot_matrix(cells,output/'generalization_matrix.png')
     lines=['# TurboVLA nested-task results','',
-           'Three independent3001-update runs from original DINOv3/BERT/GroundingDINO; final EMA weights.',
-           'Reference-protocol evaluation on seeds10000–10014,15 episodes per task.',
-           'Modified no-noops data:46/47/48 demos; this differs from pi0’s50 native demos.',
-           'This experiment uses batch8 and3001 updates, rather than the paper’s batch128 and40k updates.','',
-           '| Train set | Task | Seen | Successes/N | SR | Wilson95% CI |',
+           'Three independent 3001-update runs from original DINOv3/BERT/GroundingDINO; final EMA weights.',
+           'Reference-protocol evaluation on seeds 10000–10014, 15 episodes per task.',
+           'Modified no-noops data: 46/47/48 demos; this differs from pi0’s 50 native demos.',
+           'This experiment uses batch 8 and 3001 updates; the paper uses batch 128 and 40k updates.','',
+           '| Train set | Task | Seen | Successes/N | SR | Wilson 95% CI |',
            '|---|---|---|---|---|---|']
     for c in cells:
         low,high=c['ci95'];lines.append(f"| {'+'.join(TRAIN_SETS[c['variant']])} | {c['task']} | {c['seen']} | {c['successes']}/15 | {c['success_rate']:.1%} | {low:.1%}–{high:.1%} |")

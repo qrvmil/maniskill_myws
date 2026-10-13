@@ -170,9 +170,9 @@ def build():
         print("Chunk:", chunk.shape, "горизонт:", horizon)
     finally:
         env.close()''')
-    md('''## 6. Выполнить15 эпизодов
+    md('''## 6. Выполнить 15 эпизодов
 
-    Один эпизод: reset →10 settling steps → наблюдение → прогноз12 действий →
+    Один эпизод: reset → 10 settling steps → наблюдение → прогноз 12 действий →
     исполнение chunk → новое наблюдение. Успех берём из `env.check_success()`.
     `run_episode` содержит именно этот цикл; его код находится в
     `turbovla_eval/eval_utils.py`. Видео сохраняет обе камеры.
@@ -210,13 +210,13 @@ def build():
         rows = json.loads((output / TASK / "episodes.json").read_text())''')
     md('''## 7. Посчитать успехи и неопределённость
 
-    SR = число успешных эпизодов /15. Wilson95% CI показывает неопределённость
-    оценки при небольшом числе запусков; один успех меняет SR на6.67 процентных
+    SR = число успешных эпизодов /15. Wilson 95% CI показывает неопределённость
+    оценки при небольшом числе запусков; один успех меняет SR на 6.67 процентных
     пункта. Проверяем состав эпизодов, seeds, горизонты и действия перед расчётом.''')
     code('''summary = summarize_cell(rows, VARIANT, TASK)
     low, high = summary["ci95"]
     print(f"{summary['successes']}/15 = {summary['success_rate']:.1%}")
-    print(f"Wilson95% CI: {low:.1%}–{high:.1%}")
+    print(f"Wilson 95% CI: {low:.1%}–{high:.1%}")
     display(pd.DataFrame([
         {"Seed": r["seed"], "Успех": r["success"], "Шагов": r["steps"]} for r in rows
     ]))''')
