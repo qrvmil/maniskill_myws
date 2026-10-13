@@ -1,0 +1,12 @@
+{
+  "code_cells": 10,
+  "executed_cells": 10,
+  "errors": 0,
+  "full_matrix_episodes": 225,
+  "new_notebook_rollouts": 15,
+  "fresh_kernel": true,
+  "notebook_sha256": "10b7b513948ea550e600c4d343ee5ca782c3da00793fa31b53fb8642726d9215",
+  "html_sha256": "a70d2079d4ebb1dce6c4deabb973c423e3a1f8f3c622a0c5d8f4a158d382478e",
+  "visual_inspection_pending": false,
+  "visual_review": "Viewed notebook introduction, both camera images, all15 matrix rows, unclipped3x5 heatmap and decoded dual-camera video frame."
+}

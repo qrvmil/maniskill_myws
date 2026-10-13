@@ -23,6 +23,7 @@ def inspect():
         tables=page.locator('table.dataframe')
         if tables.count()<3: raise ValueError('Model selection, episode and complete matrix tables must render')
         tables.last.screenshot(path=str(PREVIEW/'matrix_table.png'))
+        page.evaluate('window.scrollTo(0, 0)')
         page.screenshot(path=str(PREVIEW/'notebook_top.png'))
         videos=page.locator('video')
         if videos.count()!=1: raise ValueError('Exactly one embedded demonstration video required')

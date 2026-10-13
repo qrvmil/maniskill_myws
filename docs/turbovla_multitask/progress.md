@@ -243,3 +243,32 @@ report, inspect actual matrix, execute notebook top-to-bottom, inspect saved
 images/video/HTML, publish_card.py, push final artifacts and requirement audit.
 Parent's terminal models_and_matrix_complete is not full-goal completion;
 notebook execution/inspection and final remote artifact checks still remain.
+
+
+## Completed experiment and notebook verification (2026-10-13)
+
+All three original-initialization runs completed exactly 3001 finite updates.
+C loss averaged 0.3520 over its first100 updates and 0.1136 over its last100;
+its full remote weight SHA and identical A/B/C initialization were verified.
+All225 primary episodes are complete and archived on HF with downloaded-file
+hash checks. Successes per15 (D0,D1,D2,H1,H2): A=(14,0,0,0,0),
+B=(14,13,0,0,0), C=(14,12,13,0,0). The full CSV independently matches the
+validated records; the PNG was inspected visually. Targeted tests:29 passed.
+
+The controller finished evaluation/archive but its final Git whitespace check
+rejected CSV CRLF endings. Fixed the writer to emit LF, regenerated only the
+report/notebook source, verified git diff --check and published the matrix in
+f4d6379. No training or primary evaluation was repeated or overwritten.
+
+Managed notebook PID368970 completed successfully in a fresh kernel: all10
+code cells executed, no errors, verified HF download and full policy load,
+LIBERO camera preview,15 new A/D0 episodes, summary/table/matrix/video. The
+new actions, steps and outcomes match the primary15 A/D0 episodes exactly.
+Chromium rendered the HTML offline: all3 tables (3/15/15 rows), both camera
+images and full matrix are readable. Embedded512x256 video decodes and plays;
+its frame and the notebook introduction were inspected. Execution/render
+metadata, screenshots, HTML and episode comparison are saved in this branch.
+
+Final HF card, matrix PNG/CSV and executed notebook were published at
+03d6cd674d8b7c9ef184cde698d71490c4784533 and read back with exact hashes.
+The model repository remains private, as configured; qrvmil has access.

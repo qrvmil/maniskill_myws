@@ -15,10 +15,10 @@ GitHub/HF publication; no additional publication confirmation is needed.
 - [x] Verify pinned official filtered46/47/48 demonstration counts, image/state/action dimensions and hashes.
 - [x] Download original DINOv3/BERT/GroundingDINO; strict-check initialization.
 - [x] Implement full train/checkpoint/resume/EMA/provenance paths and smoke one update.
-- [ ] Train A, publish weights, evaluate15 episodes/task; commit/push evidence.
-- [ ] Train B independently, publish/evaluate; commit/push evidence.
-- [ ] Train C independently, publish/evaluate; commit/push evidence.
-- [ ] Generate and verify matrix, report and step-by-step evaluation notebook.
+- [x] Train A, publish weights, evaluate15 episodes/task; commit/push evidence.
+- [x] Train B independently, publish/evaluate; commit/push evidence.
+- [x] Train C independently, publish/evaluate; commit/push evidence.
+- [x] Generate and verify matrix, report and step-by-step evaluation notebook.
 - [ ] Verify every remote weight/stat/config file and complete all requirements.
 
 Review focus: no all-LIBERO policy initialization; no held-out stats; no RLDS

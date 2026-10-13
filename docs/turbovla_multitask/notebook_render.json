@@ -1,0 +1,45 @@
+{
+  "browser": "Chromium headless",
+  "offline": true,
+  "viewport": [
+    1280,
+    900
+  ],
+  "headings": [
+    "TurboVLA: загружаем модель и оцениваем её в LIBERO¶",
+    "1. Подготовить окружение¶",
+    "2. Выбрать модель и задачу¶",
+    "3. Получить чекпоинт и его статистики¶",
+    "Восстановить энкодеры из полного чекпоинта¶",
+    "4. Загрузить полную TurboVLA¶",
+    "5. Подключить LIBERO и посмотреть наблюдение¶",
+    "6. Выполнить 15 эпизодов¶",
+    "7. Посчитать успехи и неопределённость¶",
+    "8. Посмотреть видео эпизода¶",
+    "9. Полная матрица основного эксперимента¶",
+    "10. Как повторить оценку другой модели¶"
+  ],
+  "png_figures": 2,
+  "dataframe_tables": 3,
+  "table_rows": [
+    3,
+    15,
+    15
+  ],
+  "embedded_video": {
+    "width": 512,
+    "height": 256,
+    "duration": 4.85,
+    "readyState": 4,
+    "currentTime": 2
+  },
+  "screenshots": [
+    "figure_0.png",
+    "figure_1.png",
+    "matrix_table.png",
+    "notebook_top.png",
+    "video_frame.png"
+  ],
+  "agent_visual_review_pending": false,
+  "visual_review": "Viewed notebook introduction, both camera images, all15 matrix rows, unclipped3x5 heatmap and decoded dual-camera video frame."
+}

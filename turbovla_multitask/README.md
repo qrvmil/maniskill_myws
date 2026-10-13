@@ -73,10 +73,12 @@ LIBERO revision: `8f1084e3132a39270c3a13ebe37270a43ece2a01`.
 
 Current status and evidence are in `docs/turbovla_multitask/progress.md`.
 The readable tutorial is `notebooks/02_turbovla_multitask_eval.ipynb`.
-It is currently a draft; full execution and saved results require completed
-training, HF publication records and the full evaluated matrix. Regenerate
-with `python turbovla_multitask/build_notebook.py` after reporting results,
-then execute it top-to-bottom in the registered kernel.
+The full measured matrix is complete: 225 primary episodes across three
+independently trained 3001-update policies. The final notebook executes a fresh
+15-episode A/D0 run as a reproducibility check and displays the primary matrix.
+To regenerate its source, run `python turbovla_multitask/build_notebook.py`;
+then `python turbovla_multitask/execute_notebook.py` in the experiment environment.
+The latter executes every cell in a fresh registered kernel and exports HTML.
 For evaluation the notebook restores DINOv3 and BERT folders directly from
 the selected full EMA checkpoint using `prepare_eval_assets.py`; only small
 BERT tokenizer files are fetched. Original foundation weights/GroundingDINO

@@ -1,0 +1,11 @@
+{
+  "repo": "qrvmil/turbovla-multitask-generalization",
+  "revision": "03d6cd674d8b7c9ef184cde698d71490c4784533",
+  "hashes": {
+    "README.md": "08fccfe4aefb9f1531a680193b26afe07bb87066c14019147b89e5e0ffcc82d1",
+    "generalization_matrix.png": "aac13ac102c0006ab8c19de003755afcb8562a4c502b084ef3b62f928ae370a1",
+    "generalization_matrix.csv": "9e4e20623dcfee7c02c6f70d3128e5100907937d10d922800ea75526733024c7",
+    "02_turbovla_multitask_eval.ipynb": "10b7b513948ea550e600c4d343ee5ca782c3da00793fa31b53fb8642726d9215"
+  },
+  "verified_download": true
+}

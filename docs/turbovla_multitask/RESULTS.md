@@ -26,3 +26,9 @@ This experiment uses batch 8 and 3001 updates; the paper uses batch 128 and 40k 
 ![Generalization matrix](generalization_matrix.png)
 
 H1/H2 never enter training or normalization. All seeds are shared across models.
+
+The trained tasks reach 80.0–93.3% success. Every task excluded from a given
+training corpus has 0/15 successes in this protocol, including H1/H2 for all
+three models. With N=15, a 0/15 cell still has a Wilson 95% upper bound of
+20.4%; this does not establish zero success probability. D1 changes from
+13/15 in B to 12/15 in C, a one-episode difference with overlapping intervals.
