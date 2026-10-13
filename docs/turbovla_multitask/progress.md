@@ -272,3 +272,12 @@ metadata, screenshots, HTML and episode comparison are saved in this branch.
 Final HF card, matrix PNG/CSV and executed notebook were published at
 03d6cd674d8b7c9ef184cde698d71490c4784533 and read back with exact hashes.
 The model repository remains private, as configured; qrvmil has access.
+
+
+Final completion audit verifies298 files at one immutable HF snapshot,
+03d6cd674d8b7c9ef184cde698d71490c4784533. For each artifact, local SHA256
+matches its recorded authenticated-download hash, and remote LFS SHA256 or
+Git blob SHA1 matches the exact file content. This includes all3 complete
+raw/EMA checkpoints, own statistics, training provenance, all225 primary
+rollout records/videos and final card/matrix/executed notebook. Requirement
+mapping is in completion_audit.json. All implementation-plan items are done.

@@ -19,7 +19,7 @@ GitHub/HF publication; no additional publication confirmation is needed.
 - [x] Train B independently, publish/evaluate; commit/push evidence.
 - [x] Train C independently, publish/evaluate; commit/push evidence.
 - [x] Generate and verify matrix, report and step-by-step evaluation notebook.
-- [ ] Verify every remote weight/stat/config file and complete all requirements.
+- [x] Verify every remote weight/stat/config file and complete all requirements.
 
 Review focus: no all-LIBERO policy initialization; no held-out stats; no RLDS
 one-step shift; no padded-loss contribution; no evaluation of stale checkpoints;

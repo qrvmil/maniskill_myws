@@ -1,0 +1,1518 @@
+{
+  "status": "complete",
+  "hf_repo": "qrvmil/turbovla-multitask-generalization",
+  "hf_private": true,
+  "hf_snapshot": "03d6cd674d8b7c9ef184cde698d71490c4784533",
+  "verified_remote_files": 298,
+  "remote_files": {
+    "A/final.pth": {
+      "sha256": "f5fb580ab93d3f66811882b0217eb09878418d66d0c17c1c68ecc5bd81f21154",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/stats.json": {
+      "sha256": "f59bb7111e762c2e819aca152ef9f57cf34cff61fc7a9df332da07eb043ab722",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/training_config.json": {
+      "sha256": "8225d798e096a711934641718a7aa3e5c3dc9603b74e544377504071e74eceab",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/training_complete.json": {
+      "sha256": "071ef2ba28b671a2842f706f4ac9fd95c3cd14844e4ae87f11cac79c40174bb6",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/train.jsonl": {
+      "sha256": "3bb63e03c7f7838e133d8788a1acfe985d4a685db00d9fb89de5334dafc2d3db",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/data_manifest.json": {
+      "sha256": "f20d6066aaae659796a3ad11e0c29b90d9a64e37cbda5603457e9608b2733c6b",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/initialization.json": {
+      "sha256": "4767c203e28cc129bc7c91ac7d7d71cd893ce0560bbdcfbfd977c085d2d12deb",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/assets_manifest.json": {
+      "sha256": "1c8838424ab39f5aeb5bbfe5209e1d4df43d765496c44d7b1c922434f2001213",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/DINOv3_LICENSE.md": {
+      "sha256": "25d122eb8f5b880fd23c736fb6ea8018ee45c12237e00b8a86d14c653904999e",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/dinov3_conversion.json": {
+      "sha256": "1e54b2ced7bb04e54ea2a38a9b3b2a6a0e8d34107f317ead6f5a7acbfb157b44",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/evaluation/config.json": {
+      "sha256": "8848e35c8b1fa581edebe0f2af6bc6e519b5d56c317543f77f076f64df0b06e5",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/evaluation/summary.json": {
+      "sha256": "84515de74f0e296b9b72fcc3795ed2072eede551feb0e75c6b126c0372f5b789",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/evaluation/complete.json": {
+      "sha256": "cce628d63ff9c6e1015f7d159f72e0f60990a8a48320b35349f16135e8d4be94",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/evaluation/videos/D0/episode_000.mp4": {
+      "sha256": "aaabe370e4cbccb2747e7b6e7acedfd5c4e9fe72f7382279b92589eca3d8a5a4",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D0/episode_001.mp4": {
+      "sha256": "8e1d864bde08aa6ebfdbfc7835fc68ea14622b3ca3f855eb53b7b32012cd01a8",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D0/episode_002.mp4": {
+      "sha256": "709bd6c8a4d352f081950dfc3282152036bb59ca393a4ac722772b5b22727dab",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D0/episode_003.mp4": {
+      "sha256": "8c586696890756dc9c8b98afee18bd75c985a18a99ec2c9896c2dfb7f738b2a8",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D0/episode_004.mp4": {
+      "sha256": "92c9a577b448bebd6f8a277c1a78a4d798c8cc7614ca0fb0eddd1b69dacc5816",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D0/episode_005.mp4": {
+      "sha256": "f8d85bb7901f1c7cb07255a6f03f1ae09e70c61116aee94046a25f3ac3500e86",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D0/episode_006.mp4": {
+      "sha256": "b1065e96e439c58b49b9e6a8b40112fd2ad8841597ae995735bb3154ef61805c",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D0/episode_007.mp4": {
+      "sha256": "cb7e1ece752b0f02968bed1dc989c826c8a1dd4cc8cd10cff1a2b9dbad59f7de",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D0/episode_008.mp4": {
+      "sha256": "c254f984786f2d2eec96304b7a00b05e101eece8a91fa910faa61ae9bbb87413",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D0/episode_009.mp4": {
+      "sha256": "68230ca46ac72f86819195a38d13e88716e67466861b07ef04616925c31c0052",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D0/episode_010.mp4": {
+      "sha256": "a41085a008e54dedddf814eb1385a41e14305fc15800d9b3700de0a4da271980",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D0/episode_011.mp4": {
+      "sha256": "6ba303982f25330a3c5d0b8a19e84eba8a1f994a048ab4630390941e7b53e27d",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D0/episode_012.mp4": {
+      "sha256": "277003645a2c909cf57547a4206eefd8caae5157aa2f4e27f5a54095397ba9b9",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D0/episode_013.mp4": {
+      "sha256": "8a2051f87ce6b39728a1185dfadb8fea240e0b0afdeb3e3eec17727165d6419d",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D0/episode_014.mp4": {
+      "sha256": "4a3b7bed5f008da5e606558b03d72d10edf3e39599e627247bbea209d2b9a95d",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D1/episode_000.mp4": {
+      "sha256": "2b7e75d69793e8cf57e70a8f6ad0fe0c6962c575d6c4e42dc3f628d54b6620d1",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D1/episode_001.mp4": {
+      "sha256": "051026f147f2b0cb7a6946147fc4e83d59f5f64e9abc9b4e48a9587cc193ebbf",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D1/episode_002.mp4": {
+      "sha256": "5da1313b93c53728a7bb10a14453030ec2d9f8910560f48ce153d20aa5c54a53",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D1/episode_003.mp4": {
+      "sha256": "7a55bce2218ea825da2f9d6744d4c27eccadc094e58e59fcae0c1e9af22511d5",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D1/episode_004.mp4": {
+      "sha256": "04dee5bce3bceed9f7ed91974e34873d2e0740ad901647249ba2a81aa8638834",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D1/episode_005.mp4": {
+      "sha256": "4c21f9b501e9be9a9d3e935181189646e37ba783974aebe503b91509e1ef3cda",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D1/episode_006.mp4": {
+      "sha256": "3a806a73e3664d32269c5778e7be9408a4d17485364cfd085104e91a081b2bfd",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D1/episode_007.mp4": {
+      "sha256": "ec9847f7c95aa85a5a2716d6356b1252dbc90ba80113782a12d40178d1cf703e",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D1/episode_008.mp4": {
+      "sha256": "d10d11bda671eff13831198e8afc3e46ee63be78d89df7fe88a6db2e7ee58ec9",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D1/episode_009.mp4": {
+      "sha256": "bc0e4ef18b4ebd25b1e1c1973b78346a2213f9d552b52b70d80d6f528dd426a3",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D1/episode_010.mp4": {
+      "sha256": "bdae3314c7715a1dcdb76ae451239a31eb565b6dfc486d4c6932ea2a56bd48fe",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D1/episode_011.mp4": {
+      "sha256": "4f570b5bf4964479f9742c3a44245796b5abaff25a8869a53378a5c45d4d8c13",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D1/episode_012.mp4": {
+      "sha256": "d1d5b7d41e154f1a4d2db4e750585bc5a5987f85c3e6a22bbd978bc808fc464c",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D1/episode_013.mp4": {
+      "sha256": "95e15f5623a5f8fdc8698e40786c9b25cf2ca7ac8aab036de6d3082cf8a42e44",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D1/episode_014.mp4": {
+      "sha256": "4b5f2e2711dbf8d19864fff018e5cf6cabe3026a634910b30c63829c9f89c103",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D2/episode_000.mp4": {
+      "sha256": "ce3434d962a46bf6b50645b0fcbb3c1b5e96b0d69153d1d559bc2dafe801612f",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D2/episode_001.mp4": {
+      "sha256": "603c4ed2e7cce58d092f6f8015b78776d101f13c32642e52ca9450f614f990bc",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D2/episode_002.mp4": {
+      "sha256": "e3ca749f855505ce63e8a5bab7062b600051d122ed0b940a3b810ff27f1689b7",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D2/episode_003.mp4": {
+      "sha256": "975946d72ba9da5cc0547ba977fe380d5a9266aa174e2d395e243d15580858e5",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D2/episode_004.mp4": {
+      "sha256": "8fa831953acd264901fe81c9607e823251ab848a04f2eca88710b04e812c4046",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D2/episode_005.mp4": {
+      "sha256": "1d9af5fb2ddfc16fb38678d77366f6c02c592b6ae994d4ebdec337a9de321971",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D2/episode_006.mp4": {
+      "sha256": "4dd26bf35a30b253a3391a8758e7b010fb9a63b0d77747f74c391b34eccd0253",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D2/episode_007.mp4": {
+      "sha256": "73c058ef7458c0d8e13269ce7f5a40e5bc2a4e4d783355f9597f73399c787977",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D2/episode_008.mp4": {
+      "sha256": "0f97245c20668856ce1c26d2d9d55bb2ef81884dc85a7882673d75f24dd5ce56",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D2/episode_009.mp4": {
+      "sha256": "a4d6f44a9948de0d2e896fbb9b34c351a69c53300ca73af0ea605a49606667a7",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D2/episode_010.mp4": {
+      "sha256": "1a474975716001bad782f7054ec3e08e8fc9bb4e696fb6f850f350c11ce61092",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D2/episode_011.mp4": {
+      "sha256": "254f9786b58a8996e8ba6287f43a74ea871f1652d3b1be7fea55ff020d20f663",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D2/episode_012.mp4": {
+      "sha256": "b98a3c0992300183b03540384e2fba24d4a7d2366d16ce30cbcbdc2fab7fc7d8",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D2/episode_013.mp4": {
+      "sha256": "21a32873c2774d716d8a3bb57448a916c1b92dc61ff464fdfe446013b4e355af",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/D2/episode_014.mp4": {
+      "sha256": "99ac3a41b6f65cb3b9598222e2099f46f4117adb9957f2e688e289b117000f99",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H1/episode_000.mp4": {
+      "sha256": "1b1bf3b80a5698e6a453878229c7d6f49e8d0a2b4152884777f693da6c7a629a",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H1/episode_001.mp4": {
+      "sha256": "ae43e304b55ff114c46b8d573a0ec09a7eac06783d15ff2c58ae473b20feae24",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H1/episode_002.mp4": {
+      "sha256": "b5b25303a365a1088ffdf5a148f70736a0a5fc4455dc2acfa7ec1933dc9fde25",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H1/episode_003.mp4": {
+      "sha256": "7c6be258f88da11eae87fcb45d3aaedb9a07bd0f431faecee8da965204c2a009",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H1/episode_004.mp4": {
+      "sha256": "56a17011c4287c16104ea1c1e33db866983c76caf93e5cfe4f674275e92e9c2e",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H1/episode_005.mp4": {
+      "sha256": "565f4b1c1c719668c619792304af6a4886f017c5088b14ed2f6d2fc71df94a46",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H1/episode_006.mp4": {
+      "sha256": "ec9dafe02948d3e54875492be0d51e7340fa3a2f7284f2fe4d3f6510e7b2d7f6",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H1/episode_007.mp4": {
+      "sha256": "40110dbcace38222dfd625599e73dc9aa4dbbc874d84024d5d98c3a095582a9b",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H1/episode_008.mp4": {
+      "sha256": "d39873d1a1097f7c179d8fb76b7ec8009689e2aa2620bf71c366abf64d4d2776",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H1/episode_009.mp4": {
+      "sha256": "c0c6afb7d18186cb35b060a725673ad309d8222a465b1715846497f9118132be",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H1/episode_010.mp4": {
+      "sha256": "64e6470b725c7211a5c6b5f4bb60ed565d878546539bff5de77bea0e6476ceeb",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H1/episode_011.mp4": {
+      "sha256": "616a253e668cc662ae455f61bfd0a7f1d1c309394c39f383004351004e530a16",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H1/episode_012.mp4": {
+      "sha256": "520d932c5a6cd5d3f17ea6c6c30fd243587a83f910f05fe88d44b087fa4f86ee",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H1/episode_013.mp4": {
+      "sha256": "eb159c9d3b25a728f9d76de97c45ebfa9ea16c7d521ee3fd6a8d14ae3e3f4d65",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H1/episode_014.mp4": {
+      "sha256": "33889b0360747ebfa41d6d47cba1f89ed5acf19942af07d3511dea07e1526de2",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H2/episode_000.mp4": {
+      "sha256": "682cec13d8412eaa33e676118cb367fc88ca03670cf4875dc7e544c327d6627b",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H2/episode_001.mp4": {
+      "sha256": "bd7a22d6f1daeb1df9b929ab8310ac1bbdd20ec1330bc4f4ff6d600479fe720b",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H2/episode_002.mp4": {
+      "sha256": "335d7c3535b2e55f340154f6ab86be4e943196bd96d41f57aa054e0fae9635da",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H2/episode_003.mp4": {
+      "sha256": "a1fc18a56fe48ae9d3236ebcc6d92f49c249168e7cde0e864749926925908d23",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H2/episode_004.mp4": {
+      "sha256": "91b784a0015c1cc3ec616c058536de81575e60c069694721b8a1a80fa4678250",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H2/episode_005.mp4": {
+      "sha256": "e305f3d061f51bd1728370d3c1e0fa893ac3b6c9d661ccc9d1e25b12bbf8a640",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H2/episode_006.mp4": {
+      "sha256": "eddb46f820f0e395ad8278a3f6cccc61eb43b2c3e4e0162b72921daf162973bd",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H2/episode_007.mp4": {
+      "sha256": "d26ee8094edac1688de0bb77b5f49a36b29568173542275a7acedee1a6d1de27",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H2/episode_008.mp4": {
+      "sha256": "3a16f54a825b8221f74184724f2738eb649404ce5e6ec4e878e232fdaad03b1d",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H2/episode_009.mp4": {
+      "sha256": "4994b2d6726afdc62ca639c940b546c33d10918021b8732d74e4ec7fa24e80b9",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H2/episode_010.mp4": {
+      "sha256": "40ccb5c38528460bb331cd5f049d7796c8fec24a3545a95a71815e7e3646fc53",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H2/episode_011.mp4": {
+      "sha256": "37d5312ab9beabdd0b741daa2c7695a50d69c9dfdf42e4f1cfcd05eed894e3ac",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H2/episode_012.mp4": {
+      "sha256": "1c062c87dfe74bb64055bbb59cf7d50ec89964985bd9f7fe3585487b8e946347",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H2/episode_013.mp4": {
+      "sha256": "a793e68e0e07154dd072e6b3690740fb57878a72ab5d1c4a46245f5ab00b0b09",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/videos/H2/episode_014.mp4": {
+      "sha256": "70a91fb538c5bba9cf6a290254eab0b38de61555b7f0c44e7749bf3b73d68fa7",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "A/evaluation/D0/episodes.json": {
+      "sha256": "239501bda1c83f6f82590e2d54948262ae7dd4f59edb5ca2c314c8736d44c3b3",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/evaluation/D0/summary.json": {
+      "sha256": "1659e912a51c103ff6047f2c0e02a2a63a18ee5f07295d2b53ccc773b880d721",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/evaluation/D1/episodes.json": {
+      "sha256": "dc49bc2026eba9d2a19fc15f82e70a2519c6fe9b7539a31dc5c3dea531d8666b",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/evaluation/D1/summary.json": {
+      "sha256": "4a6133e5f05eef78d82b824e3804617645388e995fe6a403fb836da28addc639",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/evaluation/D2/episodes.json": {
+      "sha256": "2befa4862136bf8484ad1ca51ca7b0b59ac005309751a944fb0b2dc385c78301",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/evaluation/D2/summary.json": {
+      "sha256": "460d9cbc1b5bcaa391f988d19acbd907a4a6368a4fd7e64415f6e6abecf3f433",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/evaluation/H1/episodes.json": {
+      "sha256": "0940dc475a13765d16d8aac2fd9c0499351c0da923d55aa10c93e11c9d8a249a",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/evaluation/H1/summary.json": {
+      "sha256": "4a6133e5f05eef78d82b824e3804617645388e995fe6a403fb836da28addc639",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/evaluation/H2/episodes.json": {
+      "sha256": "0e89d5e9c40db7cc85e54c297a871ceffeefedc8d8294eeaf6501e5520d70fb2",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "A/evaluation/H2/summary.json": {
+      "sha256": "460d9cbc1b5bcaa391f988d19acbd907a4a6368a4fd7e64415f6e6abecf3f433",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/final.pth": {
+      "sha256": "6b826614f4c4c0c945767be001b4cfefb58eb73562ace1b4943d4303849f52cf",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/stats.json": {
+      "sha256": "940ab33cb19a72300bff9749b349e16dd3c8f437f38d2c46c6b5784e539794fb",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/training_config.json": {
+      "sha256": "a8ddf4f00ce60467976c6bc4790be17ca5fe876daa5f9d7c86084aea746f938b",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/training_complete.json": {
+      "sha256": "74ca8e3f835d595363ff549d867e5f6adf102e6ad86f83cf8042a1fece2336e1",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/train.jsonl": {
+      "sha256": "bd1a7fbe3bb53f1ccad81994ea1070291d2d40cd2fb37e113903685057a2fa08",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/data_manifest.json": {
+      "sha256": "f20d6066aaae659796a3ad11e0c29b90d9a64e37cbda5603457e9608b2733c6b",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/initialization.json": {
+      "sha256": "4767c203e28cc129bc7c91ac7d7d71cd893ce0560bbdcfbfd977c085d2d12deb",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/assets_manifest.json": {
+      "sha256": "1c8838424ab39f5aeb5bbfe5209e1d4df43d765496c44d7b1c922434f2001213",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/DINOv3_LICENSE.md": {
+      "sha256": "25d122eb8f5b880fd23c736fb6ea8018ee45c12237e00b8a86d14c653904999e",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/dinov3_conversion.json": {
+      "sha256": "1e54b2ced7bb04e54ea2a38a9b3b2a6a0e8d34107f317ead6f5a7acbfb157b44",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/evaluation/config.json": {
+      "sha256": "01755ce7e2ec3c2406360d9f91b7f25de99dc8dae5677a2688bf75e941e13858",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/evaluation/summary.json": {
+      "sha256": "2c050c9170bfc9fb6efae459a827f4f88fc30daebc363803b23a1a6c47a57d45",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/evaluation/complete.json": {
+      "sha256": "9bd84f86f7eb03522f60bcc7419778668eb2e35cb7eace5e605bcea9612419b0",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/evaluation/videos/D0/episode_000.mp4": {
+      "sha256": "ffd3e3dbb77c6fc6b22d948b0257671fb12feac599b6a93f2ba196faf38c6e9e",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D0/episode_001.mp4": {
+      "sha256": "af23e1aefa9b8cae58ebe099dea73169f353c56be39315db27225d2e06e2ecef",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D0/episode_002.mp4": {
+      "sha256": "84c24bc055f5a075d85cb49f63e44f79857886ac43edd7b16efdd3512b995995",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D0/episode_003.mp4": {
+      "sha256": "e7c5a4ebf569d2098ca2c89b276f26c45de57143a28a176cf26856d4007fadfd",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D0/episode_004.mp4": {
+      "sha256": "19f806481f035e80ccf0403e490bcd8dd27c3adca8dc62346f0d6648ba2218fc",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D0/episode_005.mp4": {
+      "sha256": "afbe8b8395b4f99b663a5f3c310fb1c9219b4527fd12e762e463782801bff5c6",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D0/episode_006.mp4": {
+      "sha256": "26dfac83dc51b51bc159af2198bbc69895dec7b6a48d49f6a8c0c2f2c163988f",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D0/episode_007.mp4": {
+      "sha256": "fc23c2a483a2270034c7a39740377327334427617cb8f4696e8507610534c4ab",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D0/episode_008.mp4": {
+      "sha256": "c266d703f533e08924669f50276c0895f176623a6268fde42c1e2d4b12d88796",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D0/episode_009.mp4": {
+      "sha256": "99b9f37f763d9e7e7608c6f5d2e3ef657ffe6d11f3a5a0355773151bb57b8fff",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D0/episode_010.mp4": {
+      "sha256": "c423af0ff4f76506d6e13bc88def1274d62b2af84bfa3558d1d0f3df2802d0f3",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D0/episode_011.mp4": {
+      "sha256": "06248552ede79746d6e528698c63b405455695c1d3b9e2e7a2ff32c124d1a3d7",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D0/episode_012.mp4": {
+      "sha256": "69e2a54ee25b72bace738646a8e1360eb015dba6eb27a77e686924b5af60d478",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D0/episode_013.mp4": {
+      "sha256": "a0c20c86d113c6cb75353110759a1cc38d1da2703389960224abdbc03a51d836",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D0/episode_014.mp4": {
+      "sha256": "9f9d533b6c2aacab64bc6aa37ac27cffdc5dc8fba9c3c27131fa160a0a1c6a84",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D1/episode_000.mp4": {
+      "sha256": "2be110d5f2d68a2c374a9485249b8ec941fe950977a3f1d3ca487318f4aaef3f",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D1/episode_001.mp4": {
+      "sha256": "db7e5bd3339620404b91d8700e65eb31f3487da1a78b2c54a23e53b38ccbcd76",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D1/episode_002.mp4": {
+      "sha256": "9f1bfb2b04c8395c4305b875d065a1a26834249a5edb22f73994d85a37dc67b0",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D1/episode_003.mp4": {
+      "sha256": "d01ae176693d426b3686f5e9746363b831eb6d984c19690577b1a8bfc120af62",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D1/episode_004.mp4": {
+      "sha256": "834d054bcaef0955feafc727720ea980095559cc778d4b07f4005edaabce4561",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D1/episode_005.mp4": {
+      "sha256": "41d70410a29e15f650bc7cc79e0d7fefa982a18934af273f6049e2ab4db3312c",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D1/episode_006.mp4": {
+      "sha256": "b1ea6b6c6d9f4105d14516d6a9c87a063818f9f8e73c7db327967da926e14467",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D1/episode_007.mp4": {
+      "sha256": "04f2f57db35d3ef96d62701344bea789a6a6657aa79a0a3d6c3ba130652f02b2",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D1/episode_008.mp4": {
+      "sha256": "f9390690c938b3fe5afcd4cb59b3e0bf5b482fb898e185176fd93d346af3c099",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D1/episode_009.mp4": {
+      "sha256": "bc28c3149529165244a22dbab677d0b23f36df04d6c7a455e09d0316912904a4",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D1/episode_010.mp4": {
+      "sha256": "e5073a2382b7cf5742b7c375b983d4e5838e7447239b14523fa1dbe9c3d4f603",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D1/episode_011.mp4": {
+      "sha256": "ec81dc69a0442b8af5b906eb78c459c5e9ed2439effd78338c6a81a5593e7912",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D1/episode_012.mp4": {
+      "sha256": "68fcb221c0e9d68d02eb50c29abe9ed9a00ed201311a8cc8829b24845a202aa6",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D1/episode_013.mp4": {
+      "sha256": "8e04c229c5cd6b346d0a31c2ab41f3d26de4e61c895f7fe7a59b151aa6bb4557",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D1/episode_014.mp4": {
+      "sha256": "de0a640095a8dc142eacade2fa932a850f78994ec45d452513ee1e1d3dc46e62",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D2/episode_000.mp4": {
+      "sha256": "91cb3c0ec93b6488e07fbf750d608afdd8d079d4b31eaa8f83c32ae6e3297ccb",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D2/episode_001.mp4": {
+      "sha256": "6ecb2a1fcc27a0034531d17824562fa5691e5e68a234ee9a0230e7232b8ef1f3",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D2/episode_002.mp4": {
+      "sha256": "4b6aa456f063da47ff5cb98fb1bc5afa78eadb5672a2d8fd6c33fc1fe6846afe",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D2/episode_003.mp4": {
+      "sha256": "63e84b993cc799c537ec3838cff4c1c28b993a6070b42b5550d0ef855a47bcc0",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D2/episode_004.mp4": {
+      "sha256": "908cb49b168ab98e75ce9087ed587779f88aac0e00b86a99626ab4afe2d4008a",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D2/episode_005.mp4": {
+      "sha256": "fe3ad39ac849f9dbc1f5bd015d901cc49f9590415e3f3dd2e6c3f4f80d236bc1",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D2/episode_006.mp4": {
+      "sha256": "ba64a1b674634dcbf1660ac762e79ed9775f482b45869bde7b73c2c55f6ac22a",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D2/episode_007.mp4": {
+      "sha256": "11e621f7f9e963116b10a8a0eede017aafd34303c737680e277417526f1b623c",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D2/episode_008.mp4": {
+      "sha256": "82ff15dcf4a0d8e75d7020d8136f9c92440034f27134b40fdd8eac1d0af4147b",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D2/episode_009.mp4": {
+      "sha256": "e62f7737ae84937abfce75823a356da34ae52f1a990d35d65d757683e2630f35",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D2/episode_010.mp4": {
+      "sha256": "ae65c43cd9b7d6eb9eae747c49ff15683f71e30154ec775e9c1f50a8170c6b29",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D2/episode_011.mp4": {
+      "sha256": "a92b0399b3f6110048e651e02596324c75fbe707f0ac976cca3d4d321b583936",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D2/episode_012.mp4": {
+      "sha256": "207e639779330567e130bd64bae55e5e812f8f9f4e4e832a6a49fb4fa03d3e0e",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D2/episode_013.mp4": {
+      "sha256": "39dbaaaedaa4802cbd4db9b51c1abf8b1740e057af81826920cb04c22229a838",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/D2/episode_014.mp4": {
+      "sha256": "3c7d95c76f517a26c8c71a08577b2fbb43dff2b8ee3e7e2388fc7a7c462f70d9",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H1/episode_000.mp4": {
+      "sha256": "416b99fd4305c3282b31a3a56436bbd014a416c39d71306144a69864f0e5134b",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H1/episode_001.mp4": {
+      "sha256": "1b2e8bbc133a49c2857277426a45e24102e532b4395b75cc1ae242f92419685e",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H1/episode_002.mp4": {
+      "sha256": "8f74ec3f34504146140ce5956695654b3237cb269b2911eaa83ab5cd91cf3435",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H1/episode_003.mp4": {
+      "sha256": "0d4ab11f5e90bbdf3f871e465f77061111c16b53a54de52dae7767cd8bf0d5fc",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H1/episode_004.mp4": {
+      "sha256": "0f9316211d0d2ebe57dd3173636274e9d8113f1e92d83a73d9070d94c4d4b7f8",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H1/episode_005.mp4": {
+      "sha256": "9cedfb35e486c47b71e7834c8cc943f4a038b3e9498db457f2bb0cef2917cfe9",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H1/episode_006.mp4": {
+      "sha256": "90e14cb89d3f29511eea59e381b4b55752ae6fdb86ef15e3f7b43236da158431",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H1/episode_007.mp4": {
+      "sha256": "d0d93cf4a90bbd99b6fef4ccb2176112e5bc35d0226e4d78fe3186e203ec5f48",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H1/episode_008.mp4": {
+      "sha256": "e27af752212c62e945ce48aabf5677f37bfdad23db92a1f86dc9a2c289ba1b97",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H1/episode_009.mp4": {
+      "sha256": "cca6393e6421204bd10d9c4863040450e0297338a5cec9777eee4cb0c5a127a0",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H1/episode_010.mp4": {
+      "sha256": "a3114f6e20036ac085ebd8ab7c497aea1f0e86f314c547fd2e38d90516c35f0e",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H1/episode_011.mp4": {
+      "sha256": "ba4c40019e7bbe3f1498843ec7917ad0b9e23fbacf05cddd6588a6d1a88b8cd6",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H1/episode_012.mp4": {
+      "sha256": "e74efa51d17dd42636187774079b99ffb56d14448e081d1bdf0e9e428cd0c799",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H1/episode_013.mp4": {
+      "sha256": "9723244cc18d69ce41419af45d9e5b926491687961613006480fd50ec23e19b6",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H1/episode_014.mp4": {
+      "sha256": "c87004d2934b3e2181adaffb89fedfd2aaa2e53a2edcecee80843ad93a5fc40c",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H2/episode_000.mp4": {
+      "sha256": "e3d036549a99df059bdbbd3cbf940be7873abe663623ccdea66d3032b238395b",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H2/episode_001.mp4": {
+      "sha256": "477f17921736da9fd6513be61e48475aefb83428d4d0e8d864793095880b8f57",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H2/episode_002.mp4": {
+      "sha256": "c68e7b3029192cbe22b94f65ffcef0a76d150b5929f6882d28ca6a7a55e43a51",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H2/episode_003.mp4": {
+      "sha256": "280ce0b34b000a5319c348bb41b4a967246ee1f8d65e023f2865f64ee8955bb0",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H2/episode_004.mp4": {
+      "sha256": "5790bea682a5459d28f96a085b727bdcb08761304a3e39c9d67214a4c7568f10",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H2/episode_005.mp4": {
+      "sha256": "2200ad9de50c3e77aa5b3ded70d591d9fa4c1ad1538b99989515b47ead2beccd",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H2/episode_006.mp4": {
+      "sha256": "daae54dc676f9a30716021c3d9417f2182dc83e63bf82703eda04f135903c81a",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H2/episode_007.mp4": {
+      "sha256": "796a0772cd6c7da4f8f89095fd5020f549d3e72743627544dcf992d5a28d64f7",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H2/episode_008.mp4": {
+      "sha256": "ac28bedea7dcefdab470f296d1f28635081ae1bd81ebbd099fc184001ee2a8b6",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H2/episode_009.mp4": {
+      "sha256": "bc71e4262f57dadb9c67037c7fdf05c6b87374a952c2e5b28318f35b52d280c1",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H2/episode_010.mp4": {
+      "sha256": "b867bdb1f3f74b31036f95d7d37746d2b61febf69cec951caf90cdb84f83fdf6",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H2/episode_011.mp4": {
+      "sha256": "aee5c7a17fa5d3e9eb765f86021e03564e7d8a4cfc261bc0e3ed737bb03c4945",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H2/episode_012.mp4": {
+      "sha256": "5a4e72af202e39e68e7c6b45f9217ced8ba6dca8de8dff0d1e77f64da363af25",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H2/episode_013.mp4": {
+      "sha256": "c185f2545b3ac8aea8590023583256285396b6ef017c760562e6ca9e63714df1",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/videos/H2/episode_014.mp4": {
+      "sha256": "d562b7364ef9d121809ca66f342a459dabbc818d64fa8ab7f42777b580527762",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "B/evaluation/D0/episodes.json": {
+      "sha256": "f6b4f97677fdb6a1d99116d7b913e4a5a532a403ff6c94eda7e2b7a32c993a34",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/evaluation/D0/summary.json": {
+      "sha256": "7d979458d621419203db3db2a9df1c1126eadc6ac18784046d0c84618421cd41",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/evaluation/D1/episodes.json": {
+      "sha256": "ca98f8fb86d622344a0b5079bffa11575d13b54bafe20650d2df9ccdeb196ba6",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/evaluation/D1/summary.json": {
+      "sha256": "12ba5d083abee1cef3697f41037281fb8ead207c964e5700e1748246035ca4c9",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/evaluation/D2/episodes.json": {
+      "sha256": "e10f30685703a62910438937b9199d04517a3aacb4ab3972d5a8aae97a1025bb",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/evaluation/D2/summary.json": {
+      "sha256": "460d9cbc1b5bcaa391f988d19acbd907a4a6368a4fd7e64415f6e6abecf3f433",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/evaluation/H1/episodes.json": {
+      "sha256": "c99bb1966736ae066a4303c7c7ce3da75e996114c2c4207447fe501d9afb0be8",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/evaluation/H1/summary.json": {
+      "sha256": "4a6133e5f05eef78d82b824e3804617645388e995fe6a403fb836da28addc639",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/evaluation/H2/episodes.json": {
+      "sha256": "753042419410848bab5c1693d252b79a44114971d9b511ad542a9e390122a489",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "B/evaluation/H2/summary.json": {
+      "sha256": "460d9cbc1b5bcaa391f988d19acbd907a4a6368a4fd7e64415f6e6abecf3f433",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/final.pth": {
+      "sha256": "f3f9d9be6bac92bd91191ff539271d63d90b821314bfb92ae0ccab026087cf77",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/stats.json": {
+      "sha256": "560c6218d401220a6d4f3f85c9fc0aa8fa35c6278214e7159c50b2a59b5a68b4",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/training_config.json": {
+      "sha256": "94c3150bb98a8409b1fd79d4a55c69d7f4ab849f3023c19cadd2315c3e2a3cc7",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/training_complete.json": {
+      "sha256": "1a789ae7360865cbc1045cbc706db628b16052e37b0d06ca7daa798c422159d9",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/train.jsonl": {
+      "sha256": "09e0caacd19b56fbabe1e9ab939f7c7cb4155e7be9f5cb769ace56e395e66e32",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/data_manifest.json": {
+      "sha256": "f20d6066aaae659796a3ad11e0c29b90d9a64e37cbda5603457e9608b2733c6b",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/initialization.json": {
+      "sha256": "4767c203e28cc129bc7c91ac7d7d71cd893ce0560bbdcfbfd977c085d2d12deb",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/assets_manifest.json": {
+      "sha256": "1c8838424ab39f5aeb5bbfe5209e1d4df43d765496c44d7b1c922434f2001213",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/DINOv3_LICENSE.md": {
+      "sha256": "25d122eb8f5b880fd23c736fb6ea8018ee45c12237e00b8a86d14c653904999e",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/dinov3_conversion.json": {
+      "sha256": "1e54b2ced7bb04e54ea2a38a9b3b2a6a0e8d34107f317ead6f5a7acbfb157b44",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/evaluation/config.json": {
+      "sha256": "98b91ce97c2753e7859a7396dee6cfd0443537484c0207a3f39589597e4961a9",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/evaluation/summary.json": {
+      "sha256": "cc27722071cd17359a99623b53b7cb3dc15a24fde0e63c54bb3065741c4373c1",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/evaluation/complete.json": {
+      "sha256": "75bf26c803df7f274987e9abb9f0462a5d699baf5f5c650376ddcd1b2ca36fab",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/evaluation/videos/D0/episode_000.mp4": {
+      "sha256": "45d898a7f9c34adfc718a129a29f668d3e494c326b151a2028e45a887ad52f22",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D0/episode_001.mp4": {
+      "sha256": "260585a3c2045b5d9dd5bffc892423498021252468179581d7a328fbf001292a",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D0/episode_002.mp4": {
+      "sha256": "852fd48a4a2f4be14211afc4f26aea20d7615d75b3e1500394bcc48622ea45a1",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D0/episode_003.mp4": {
+      "sha256": "6b588697b290f3b9f0d3aa1e3d66259a2099e4de79caf853e54af26b0de468de",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D0/episode_004.mp4": {
+      "sha256": "2ac4f56529d1756e34427df3e386c54f94004861bd8c47e479948bc7a5cdb8ce",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D0/episode_005.mp4": {
+      "sha256": "621828bf14ddc88c73fa4ca37d7e55352bae331ff3e436101dcb8b56bea1a109",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D0/episode_006.mp4": {
+      "sha256": "ff100e73f6815a4ce407680fa50d06713e88977c0d39db3455b64670d3376630",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D0/episode_007.mp4": {
+      "sha256": "2a812e1d16194b218d05d2cbd59089d7bd246eef9a2c3c3eb193b0ea3dd09236",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D0/episode_008.mp4": {
+      "sha256": "c793db971027ca1de7512f708fb7ee4e0b0f0af18fc3a2a84a8e2482feaf60c3",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D0/episode_009.mp4": {
+      "sha256": "81f3fa113edd25cd27d617eea5c1f981c38c9f2a013e854002f0c60c521161ff",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D0/episode_010.mp4": {
+      "sha256": "384982b004062666d87a9d5a20573878f3e489fcd61c7247acdf95a6709d319b",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D0/episode_011.mp4": {
+      "sha256": "5d4a703c54776b66f9a1a95d1f0477b6d5d81f2b789627e5ea5b9f7500aa8ff9",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D0/episode_012.mp4": {
+      "sha256": "73b4f28e99072fa7e3b92882c48b32cdbcbf98e8dddb571eeaa687be4227e50a",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D0/episode_013.mp4": {
+      "sha256": "3494e86a60dd1e12680d318a9c327bb6e20ca0051cd401ee06d26fc836d43bf7",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D0/episode_014.mp4": {
+      "sha256": "e8319c68231ae6db8ae3847690ee9e4d4f15ce95dfa5a93d0456a05662afde05",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D1/episode_000.mp4": {
+      "sha256": "6fe4b5828c4149b53838786f83da2efceca1a0280caaa10bbc9f371246ba29d6",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D1/episode_001.mp4": {
+      "sha256": "5079e3671e2d14cf804dbfd9ed6375669dc093b64010753c70748dced3bd233f",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D1/episode_002.mp4": {
+      "sha256": "7a5fa950e4951f3066bac42d2b2f0b0be0fe1e5aa47a3dd70e4c73af3fa6b9d0",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D1/episode_003.mp4": {
+      "sha256": "fdf0bbe0acb9450c7b2cf1d213b2a8b2b3af35faeff7a63f8336a59556255b9a",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D1/episode_004.mp4": {
+      "sha256": "02d69f3577a1ff49d6a1182e3457300b955a4ecfdbdc3f883402f438334732f5",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D1/episode_005.mp4": {
+      "sha256": "481ec601d55895d63c8897443c8239cf5a43acf7a132599df8523ae42d6ee1b1",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D1/episode_006.mp4": {
+      "sha256": "4b1ef36bd8aad34a66c499e17d209169ef51b0275ae69bb2a36d262fc7699e07",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D1/episode_007.mp4": {
+      "sha256": "b8828a44ecc06072b7343f0ddd2ef7d71e79f95d0ca83a460e2597ddc464bebe",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D1/episode_008.mp4": {
+      "sha256": "13af33c2f3333be4006d3af26d76f3e3bb482f387f67e002d18d7fca9594d671",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D1/episode_009.mp4": {
+      "sha256": "0297fb216537deff8f3af6fddd28a97a1f40738d64cd72fa0952089f06a9f189",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D1/episode_010.mp4": {
+      "sha256": "337cdb9fbb0f41050f592d5a982e9fff0fc2801f2a5b4741f21a197f42fad161",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D1/episode_011.mp4": {
+      "sha256": "d7698770f1bd1509faae2f91424e7e0d4a1fb1f8eb9b51239676c87f085230b3",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D1/episode_012.mp4": {
+      "sha256": "675a29801b9e38113b37c8fd6c7847ba3921034c5a2f6e06e9842bcc19bcf9a0",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D1/episode_013.mp4": {
+      "sha256": "29ea607ac8b93f6d174a92f5b9ec377bfa31b05e333c352d3b4a97b5ebbbca08",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D1/episode_014.mp4": {
+      "sha256": "bc0794193a127367b344a9e94db7312c920015ed96e620d9e92ed6636a965fcf",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D2/episode_000.mp4": {
+      "sha256": "85fad3724883dce6828d8fde4a96a5a7d4f632d2c1cabe48d0924993e5185587",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D2/episode_001.mp4": {
+      "sha256": "2e365ea07545578221f2dc0aed92cab549e5f6a9fe855ff3b2b2d404f28d9f32",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D2/episode_002.mp4": {
+      "sha256": "f41c48673f953e96d76f457500f4bcca7f2631bc3675c1f360897e6bc2256f3c",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D2/episode_003.mp4": {
+      "sha256": "1f1c0145c75ed4ca23c0d1908a7bf02f5746ecaf9728583cbf0dce8309f51f92",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D2/episode_004.mp4": {
+      "sha256": "ee1e99d4011b0464d97c9d6a4afe64427bf575f38c60951a4d552b371ed02827",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D2/episode_005.mp4": {
+      "sha256": "c66ba441f5a6c54978ab352e7c4222c00d858b9744d61db1d7f546315d78c2e1",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D2/episode_006.mp4": {
+      "sha256": "27fd5738b6bf2dcd9ee3173cf3f05a74960e43dc2e35e56980eefd28abb5200c",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D2/episode_007.mp4": {
+      "sha256": "8e938311fd0ab425642addbe37fff88c452812e125822e8c51394ee67fec106b",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D2/episode_008.mp4": {
+      "sha256": "8154adf2932cddfc8386613a00efb6645e6a60b29ab7285fad6140bc2922b352",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D2/episode_009.mp4": {
+      "sha256": "0d94e2e9ff5ad05843185f706079cbe3a08273c0ed0c771d158fb87611e7a0c7",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D2/episode_010.mp4": {
+      "sha256": "2f988565cc5e95800b90fa57dd681f80eec9f08376de053f006afaeec0b875c8",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D2/episode_011.mp4": {
+      "sha256": "d296c09d2f651203d05a87a34dd67cb37c5f9a48b9df5cbfd2a0a5fd1d5adf96",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D2/episode_012.mp4": {
+      "sha256": "400b2d612cc5615e334c3a4939fef83b81fcaef3cf7a3c63da551139df4f699e",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D2/episode_013.mp4": {
+      "sha256": "cfa421d411b27b8d4efff0e07bf9d2fa5c0835b0d3ee78ac91bbb67f52095955",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/D2/episode_014.mp4": {
+      "sha256": "ad9b90536607ad76f421c5fb96f98fa5e86c6e2e878df777bd9fa5fcf82885d6",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H1/episode_000.mp4": {
+      "sha256": "9f670080c041ad3c0d194353b240f16f745ad0cf9b947d7f48ba96c1aed6d434",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H1/episode_001.mp4": {
+      "sha256": "672a6f4b07577bbdea68b465d51fc9a7d624eec62ae78d49ceb0611f09a3ee35",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H1/episode_002.mp4": {
+      "sha256": "6650fff3d26264236d4cf2d55b1fd65b04373cbf97f94390236c55665d229d48",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H1/episode_003.mp4": {
+      "sha256": "87736eda8eacdbb1e7e04b99f535de8f9faad9d9538ce547acd3a74386d8d532",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H1/episode_004.mp4": {
+      "sha256": "5298a1ac4ad033bdf230e26f5c0192b84a54c94c83538a6f30ccec56d9b5901f",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H1/episode_005.mp4": {
+      "sha256": "b6861b605edc0ed12e38305d219a862d85b6458d00829c3be17038945acf7782",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H1/episode_006.mp4": {
+      "sha256": "f363a73b0e8b6f6e6ef0907142cf816dd713cefcfc92429e5545ee764100b453",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H1/episode_007.mp4": {
+      "sha256": "fd5f336474c3dadf42dffb0941c1c7013b57e6c1da99ef94fa6e7760f000b849",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H1/episode_008.mp4": {
+      "sha256": "a8ae14eac94ec29ed59773c5cd0102f7a54a4d6c519f6055be99fddf25de46bc",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H1/episode_009.mp4": {
+      "sha256": "dc25e8ee7721a06deee7abb88203f94c37a2ba96ecee029c37ade9df8b50bd63",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H1/episode_010.mp4": {
+      "sha256": "08943f0a509de41a5fc21a35da1f00032c6cf7848d4d8beadc7552648c5b79d2",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H1/episode_011.mp4": {
+      "sha256": "acb54d1d7ef500834cb5699dba1e1ad292b13038cac8f14e4b489ddc279545e9",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H1/episode_012.mp4": {
+      "sha256": "1786b84a3dfa6d58c73de5d88839c17f589fda169790e828e9b2a229a0e18353",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H1/episode_013.mp4": {
+      "sha256": "d555001d5ae6daee4a3713238f52f70faae3d0e6a87e83fc83e3dad245dc58c1",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H1/episode_014.mp4": {
+      "sha256": "3a8ed5f39341bd8de065196d1242e4fd819a2693cc86380bab244ccc48f029dc",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H2/episode_000.mp4": {
+      "sha256": "e27cf1495c241c839a9bf30446f661561bcb49444f85c24a96f5011e6d604145",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H2/episode_001.mp4": {
+      "sha256": "434a06ac1333100d916ad57a572ea9d59ff2b0ee154128c22bbbb85d7d38a383",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H2/episode_002.mp4": {
+      "sha256": "cabbb84af309b699955ecd5f871393f2fb8cd8b522128a7ce7a5c43bb159c6bb",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H2/episode_003.mp4": {
+      "sha256": "91e309789236c8408dd786d066b79365d741e3a241766b39ad94e635837c5591",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H2/episode_004.mp4": {
+      "sha256": "fb79b96e5d1182f45e19612c87feec444e5fbce3a77c1af83c292941e7e3c6a6",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H2/episode_005.mp4": {
+      "sha256": "7c04278bbc998b95d7c9d438ccd13da9ed9ac87ad037f2e34fd10c89bb981fec",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H2/episode_006.mp4": {
+      "sha256": "7dd587d0bae4dca58659c559e64f585be216fa28a247c13e1f287cbed40f6a74",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H2/episode_007.mp4": {
+      "sha256": "510983a0cf4a649e9e6ae9a36e1aafed914c85e542e7cc13109ef79b36a9dcef",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H2/episode_008.mp4": {
+      "sha256": "579437b8929bb40e1f5f26bcbcca6dc600a706a51e298659b2b0af75426eaa71",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H2/episode_009.mp4": {
+      "sha256": "ee99c5ac504224bb61363cc07c7987f23ee0774f7f0ff9a0fbd44a3bd3be1a1a",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H2/episode_010.mp4": {
+      "sha256": "cfb27e44dc05b0d240fe3ad6e4e077dbb53a097b87ff1838ff7aa1a3aa2d263b",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H2/episode_011.mp4": {
+      "sha256": "1b44d518e7a7c305de1faa8c04ec9b79a347a0e665762839bed68fd4fe63767d",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H2/episode_012.mp4": {
+      "sha256": "73dafa046b86ceb5f8fe29c720a4d47e6fa463c7f3fd44975ce68ef14fb4ff4a",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H2/episode_013.mp4": {
+      "sha256": "ced5390bf2c360309ad114b0c44f7f2128f2c6e80bf650ad98a7a1a2eb1ae7ad",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/videos/H2/episode_014.mp4": {
+      "sha256": "be30aeaf2ec790c1f05002779568fb3427f337cee1a6cf0c9e1e15a827660bb3",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "C/evaluation/D0/episodes.json": {
+      "sha256": "48a28c2b20dd761cfbcbd4d53863a15d09787c41a6d2cd4494cc596aafca55b2",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/evaluation/D0/summary.json": {
+      "sha256": "543e47fcd2f95ac1ecd1fa4afe395fc867e890b6d80885e74cc411af7944e50a",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/evaluation/D1/episodes.json": {
+      "sha256": "163d186786175b4f7ed1a51c7a4188a25988558be0ba890196d4bcfdb1619e73",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/evaluation/D1/summary.json": {
+      "sha256": "38df4b0961d8965a6366ea3b6b6f6f059da6f60ac5dd2cb13f019759426b8f36",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/evaluation/D2/episodes.json": {
+      "sha256": "a584ba78720d4755b65a10025bcbdac84aa5fde89b78b15e51e594b332d9d00a",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/evaluation/D2/summary.json": {
+      "sha256": "eef3140feb5b65fc56e57df362d1c3d413ecc0e879ad45fe461fe68e2a98d003",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/evaluation/H1/episodes.json": {
+      "sha256": "6429a782aa00e93ebe81a65b062411f7dc417747a429d463cc49d5d56e0727e8",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/evaluation/H1/summary.json": {
+      "sha256": "4a6133e5f05eef78d82b824e3804617645388e995fe6a403fb836da28addc639",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/evaluation/H2/episodes.json": {
+      "sha256": "f8aca4560d7c54f181d3d64e4b3b85eeb13017e3c2eb1e66a3555907b169109a",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "C/evaluation/H2/summary.json": {
+      "sha256": "460d9cbc1b5bcaa391f988d19acbd907a4a6368a4fd7e64415f6e6abecf3f433",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "README.md": {
+      "sha256": "08fccfe4aefb9f1531a680193b26afe07bb87066c14019147b89e5e0ffcc82d1",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "generalization_matrix.png": {
+      "sha256": "aac13ac102c0006ab8c19de003755afcb8562a4c502b084ef3b62f928ae370a1",
+      "remote_content_verified_by": "LFS SHA256"
+    },
+    "generalization_matrix.csv": {
+      "sha256": "9e4e20623dcfee7c02c6f70d3128e5100907937d10d922800ea75526733024c7",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    },
+    "02_turbovla_multitask_eval.ipynb": {
+      "sha256": "10b7b513948ea550e600c4d343ee5ca782c3da00793fa31b53fb8642726d9215",
+      "remote_content_verified_by": "Git blob SHA1 plus recorded downloaded SHA256"
+    }
+  },
+  "training": {
+    "A": {
+      "variant": "A",
+      "updates": 3001,
+      "finite_loss_and_gradients": true,
+      "checkpoint_sha256": "f5fb580ab93d3f66811882b0217eb09878418d66d0c17c1c68ecc5bd81f21154",
+      "stats_sha256": "f59bb7111e762c2e819aca152ef9f57cf34cff61fc7a9df332da07eb043ab722",
+      "initial_state_sha256": "ea1405220b85277d8caff59b888db27037ec8fc97971da62aa0c160dbeb39976",
+      "first100_mean_loss": 0.3461161357164383,
+      "last100_mean_loss": 0.08930207878351211,
+      "peak_allocated_mib": 4810.90966796875,
+      "sum_update_seconds": 1107.7264061877504,
+      "checkpoint_bytes": 1291015370
+    },
+    "B": {
+      "variant": "B",
+      "updates": 3001,
+      "finite_loss_and_gradients": true,
+      "initial_state_sha256": "ea1405220b85277d8caff59b888db27037ec8fc97971da62aa0c160dbeb39976",
+      "matches_A_initialization": true,
+      "checkpoint_sha256": "6b826614f4c4c0c945767be001b4cfefb58eb73562ace1b4943d4303849f52cf",
+      "hf_revision": "a6684fc322079e39ad98bb9f2211c5839e8b0092",
+      "remote_sha256_verified": true,
+      "first100_mean_loss": 0.3562380227446556,
+      "last100_mean_loss": 0.11133288316428662
+    },
+    "C": {
+      "variant": "C",
+      "updates": 3001,
+      "finite_loss_and_gradients": true,
+      "initial_state_sha256": "ea1405220b85277d8caff59b888db27037ec8fc97971da62aa0c160dbeb39976",
+      "matches_A_initialization": true,
+      "checkpoint_sha256": "f3f9d9be6bac92bd91191ff539271d63d90b821314bfb92ae0ccab026087cf77",
+      "hf_revision": "cda0c763a2a9a77e7d4d0127e86fb9f732cd0929",
+      "remote_sha256_verified": true,
+      "first100_mean_loss": 0.35196915894746783,
+      "last100_mean_loss": 0.11356098547577859
+    }
+  },
+  "common_original_initial_state_sha256": "ea1405220b85277d8caff59b888db27037ec8fc97971da62aa0c160dbeb39976",
+  "primary_episodes": 225,
+  "cells": [
+    {
+      "variant": "A",
+      "task": "D0",
+      "seen": true,
+      "episodes": 15,
+      "successes": 14,
+      "success_rate": 0.9333333333333333,
+      "ci95": [
+        0.7018347012621998,
+        0.9881331045067315
+      ],
+      "mean_steps": 103.53333333333333
+    },
+    {
+      "variant": "A",
+      "task": "D1",
+      "seen": false,
+      "episodes": 15,
+      "successes": 0,
+      "success_rate": 0.0,
+      "ci95": [
+        0.0,
+        0.20388330103584862
+      ],
+      "mean_steps": 220.0
+    },
+    {
+      "variant": "A",
+      "task": "D2",
+      "seen": false,
+      "episodes": 15,
+      "successes": 0,
+      "success_rate": 0.0,
+      "ci95": [
+        0.0,
+        0.20388330103584862
+      ],
+      "mean_steps": 280.0
+    },
+    {
+      "variant": "A",
+      "task": "H1",
+      "seen": false,
+      "episodes": 15,
+      "successes": 0,
+      "success_rate": 0.0,
+      "ci95": [
+        0.0,
+        0.20388330103584862
+      ],
+      "mean_steps": 220.0
+    },
+    {
+      "variant": "A",
+      "task": "H2",
+      "seen": false,
+      "episodes": 15,
+      "successes": 0,
+      "success_rate": 0.0,
+      "ci95": [
+        0.0,
+        0.20388330103584862
+      ],
+      "mean_steps": 280.0
+    },
+    {
+      "variant": "B",
+      "task": "D0",
+      "seen": true,
+      "episodes": 15,
+      "successes": 14,
+      "success_rate": 0.9333333333333333,
+      "ci95": [
+        0.7018347012621998,
+        0.9881331045067315
+      ],
+      "mean_steps": 105.33333333333333
+    },
+    {
+      "variant": "B",
+      "task": "D1",
+      "seen": true,
+      "episodes": 15,
+      "successes": 13,
+      "success_rate": 0.8666666666666667,
+      "ci95": [
+        0.6211801716767764,
+        0.9626387408969346
+      ],
+      "mean_steps": 112.0
+    },
+    {
+      "variant": "B",
+      "task": "D2",
+      "seen": false,
+      "episodes": 15,
+      "successes": 0,
+      "success_rate": 0.0,
+      "ci95": [
+        0.0,
+        0.20388330103584862
+      ],
+      "mean_steps": 280.0
+    },
+    {
+      "variant": "B",
+      "task": "H1",
+      "seen": false,
+      "episodes": 15,
+      "successes": 0,
+      "success_rate": 0.0,
+      "ci95": [
+        0.0,
+        0.20388330103584862
+      ],
+      "mean_steps": 220.0
+    },
+    {
+      "variant": "B",
+      "task": "H2",
+      "seen": false,
+      "episodes": 15,
+      "successes": 0,
+      "success_rate": 0.0,
+      "ci95": [
+        0.0,
+        0.20388330103584862
+      ],
+      "mean_steps": 280.0
+    },
+    {
+      "variant": "C",
+      "task": "D0",
+      "seen": true,
+      "episodes": 15,
+      "successes": 14,
+      "success_rate": 0.9333333333333333,
+      "ci95": [
+        0.7018347012621998,
+        0.9881331045067315
+      ],
+      "mean_steps": 107.4
+    },
+    {
+      "variant": "C",
+      "task": "D1",
+      "seen": true,
+      "episodes": 15,
+      "successes": 12,
+      "success_rate": 0.8,
+      "ci95": [
+        0.5481455128483065,
+        0.9295245065301844
+      ],
+      "mean_steps": 119.66666666666667
+    },
+    {
+      "variant": "C",
+      "task": "D2",
+      "seen": true,
+      "episodes": 15,
+      "successes": 13,
+      "success_rate": 0.8666666666666667,
+      "ci95": [
+        0.6211801716767764,
+        0.9626387408969346
+      ],
+      "mean_steps": 113.73333333333333
+    },
+    {
+      "variant": "C",
+      "task": "H1",
+      "seen": false,
+      "episodes": 15,
+      "successes": 0,
+      "success_rate": 0.0,
+      "ci95": [
+        0.0,
+        0.20388330103584862
+      ],
+      "mean_steps": 220.0
+    },
+    {
+      "variant": "C",
+      "task": "H2",
+      "seen": false,
+      "episodes": 15,
+      "successes": 0,
+      "success_rate": 0.0,
+      "ci95": [
+        0.0,
+        0.20388330103584862
+      ],
+      "mean_steps": 280.0
+    }
+  ],
+  "notebook_execution": {
+    "code_cells": 10,
+    "executed_cells": 10,
+    "errors": 0,
+    "full_matrix_episodes": 225,
+    "new_notebook_rollouts": 15,
+    "fresh_kernel": true,
+    "notebook_sha256": "10b7b513948ea550e600c4d343ee5ca782c3da00793fa31b53fb8642726d9215",
+    "html_sha256": "a70d2079d4ebb1dce6c4deabb973c423e3a1f8f3c622a0c5d8f4a158d382478e",
+    "visual_inspection_pending": false,
+    "visual_review": "Viewed notebook introduction, both camera images, all15 matrix rows, unclipped3x5 heatmap and decoded dual-camera video frame."
+  },
+  "notebook_render": {
+    "browser": "Chromium headless",
+    "offline": true,
+    "viewport": [
+      1280,
+      900
+    ],
+    "headings": [
+      "TurboVLA: загружаем модель и оцениваем её в LIBERO¶",
+      "1. Подготовить окружение¶",
+      "2. Выбрать модель и задачу¶",
+      "3. Получить чекпоинт и его статистики¶",
+      "Восстановить энкодеры из полного чекпоинта¶",
+      "4. Загрузить полную TurboVLA¶",
+      "5. Подключить LIBERO и посмотреть наблюдение¶",
+      "6. Выполнить 15 эпизодов¶",
+      "7. Посчитать успехи и неопределённость¶",
+      "8. Посмотреть видео эпизода¶",
+      "9. Полная матрица основного эксперимента¶",
+      "10. Как повторить оценку другой модели¶"
+    ],
+    "png_figures": 2,
+    "dataframe_tables": 3,
+    "table_rows": [
+      3,
+      15,
+      15
+    ],
+    "embedded_video": {
+      "width": 512,
+      "height": 256,
+      "duration": 4.85,
+      "readyState": 4,
+      "currentTime": 2
+    },
+    "screenshots": [
+      "figure_0.png",
+      "figure_1.png",
+      "matrix_table.png",
+      "notebook_top.png",
+      "video_frame.png"
+    ],
+    "agent_visual_review_pending": false,
+    "visual_review": "Viewed notebook introduction, both camera images, all15 matrix rows, unclipped3x5 heatmap and decoded dual-camera video frame."
+  },
+  "targeted_tests": "29 passed",
+  "requirements": {
+    "three_independent_original_initialization_runs": true,
+    "training_sets": [
+      "D0",
+      "D0+D1",
+      "D0+D1+D2"
+    ],
+    "held_out_H1_H2_excluded": true,
+    "episodes_per_cell": 15,
+    "full_3_by_5_matrix": true,
+    "all_three_full_models_stats_and_provenance_on_hf": true,
+    "all225_primary_episode_records_and_videos_on_hf": true,
+    "executed_step_by_step_notebook": true,
+    "actual_camera_table_matrix_and_video_visual_review": true,
+    "logical_blocks_pushed_to_separate_github_branch": true
+  },
+  "limitations": [
+    "3001 updates / batch8, not paper40k / batch128",
+    "Modified RLDS46/47/48 demonstrations, different from pi0 native50",
+    "One training seed,15 evaluation seeds per task, broad uncertainty intervals"
+  ]
+}
