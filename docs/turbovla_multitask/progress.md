@@ -169,3 +169,20 @@ same verified trained artifact using Xet caches. This is a transport optimizatio
 based on measured throughput, not a timeout-based assumption that the process
 had died. No training restart. HF model publication remains unverified until
 the upload and authenticated read-back/hash checks succeed.
+
+HF_XET_HIGH_PERFORMANCE resolved the slow transfer. Actual A publication and
+authenticated download/hash verification completed, then an independent API
+model_info check confirmed remote A/final.pth SHA matches local final and size
+1291015370. Private repository qrvmil/turbovla-multitask-generalization,
+weight revision687d8a127c79a255490f33b27c976019ca7b6cb8. Tracked publication
+record publications/A.json. Training evidence and weight record pushed in
+e09bd69 by the managed pipeline.
+
+Controller currently running under supervisor turbovla_experiment,PID350369
+(old PID349859 was intentionally stopped for transfer optimization). Main
+turbovla_train_a is terminal EXITED after success. Current child evaluate.py
+--variant A is live; latest observed D0 episode13/15. Preliminary individual
+successes are not final task rates; wait for all75 episodes and verify records.
+Pipeline will archive/check all JSON+videos on HF, push the completed A eval,
+then independently train/publish/evaluate B and C. Do not start duplicate
+training or evaluation on continuation. Full notebook execution still pending.
