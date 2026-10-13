@@ -1,0 +1,15 @@
+{
+  "smoke_steps": 2,
+  "strict_checkpoint_reload": true,
+  "real_libero_observation": true,
+  "chunk_shape": [
+    12,
+    7
+  ],
+  "finite": true,
+  "checkpoint_sha256": "c81a05ab182be1d6e86618b64abe6a8a354c8117ea4fe2696b860cbb48a278d7",
+  "reset": {
+    "sampled_reset_hash": "fb588ccbc2c21c0b76a24eb587cc51273e9ff4c19a629c39f39156b458f5cca7",
+    "reset_hash": "6d9b1d2f0281228535bd76b42517b04d827482c6a128883793db7a6bb3bb3f4a"
+  }
+}

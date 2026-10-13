@@ -9,6 +9,14 @@ Initialization must use original DINOv3 ViT-B, BERT and GroundingDINO weights.
 **Do not extract the DINOv3 backbone from the released LIBERO policy:** it was
 trained on all four suites and would contaminate the held-out comparison.
 All runs start from the same seed-0 policy initialization, not the previous run.
+The user authorized alternative sources because Meta HF access is pending.
+The original Meta ViT-B/16 checkpoint is available from the public
+`nyu-visionx/RAEv2-models` mirror; `assets.py` pins its revision, verifies the
+fullSHA256 (73cec8be7427c8655ceced13ce62f6e20a1fa90d1b4d4a550df17a1144081a7c),
+strict-loads it in Meta's original model and Transformers, and checks forward
+parity. It preserves all learned tensors. Meta's saved RoPE periods are BF16;
+Transformers regenerates FP32 periods. This small deterministic implementation
+difference is measured and recorded. No LIBERO policy weights are used.
 
 Data source: pinned `openvla/modified_libero_rlds`, Spatial and Goal suites.
 Only the three exact training instructions are extracted into per-task HDF5
@@ -48,6 +56,14 @@ remote artifact checks pass.
 export HF_HOME=/workspace/.hf_home
 bash turbovla_multitask/setup.sh
 /workspace/turbovla-venv/bin/python turbovla_multitask/prepare.py
+/workspace/turbovla-venv/bin/python turbovla_multitask/assets.py
+/workspace/turbovla-venv/bin/python turbovla_multitask/train.py --variant A --smoke-steps 2
+# Main runs, executed one at a time; publication verifies remote hashes.
+/workspace/turbovla-venv/bin/python turbovla_multitask/train.py --variant A
+/workspace/turbovla-venv/bin/python turbovla_multitask/publish.py --variant A
+/workspace/turbovla-venv/bin/python turbovla_multitask/evaluate.py --variant A
+# Repeat train/publish/evaluate for B, then C. After all225 episodes:
+/workspace/turbovla-venv/bin/python turbovla_multitask/report.py
 ```
 
 HF destination: `qrvmil/turbovla-multitask-generalization` (private).

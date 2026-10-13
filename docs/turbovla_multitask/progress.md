@@ -65,3 +65,31 @@ Latest original-asset download probe: Hugging Face now states that the access
 request is awaiting review by the repository authors (still403). The request
 has been submitted; authorization has not yet been granted. Do not replace
 original DINOv3 with random or LIBERO-finetuned weights while waiting.
+
+User authorized alternate sources, including Meta's GitHub and a public HF
+mirror. ViT7B mirror is accessible but architecturally incompatible with the
+LIBERO ViT-B recipe (width4096/layers40 versus768/12), so it was not substituted.
+Found public original ViT-B/16 weights in nyu-visionx/RAEv2-models, pinned
+revision9770b7b980fa1875c8e6d65f226c615c0ce908a8. FullSHA256 matches the published
+73cec8be7427c8655ceced13ce62f6e20a1fa90d1b4d4a550df17a1144081a7c; the prefix
+is pinned in Meta's official hub loader.188 source tensors strict-load in the
+Meta model; converted211 tensors strict-load in Transformers. Output cosine
+0.9999997616; default max error0.0037375 comes from BF16 saved RoPE periods.
+With equal deterministic periods, max error1.6749e-5. This is recorded, not
+claimed bit-identical. All learned weights are preserved. assets.py reproduces
+this verification and records source and converted-file hashes.
+
+The original-asset access blocker is resolved using the user-authorized public
+mirror. assets/manifest.json now exists. Training smoke A completed2 optimizer
+updates (first loss0.423989, finite gradient norm1.21527, allocated peak~3954MiB).
+Strict reload of all672 tensors and real LIBERO observation→finite(12,7) chunk
+passed. Smoke weights remain separate and cannot be published as finals.
+Evidence: smoke_audit.json and dinov3_conversion.json.
+
+Supervisor service turbovla_train_a starts the main3001-update A experiment;
+poll its actual process and train.jsonl rather than starting duplicate runs.
+Report code rejects missing/malformed15-episode cells and recomputes successes
+from recorded actions/outcomes.26 scoped tests pass. Remaining scope is still
+all three real train runs, verified HF exports,225 rollouts, actual matrix and
+executed readable notebook. A main run is not complete merely because smoke
+or unit checks pass.

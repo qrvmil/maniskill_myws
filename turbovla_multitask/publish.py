@@ -21,6 +21,8 @@ def publish(variant):
         'data_manifest.json':WORK/'data_manifest.json',
         'initialization.json':WORK/'initialization.json',
         'assets_manifest.json':WORK/'assets'/'manifest.json',
+        'DINOv3_LICENSE.md':WORK/'assets'/'dinov3'/'LICENSE.md',
+        'dinov3_conversion.json':WORK/'assets'/'dinov3_conversion.json',
     }
     for name,path in files.items():
         shutil.copy2(path,staging/name)
