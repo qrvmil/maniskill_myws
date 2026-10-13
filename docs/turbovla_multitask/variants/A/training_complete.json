@@ -1,0 +1,12 @@
+{
+  "step": 3001,
+  "variant": "A",
+  "checkpoint_sha256": "f5fb580ab93d3f66811882b0217eb09878418d66d0c17c1c68ecc5bd81f21154",
+  "stats_sha256": "f59bb7111e762c2e819aca152ef9f57cf34cff61fc7a9df332da07eb043ab722",
+  "initial_state_sha256": "ea1405220b85277d8caff59b888db27037ec8fc97971da62aa0c160dbeb39976",
+  "primary_weights": "ema_model_state_dict",
+  "training_tasks": [
+    "D0"
+  ],
+  "smoke_only": false
+}

@@ -1,0 +1,19 @@
+{
+  "repo": "qrvmil/turbovla-multitask-generalization",
+  "revision": "687d8a127c79a255490f33b27c976019ca7b6cb8",
+  "variant": "A",
+  "hashes": {
+    "final.pth": "f5fb580ab93d3f66811882b0217eb09878418d66d0c17c1c68ecc5bd81f21154",
+    "stats.json": "f59bb7111e762c2e819aca152ef9f57cf34cff61fc7a9df332da07eb043ab722",
+    "training_config.json": "8225d798e096a711934641718a7aa3e5c3dc9603b74e544377504071e74eceab",
+    "training_complete.json": "071ef2ba28b671a2842f706f4ac9fd95c3cd14844e4ae87f11cac79c40174bb6",
+    "train.jsonl": "3bb63e03c7f7838e133d8788a1acfe985d4a685db00d9fb89de5334dafc2d3db",
+    "data_manifest.json": "f20d6066aaae659796a3ad11e0c29b90d9a64e37cbda5603457e9608b2733c6b",
+    "initialization.json": "4767c203e28cc129bc7c91ac7d7d71cd893ce0560bbdcfbfd977c085d2d12deb",
+    "assets_manifest.json": "1c8838424ab39f5aeb5bbfe5209e1d4df43d765496c44d7b1c922434f2001213",
+    "DINOv3_LICENSE.md": "25d122eb8f5b880fd23c736fb6ea8018ee45c12237e00b8a86d14c653904999e",
+    "dinov3_conversion.json": "1e54b2ced7bb04e54ea2a38a9b3b2a6a0e8d34107f317ead6f5a7acbfb157b44"
+  },
+  "checkpoint_sha256": "f5fb580ab93d3f66811882b0217eb09878418d66d0c17c1c68ecc5bd81f21154",
+  "verified_download": true
+}
