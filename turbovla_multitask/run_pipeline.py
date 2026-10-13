@@ -8,6 +8,7 @@ import sys
 import time
 from pathlib import Path
 os.environ.setdefault('HF_HOME','/workspace/.hf_home')
+os.environ.setdefault('HF_XET_HIGH_PERFORMANCE','1')
 os.environ.setdefault('USE_TF','0')
 os.environ.setdefault('USE_FLAX','0')
 from data import ROOT,WORK,TRAIN_SETS,TASKS,HF_REPO

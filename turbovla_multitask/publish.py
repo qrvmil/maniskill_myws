@@ -3,6 +3,7 @@ import argparse
 import os
 import shutil
 os.environ.setdefault('HF_HOME','/workspace/.hf_home')
+os.environ.setdefault('HF_XET_HIGH_PERFORMANCE','1')
 from data import ROOT, WORK, HF_REPO, TRAIN_SETS
 from prepare import write_json,sha256
 from artifacts import verified_final

@@ -154,3 +154,18 @@ contract validation now runs before evaluation upload/commit and final report;
 it checks variant, train_tasks, protocol, EMA, precision, seeds and chunk setup.
 Observed failing tests for the missing lock/validator, then29 tests pass.
 The training math, seed, budget and current A process are unchanged.
+
+Main A completed3001 updates; final checkpoint1291015370 bytes and SHA
+f5fb580ab93d3f66811882b0217eb09878418d66d0c17c1c68ecc5bd81f21154.
+Local audit verifies contiguous3001 steps and finite loss/gradients. First100
+mean loss0.346116; last100 mean0.089302; allocated peak4810.91MiB.
+Initialization SHAea1405220b85277d8caff59b888db27037ec8fc97971da62aa0c160dbeb39976
+matches the shared seed-0 initialization. Runtime audit is A/training_audit.json.
+
+Initial HF Xet upload was confirmed live but slow (~0.2–0.24MB/s), at19% after
+4.5min. Ruling: enable documented HF_XET_HIGH_PERFORMANCE=1 for upload/download
+concurrency, deliberately stop the controller's upload group and resume the
+same verified trained artifact using Xet caches. This is a transport optimization
+based on measured throughput, not a timeout-based assumption that the process
+had died. No training restart. HF model publication remains unverified until
+the upload and authenticated read-back/hash checks succeed.
