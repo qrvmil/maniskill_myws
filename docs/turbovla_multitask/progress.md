@@ -109,3 +109,24 @@ latest observed step720,allocated peak4810.9MiB,~0.37s/update. Check actual
 supervisor/PID and train.jsonl again on continuation; never infer completion
 from this recorded observation. New code and public-mirror evidence pushed
 at e5d0755; notebook draft is the next logical code block.
+
+Notebook draft pushed at49521ba. Independent reviewer returned no Critical
+issues and one Important wiring defect: publication wrote only runtime metadata
+while notebook expected tracked metadata. Fixed publish.py to also write
+docs/turbovla_multitask/publications/{variant}.json; fixed local notebook mode
+to avoid requiring an HF revision. Reproduced the old local-mode failure from
+git history, then exercised the corrected real notebook cell in a CPU test.
+27 scoped tests pass. Reviewer found no additional alignment, stats, BERT,
+EMA, independence/resume or rollout/action defects; actual success rates and
+complete notebook execution remain unverified.
+
+Main A training observed live past1060/3001 updates. Required next steps:
+1. Poll supervisor turbovla_train_a plus /workspace/turbovla-multitask/A/train/train.jsonl.
+2. Only after actual terminal success and validated final hash, run publish.py
+   --variant A and commit/push the generated tracked publication record.
+3. Run evaluate.py --variant A under supervisor; collect exactly75 episodes,
+   preserve episode-level evidence/video and push a logical evidence block.
+4. Start independent B, then C, with the same initialization.json hash; publish
+   and evaluate each. Do not restart a live process on observation timeout.
+5. report.py builds actual225-episode matrix. build_notebook.py regenerates
+   the final tutorial, then execute/inspect its saved outputs and remote weights.

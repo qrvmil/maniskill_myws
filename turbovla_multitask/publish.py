@@ -3,7 +3,7 @@ import argparse
 import os
 import shutil
 os.environ.setdefault('HF_HOME','/workspace/.hf_home')
-from data import WORK, HF_REPO, TRAIN_SETS
+from data import ROOT, WORK, HF_REPO, TRAIN_SETS
 from prepare import write_json,sha256
 from artifacts import verified_final
 
@@ -45,6 +45,7 @@ def publish(variant):
     record = dict(repo=HF_REPO,revision=info.oid,variant=variant,hashes=hashes,
                   checkpoint_sha256=metadata['checkpoint_sha256'],verified_download=True)
     write_json(WORK/variant/'hf_publication.json',record)
+    write_json(ROOT/'docs'/'turbovla_multitask'/'publications'/f'{variant}.json',record)
     print('REMOTE_WEIGHTS_VERIFIED',record,flush=True)
 
 

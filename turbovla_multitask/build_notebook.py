@@ -96,11 +96,11 @@ def build():
     статистики от готовой модели авторов, обученной на всём LIBERO.''')
     code('''from artifacts import require_final
 
-    publication_path = REPO / "docs/turbovla_multitask/publications" / f"{VARIANT}.json"
-    publication = json.loads(publication_path.read_text())
-    revision = publication["revision"]
-
+    revision = None
     if DOWNLOAD_FROM_HF:
+        publication_path = REPO / "docs/turbovla_multitask/publications" / f"{VARIANT}.json"
+        publication = json.loads(publication_path.read_text())
+        revision = publication["revision"]
         from huggingface_hub import hf_hub_download
         checkpoint = Path(hf_hub_download(HF_REPO, f"{VARIANT}/final.pth", revision=revision))
         stats_path = Path(hf_hub_download(HF_REPO, f"{VARIANT}/stats.json", revision=revision))
@@ -114,7 +114,7 @@ def build():
     require_final(metadata, VARIANT)
     assert sha256(checkpoint) == metadata["checkpoint_sha256"]
     assert sha256(stats_path) == metadata["stats_sha256"]
-    print("HF:", HF_REPO, "revision:", revision)
+    print("Источник:", f"HF {HF_REPO}@{revision}" if DOWNLOAD_FROM_HF else "Локальные проверенные веса")
     print("Обновлений:", metadata["step"], "Веса:", metadata["primary_weights"])''')
     md('''## 4. Загрузить полную TurboVLA
 
