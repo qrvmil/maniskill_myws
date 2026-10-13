@@ -27,6 +27,15 @@ def summarize_cell(rows,variant,task):
     return dict(variant=variant,task=task,seen=task in TRAIN_SETS[variant],**summarize(rows))
 
 
+def validate_evaluation_contract(config,complete,variant,metadata):
+    expected=dict(variant=variant,train_tasks=TRAIN_SETS[variant],tasks=list(TASKS),episodes=15,
+        protocol='reference',seed_start=10000,settling_steps=10,open_loop_steps=12,image_size=256,
+        precision='fp32',checkpoint_sha256=metadata['checkpoint_sha256'],stats_sha256=metadata['stats_sha256'],
+        primary_weights='ema_model_state_dict',all_selected_tasks_seen_by_release=False)
+    if config!=expected or complete!={'total_episodes':75,'config':expected}:
+        raise ValueError(f'Incomplete or different rollout contract: {variant}')
+
+
 def collect_matrix():
     cells=[];provenance={}
     for variant in TRAIN_SETS:
@@ -34,12 +43,7 @@ def collect_matrix():
         output=WORK/variant/'eval15'
         config=json.loads((output/'config.json').read_text())
         complete=json.loads((output/'complete.json').read_text())
-        expected=dict(variant=variant,train_tasks=TRAIN_SETS[variant],tasks=list(TASKS),episodes=15,
-            protocol='reference',seed_start=10000,settling_steps=10,open_loop_steps=12,image_size=256,
-            precision='fp32',checkpoint_sha256=metadata['checkpoint_sha256'],stats_sha256=metadata['stats_sha256'],
-            primary_weights='ema_model_state_dict',all_selected_tasks_seen_by_release=False)
-        if config!=expected or complete!={'total_episodes':75,'config':expected}:
-            raise ValueError(f'Incomplete or different rollout contract: {variant}')
+        validate_evaluation_contract(config,complete,variant,metadata)
         hashes={}
         for task in TASKS:
             path=output/task/'episodes.json'

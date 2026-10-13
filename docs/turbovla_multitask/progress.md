@@ -143,3 +143,14 @@ The pipeline builds the actual matrix only after all three full evaluations;
 its terminal phase explicitly leaves final notebook execution/visual QA pending.
 Latest observed A step2200/3001; process347730 remains live.27 tests pass and
 new pipeline source compiles. Monitor actual supervisor handles and logs.
+
+Pipeline read-only reviewer identified two recovery/publication guard gaps.
+Fixed per-variant OS training locks held by train.py itself, plus supervisor
+stopasgroup/killasgroup for the controller, so an orphan child cannot race a
+replacement. Current A was already running under its separate service and
+was not restarted. The waiting controller was deliberately stopped while it
+had no training/eval child, to load the fixes safely. Shared exact rollout
+contract validation now runs before evaluation upload/commit and final report;
+it checks variant, train_tasks, protocol, EMA, precision, seeds and chunk setup.
+Observed failing tests for the missing lock/validator, then29 tests pass.
+The training math, seed, budget and current A process are unchanged.

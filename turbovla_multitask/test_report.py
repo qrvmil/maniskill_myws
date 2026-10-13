@@ -1,7 +1,7 @@
 import copy
 import unittest
 from data import TASKS, TRAIN_SETS
-from report import summarize_cell
+from report import summarize_cell, validate_evaluation_contract
 
 
 def episode_rows(variant='A',task='D1',successes=6):
@@ -12,6 +12,19 @@ def episode_rows(variant='A',task='D1',successes=6):
 
 
 class ReportContracts(unittest.TestCase):
+    def test_publication_requires_exact_checkpoint_and_full_reference_contract(self):
+        metadata={'checkpoint_sha256':'checkpoint','stats_sha256':'stats'}
+        config=dict(variant='A',train_tasks=['D0'],tasks=list(TASKS),episodes=15,
+            protocol='reference',seed_start=10000,settling_steps=10,open_loop_steps=12,
+            image_size=256,precision='fp32',checkpoint_sha256='checkpoint',stats_sha256='stats',
+            primary_weights='ema_model_state_dict',all_selected_tasks_seen_by_release=False)
+        validate_evaluation_contract(config,{'total_episodes':75,'config':config},'A',metadata)
+        for field,value in [('protocol','official'),('variant','B'),('train_tasks',['D0','D1']),
+                            ('primary_weights','model_state_dict'),('precision','bf16'),('open_loop_steps',8)]:
+            changed=dict(config);changed[field]=value
+            with self.assertRaises(ValueError):
+                validate_evaluation_contract(changed,{'total_episodes':75,'config':changed},'A',metadata)
+
     def test_successes_are_recomputed_from_exact_episode_records(self):
         row=summarize_cell(episode_rows(),'A','D1')
         self.assertEqual(row['successes'],6)

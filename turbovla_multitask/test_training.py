@@ -2,9 +2,19 @@ import unittest
 import numpy as np
 import torch
 import training
+import tempfile
+from pathlib import Path
 
 
 class TrainingContracts(unittest.TestCase):
+    def test_live_training_lock_rejects_another_writer_and_releases_on_exit(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory=Path(temp)
+            with training.training_lock(directory):
+                with self.assertRaises(BlockingIOError):
+                    with training.training_lock(directory): pass
+            with training.training_lock(directory): pass
+
     def test_padding_has_no_loss_or_gradient(self):
         prediction = torch.tensor([[[1.]*7, [100.]*7]], requires_grad=True)
         loss = training.masked_l1(prediction, torch.zeros_like(prediction), torch.tensor([[1., 0.]]))

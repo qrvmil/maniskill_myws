@@ -13,7 +13,7 @@ import numpy as np
 import torch
 from data import ROOT, WORK, TRAIN_SETS
 from prepare import sha256, write_json
-from training import TaskData, masked_l1, update_ema
+from training import TaskData, masked_l1, update_ema, training_lock
 
 RECIPE = dict(updates=3001,batch_size=8,seed=0,lr=5e-5,warmup_steps=300,
               betas=[.9,.95],eps=1e-8,weight_decay=1e-10,max_grad_norm=1.,ema_decay=.999)
@@ -58,6 +58,12 @@ def build_initial_model():
 
 
 def train(variant, smoke_steps=None):
+    run=WORK/variant/('smoke' if smoke_steps is not None else 'train')
+    with training_lock(run):
+        return _train(variant,smoke_steps)
+
+
+def _train(variant, smoke_steps=None):
     if not torch.cuda.is_available():
         raise RuntimeError('CUDA is required for the experiment')
     torch.set_num_threads(4)

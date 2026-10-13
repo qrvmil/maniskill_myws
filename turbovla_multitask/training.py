@@ -1,6 +1,16 @@
 """Single-GPU training contracts; no RLDS/TensorFlow imports in the train loop."""
 import numpy as np
 import torch
+import fcntl
+from contextlib import contextmanager
+
+
+@contextmanager
+def training_lock(directory):
+    directory.mkdir(parents=True,exist_ok=True)
+    with (directory/'training.lock').open('a') as handle:
+        fcntl.flock(handle,fcntl.LOCK_EX|fcntl.LOCK_NB)
+        yield
 
 
 def masked_l1(prediction, target, mask):

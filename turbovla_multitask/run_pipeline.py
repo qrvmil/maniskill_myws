@@ -13,7 +13,7 @@ os.environ.setdefault('USE_FLAX','0')
 from data import ROOT,WORK,TRAIN_SETS,TASKS,HF_REPO
 from artifacts import verified_final
 from prepare import sha256,write_json
-from report import summarize_cell
+from report import summarize_cell,validate_evaluation_contract
 
 BRANCH='exp/turbovla-multitask-generalization'
 
@@ -109,9 +109,7 @@ def pipeline():
                 script('evaluate.py','--variant',variant)
             config=json.loads((output/'config.json').read_text())
             complete=json.loads((output/'complete.json').read_text())
-            if (config['checkpoint_sha256']!=metadata['checkpoint_sha256'] or config['stats_sha256']!=metadata['stats_sha256']
-                or config['tasks']!=list(TASKS) or config['episodes']!=15 or complete!={'total_episodes':75,'config':config}):
-                raise ValueError('Evaluation completion/identity differs')
+            validate_evaluation_contract(config,complete,variant,metadata)
             summaries={}
             for task in TASKS:
                 summaries[task]=summarize_cell(json.loads((output/task/'episodes.json').read_text()),variant,task)
