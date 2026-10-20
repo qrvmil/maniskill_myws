@@ -31,6 +31,8 @@ Zero-residual gate выявил разные sensor caches у fresh и restored 
 
 Offline absorbing goal использует тот же zero `next_base_action`, что online runner; после terminal не вызывается новый policy inference. Общие shaping rewards и returns сохраняют terminal Phi=0.
 
+До финальной оценки direct actor-only adapter проверен против diagnostic `deterministic_actor` wrapper на10 base-action cases и полном D1 rollout(seed23004): actions, physics trajectory, images и flow noise побайтово совпали, global CPU/CUDA RNG и actor weights неизменны. В final evaluation используется прямой deterministic actor без лишних Q diagnostics; online OTF и все optimizer settings сохраняются. Это сокращение вычислений, не изменение политики; evidence `actor_only_evaluation_equivalence.json`.
+
 ## Финальная оценка
 
 Только после фиксации всех трёх финальных checkpoints: 3 метода × 2 задачи × 50 scenes = 300 rollout, horizon 220, replan 5. Для каждой задачи сохраняются generated reset states, hashes проверяются перед эпизодами. Noise определяется seed и номером replan, одинаков для всех методов. Не используем demo-associated benchmark init files.

@@ -27,11 +27,11 @@ class SeminarPolicy:
   return dict(prompt=self.env.prompt,state=obs['state'],images=obs['images'],reset_hash=self.info['reset_hash'],initial_observation_hash=self.env.initial_observation_hash)
  def action(self):
   from maniskill_myws.pld.libero_backend import convert_observation
-  from maniskill_myws.pld.libero_runner import residual_policy
+  from maniskill_myws.pld.libero_runner import actor_residual
   self.base.reset(self.seed)  # Re-running this cell recomputes the same first action.
   base=self.base.act(self.raw);unit=np.zeros(7,np.float32)
   if self.agent:
-   residual=residual_policy(self.agent,{'otf_rollout_actions':1},'deterministic_actor',seed=self.seed+9000000)
+   residual=actor_residual(self.agent)
    unit=residual(convert_observation(self.raw,self.env.prompt),base)
   action=np.clip(base+2*unit,-1,1)
   recorded=verified_episode(WORK/'final'/self.method/self.task/str(self.seed),self.method,self.task,self.seed,self.checkpoint)

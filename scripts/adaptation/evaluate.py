@@ -87,6 +87,7 @@ def episode(env,base,*,seed,method,task,checkpoint,residual=None,scale=2.):
  verified=validate_video(path,row['length']+1)
  assert (verified['width'],verified['height'])==(512,256)
  row.update(method=method,task=task,checkpoint=str(checkpoint),normalization_sha256=sha(NORM),initial_observation_hash=env.initial_observation_hash,
+   evaluation_policy='deterministic_actor' if method=='residual' else 'pi0_flow',
    first_action=transitions[0]['action'].tolist(),first_base_action=transitions[0]['base_action'].tolist(),
    video=path.name,video_sha256=sha(path),video_verification=verified,includes_terminal_frame=True,
    cameras=['agentview','robot0_eye_in_hand'],camera_render_size=256,replan_steps=5,horizon=220,
@@ -101,6 +102,7 @@ def verified_episode(folder,method,task,seed,checkpoint):
  row=json.loads(path.read_text())
  assert (row['method'],row['task'],row['seed'],row['checkpoint'])==(method,task,seed,str(checkpoint))
  assert row['normalization_sha256']==sha(NORM)
+ assert row['evaluation_policy']==('deterministic_actor' if method=='residual' else 'pi0_flow')
  reset=np.load(WORK/'reset_states/final'/task/f'{seed}.npz');assert row['reset_hash']==str(reset['reset_hash'])
  assert row['initial_observation_hash']==str(reset['initial_observation_hash'])
  assert int(reset['seed'])==seed and str(reset['task'])==task
@@ -113,7 +115,7 @@ def final(method):
  import torch
  from storage import publish,push_progress
  from maniskill_myws.pld.libero_backend import ChunkedBasePolicy
- from maniskill_myws.pld.libero_runner import residual_policy
+ from maniskill_myws.pld.libero_runner import actor_residual
  selection=json.loads((WORK/'final_selection.json').read_text())
  if method=='residual':assert sha(WORK/'sft/d0/3000/model.safetensors')==selection[method]['base_weights_sha256']
  checkpoint=Path(selection[method]['checkpoint']);assert sha(checkpoint/('residual.pt' if method=='residual' else 'model.safetensors'))==selection[method]['weights_sha256']
@@ -131,7 +133,7 @@ def final(method):
     folder=WORK/'final'/method/task/str(seed)
     row=verified_episode(folder,method,task,seed,checkpoint)
     if row is None:
-     residual=None if agent is None else residual_policy(agent,{'otf_rollout_actions':1},'deterministic_actor',seed=seed+9000000)
+     residual=None if agent is None else actor_residual(agent)
      row=episode(env,base,seed=seed,method=method,task=task,checkpoint=checkpoint,residual=residual)
     if not (folder/'upload_receipt.json').exists():
      publish(folder,f'final/{method}/{task}/{seed}',full_readback=True,defer=True)
