@@ -8,7 +8,7 @@ def load_rows():
 
 def interim():
  rows=load_rows();dest=ROOT/'experiments/pi0_d0_d1_three_adaptations/results';dest.mkdir(parents=True,exist_ok=True)
- compact=[{k:r[k] for k in ('method','task','seed','success','length','reset_hash','initial_observation_hash','trajectory_hash','video','video_sha256','checkpoint','normalization_sha256')} for r in rows]
+ compact=[{k:r[k] for k in ('method','evaluation_policy','task','seed','success','length','reset_hash','initial_observation_hash','trajectory_hash','video','video_sha256','checkpoint','normalization_sha256')} for r in rows]
  write(dest/'episodes.json',compact)
  with (dest/'episodes.csv').open('w') as f:
   w=csv.DictWriter(f,fieldnames=list(compact[0]) if compact else ['method','task','seed','success']);w.writeheader();w.writerows(compact)
