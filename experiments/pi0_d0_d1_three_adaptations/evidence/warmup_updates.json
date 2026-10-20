@@ -1,0 +1,10 @@
+{
+  "actor_changed": true,
+  "temperature_changed": true,
+  "critic_changed": true,
+  "critic_optimizer_steps": 4127,
+  "actor_optimizer_steps": 2063,
+  "teacher_checkpoint": "/workspace/pi0_three/teacher_policy",
+  "base_checkpoint": "/workspace/pi0_three/sft/d0/3000",
+  "base_unchanged": true
+}
