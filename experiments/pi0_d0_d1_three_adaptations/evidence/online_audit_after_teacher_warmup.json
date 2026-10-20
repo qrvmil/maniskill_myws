@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "checkpoint": "after_teacher_warmup",
+  "episodes": 20,
+  "transitions": 4127,
+  "warmup_transitions": 4127,
+  "active_transitions": 0,
+  "warmup_successes": 2,
+  "maximum_reward_error": 2.701068835264664e-08,
+  "maximum_mc_return_error": 2.904043006068946e-08,
+  "maximum_teacher_reconstruction_error": 5.960464477539063e-08,
+  "maximum_unit_correction": 1.0,
+  "teacher_and_d0_cache_actions_separately_verified": true,
+  "all_terminal_next_base_actions_zero": true,
+  "frozen_d0_weights_sha256": "9ba40f3f7c1b7eb40805df49901109f9fe00089aae10b04eab412d62694cb451",
+  "frozen_d0_unchanged": true,
+  "final_seeds_used": false
+}
