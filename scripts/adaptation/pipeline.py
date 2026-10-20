@@ -6,12 +6,19 @@ def call(script,*args):
  print('PIPELINE_STAGE',script,args,flush=True)
  subprocess.run([sys.executable,'-u',str(ROOT/'scripts/adaptation'/script),*args],cwd=ROOT,check=True)
 
+def service_status(name):
+ # supervisorctl status returns code3 for a healthy completed one-shot service.
+ result=subprocess.run(['supervisorctl','status',name],text=True,capture_output=True,check=False)
+ fields=result.stdout.split()
+ if len(fields)<2:raise RuntimeError('Cannot read supervisor status for '+name+': '+result.stderr)
+ return fields[1]
+
 def main():
  while not (WORK/'evidence/d0_complete.json').exists():
-  status=subprocess.check_output(['supervisorctl','status','pi0_three_d0'],text=True).split()[1]
+  status=service_status('pi0_three_d0')
   if status in ('EXITED','FATAL','STOPPED'):raise RuntimeError('D0 did not complete; inspect pi0_three_d0 logs')
   time.sleep(10)
- while subprocess.check_output(['supervisorctl','status','pi0_three_d0'],text=True).split()[1] in ('RUNNING','STOPPING'):time.sleep(2)
+ while service_status('pi0_three_d0') in ('RUNNING','STOPPING'):time.sleep(2)
  call('train_sft.py','full')
  call('train_sft.py','expert')
  if not (WORK/'teacher.json').exists():raise RuntimeError('No registered early full-SFT teacher has nonzero validation SR; residual warmup cannot run')
