@@ -17,7 +17,22 @@ def main():
 
 [Модели и артефакты](https://huggingface.co/qrvmil/pi0-d0-d1-three-adaptations-20261020/tree/main), [код и preregistration](https://github.com/qrvmil/maniskill_myws/tree/exp/pi0-d0-d1-three-adaptations-20261020).
 
-Среда: pinned OpenPI/LIBERO из репозитория; `scripts/adaptation/install_runtime.sh` фиксирует зависимости. На другой машине сначала скачайте checkpoint directories, normalization, final episodes и reset_states с HF в `/workspace/pi0_three` (или измените `WORK` в common.py), затем проверьте SHA256 inventories. Сохранённый notebook уже содержит выполненные outputs и три примера видео; все 300 видео доступны на HF.''')
+На этой машине используется подготовленный kernel `/workspace/pi0_venv/bin/python`. Для чтения сохранённых outputs GPU не нужна: notebook уже содержит три видео, а все300 доступны на HF.
+
+Для выполнения на другой машине воспроизведите pinned OpenPI environment и LIBERO из [runtime inventory](evidence/runtime.json), затем simulator/notebook зависимости из `scripts/adaptation/install_runtime.sh`. Код должен находиться в `/workspace/pi0_experiment`, LIBERO — в `/workspace/LIBERO`. Metadata сохраняет абсолютные пути; используйте такие соответствия HF → local и проверяйте `inventory.json`/SHA256 после скачивания:
+
+| Путь в HF repo | Путь относительно `/workspace/pi0_three` |
+|---|---|
+| `normalization/d0/` | `assets/normalization/d0/` |
+| `selection/final_selection.json` | `final_selection.json` |
+| `checkpoints/d0/3000/` | `sft/d0/3000/` |
+| `checkpoints/full/1500/` | `sft/full/1500/` |
+| `checkpoints/expert/1500/` | `sft/expert/1500/` |
+| `checkpoints/residual/final/` | `rl/final/` |
+| `reset_states/final/` | `reset_states/final/` |
+| `final/` | `final/` |
+
+Таблицы `results/` уже находятся в experiment directory GitHub. Native demonstrations для повторного просмотра этого семинара не требуются: обучение и финальные эпизоды завершены, здесь мы проверяем и переиспользуем их.''')
  code("""import os, sys, json
 from pathlib import Path
 os.environ['MUJOCO_GL'] = 'egl'
