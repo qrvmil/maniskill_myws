@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "residual_checkpoint_sha256": "02287d6cf1bf0f62b952e8de82b8fa919a541eb095290fa2cb341f5f2f0b1542",
+  "task": "D1",
+  "seed": 23004,
+  "random_base_action_cases": 10,
+  "controller_actions_bitwise_equal": true,
+  "cpu_cuda_rng_unchanged": true,
+  "actor_parameters_unchanged": true,
+  "reset_hash": "61d74b767e01801249f535f72c3198e39fc76499b4f1af33be9c3e364dba7f1d",
+  "trajectory_hash": "9daa7a15ac058ce0e666522ba34132594069a6c62ac5f09fd520c22a991ec327",
+  "image_hash": "064047ea345e8dfee800d42da64b92a38ef29ad25fbf27fd73afb64368926d11",
+  "length": 220,
+  "success": false,
+  "diagnostic_wrapper_wall_seconds": 27.17576035601087,
+  "actor_only_wall_seconds": 21.98777939309366,
+  "final_seeds_used": false
+}

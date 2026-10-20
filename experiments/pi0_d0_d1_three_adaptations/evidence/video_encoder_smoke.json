@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "frames": 2,
+  "verification": {
+    "frames": 2,
+    "width": 512,
+    "height": 512,
+    "bytes": 31647,
+    "sha256": "172c94ce0c31908703eaf4c754f8bf78ba2aecd260f981f8491375250297ab25",
+    "full_decode_passed": true
+  },
+  "ffmpeg_version": "7.0.2-static",
+  "video_sha256": "172c94ce0c31908703eaf4c754f8bf78ba2aecd260f981f8491375250297ab25",
+  "not_a_final_episode": true
+}
