@@ -1,6 +1,6 @@
 """Native successful D1 replay, cached new-D0 actions and state-based shaping.
 
-Native camera/proprioception and actions are retained verbatim. Saved pre-action
+Native camera/proprioception and actions use the original recording with the shared runtime coordinate/dtype adapter. Saved pre-action
 states are restored only to compute geometry/contact potentials and goal labels;
 this is not a new demonstration rollout. The last post-action state is obtained
 by executing the recorded final action from its saved pre-action state.
@@ -13,7 +13,9 @@ def main():
  from libero.libero import get_libero_path
  from libero.libero.utils.utils import postprocess_model_xml
  from maniskill_myws.pld.libero_demonstrations import native_observations,relocate_legacy_assets
- from maniskill_myws.pld.libero_backend import LiberoEnv,ChunkedBasePolicy,ActionContract
+ from maniskill_myws.pld.libero_backend import ChunkedBasePolicy,ActionContract
+ from libero.libero.envs.env_wrapper import ControlEnv
+ from types import SimpleNamespace
  from maniskill_myws.pld.libero_progress import task_progress
  from maniskill_myws.pld.replay_buffer import ReplayBuffer
  from evaluate import FlowModel
@@ -24,7 +26,9 @@ def main():
  if (root/'complete.json').exists():
   old=json.loads((root/'complete.json').read_text());assert old['base_weights_sha256']==base_hash;assert old['replay_sha256']==sha(root/'replay.npz');return
  model=load_model(base_path).to('cuda');flow=FlowModel(model,'D1');base=ChunkedBasePolicy(flow,replan_steps=5)
- outer=LiberoEnv(TASKS['D1'],render_size=128);low=outer.env.env
+ spec=TASKS['D1'];bddl=Path(get_libero_path('bddl_files'))/spec['suite']/(spec['name']+'.bddl')
+ control=ControlEnv(str(bddl),use_camera_obs=False,has_offscreen_renderer=False,has_renderer=False,camera_names=[])
+ outer=SimpleNamespace(env=control,prompt=spec['name'].replace('_',' '),close=control.close);low=control.env
  buffer=ReplayBuffer(20000,8,7,image_shape=(2,128,128,3));reports=[]
  with h5py.File(source('D1'),'r') as f:
   for demo_index,name in enumerate(sorted(f['data'],key=lambda s:int(s.split('_')[-1]))):

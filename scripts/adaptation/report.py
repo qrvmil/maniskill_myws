@@ -69,7 +69,7 @@ def main():
 
 ## Что обучали
 
-Один общий full-SFT checkpoint: официальный `pi0_base`, **3000 updates × batch8 на D0**, без LoRA. Его D0-only normalization одинакова во всех методах и проверена по SHA256. Из одних и тех же D0 weights независимо:
+Один общий full-SFT checkpoint: официальный `pi0_base`, **3000 updates × batch8 на D0**, без LoRA. Весь model scope доступен optimizer: 777 tensors; 770 получают action-loss gradients, а семь официальных PyTorch tensors не участвуют в action loss (unused expert LM head и последние VLM-only outputs; полный список в evidence/sft_d0_gradient_scope.json). Это архитектурно неактивные outputs. Его D0-only normalization одинакова во всех методах и проверена по SHA256. Из одних и тех же D0 weights независимо:
 
 - **Full SFT D1:** 1500 updates × batch8, все параметры; новый AdamW.
 - **Action-expert SFT D1:** те же 1500 updates, данные, seed и LR schedule; обучались action expert и state/action/time projections. PaliGemma, vision encoder и multimodal projector frozen; trainable scope, gradients и hashes проверены.

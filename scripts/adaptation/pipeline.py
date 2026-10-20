@@ -37,6 +37,7 @@ def main():
  for method in ('full','expert','residual'):call('evaluate.py',method)
  call('report.py')
  call('build_notebook.py')
+ call('publish_card.py')
  write(WORK/'complete.json',dict(objective_complete=True,episodes=300,videos=300,executed_notebook=True,github_branch='exp/pi0-d0-d1-three-adaptations-20261020',hf_repo=HF_REPO))
  print('THREE_ADAPTATIONS_COMPLETE',flush=True)
 if __name__=='__main__':main()
