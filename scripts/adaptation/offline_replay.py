@@ -70,7 +70,9 @@ def main():
    reports.append(report);write(root/'episodes.json',reports)
    print('NATIVE_OFFLINE_REPLAY',name,accepted,first,len(buffer),flush=True)
  outer.close()
- if not len(buffer):raise RuntimeError('No native D1 demo passes saved-state LIBERO success verification')
+ if len(reports)!=50 or sum(r['accepted'] for r in reports)!=50:
+  raise RuntimeError('All 50 pinned successful native D1 demonstrations must pass the saved-state LIBERO goal check')
+ if not len(buffer):raise RuntimeError('Native D1 replay is empty')
  buffer.save(root/'replay.npz',source='native D1',base_weights_sha256=base_hash,normalization_sha256=sha(NORM),gamma=.99,beta=.1)
  write(root/'complete.json',dict(source_revision='f13aa24a3da8c43c7225569f28c562979fa0e35a',source_sha256=sha(source('D1')),
   base_weights_sha256=base_hash,normalization_sha256=sha(NORM),accepted_demonstrations=sum(r['accepted'] for r in reports),

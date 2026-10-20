@@ -70,7 +70,10 @@ def main():
  def fmt(method,task):
   s=cells[method+'_'+task];lo,hi=s['wilson_95ci'];return f"{s['successes']}/50 — {100*s['success_rate']:.0f}% [{100*lo:.1f}; {100*hi:.1f}]"
  table='\n'.join('| '+label+' | '+fmt(m,'D0')+' | '+fmt(m,'D1')+' |' for m,label in [('full','Full SFT'),('expert','Action-expert SFT'),('residual','Residual RL')])
- best=max(METHODS,key=lambda m:cells[m+'_D1']['success_rate']);retain=max(METHODS,key=lambda m:cells[m+'_D0']['success_rate'])
+ def leaders(task):
+  top=max(cells[m+'_'+task]['success_rate'] for m in METHODS)
+  return ', '.join('`'+m+'`' for m in METHODS if cells[m+'_'+task]['success_rate']==top)
+ best,retain=leaders('D1'),leaders('D0')
  offline=json.loads((WORK/'offline/complete.json').read_text());teacher=json.loads((WORK/'teacher.json').read_text());rl=json.loads((WORK/'evidence/residual_complete.json').read_text())
  report=f'''# Три способа адаптации π₀: D0 → D1
 
@@ -96,13 +99,13 @@ N=50 в каждой ячейке; в скобках Wilson 95% CI. Horizon220, 
 |---|---|---|
 {table}
 
-На этом запуске наибольший измеренный D1 SR у `{best}`, наибольший D0 SR у `{retain}`. Это описательное сравнение: различия и неопределённость нужно читать вместе с [paired comparisons](results/paired_comparisons.json), где есть gained/lost successes, paired bootstrap CI, exact McNemar и Holm correction шести сравнений. [Episode CSV](results/episodes.csv) позволяет проверить каждую пару.
+На этом запуске наибольший измеренный D1 SR: {best}; наибольший D0 SR: {retain}. При равенстве указаны все методы. Это описательное сравнение: различия и неопределённость нужно читать вместе с [paired comparisons](results/paired_comparisons.json), где есть gained/lost successes, paired bootstrap CI, exact McNemar и Holm correction шести сравнений. [Episode CSV](results/episodes.csv) позволяет проверить каждую пару.
 
 ## Как читать выводы
 
 SFT методы сравнивают область обновляемых параметров при одинаковом D1 бюджете. RL имеет другой объём online опыта и дополнительную информацию simulator state в shaping, поэтому это сравнение трёх рецептов адаптации, а не изоляция единственного фактора. Native D1 images/proprioception/actions в offline replay сохранены; shaping geometry и goal checks восстановлены из original XML и saved states. Offline MC labels у online эпизода доступны после его завершения; промежуточные SAC updates используют TD rewards.
 
-Одна training seed на метод и 50 correlated scenes ограничивают точность и переносимость выводов. Teacher validation мала; наличие ≥1 успеха подтверждает ненулевой измеренный SR, а не надёжность teacher. D0/D1 различаются и target location, и distractor placement. Generated reset protocol отличается от официальных benchmark init files. Потенциал использует simulator state, недоступный обычному vision-only deployment; actor при исполнении получает только камеры, proprioception и действие базы.
+Одна training seed на метод и 50 correlated scenes ограничивают точность и переносимость выводов. D0 retention здесь — абсолютный SR трёх адаптированных политик; общий D0 checkpoint имеет только короткую отдельную zero-residual sanity-проверку, поэтому точный спад относительно базового SR на N=50 этим протоколом не оценивается. Teacher validation мала; наличие ≥1 успеха подтверждает ненулевой измеренный SR, а не надёжность teacher. D0/D1 различаются и target location, и distractor placement. Generated reset protocol отличается от официальных benchmark init files. Потенциал использует simulator state, недоступный обычному vision-only deployment; actor при исполнении получает только камеры, proprioception и действие базы.
 
 ## Материалы и воспроизводимость
 
