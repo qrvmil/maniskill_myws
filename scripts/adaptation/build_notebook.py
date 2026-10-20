@@ -19,7 +19,7 @@ def main():
 
 На этой машине используется подготовленный kernel `/workspace/pi0_venv/bin/python`. Для чтения сохранённых outputs GPU не нужна: notebook уже содержит три видео, а все300 доступны на HF.
 
-Для выполнения на другой машине воспроизведите pinned OpenPI environment и LIBERO из [runtime inventory](evidence/runtime.json), затем simulator/notebook зависимости из `scripts/adaptation/install_runtime.sh`. Код должен находиться в `/workspace/pi0_experiment`, LIBERO — в `/workspace/LIBERO`. Metadata сохраняет абсолютные пути; используйте такие соответствия HF → local и проверяйте `inventory.json`/SHA256 после скачивания:
+Для выполнения на другой машине воспроизведите pinned OpenPI environment и LIBERO из [runtime inventory](https://github.com/qrvmil/maniskill_myws/blob/exp/pi0-d0-d1-three-adaptations-20261020/experiments/pi0_d0_d1_three_adaptations/evidence/runtime.json), затем simulator/notebook зависимости из `scripts/adaptation/install_runtime.sh`. Код должен находиться в `/workspace/pi0_experiment`, LIBERO — в `/workspace/LIBERO`. Metadata сохраняет абсолютные пути; используйте такие соответствия HF → local и проверяйте `inventory.json`/SHA256 после скачивания:
 
 | Путь в HF repo | Путь относительно `/workspace/pi0_three` |
 |---|---|
