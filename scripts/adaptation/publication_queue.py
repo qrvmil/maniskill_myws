@@ -1,8 +1,15 @@
 """Managed asynchronous publication of immutable snapshots; no GPU/optimizer changes."""
-import argparse,hashlib,json,os,shutil,subprocess,sys,time
+import argparse,contextlib,fcntl,hashlib,json,os,shutil,subprocess,sys,time
 from pathlib import Path
 from common import ROOT,WORK,SFT,write
 QUEUE=WORK/'publication_queue'
+
+@contextlib.contextmanager
+def queue_lock():
+ QUEUE.mkdir(exist_ok=True)
+ with (QUEUE/'.lock').open('a') as stream:
+  fcntl.flock(stream,fcntl.LOCK_EX)
+  yield
 
 def version(folder):
  rows=[]
@@ -12,6 +19,9 @@ def version(folder):
  return hashlib.sha256(json.dumps(rows).encode()).hexdigest()
 
 def submit(folder,remote,full_readback=False):
+ with queue_lock():return _submit(folder,remote,full_readback)
+
+def _submit(folder,remote,full_readback=False):
  folder=Path(folder).resolve();QUEUE.mkdir(exist_ok=True)
  digest=version(folder);key=hashlib.sha256((remote+digest).encode()).hexdigest()
  path=QUEUE/(key+'.json')
@@ -24,6 +34,7 @@ def submit(folder,remote,full_readback=False):
  if len(parts)==3 and parts[0]=='checkpoints' and parts[1] in SFT and parts[2].isdigit():
   priority=0 if int(parts[2])==SFT[parts[1]]['updates'] else 10
  write(path,dict(folder=str(folder),remote=remote,full_readback=full_readback,version=digest,status='queued',priority=priority,created_at=time.time(),attempts=0))
+ _retire_superseded_unlocked()
  print('HF_QUEUED',remote,flush=True)
  return dict(commit=None,queued=True,job=str(path))
 
@@ -31,10 +42,25 @@ def obsolete(job):
  parts=job['remote'].split('/')
  if len(parts)==3 and parts[0]=='checkpoints' and parts[1] in SFT and parts[2].isdigit():
   stage=parts[1]
-  return int(parts[2])<SFT[stage]['updates'] and (WORK/'evidence'/f'{stage}_complete.json').exists()
+  if int(parts[2])>=SFT[stage]['updates']:return False
+  latest=WORK/'sft'/stage/'latest.json'
+  if latest.exists():
+   newer=json.loads(latest.read_text());folder=Path(newer['checkpoint'])
+   if newer.get('step',0)>int(parts[2]) and (folder/'training_state.pt').exists() and (folder/'model.safetensors').exists():return True
+  return (WORK/'evidence'/f'{stage}_complete.json').exists()
  if len(parts)==3 and parts[:2]==['checkpoints','residual'] and parts[2]!='final':
   return (WORK/'evidence/residual_complete.json').exists()
  return False
+
+def retire_superseded():
+ with queue_lock():_retire_superseded_unlocked()
+
+def _retire_superseded_unlocked():
+ # Queue writers can retire waiting snapshots even while the server is busy on
+ # another upload. Never touch a running upload or the latest resumable save.
+ for p in QUEUE.glob('*.json'):
+  job=json.loads(p.read_text())
+  if job['status'] in ('queued','failed') and obsolete(job):discard(job,p)
 
 def discard(job,path):
  job['status']='superseded';write(path,job)
@@ -50,16 +76,19 @@ def serve():
  from storage import push_progress
  QUEUE.mkdir(exist_ok=True);last_push=0
  while True:
-  candidates=[]
-  for p in QUEUE.glob('*.json'):
-   j=json.loads(p.read_text())
-   if j['status'] in ('queued','running','failed') and obsolete(j):discard(j,p);continue
-   if j['status'] in ('queued','running') and j.get('retry_after',0)<=time.time():candidates.append((p,j))
+  with queue_lock():
+   candidates=[]
+   for p in QUEUE.glob('*.json'):
+    j=json.loads(p.read_text())
+    if j['status'] in ('queued','running','failed') and obsolete(j):discard(j,p);continue
+    if j['status'] in ('queued','running') and j.get('retry_after',0)<=time.time():candidates.append((p,j))
+   if candidates:
+    path,job=min(candidates,key=lambda x:(x[1]['priority'],x[1]['created_at']))
+    if not Path(job['folder']).exists():
+     job.update(status='failed',error='snapshot directory missing');write(path,job);candidates=[]
+    else:
+     job.update(status='running',attempts=job['attempts']+1);write(path,job)
   if not candidates:time.sleep(5);continue
-  path,job=min(candidates,key=lambda x:(x[1]['priority'],x[1]['created_at']))
-  if not Path(job['folder']).exists():
-   job.update(status='failed',error='snapshot directory missing');write(path,job);continue
-  job.update(status='running',attempts=job['attempts']+1);write(path,job)
   env=dict(os.environ,PI0_ARTIFACT_WORKER='1',HF_XET_HIGH_PERFORMANCE='1',CUDA_VISIBLE_DEVICES='')
   env.pop('HF_HUB_ENABLE_HF_TRANSFER',None)
   cmd=['/venv/main/bin/python','-u',str(ROOT/'scripts/adaptation/publish_remote.py'),job['folder'],job['remote']]
@@ -68,10 +97,7 @@ def serve():
   process=subprocess.Popen(cmd,cwd=ROOT,env=env)
   while process.poll() is None:
    # Clean obsolete *queued* snapshots while another immutable snapshot is uploading.
-   for other in QUEUE.glob('*.json'):
-    if other==path:continue
-    candidate=json.loads(other.read_text())
-    if candidate['status'] in ('queued','failed') and obsolete(candidate):discard(candidate,other)
+   retire_superseded()
    time.sleep(5)
   if process.returncode:
    job.update(status='queued' if job['attempts']<5 else 'failed',retry_after=time.time()+60,error='publisher process exit '+str(process.returncode));write(path,job)
