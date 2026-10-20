@@ -4,11 +4,14 @@ from pathlib import Path
 from common import ROOT,WORK,HF_REPO,sha,write
 
 def publish(folder,remote,*,full_readback=False):
- os.environ.setdefault('HF_HUB_ENABLE_HF_TRANSFER','1')
- from huggingface_hub import constants as hf_constants
- hf_constants.HF_HUB_ENABLE_HF_TRANSFER=os.environ['HF_HUB_ENABLE_HF_TRANSFER']=='1'
+ if os.environ.get('PI0_ARTIFACT_WORKER')!='1':
+  environment=dict(os.environ,PI0_ARTIFACT_WORKER='1',HF_XET_HIGH_PERFORMANCE='1',CUDA_VISIBLE_DEVICES='')
+  environment.pop('HF_HUB_ENABLE_HF_TRANSFER',None)
+  command=['/venv/main/bin/python','-u',str(ROOT/'scripts/adaptation/publish_remote.py'),str(Path(folder).resolve()),remote]
+  if full_readback:command.append('--full-readback')
+  subprocess.run(command,cwd=ROOT,env=environment,check=True)
+  return json.loads((Path(folder)/'upload_receipt.json').read_text())
  from huggingface_hub import HfApi,hf_hub_download,hf_hub_url
- from huggingface_hub.utils import get_session
  folder=Path(folder)
  inventory={str(p.relative_to(folder)):dict(bytes=p.stat().st_size,sha256=sha(p)) for p in sorted(folder.rglob('*')) if p.is_file() and p.name not in ('upload_receipt.json','inventory.json')}
  write(folder/'inventory.json',inventory)
@@ -34,7 +37,8 @@ def publish(folder,remote,*,full_readback=False):
    url=hf_hub_url(HF_REPO,path,revision=commit.oid)
    for start in (0,max(0,meta['bytes']-65536)):
     end=min(meta['bytes']-1,start+65535)
-    with get_session().get(url,headers={'Range':f'bytes={start}-{end}'},stream=True,timeout=120) as response:
+    import requests
+    with requests.get(url,headers={'Range':f'bytes={start}-{end}'},stream=True,timeout=120) as response:
      response.raise_for_status();assert response.status_code==206,(path,response.status_code)
      data=response.content
     with open(folder/name,'rb') as stream:
