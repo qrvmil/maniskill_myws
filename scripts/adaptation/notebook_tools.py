@@ -11,6 +11,7 @@ class SeminarPolicy:
   self.checkpoint=Path(self.selection['checkpoint']);self.norm=sha(NORM)
   norm=self.checkpoint/'assets/d0/norm_stats.json';assert sha(norm)==self.norm
   weight=self.checkpoint/('residual.pt' if method=='residual' else 'model.safetensors');assert sha(weight)==self.selection['weights_sha256']
+  if method=='residual':assert sha(WORK/'sft/d0/3000/model.safetensors')==self.selection['base_weights_sha256']
   self.model=load_model(WORK/'sft/d0/3000' if method=='residual' else self.checkpoint).to('cuda')
   self.agent=None
   if method=='residual':

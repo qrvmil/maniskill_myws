@@ -53,6 +53,11 @@ def main():
   for method in METHODS:
    for task in TASKS:
     s=cells[method+'_'+task];w.writerow(dict(method=method,task=task,**{k:s[k] for k in ('n','successes','success_rate')},wilson_low=s['wilson_95ci'][0],wilson_high=s['wilson_95ci'][1]))
+ index=['# Все 300 финальных видео','', '| Method | Task | Seed | Outcome | Actions | Video | Episode JSON |','|---|---|---:|---|---:|---|---|']
+ for r in sorted(rows,key=lambda x:(x['method'],x['task'],x['seed'])):
+  prefix=f"https://huggingface.co/{HF_REPO}/resolve/main/final/{r['method']}/{r['task']}/{r['seed']}/"
+  index.append(f"| {r['method']} | {r['task']} | {r['seed']} | {'success' if r['success'] else 'failure'} | {r['length']} | [MP4]({prefix+r['video']}) | [JSON]({prefix+'episode.json'}) |")
+ (dest.parent/'VIDEOS.md').write_text('\n'.join(index)+'\n')
  def fmt(method,task):
   s=cells[method+'_'+task];lo,hi=s['wilson_95ci'];return f"{s['successes']}/50 — {100*s['success_rate']:.0f}% [{100*lo:.1f}; {100*hi:.1f}]"
  table='\n'.join('| '+label+' | '+fmt(m,'D0')+' | '+fmt(m,'D1')+' |' for m,label in [('full','Full SFT'),('expert','Action-expert SFT'),('residual','Residual RL')])
@@ -93,7 +98,7 @@ SFT методы сравнивают область обновляемых па
 ## Материалы и воспроизводимость
 
 - [Общий D0 checkpoint, teacher и три финальные модели с normalization](https://huggingface.co/{HF_REPO}/tree/main/checkpoints).
-- [Все 300 двухкамерных видео с episode JSON](https://huggingface.co/{HF_REPO}/tree/main/final), terminal frame включён.
+- [Индекс всех 300 двухкамерных видео и episode JSON](VIDEOS.md), terminal frame включён; [HF artifacts](https://huggingface.co/{HF_REPO}/tree/main/final).
 - [Generated reset states](https://huggingface.co/{HF_REPO}/tree/main/reset_states).
 - [Выполненный учебный notebook](seminar.ipynb): weights/norm → scene → observations → action → проверенный rollout → video → SR; повторное чтение не добавляет episodes.
 - [Протокол](PREREGISTRATION.md), [completeness check](results/completeness.json), [SR CSV](results/success_rates.csv).

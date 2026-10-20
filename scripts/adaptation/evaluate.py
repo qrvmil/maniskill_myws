@@ -25,9 +25,9 @@ class FlowModel:
 class PairedVideoEnv:
  def __init__(self,task,role,*,video=True):
   from maniskill_myws.pld.libero_backend import LiberoEnv
-  self.env=LiberoEnv(TASKS[task],render_size=256);self.task=task;self.role=role;self.video=video;self.frames=[]
-  assert self.env.prompt==TASKS[task]['name'].replace('_',' ')
- def __getattr__(self,name):return getattr(self.env,name)
+  self._env=LiberoEnv(TASKS[task],render_size=256);self.task=task;self.role=role;self.video=video;self.frames=[]
+  assert self._env.prompt==TASKS[task]['name'].replace('_',' ')
+ def __getattr__(self,name):return getattr(self._env,name)
  def record(self,raw):
   if self.video:
    self.frames.append(np.concatenate([np.ascontiguousarray(raw[k][::-1,::-1]) for k in ('agentview_image','robot0_eye_in_hand_image')],axis=1))
@@ -35,16 +35,16 @@ class PairedVideoEnv:
   path=WORK/'reset_states'/self.role/self.task/f'{seed}.npz'
   if path.exists():
    old=np.load(path,allow_pickle=False)
-   raw,info=self.env.reset(seed=seed,initial_state=old['sampled_initial_state'])
+   raw,info=self._env.reset(seed=seed,initial_state=old['sampled_initial_state'])
    assert info['reset_hash']==str(old['reset_hash']),f'Reset drift {self.task}/{seed}'
    assert np.array_equal(info['initial_state'],old['initial_state'])
   else:
-   raw,info=self.env.reset(seed=seed);path.parent.mkdir(parents=True,exist_ok=True)
+   raw,info=self._env.reset(seed=seed);path.parent.mkdir(parents=True,exist_ok=True)
    np.savez_compressed(path,initial_state=info['initial_state'],sampled_initial_state=info['sampled_initial_state'],reset_hash=info['reset_hash'],seed=seed,task=self.task)
   self.frames=[];self.record(raw);return raw,info
  def step(self,action):
-  raw,*rest=self.env.step(action);self.record(raw);return (raw,*rest)
- def close(self):self.env.close()
+  raw,*rest=self._env.step(action);self.record(raw);return (raw,*rest)
+ def close(self):self._env.close()
 
 def validation_teacher(model,checkpoint):
  from maniskill_myws.pld.libero_backend import ChunkedBasePolicy

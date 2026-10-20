@@ -22,20 +22,20 @@ def returns(transitions):
 
 class ShapedEnv:
  """Delegates simulator success unchanged and records shaping evidence at every boundary."""
- def __init__(self,env):self.env=env;self.potentials=[];self.reward_evidence=[]
- def __getattr__(self,name):return getattr(self.env,name)
+ def __init__(self,env):self._env=env;self.potentials=[];self.reward_evidence=[]
+ def __getattr__(self,name):return getattr(self._env,name)
  def reset(self,*,seed):
   from maniskill_myws.pld.libero_progress import task_progress
-  raw,info=self.env.reset(seed=seed);p=task_progress(self.env,raw)
+  raw,info=self._env.reset(seed=seed);p=task_progress(self._env,raw)
   self.reference_height=p['bowl_height'];self.phi=potential(p,self.reference_height)
   self.potentials=[self.phi];self.reward_evidence=[];self.raw=raw
   return raw,info
  def step(self,action):
   from maniskill_myws.pld.libero_progress import task_progress
-  raw,success,terminated,truncated,info=self.env.step(action);done=terminated or truncated
-  nxt=potential(task_progress(self.env,raw),self.reference_height)
+  raw,success,terminated,truncated,info=self._env.step(action);done=terminated or truncated
+  nxt=potential(task_progress(self._env,raw),self.reference_height)
   shaped=reward(success,self.phi,nxt,done)
   self.reward_evidence.append(dict(success_reward=success,phi=self.phi,next_phi=nxt,absorbing_next_phi=0. if done else nxt,done=bool(done),reward=shaped))
   self.phi=nxt;self.potentials.append(nxt);self.raw=raw
   return raw,shaped,terminated,truncated,info
- def close(self):self.env.close()
+ def close(self):self._env.close()

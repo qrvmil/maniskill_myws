@@ -141,7 +141,7 @@ def main():
   while counters['episode']<WARMUP_EPISODES or counters['active_steps']<ACTIVE_STEPS:
    warmup=counters['episode']<WARMUP_EPISODES;seed=20000+counters['episode']%1000
    # Exact final active budget: shorten only the final collection episode; final evaluation always has horizon220.
-   env.env.env.horizon=220 if warmup else min(220,ACTIVE_STEPS-counters['active_steps'])
+   env._env._env.horizon=220 if warmup else min(220,ACTIVE_STEPS-counters['active_steps'])
    teacher_residual.reset(seed);start_pos=online.pos
    def on_transition(tr):
     online.add(**tr);counters['environment_steps']+=1;counters['active_steps']+=int(not warmup)
