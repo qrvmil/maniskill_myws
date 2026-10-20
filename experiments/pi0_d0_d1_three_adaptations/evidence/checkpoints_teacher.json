@@ -1,0 +1,29 @@
+{
+  "repo": "qrvmil/pi0-d0-d1-three-adaptations-20261020",
+  "commit": "eea776e036a8c3fa53954f3c5ad556d2205b5923",
+  "verified": [
+    {
+      "path": "checkpoints/teacher/assets/d0/norm_stats.json",
+      "verification": "download+sha256",
+      "sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e"
+    },
+    {
+      "path": "checkpoints/teacher/model.safetensors",
+      "verification": "download+sha256",
+      "sha256": "a5caf094b09faaed0ff84d20e994a11f7ff19f91501c7af02670c4f355a28ea3"
+    },
+    {
+      "path": "checkpoints/teacher/training.json",
+      "verification": "download+sha256",
+      "sha256": "8abab49cf5d4f396d6cb96d9f4b1848290cdd00612d51adae928963af66d1cb1"
+    },
+    {
+      "path": "checkpoints/teacher/validation.json",
+      "verification": "download+sha256",
+      "sha256": "940404267e7b8561ff02b4dc34d29b5411e501a83f32a3e431957a8a0be7ed56"
+    }
+  ],
+  "time": 1792522027.4278207,
+  "upload_seconds": 797.4724233150482,
+  "verification_seconds": 775.4125235080719
+}
