@@ -1,0 +1,49 @@
+{
+  "repo": "qrvmil/pi0-d0-d1-three-adaptations-20261020",
+  "commit": "7164ab9d2e27792e5cb6747885325b06e1f28d33",
+  "verified": [
+    {
+      "path": "checkpoints/residual/after_teacher_warmup/assets/d0/norm_stats.json",
+      "verification": "download+sha256",
+      "sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e"
+    },
+    {
+      "path": "checkpoints/residual/after_teacher_warmup/collection_traces.tar.gz",
+      "verification": "download+sha256",
+      "sha256": "9e9b069c9e4c18b76a65716cc104f49717529b42f967bd5fa91b3b2251c506f7"
+    },
+    {
+      "path": "checkpoints/residual/after_teacher_warmup/critic_after_calql.json",
+      "verification": "download+sha256",
+      "sha256": "724a782b232e177d199ace2d8aa89f2ecdaa6a1c2245a253bb0d45f9b29e0b6d"
+    },
+    {
+      "path": "checkpoints/residual/after_teacher_warmup/critic_after_warmup.json",
+      "verification": "download+sha256",
+      "sha256": "5baa0c72481bdeaff8902e7a6b2305b26e6c6a6cb944363e16ad16d5325895f0"
+    },
+    {
+      "path": "checkpoints/residual/after_teacher_warmup/online_replay.npz",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "abee25e5262cbfb13d17687d11968358cb8057345a1ef4d3484e36dc6c6bb1fe"
+    },
+    {
+      "path": "checkpoints/residual/after_teacher_warmup/residual.pt",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "02287d6cf1bf0f62b952e8de82b8fa919a541eb095290fa2cb341f5f2f0b1542"
+    },
+    {
+      "path": "checkpoints/residual/after_teacher_warmup/training.json",
+      "verification": "download+sha256",
+      "sha256": "6b9cfc4cc306dcd4f39bf976d1c6749edbef2d08f60af3a550fe19b27db5a636"
+    },
+    {
+      "path": "checkpoints/residual/after_teacher_warmup/training_state.pt",
+      "verification": "download+sha256",
+      "sha256": "c61408228e545a581265df72f3827a8e0263f409245cf99eb7fabb1a61c78ec1"
+    }
+  ],
+  "time": 1792527763.3155532,
+  "upload_seconds": 331.36180543899536,
+  "verification_seconds": 29.275969982147217
+}
