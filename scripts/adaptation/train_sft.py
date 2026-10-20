@@ -109,8 +109,9 @@ def train(stage,*,profile=False):
    return
   with (root/'metrics.jsonl').open('a') as f:f.write(json.dumps(row)+'\n')
   step=current+1
-  interval=500 if stage=='d0' else 250
-  if step%interval==0 or step==SFT[stage]['updates']:
+  interval=1000 if stage=='d0' else 500
+  teacher_candidate=stage=='full' and step%250==0 and not (WORK/'teacher.json').exists()
+  if step%interval==0 or step==SFT[stage]['updates'] or teacher_candidate:
    target=save(model,opt,stage,step,rows,indices,initial_hash)
    if stage=='full' and step<1500 and not (WORK/'teacher.json').exists():
     from evaluate import validation_teacher

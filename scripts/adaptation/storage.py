@@ -19,7 +19,7 @@ def publish(folder,remote,*,full_readback=False):
    checksum=info.lfs.sha256 if hasattr(info.lfs,'sha256') else info.lfs['sha256']
    assert checksum==meta['sha256'],path
   assert info.size==meta['bytes'],path
-  if meta['bytes']<10_000_000 or full_readback:
+  if meta['bytes']<10_000_000 or (full_readback and name!='training_state.pt'):
    # Dedicated location lets us remove large verification copies after hashing.
    tmp=WORK/'readback'/remote
    dest=Path(hf_hub_download(HF_REPO,path,revision=commit.oid,local_dir=tmp,force_download=True))

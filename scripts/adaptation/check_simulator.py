@@ -12,10 +12,11 @@ def main():
   a=np.array([0.]*6+[-1.],np.float32)
   for _ in range(3):raw,reward,terminated,truncated,info=env.step(a)
   assert len(env.frames)==4
+  rewards=list(env.reward_evidence);assert all(np.isfinite(r['reward']) for r in rewards)
   raw,second=env.reset(seed=23020)
   assert first['reset_hash']==second['reset_hash']
   np.testing.assert_array_equal(first['initial_state'],second['initial_state'])
-  rows.append(dict(task=task,reset_hash=first['reset_hash'],initial_progress=initial_progress,shaping_rewards=env.reward_evidence))
+  rows.append(dict(task=task,reset_hash=first['reset_hash'],initial_progress=initial_progress,shaping_rewards=rewards))
   env.close()
  write(WORK/'evidence/simulator_smoke.json',dict(passed=True,episodes=rows))
  print('REAL_SIMULATOR_PAIRED_RESETS_AND_SHAPING_PASS',flush=True)
