@@ -27,6 +27,7 @@ def main():
   weights=path/('residual.pt' if method=='residual' else 'model.safetensors')
   assert sha(path/'assets/d0/norm_stats.json')==sha(NORM)
   selected[method]=dict(checkpoint=str(path),weights_sha256=sha(weights),normalization_sha256=sha(NORM),selection='fixed preregistered last budget; no final evaluations used',hf_repo=HF_REPO)
+ selected['residual']['base_weights_sha256']=sha(WORK/'sft/d0/3000/model.safetensors')
  if (WORK/'final_selection.json').exists():assert selected==json.loads((WORK/'final_selection.json').read_text())
  else:write(WORK/'final_selection.json',selected)
  binding=WORK/'selection';binding.mkdir(exist_ok=True)

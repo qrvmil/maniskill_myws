@@ -99,6 +99,7 @@ def final(method):
  from maniskill_myws.pld.libero_backend import ChunkedBasePolicy
  from maniskill_myws.pld.libero_runner import residual_policy
  selection=json.loads((WORK/'final_selection.json').read_text())
+ if method=='residual':assert sha(WORK/'sft/d0/3000/model.safetensors')==selection[method]['base_weights_sha256']
  checkpoint=Path(selection[method]['checkpoint']);assert sha(checkpoint/('residual.pt' if method=='residual' else 'model.safetensors'))==selection[method]['weights_sha256']
  torch.set_num_threads(4);torch.manual_seed(0)
  model=load_model(WORK/'sft/d0/3000' if method=='residual' else checkpoint).to('cuda')

@@ -42,7 +42,9 @@ def zero_check():
  from maniskill_myws.pld.libero_runner import run_episode
  from storage import publish,push_progress
  root=WORK/'zero_residual';root.mkdir(exist_ok=True)
- if (root/'complete.json').exists():return
+ if (root/'complete.json').exists():
+  assert json.loads((root/'complete.json').read_text())['base_weights_sha256']==sha(WORK/'sft/d0/3000/model.safetensors')
+  return
  model=load_model(WORK/'sft/d0/3000').to('cuda');rows=[]
  for task in TASKS:
   flow=FlowModel(model,task);base=ChunkedBasePolicy(flow,replan_steps=5);env=PairedVideoEnv(task,'sanity',video=False)
@@ -82,7 +84,10 @@ def main():
  last=None
  if (root/'latest.json').exists():last=json.loads((root/'latest.json').read_text())
  if last:
-  folder=Path(last['checkpoint']);agent=ResidualSAC.load(folder/'residual.pt',device='cuda')
+  folder=Path(last['checkpoint'])
+  if not (folder/'upload_receipt.json').exists():publish(folder,'checkpoints/residual/'+folder.name,full_readback=folder.name=='final')
+  metadata=json.loads((folder/'training.json').read_text());assert metadata['base_weights_sha256']==base_hash and metadata['normalization_sha256']==sha(NORM)
+  agent=ResidualSAC.load(folder/'residual.pt',device='cuda')
   s=torch.load(folder/'training_state.pt',weights_only=False,map_location='cpu');counters=s['counters'];rows=s['rows'];calql_done=s['calql_done']
   online.load(folder/'online_replay.npz');torch.set_rng_state(s['cpu_rng']);torch.cuda.set_rng_state(s['cuda_rng']);np.random.set_state(s['numpy_rng'])
  else:agent=create_agent()

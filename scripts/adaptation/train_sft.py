@@ -91,6 +91,8 @@ def train(stage,*,profile=False):
    gradients={n:dict(gradient_present=p.grad is not None,gradient_finite=p.grad is None or bool(torch.isfinite(p.grad).all())) for n,p in model.named_parameters()}
    write(root/'gradient_scope.json',gradients)
    assert all(p.grad is None for n,p in model.named_parameters() if not p.requires_grad)
+   for prefix in ('paligemma_with_expert.gemma_expert.model.','state_proj.','action_in_proj.','action_out_proj.','action_time_mlp_in.','action_time_mlp_out.'):
+    assert any(n.startswith(prefix) and p.grad is not None and bool(torch.any(p.grad!=0)) for n,p in model.named_parameters()),prefix
   grad=float(torch.nn.utils.clip_grad_norm_([p for p in model.parameters() if p.requires_grad],1.))
   if not np.isfinite(grad):raise FloatingPointError('Nonfinite SFT grad')
   opt.step();torch.cuda.synchronize();peak=max(peak,torch.cuda.max_memory_allocated())

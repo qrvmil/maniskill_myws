@@ -86,7 +86,7 @@ def load_model(path,*,training=False):
 def tensor_hash(tensor):
  import torch
  t=tensor.detach().cpu().contiguous()
- return hashlib.sha256(t.view(torch.uint8).numpy().tobytes()).hexdigest()
+ return hashlib.sha256(t.reshape(-1).view(torch.uint8).numpy().tobytes()).hexdigest()
 
 def scope(model,mode):
  allow=('paligemma_with_expert.gemma_expert.','state_proj.','action_in_proj.','action_out_proj.','action_time_mlp_in.','action_time_mlp_out.')
