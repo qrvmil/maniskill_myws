@@ -68,7 +68,7 @@ def batch(dataset,indices,device):
  from openpi.models.model import Observation
  rows=[dataset[int(i)] for i in indices]
  b=jax.tree.map(lambda *v:torch.as_tensor(np.stack(v)).to(device),*rows)
- actions=b.pop('actions');return Observation.from_dict(b),actions
+ actions=b.pop('actions').to(torch.float32);return Observation.from_dict(b),actions
 
 def load_model(path,*,training=False):
  import torch
