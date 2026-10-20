@@ -4,6 +4,9 @@ from pathlib import Path
 from common import ROOT,WORK,HF_REPO,sha,write
 
 def publish(folder,remote,*,full_readback=False):
+ os.environ.setdefault('HF_HUB_ENABLE_HF_TRANSFER','1')
+ from huggingface_hub import constants as hf_constants
+ hf_constants.HF_HUB_ENABLE_HF_TRANSFER=os.environ['HF_HUB_ENABLE_HF_TRANSFER']=='1'
  from huggingface_hub import HfApi,hf_hub_download,hf_hub_url
  from huggingface_hub.utils import get_session
  folder=Path(folder)

@@ -1,5 +1,6 @@
 #!/bin/bash
 set -euo pipefail
+export HF_HUB_ENABLE_HF_TRANSFER=1
 export HF_HOME=/workspace/.cache/huggingface
 export PYTHONPATH=/workspace/pi0_experiment/src:/workspace/LIBERO
 export JAX_PLATFORMS=cpu
@@ -26,6 +27,17 @@ fi
 "$PYTHON" -u scripts/adaptation/check_simulator.py
 "$PYTHON" -u scripts/adaptation/prepare_base.py
 "$PYTHON" -u scripts/adaptation/prepare.py
-"$PYTHON" -u scripts/adaptation/train_sft.py d0 --profile
+if [ ! -f /workspace/pi0_three/evidence/memory_profile.json ]; then
+  "$PYTHON" -u scripts/adaptation/train_sft.py d0 --profile
+else
+  "$PYTHON" - <<'PROFILE'
+import sys,json
+sys.path.insert(0,'scripts/adaptation')
+from common import WORK,MICROBATCH,BATCH
+p=json.loads((WORK/'evidence/memory_profile.json').read_text())
+assert p['effective_batch']==BATCH and p['microbatch']==MICROBATCH and p['fp32_master']
+print('REUSING_VERIFIED_MEMORY_PROFILE')
+PROFILE
+fi
 # The registered microbatch is launched only after the profile completed successfully.
 "$PYTHON" -u scripts/adaptation/train_sft.py d0

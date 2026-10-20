@@ -1,6 +1,7 @@
 #!/bin/bash
 . /opt/supervisor-scripts/utils/logging.sh
 . /opt/supervisor-scripts/utils/environment.sh
+export HF_HUB_ENABLE_HF_TRANSFER=1
 export HF_HOME=/workspace/.cache/huggingface
 export PYTHONPATH=/workspace/pi0_experiment/src:/workspace/LIBERO
 export JAX_PLATFORMS=cpu
