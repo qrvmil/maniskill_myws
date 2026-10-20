@@ -115,6 +115,7 @@ def final(method):
     if row is None:
      residual=None if agent is None else residual_policy(agent,{'otf_rollout_actions':1},'deterministic_actor',seed=seed+9000000)
      row=episode(env,base,seed=seed,method=method,task=task,checkpoint=checkpoint,residual=residual)
+    if not (folder/'upload_receipt.json').exists():
      publish(folder,f'final/{method}/{task}/{seed}',full_readback=True)
     rows.append(row);write(WORK/'final'/method/task/'episodes.json',rows)
     print('FINAL_EPISODE',method,task,seed,row['success'],row['length'],flush=True)

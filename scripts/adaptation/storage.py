@@ -51,7 +51,7 @@ def push_progress(message):
   import shutil
   (dest/'evidence').mkdir(exist_ok=True);shutil.copy2(src,dest/'evidence'/src.name)
  subprocess.run(['git','add','scripts/adaptation','experiments/pi0_d0_d1_three_adaptations'],cwd=ROOT,check=True)
- subprocess.run(['git','add','-f',*map(str,(dest/'evidence').glob('*.json'))],cwd=ROOT,check=True)
+ subprocess.run(['git','add','-f',*map(str,dest.rglob('*.json'))],cwd=ROOT,check=True)
  if subprocess.run(['git','diff','--cached','--quiet'],cwd=ROOT).returncode:
   subprocess.run(['git','commit','-m',message],cwd=ROOT,check=True)
   subprocess.run(['git','push','origin','HEAD'],cwd=ROOT,check=True)

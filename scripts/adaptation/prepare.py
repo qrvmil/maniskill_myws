@@ -19,5 +19,8 @@ def main():
   del ds
  assert json.loads((NORM.parent/'provenance.json').read_text())['normalization_sha256']==sha(NORM)
  write(WORK/'evidence/data_prepared.json',dict(sources=audits,normalization_sha256=sha(NORM)))
+ from storage import publish,push_progress
+ publish(NORM.parent,'normalization/d0',full_readback=True)
+ push_progress('exp: verify 50 native demos per task and publish immutable D0 normalization')
  print('ALL_NATIVE_DEMOS_AND_D0_NORM_PREPARED',sha(NORM),flush=True)
 if __name__=='__main__':main()

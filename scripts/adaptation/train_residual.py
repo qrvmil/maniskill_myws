@@ -102,7 +102,7 @@ def main():
   torch.save(dict(counters=counters,rows=rows,calql_done=calql_done,cpu_rng=torch.get_rng_state(),cuda_rng=torch.cuda.get_rng_state(),numpy_rng=np.random.get_state(),policy_rng=None if deployment is None else dict(cpu=deployment.cpu_rng,gpu=deployment.gpu_rng)),tmp/'training_state.pt')
   (tmp/'assets/d0').mkdir(parents=True,exist_ok=True);shutil.copy2(NORM,tmp/'assets/d0/norm_stats.json')
   write(tmp/'training.json',dict(counters=counters,base_checkpoint=str(base_path),base_weights_sha256=base_hash,teacher=teacher_info,
-    normalizaton_sha256=sha(NORM),offline_replay_sha256=offline_info['replay_sha256'],gamma=.99,beta=.1,residual_scale=SCALE,
+    normalization_sha256=sha(NORM),offline_replay_sha256=offline_info['replay_sha256'],gamma=.99,beta=.1,residual_scale=SCALE,
     v4_changes=['early full-SFT teacher warmup, actor/critic/temperature updates','potential-based shaping with absorbing terminal Phi=0'],
     online_collection='OTF',final_policy='deterministic_actor',probe_fraction=0,selection='fixed 50000 active transitions',
     frozen_d0_weights_unchanged=model_signature(model)==frozen))
