@@ -33,3 +33,23 @@ def test_teacher_bytes_survive_unselected_intermediate_cleanup(isolated):
  marker=isolated/'job.json';queue.discard(job,marker)
  assert not old.exists() and (teacher/'model.safetensors').read_bytes()==b'exact teacher bytes'
  assert json.loads(marker.read_text())['status']=='superseded'
+
+def test_waiting_snapshot_retired_only_after_newer_resumable_save(isolated):
+ old=isolated/'sft/full/250';old.mkdir(parents=True);(old/'model.safetensors').write_bytes(b'old')
+ first=queue.submit(old,'checkpoints/full/250')
+ newer=isolated/'sft/full/500';newer.mkdir();(newer/'model.safetensors').write_bytes(b'new')
+ (newer.parent/'latest.json').write_text(json.dumps(dict(checkpoint=str(newer),step=500)))
+ queue.retire_superseded()
+ assert old.exists(), 'Weights alone are insufficient to resume optimization'
+ (newer/'training_state.pt').write_bytes(b'optimizer and RNG')
+ queue.retire_superseded()
+ assert not old.exists() and newer.exists()
+ assert json.loads(Path(first['job']).read_text())['status']=='superseded'
+
+def test_queue_writer_preserves_running_upload(isolated):
+ old=isolated/'sft/full/250';old.mkdir(parents=True);(old/'model.safetensors').write_bytes(b'upload source')
+ first=queue.submit(old,'checkpoints/full/250');path=Path(first['job'])
+ job=json.loads(path.read_text());job['status']='running';path.write_text(json.dumps(job))
+ (isolated/'evidence').mkdir();(isolated/'evidence/full_complete.json').write_text('{}')
+ queue.retire_superseded()
+ assert old.exists() and json.loads(path.read_text())['status']=='running'
