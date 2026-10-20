@@ -2,7 +2,15 @@
 
 Рабочий код: `/workspace/pi0_experiment`, ветка `exp/pi0-d0-d1-three-adaptations-20261020`. Артефакты: `/workspace/pi0_three`; Python: `/workspace/pi0_venv/bin/python`. Эта машина не имеет persistent workspace volume; stop/start сохраняет диск, recycle/destroy — нет. HF: `qrvmil/pi0-d0-d1-three-adaptations-20261020`. Credentials находятся в стандартном для этой сессии cache, токены не входят в код/логи.
 
-## Состояние на 2026-10-20, 19:30 UTC
+## Состояние на 2026-10-20, 20:35 UTC
+
+Все четыре готовых обязательных checkpoints (D0/teacher/full/expert) опубликованы и прошли полное чтение policy weights из HF. Residual прошёл1000 Cal-QL updates и20 teacher-warmup episodes:4127 transitions,2 success. Проверены реальные изменения actor/critic/temperature и неизменность D0. Online OTF сбор продолжается до50000 active transitions, сейчас более6000. Финальной оценки ещё нет.
+
+Полный resumable snapshot `rl/active_5060` опубликован/прочитан из HF (`checkpoints/residual/active_5060`): active5060, environment9187, episode43; critic optimizer9187, actor/temperature4593, total_updates10187 с1000 Cal-QL. Все CPU/CUDA/NumPy/private-policy RNG streams присутствуют. `audit_online.py active_5060` независимо подтвердил rewards/MC returns всех9187 transitions (<3e-8), отдельные teacher/D0-cache actions и absorbing next-base zeros; teacher reconstruction error <6e-8 при xi2. Code/receipts/audits в GitHub; `pi0_three_pipeline` и `pi0_three_publish` работают. Следующий snapshot после ещё5000 active steps на границе episode.
+
+Actual SFT samplers проверены: все5832 D0 frames (50 demos) увидены4–5 раз, все5913 D1 frames (50 demos) —2–3 раза в каждом SFT; два D1 sampler массива совпадают. `STATUS.md` и live metrics всегда новее этой заметки.
+
+## Датированная заметка, 19:30 UTC
 
 D0 full SFT3000 и оба D1 SFT1500 завершены. Общий D0 (`9ba40f3f7c1b7eb40805df49901109f9fe00089aae10b04eab412d62694cb451`), ранний teacher250 и финальный full D1 опубликованы и прошли полное чтение policy weights из HF. Expert1500 сейчас публикуется; независимо прочитаны все603 frozen tensors из сохранённого safetensors — hashes и float32 dtype совпали. Оба D1 optimizer имеют ровно1500 steps; все777 initial hashes, sampler и первый loss совпали между full/expert.
 
