@@ -39,7 +39,7 @@ D0: «pick up the black bowl from table center and place it on the plate»; D1: 
  for method,label in [('full','1. Full SFT'),('expert','2. Action-expert SFT'),('residual','3. Residual RL')]:
   md('## '+label+'\n\nЗагрузим веса и ту же D0 normalization. Создадим D1-сцену с сохранённым reset state и проверим hash. Затем вычислим первое действие и сверим его с финальным эпизодом.')
   code(f"policy = SeminarPolicy('{method}')\nprint('Checkpoint:', policy.checkpoint)\nprint('D0 normalization SHA256:', policy.norm)")
-  code("observation = policy.scene('D1', seed=30000)\nprint('Prompt:', observation['prompt'])\nprint('State:', observation['state'])\nprint('Images:', observation['images'].shape, observation['images'].dtype)\nprint('Reset SHA256:', observation['reset_hash'])")
+  code("observation = policy.scene('D1', seed=30000)\nprint('Prompt:', observation['prompt'])\nprint('State:', observation['state'])\nprint('Images:', observation['images'].shape, observation['images'].dtype)\nprint('Reset SHA256:', observation['reset_hash'])\nprint('Initial observation SHA256:', observation['initial_observation_hash'])")
   code("import matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2, figsize=(9, 4))\nfor ax, image, title in zip(axes, observation['images'], ['agentview', 'wrist']):\n    ax.imshow(image); ax.set_title(title); ax.axis('off')\nplt.show()")
   code("action = policy.action()\naction")
   md('''`executed_action` — семь bounded команд OSC: translation, rotation и gripper. Chunk длиной50 предсказывается заново каждые5 исполненных actions. Rollout ниже переиспользует проверенный финальный episode; видео включает обе камеры и terminal frame.''')

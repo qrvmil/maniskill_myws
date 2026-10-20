@@ -2,7 +2,17 @@
 
 Рабочий код: `/workspace/pi0_experiment`, ветка `exp/pi0-d0-d1-three-adaptations-20261020`. Артефакты: `/workspace/pi0_three`; Python: `/workspace/pi0_venv/bin/python`. Эта машина не имеет persistent workspace volume; stop/start сохраняет диск, recycle/destroy — нет. HF: `qrvmil/pi0-d0-d1-three-adaptations-20261020`. Credentials находятся в стандартном для этой сессии cache, токены не входят в код/логи.
 
-## Состояние на 2026-10-20, 14:20 UTC
+## Состояние на 2026-10-20, 19:30 UTC
+
+D0 full SFT3000 и оба D1 SFT1500 завершены. Общий D0 (`9ba40f3f7c1b7eb40805df49901109f9fe00089aae10b04eab412d62694cb451`), ранний teacher250 и финальный full D1 опубликованы и прошли полное чтение policy weights из HF. Expert1500 сейчас публикуется; независимо прочитаны все603 frozen tensors из сохранённого safetensors — hashes и float32 dtype совпали. Оба D1 optimizer имеют ровно1500 steps; все777 initial hashes, sampler и первый loss совпали между full/expert.
+
+Teacher250 имел3/10 на validation22000–22009; повторная проверка после reset fix также3/10, weights прежние. До RL zero gate обнаружил разные sensor caches у fresh/restored resets с одинаковым physics hash. Исправлено одинаковым `set_init_state` refresh до10 settle steps, добавлены initial-observation hashes в reset NPZ и final protocol. Реальные12 rollout (6 base/zero pairs) совпали побайтово по images, actions, physics trajectories, lengths/success и noise. Бюджеты и weights не менялись, final seeds не использовались.
+
+Native D1 replay пересчитан:50/50 demos,5055 transitions, SHA256 `12d788d4ff17ad2dbd76fa13a37427a718725f57b5dede280140a86dcdf629ee`. Независимый `audit_offline.py` подтвердил исходные actions и обе камеры, next-base cache и absorbing zero sentinel, shared shaped rewards/returns (ошибки <3e-8). Residual сейчас выполняет1000 Cal-QL updates, затем20 teacher warmup episodes и50000 active transitions. `pi0_three_pipeline` и `pi0_three_publish` работают; `pi0_three_d0` штатно EXITED. В `pipeline.py` исправлена обработка nonzero CLI exit supervisor status для штатно завершённой зависимости.
+
+300 финальных episodes/videos, SR и выполненного notebook ещё нет. Следить за finite RL metrics, warmup actor/critic/temperature hash changes, base freeze, publication receipts. После обучения pipeline сам фиксирует final selection, запускает300 episodes и notebook. Требуются итоговая проверка интерпретации отчёта и визуальный просмотр нескольких final videos.
+
+## Ранняя датированная заметка, 14:20 UTC
 
 Основной D0 full SFT работает, пройдено более500/3000 updates. Никаких финальных SR пока нет. Pipeline ждёт завершения D0 и затем запускает остальные стадии последовательно. Текущее состояние всегда проверять по supervisor и метрикам, а не по этой датированной заметке.
 

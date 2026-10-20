@@ -24,7 +24,7 @@ class SeminarPolicy:
   self.task,self.seed=task,seed;self.env=PairedVideoEnv(task,'final')
   self.raw,self.info=self.env.reset(seed=seed);self.flow=FlowModel(self.model,task);self.base=ChunkedBasePolicy(self.flow,replan_steps=5);self.base.reset(seed)
   obs=convert_observation(self.raw,self.env.prompt)
-  return dict(prompt=self.env.prompt,state=obs['state'],images=obs['images'],reset_hash=self.info['reset_hash'])
+  return dict(prompt=self.env.prompt,state=obs['state'],images=obs['images'],reset_hash=self.info['reset_hash'],initial_observation_hash=self.env.initial_observation_hash)
  def action(self):
   from maniskill_myws.pld.libero_backend import convert_observation
   from maniskill_myws.pld.libero_runner import residual_policy
