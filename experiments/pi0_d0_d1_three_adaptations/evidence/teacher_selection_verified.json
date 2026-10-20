@@ -1,0 +1,11 @@
+{
+  "teacher_step": 250,
+  "validation_successes": 3,
+  "validation_n": 10,
+  "teacher_weights_sha256": "a5caf094b09faaed0ff84d20e994a11f7ff19f91501c7af02670c4f355a28ea3",
+  "common_d0_weights_sha256": "9ba40f3f7c1b7eb40805df49901109f9fe00089aae10b04eab412d62694cb451",
+  "normalization_sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e",
+  "same_inode_as_exact_early_checkpoint": true,
+  "teacher_is_not_residual_base": true,
+  "final_seeds_used": false
+}
