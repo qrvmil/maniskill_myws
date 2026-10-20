@@ -1,0 +1,23 @@
+{
+  "checkpoint": "active_5060",
+  "optimizer_steps": {
+    "actor_opt": [
+      4593
+    ],
+    "q_opt": [
+      9187
+    ],
+    "alpha_opt": [
+      4593
+    ]
+  },
+  "total_updates": 10187,
+  "calql_updates": 1000,
+  "online_critic_updates": 9187,
+  "counters": {
+    "episode": 43,
+    "active_steps": 5060,
+    "environment_steps": 9187
+  },
+  "cpu_cuda_numpy_private_policy_rng_present": true
+}

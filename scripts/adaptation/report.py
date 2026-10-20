@@ -111,9 +111,10 @@ SFT методы сравнивают область обновляемых па
 
 ## Материалы и воспроизводимость
 
-- [Общий D0 checkpoint, teacher и три финальные модели с normalization](https://huggingface.co/{HF_REPO}/tree/main/checkpoints).
+- [Общий D0 checkpoint3000](https://huggingface.co/{HF_REPO}/tree/main/checkpoints/d0/3000) и [ранний teacher250](https://huggingface.co/{HF_REPO}/tree/main/checkpoints/teacher).
+- Финальные модели с normalization: [full SFT1500](https://huggingface.co/{HF_REPO}/tree/main/checkpoints/full/1500), [action-expert SFT1500](https://huggingface.co/{HF_REPO}/tree/main/checkpoints/expert/1500), [residual RL50000](https://huggingface.co/{HF_REPO}/tree/main/checkpoints/residual/final).
 - [Индекс всех 300 двухкамерных видео и episode JSON](VIDEOS.md), terminal frame включён; [HF artifacts](https://huggingface.co/{HF_REPO}/tree/main/final).
-- [Generated reset states](https://huggingface.co/{HF_REPO}/tree/main/reset_states).
+- [Generated final reset states](https://huggingface.co/{HF_REPO}/tree/main/reset_states/final).
 - [Выполненный учебный notebook](seminar.ipynb): weights/norm → scene → observations → action → проверенный rollout → video → SR; повторное чтение не добавляет episodes.
 - [Протокол](PREREGISTRATION.md), [completeness check](results/completeness.json), [SR CSV](results/success_rates.csv).
 
