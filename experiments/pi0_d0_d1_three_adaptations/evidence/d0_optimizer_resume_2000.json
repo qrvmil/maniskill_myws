@@ -1,0 +1,11 @@
+{
+  "complete": true,
+  "completed_update": 2000,
+  "optimizer_tensor_groups": 770,
+  "all_optimizer_steps": [
+    2000
+  ],
+  "sampler_sha256": "5f0d5d17eac511f92d5fef0ef448dea7c81472ebe6d08037408b59103bc3589e",
+  "normalization_sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e",
+  "resume_source_update": 1000
+}
