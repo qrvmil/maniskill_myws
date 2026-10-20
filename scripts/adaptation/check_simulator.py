@@ -12,6 +12,9 @@ def main():
   a=np.array([0.]*6+[-1.],np.float32)
   for _ in range(3):raw,reward,terminated,truncated,info=env.step(a)
   assert len(env.frames)==4
+  from PIL import Image
+  out=WORK/'evidence'/f'camera_smoke_{task}.png'
+  Image.fromarray(np.concatenate([env.frames[0],env.frames[-1]],axis=0)).save(out)
   rewards=list(env.reward_evidence);assert all(np.isfinite(r['reward']) for r in rewards)
   raw,second=env.reset(seed=23020)
   assert first['reset_hash']==second['reset_hash']

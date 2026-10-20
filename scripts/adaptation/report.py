@@ -14,12 +14,10 @@ def interim():
   w=csv.DictWriter(f,fieldnames=list(compact[0]) if compact else ['method','task','seed','success']);w.writeheader();w.writerows(compact)
  return rows
 
-def main():
+def analyze(rows):
  from scipy.stats import binomtest
  from maniskill_myws.pld.multitask_protocol import summarize,paired_change
- from evaluate import verified_episode
- from storage import publish,push_progress
- rows=interim();selection=json.loads((WORK/'final_selection.json').read_text());cells={}
+ cells={}
  assert len(rows)==300 and len({(r['method'],r['task'],r['seed']) for r in rows})==300
  for method in METHODS:
   for task in TASKS:
@@ -27,7 +25,8 @@ def main():
    assert sorted(r['seed'] for r in cell)==list(range(30000,30050))
    assert len({r['reset_hash'] for r in cell})==50,'Repeated initial scenes within a task'
    for r in cell:
-    verified_episode(WORK/'final'/method/task/str(r['seed']),method,task,r['seed'],selection[method]['checkpoint'])
+    assert 1<=r['length']<=220 and (r['success'] or r['length']==220)
+    assert len(r['flow_noise_hashes'])==(r['length']+4)//5
    cells[method+'_'+task]=summarize(cell)
  for task in TASKS:
   for seed in range(30000,30050):
@@ -45,6 +44,16 @@ def main():
  order=sorted(range(len(pairs)),key=lambda i:pairs[i]['mcnemar_exact_p']);prev=0
  for rank,i in enumerate(order):
   prev=max(prev,min(1.,(len(pairs)-rank)*pairs[i]['mcnemar_exact_p']));pairs[i]['mcnemar_holm_p']=prev
+ return cells,pairs
+
+def main():
+ from evaluate import verified_episode
+ from storage import publish,push_progress
+ rows=interim();selection=json.loads((WORK/'final_selection.json').read_text())
+ cells,pairs=analyze(rows)
+ assert len(list((WORK/'final').glob('*/*/*/*.mp4')))==300,'Unexpected missing or orphan final videos'
+ for r in rows:
+  verified_episode(WORK/'final'/r['method']/r['task']/str(r['seed']),r['method'],r['task'],r['seed'],selection[r['method']]['checkpoint'])
  dest=ROOT/'experiments/pi0_d0_d1_three_adaptations/results'
  write(dest/'success_rates.json',cells);write(dest/'paired_comparisons.json',pairs)
  write(dest/'completeness.json',dict(passed=True,episodes=300,videos=300,cells=6,n_per_cell=50,terminal_frames_verified=True,reset_hashes_equal=True,common_flow_noise_prefixes_equal=True))

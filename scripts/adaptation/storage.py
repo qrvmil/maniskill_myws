@@ -9,36 +9,38 @@ def publish(folder,remote,*,full_readback=False):
  folder=Path(folder)
  inventory={str(p.relative_to(folder)):dict(bytes=p.stat().st_size,sha256=sha(p)) for p in sorted(folder.rglob('*')) if p.is_file() and p.name not in ('upload_receipt.json','inventory.json')}
  write(folder/'inventory.json',inventory)
- api=HfApi();commit=api.upload_folder(repo_id=HF_REPO,folder_path=folder,path_in_repo=remote,commit_message='Save '+remote,ignore_patterns=['upload_receipt.json'])
- # Read back each small artifact; large artifacts require exact remote LFS content hash plus sampled HTTP bytes.
- verified=[]
- for name,meta in inventory.items():
-  path=remote+'/'+name
-  info=api.get_paths_info(HF_REPO,[path],revision=commit.oid)[0]
+ api=HfApi();started=time.time()
+ commit=api.upload_folder(repo_id=HF_REPO,folder_path=folder,path_in_repo=remote,commit_message='Save '+remote,ignore_patterns=['upload_receipt.json'])
+ uploaded=time.time()
+ paths=[remote+'/'+name for name in inventory]
+ infos={item.path:item for item in api.get_paths_info(HF_REPO,paths,revision=commit.oid)}
+ # Independent readbacks share one batched metadata request and bounded network concurrency.
+ def verify(item):
+  name,meta=item;path=remote+'/'+name;info=infos[path]
   if info.lfs:
    checksum=info.lfs.sha256 if hasattr(info.lfs,'sha256') else info.lfs['sha256']
    assert checksum==meta['sha256'],path
   assert info.size==meta['bytes'],path
   if meta['bytes']<10_000_000 or (full_readback and name!='training_state.pt'):
-   # Dedicated location lets us remove large verification copies after hashing.
    tmp=WORK/'readback'/remote
    dest=Path(hf_hub_download(HF_REPO,path,revision=commit.oid,local_dir=tmp,force_download=True))
    assert sha(dest)==meta['sha256'],path
    if meta['bytes']>=10_000_000:dest.unlink()
    method='download+sha256'
   else:
-   import requests
    url=hf_hub_url(HF_REPO,path,revision=commit.oid)
    for start in (0,max(0,meta['bytes']-65536)):
     end=min(meta['bytes']-1,start+65535)
-    r=requests.get(url,headers={'Range':f'bytes={start}-{end}'},stream=True,timeout=120)
-    r.raise_for_status()
-    assert r.status_code==206,(path,r.status_code)
-    data=r.content
-    with open(folder/name,'rb') as f:f.seek(start);assert data==f.read(end-start+1)
+    with get_session().get(url,headers={'Range':f'bytes={start}-{end}'},stream=True,timeout=120) as response:
+     response.raise_for_status();assert response.status_code==206,(path,response.status_code)
+     data=response.content
+    with open(folder/name,'rb') as stream:
+     stream.seek(start);assert data==stream.read(end-start+1)
    method='remote LFS sha256 + first/last 64KiB readback'
-  verified.append(dict(path=path,verification=method,sha256=meta['sha256']))
- receipt=dict(repo=HF_REPO,commit=commit.oid,verified=verified,time=time.time())
+  return dict(path=path,verification=method,sha256=meta['sha256'])
+ from concurrent.futures import ThreadPoolExecutor
+ with ThreadPoolExecutor(max_workers=4) as executor:verified=list(executor.map(verify,inventory.items()))
+ receipt=dict(repo=HF_REPO,commit=commit.oid,verified=verified,time=time.time(),upload_seconds=uploaded-started,verification_seconds=time.time()-uploaded)
  write(folder/'upload_receipt.json',receipt)
  evidence=ROOT/'experiments/pi0_d0_d1_three_adaptations/evidence'/ (remote.replace('/','_')+'.json')
  write(evidence,receipt)
@@ -52,7 +54,12 @@ def push_progress(message):
  for stage in ('d0','full','expert'):
   p=WORK/'sft'/stage/'latest.json'
   latest=json.loads(p.read_text()) if p.exists() else None
-  lines.append('- SFT '+stage+': '+(str(latest['step'])+' updates; checkpoint '+latest['checkpoint'] if latest else 'ещё нет сохранённого checkpoint'))
+  metrics=WORK/'sft'/stage/'metrics.jsonl';live=None
+  if metrics.exists():
+   try:live=json.loads(metrics.read_text().strip().splitlines()[-1])['step']
+   except (ValueError,IndexError):pass
+  saved=str(latest['step'])+' updates; checkpoint '+latest['checkpoint'] if latest else 'ещё нет сохранённого checkpoint'
+  lines.append('- SFT '+stage+': '+(str(live)+' выполненных updates; ' if live is not None else '')+saved)
  p=WORK/'teacher.json'
  lines.append('- Teacher: '+(str(json.loads(p.read_text())['step'])+' D1 full-SFT updates, validation passed' if p.exists() else 'ещё не выбран по отдельной validation'))
  p=WORK/'rl/latest.json'
@@ -61,7 +68,8 @@ def push_progress(message):
  lines+=['- Финальные episodes: '+str(len(final_rows))+'/300. Каждому завершённому episode соответствует проверенное двухкамерное видео с terminal frame.', '', 'Final seeds не используются для настройки или выбора checkpoints. Завершённые episodes при resume проверяются и переиспользуются без увеличения N.', '', 'Код: `/workspace/pi0_experiment`; артефакты: `/workspace/pi0_three`; среда: `/workspace/pi0_venv`. Supervisor и логи: `pi0_three_d0`, `pi0_three_pipeline`, `/var/log/portal/<name>.log`.']
  if (dest/'results/completeness.json').exists():lines+=['', '[Результаты и completeness check](results/completeness.json); [краткий отчёт](REPORT.md).']
  (dest/'STATUS.md').write_text('\n'.join(lines)+'\n')
- for src in (WORK/'evidence').glob('*.json'):
+ for src in (WORK/'evidence').iterdir():
+  if src.suffix not in ('.json','.png'):continue
   import shutil
   (dest/'evidence').mkdir(exist_ok=True);shutil.copy2(src,dest/'evidence'/src.name)
  subprocess.run(['git','add','scripts/adaptation','experiments/pi0_d0_d1_three_adaptations'],cwd=ROOT,check=True)

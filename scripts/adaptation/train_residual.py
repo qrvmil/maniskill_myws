@@ -112,6 +112,8 @@ def main():
     online_collection='OTF',final_policy='deterministic_actor',probe_fraction=0,selection='fixed 50000 active transitions',
     frozen_d0_weights_unchanged=model_signature(model)==frozen))
   assert json.loads((tmp/'training.json').read_text())['frozen_d0_weights_unchanged']
+  for name in ('critic_after_calql.json','critic_after_warmup.json'):
+   if (root/name).exists():shutil.copy2(root/name,tmp/name)
   if (root/'collection').exists():shutil.copytree(root/'collection',tmp/'collection',dirs_exist_ok=True)
   tmp.replace(folder);write(root/'latest.json',dict(checkpoint=str(folder),counters=counters))
   publish(folder,'checkpoints/residual/'+label,full_readback=label=='final')
@@ -127,7 +129,10 @@ def main():
  if not calql_done:
   agent.begin_calql('auxiliary_full_action')
   for _ in range(1000):update('calql',offline.sample(256))
-  agent.finish_calql();calql_done=True;save('after_calql')
+  agent.finish_calql();calql_done=True
+  from maniskill_myws.pld.libero_diagnostics import diagnose_critic
+  write(root/'critic_after_calql.json',diagnose_critic(agent,offline))
+  save('after_calql')
  env=ShapedEnv(PairedVideoEnv('D1','rl',video=False))
  teacher_residual=TeacherResidual(teacher,env)
  deployment=residual_policy(agent,{'otf_rollout_actions':1},'otf',seed=2000000)
@@ -137,6 +142,7 @@ def main():
   if s:deployment.cpu_rng=s['cpu'];deployment.gpu_rng=s['gpu']
  last_saved_active=(counters['active_steps']//5000)*5000
  actor_before={n:tensor_hash(p) for n,p in agent.actor.named_parameters() if not n.startswith('obs_encoder.')};alpha_before=tensor_hash(agent.log_alpha)
+ critic_before={n:tensor_hash(p) for n,p in agent.q1.named_parameters() if p.requires_grad}
  try:
   while counters['episode']<WARMUP_EPISODES or counters['active_steps']<ACTIVE_STEPS:
    warmup=counters['episode']<WARMUP_EPISODES;seed=20000+counters['episode']%1000
@@ -161,9 +167,12 @@ def main():
    if counters['episode']==WARMUP_EPISODES:
     actor_changed=any(tensor_hash(p)!=actor_before[n] for n,p in agent.actor.named_parameters() if n in actor_before)
     alpha_changed=tensor_hash(agent.log_alpha)!=alpha_before
-    assert actor_changed and alpha_changed and agent.critic_optimizer_steps>0
-    write(WORK/'evidence/warmup_updates.json',dict(actor_changed=actor_changed,temperature_changed=alpha_changed,critic_optimizer_steps=agent.critic_optimizer_steps,
+    critic_changed=any(tensor_hash(p)!=critic_before[n] for n,p in agent.q1.named_parameters() if n in critic_before)
+    assert actor_changed and alpha_changed and critic_changed and agent.critic_optimizer_steps>0
+    write(WORK/'evidence/warmup_updates.json',dict(actor_changed=actor_changed,temperature_changed=alpha_changed,critic_changed=critic_changed,critic_optimizer_steps=agent.critic_optimizer_steps,
       actor_optimizer_steps=agent.actor_optimizer_steps,teacher_checkpoint=teacher_info['checkpoint'],base_checkpoint=str(base_path),base_unchanged=model_signature(model)==frozen))
+    from maniskill_myws.pld.libero_diagnostics import diagnose_critic
+    write(root/'critic_after_warmup.json',diagnose_critic(agent,offline))
     save('after_teacher_warmup')
     # Teacher has no role after warmup and can leave GPU memory.
     teacher_model.to('cpu');torch.cuda.empty_cache()

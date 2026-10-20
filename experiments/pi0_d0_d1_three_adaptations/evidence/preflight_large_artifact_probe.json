@@ -1,0 +1,19 @@
+{
+  "repo": "qrvmil/pi0-d0-d1-three-adaptations-20261020",
+  "commit": "0c7e1547ab423fad0c3cd8729689bb8a6699a216",
+  "verified": [
+    {
+      "path": "preflight/large_artifact_probe/README.md",
+      "verification": "download+sha256",
+      "sha256": "9e14c37aa95e61efe9280e35927be70a97e8ef9d6cf8d50cfd69f9f4ddae062f"
+    },
+    {
+      "path": "preflight/large_artifact_probe/large_probe.bin",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "decc9bfbf4d234a7581082f4e3b77696fad1458edc974787a0fa3d882eea6399"
+    }
+  ],
+  "time": 1792505784.0222328,
+  "upload_seconds": 10.53807282447815,
+  "verification_seconds": 6.881167888641357
+}

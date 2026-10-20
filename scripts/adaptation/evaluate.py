@@ -71,9 +71,14 @@ def episode(env,base,*,seed,method,task,checkpoint,residual=None,scale=2.):
  outcome='success' if row['success'] else 'failure'
  folder=WORK/'final'/method/task/str(seed);folder.mkdir(parents=True,exist_ok=True)
  path=folder/f'{method}_{task}_seed{seed}_{outcome}.mp4'
+ for old in folder.glob('*.mp4'):
+  # No completed episode JSON exists on this path; preserve an interrupted encode outside final data.
+  quarantine=WORK/'incomplete_final'/method/task/str(seed);quarantine.mkdir(parents=True,exist_ok=True)
+  old.rename(quarantine/(str(time.time_ns())+'_'+old.name))
  assert len(env.frames)==row['length']+1
  imageio.mimwrite(path,env.frames,fps=20,codec='libx264',quality=7,macro_block_size=1)
  verified=validate_video(path,row['length']+1)
+ assert (verified['width'],verified['height'])==(512,256)
  row.update(method=method,task=task,checkpoint=str(checkpoint),normalization_sha256=sha(NORM),
    first_action=transitions[0]['action'].tolist(),first_base_action=transitions[0]['base_action'].tolist(),
    video=path.name,video_sha256=sha(path),video_verification=verified,includes_terminal_frame=True,
@@ -90,7 +95,10 @@ def verified_episode(folder,method,task,seed,checkpoint):
  assert (row['method'],row['task'],row['seed'],row['checkpoint'])==(method,task,seed,str(checkpoint))
  assert row['normalization_sha256']==sha(NORM)
  reset=np.load(WORK/'reset_states/final'/task/f'{seed}.npz');assert row['reset_hash']==str(reset['reset_hash'])
- video=folder/row['video'];assert sha(video)==row['video_sha256'];validate_video(video,row['length']+1)
+ assert int(reset['seed'])==seed and str(reset['task'])==task
+ assert row['includes_terminal_frame'] and row['cameras']==['agentview','robot0_eye_in_hand']
+ video=folder/row['video'];assert sha(video)==row['video_sha256']
+ verification=validate_video(video,row['length']+1);assert (verification['width'],verification['height'])==(512,256)
  return row
 
 def final(method):
