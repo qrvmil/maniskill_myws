@@ -1,0 +1,44 @@
+{
+  "repo": "qrvmil/pi0-d0-d1-three-adaptations-20261020",
+  "commit": "35fed1a29a9a945fe83853ac788dbdc8acbb8990",
+  "verified": [
+    {
+      "path": "checkpoints/d0/1000/assets/d0/norm_stats.json",
+      "verification": "download+sha256",
+      "sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e"
+    },
+    {
+      "path": "checkpoints/d0/1000/gradient_scope.json",
+      "verification": "download+sha256",
+      "sha256": "added7f7db47ac49af59e8a923ae749bd8071edff0b8062801c10b002eb1ba23"
+    },
+    {
+      "path": "checkpoints/d0/1000/model.safetensors",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "b144c93e4e2e6757d3fa869cea69cb29e7dbea1ef2c97700cc9298aabd10923c"
+    },
+    {
+      "path": "checkpoints/d0/1000/sample_indices.npy",
+      "verification": "download+sha256",
+      "sha256": "5f0d5d17eac511f92d5fef0ef448dea7c81472ebe6d08037408b59103bc3589e"
+    },
+    {
+      "path": "checkpoints/d0/1000/scope.json",
+      "verification": "download+sha256",
+      "sha256": "cbd7e2c8fe2915431d0daa5fa1fcc75b23358dcd565c7ced450acca481bc4e13"
+    },
+    {
+      "path": "checkpoints/d0/1000/training.json",
+      "verification": "download+sha256",
+      "sha256": "88dfe755a83d7c5f97c363f92bcbd2e447c680a4b8a60ea4fcb1f31d44951b73"
+    },
+    {
+      "path": "checkpoints/d0/1000/training_state.pt",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "92acbdf3f7cbdba74ff60487e86946b7a7e376731cd7b2ecf7176f56fda47166"
+    }
+  ],
+  "time": 1792515318.935581,
+  "upload_seconds": 3900.1132674217224,
+  "verification_seconds": 25.42842388153076
+}

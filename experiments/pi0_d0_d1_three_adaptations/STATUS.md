@@ -1,10 +1,10 @@
 # Статус эксперимента
 
-Обновлено UTC: 2026-10-20T16:44:32.119366+00:00
+Обновлено UTC: 2026-10-20T16:55:19.594747+00:00
 
 GitHub/HF write/read probes прошли. Бюджеты и правила выбора: [PREREGISTRATION.md](PREREGISTRATION.md).
 
-- SFT d0: 2634 выполненных updates; 2000 updates; checkpoint /workspace/pi0_three/sft/d0/2000
+- SFT d0: 2868 выполненных updates; 2000 updates; checkpoint /workspace/pi0_three/sft/d0/2000
 - SFT full: ещё нет сохранённого checkpoint
 - SFT expert: ещё нет сохранённого checkpoint
 - Teacher: ещё не выбран по отдельной validation
