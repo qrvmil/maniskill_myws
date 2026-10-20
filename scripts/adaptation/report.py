@@ -25,6 +25,7 @@ def main():
   for task in TASKS:
    cell=[r for r in rows if (r['method'],r['task'])==(method,task)]
    assert sorted(r['seed'] for r in cell)==list(range(30000,30050))
+   assert len({r['reset_hash'] for r in cell})==50,'Repeated initial scenes within a task'
    for r in cell:
     verified_episode(WORK/'final'/method/task/str(r['seed']),method,task,r['seed'],selection[method]['checkpoint'])
    cells[method+'_'+task]=summarize(cell)

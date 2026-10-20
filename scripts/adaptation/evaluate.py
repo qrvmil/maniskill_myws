@@ -26,6 +26,7 @@ class PairedVideoEnv:
  def __init__(self,task,role,*,video=True):
   from maniskill_myws.pld.libero_backend import LiberoEnv
   self.env=LiberoEnv(TASKS[task],render_size=256);self.task=task;self.role=role;self.video=video;self.frames=[]
+  assert self.env.prompt==TASKS[task]['name'].replace('_',' ')
  def __getattr__(self,name):return getattr(self.env,name)
  def record(self,raw):
   if self.video:
