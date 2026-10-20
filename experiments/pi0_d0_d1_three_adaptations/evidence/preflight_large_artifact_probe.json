@@ -9,11 +9,11 @@
     },
     {
       "path": "preflight/large_artifact_probe/large_probe.bin",
-      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "verification": "download+sha256",
       "sha256": "decc9bfbf4d234a7581082f4e3b77696fad1458edc974787a0fa3d882eea6399"
     }
   ],
-  "time": 1792505784.0222328,
-  "upload_seconds": 10.53807282447815,
-  "verification_seconds": 6.881167888641357
+  "time": 1792508999.8967018,
+  "upload_seconds": 16.371166229248047,
+  "verification_seconds": 14.337978601455688
 }

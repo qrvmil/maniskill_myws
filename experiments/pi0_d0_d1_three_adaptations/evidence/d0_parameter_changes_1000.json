@@ -1,0 +1,41 @@
+{
+  "completed_updates": 1000,
+  "checks": [
+    {
+      "name": "paligemma_with_expert.paligemma.model.vision_tower.vision_model.embeddings.patch_embedding.weight",
+      "changed": true,
+      "mean_absolute_change": 0.0004626924346666783,
+      "max_absolute_change": 0.0027627069503068924
+    },
+    {
+      "name": "paligemma_with_expert.paligemma.model.multi_modal_projector.linear.weight",
+      "changed": true,
+      "mean_absolute_change": 0.00036889396142214537,
+      "max_absolute_change": 0.0031519271433353424
+    },
+    {
+      "name": "paligemma_with_expert.paligemma.model.language_model.layers.0.self_attn.q_proj.weight",
+      "changed": true,
+      "mean_absolute_change": 0.0004818474699277431,
+      "max_absolute_change": 0.0036941522266715765
+    },
+    {
+      "name": "paligemma_with_expert.gemma_expert.model.layers.0.self_attn.q_proj.weight",
+      "changed": true,
+      "mean_absolute_change": 0.0004956256598234177,
+      "max_absolute_change": 0.0036421511322259903
+    },
+    {
+      "name": "state_proj.weight",
+      "changed": true,
+      "mean_absolute_change": 0.00016070299898274243,
+      "max_absolute_change": 0.0031961798667907715
+    },
+    {
+      "name": "action_out_proj.weight",
+      "changed": true,
+      "mean_absolute_change": 0.000253356178291142,
+      "max_absolute_change": 0.0021240543574094772
+    }
+  ]
+}
