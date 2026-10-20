@@ -77,6 +77,8 @@ def main():
  best,retain=leaders('D1'),leaders('D0')
  offline=json.loads((WORK/'offline/complete.json').read_text());teacher=json.loads((WORK/'teacher.json').read_text());rl=json.loads((WORK/'evidence/residual_complete.json').read_text())
  validation=teacher['canonical_validation']
+ collection=json.loads((WORK/'rl/episodes.json').read_text());warmup=[r for r in collection if r['warmup']]
+ assert len(warmup)==20
  report=f'''# Три способа адаптации π₀: D0 → D1
 
 Это сравнение освоения D1 и сохранения D0 на двух **знакомых задачах LIBERO**. D0 — миска в центре стола; D1 — миска рядом с тарелкой. Во всех SFT использованы все 50 исходных native demonstrations соответствующей задачи. Финальная оценка — новые generated scenes этих задач; это не held-out demonstrations и не OOD.
@@ -87,7 +89,7 @@ def main():
 
 - **Full SFT D1:** 1500 updates × batch8, все параметры; новый AdamW.
 - **Action-expert SFT D1:** те же 1500 updates, данные, seed и LR schedule; обучались action expert и state/action/time projections. PaliGemma, vision encoder и multimodal projector frozen; trainable scope, gradients и hashes проверены.
-- **Residual RL D1:** исходная D0 π₀ полностью frozen. Отдельные actor/critic/temperature; corrected V3 SAC и auxiliary full-action Cal-QL, V4 разделение ролей D0/D1. Offline initialization: 1000 updates на успешных native D1 demos ({offline['accepted_demonstrations']}/50 прошли state-based LIBERO goal check). База/replay пересчитаны. Затем 20 teacher-warmup episodes с обновлениями actor/critic/temperature и ровно 50000 active online transitions, UTD1, batch256, offline fraction .5. Всего online environment steps: {rl['environment_steps']}.
+- **Residual RL D1:** исходная D0 π₀ полностью frozen. Отдельные actor/critic/temperature; corrected V3 SAC и auxiliary full-action Cal-QL, V4 разделение ролей D0/D1. Offline initialization: 1000 updates на успешных native D1 demos ({offline['accepted_demonstrations']}/50 прошли state-based LIBERO goal check). База/replay пересчитаны. Затем 20 teacher-warmup episodes ({sum(r['success'] for r in warmup)}/20 successes, {sum(r['length'] for r in warmup)} transitions сбора) с обновлениями actor/critic/temperature и ровно 50000 active online transitions. Critic UTD1, actor/temperature через2 critic steps, batch256, offline fraction .5. Всего online environment steps: {rl['environment_steps']}.
 
 Два изменения V4 заданы **до результатов**: warmup исполняет ранний full-SFT teacher (D1 update {teacher['step']}, повторная validation после унификации reset {validation['successes']}/10), а reward содержит potential-based shaping (gamma .99, beta .1): reach нужной миски, grasp, lift/transport. Teacher не заменяет D0-базу; исполненные teacher actions и cached D0 actions записаны отдельно. Terminal Phi=0; offline/online rewards и MC returns вычисляются одним кодом. Успех всегда определяется исходным LIBERO predicate. Online OTF, probe_fraction0; evaluation deterministic actor.
 
