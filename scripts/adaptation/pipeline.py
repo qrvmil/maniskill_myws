@@ -35,6 +35,7 @@ def main():
  write(ROOT/'experiments/pi0_d0_d1_three_adaptations/final_selection.json',selected)
  publish(binding,'selection',full_readback=True);push_progress('exp: freeze three final checkpoints before opening final evaluation seeds')
  for method in ('full','expert','residual'):call('evaluate.py',method)
+ call('publication_queue.py','drain')
  call('report.py')
  call('build_notebook.py')
  call('publish_card.py')

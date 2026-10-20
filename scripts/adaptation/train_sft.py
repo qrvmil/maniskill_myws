@@ -33,7 +33,7 @@ def save(model,opt,stage,step,scope_rows,indices,initial_hash):
   optimizer='AdamW float32 master parameters/states',lr_schedule='cosine warmup100 3e-5 to3e-6',final_budget=SFT[stage]['updates']))
  tmp.replace(target)
  write(root/'latest.json',dict(checkpoint=str(target),step=step))
- receipt=publish(target,f'checkpoints/{stage}/{step}',full_readback=step==SFT[stage]['updates'])
+ receipt=publish(target,f'checkpoints/{stage}/{step}',full_readback=step==SFT[stage]['updates'],defer=True)
  write(WORK/'evidence'/f'sft_{stage}_{step}.json',dict(checkpoint=str(target),**json.loads((target/'training.json').read_text()),hf_commit=receipt['commit']))
  metrics=root/'metrics.jsonl'
  if metrics.exists():
@@ -44,7 +44,7 @@ def save(model,opt,stage,step,scope_rows,indices,initial_hash):
  for old in root.iterdir():
   if old.is_dir() and old.name.isdecimal() and int(old.name)<step:
    state=old/'training_state.pt'
-   if state.exists():state.unlink()
+   if state.exists() and (old/'upload_receipt.json').exists():state.unlink()
  return target
 
 def train(stage,*,profile=False):
@@ -60,7 +60,7 @@ def train(stage,*,profile=False):
  if not profile and (root/'latest.json').exists():
   latest=json.loads((root/'latest.json').read_text());checkpoint=Path(latest['checkpoint']);step=latest['step']
  if step and not (checkpoint/'upload_receipt.json').exists():
-  publish(checkpoint,f'checkpoints/{stage}/{step}',full_readback=step==SFT[stage]['updates'])
+  publish(checkpoint,f'checkpoints/{stage}/{step}',full_readback=step==SFT[stage]['updates'],defer=True)
  if step==SFT[stage]['updates']:
   write(WORK/'evidence'/f'{stage}_complete.json',dict(stage=stage,updates=step,resumed_completed=True))
   return
@@ -126,13 +126,19 @@ def train(stage,*,profile=False):
     result=validation_teacher(model,target)
     write(WORK/'evidence'/f'teacher_validation_{step}.json',result)
     if result['successes']>0:
-     write(WORK/'teacher.json',dict(checkpoint=str(target),step=step,validation=result))
-     publish(target,'checkpoints/teacher',full_readback=True)
+     teacher=WORK/'teacher_policy';teacher.mkdir(exist_ok=True)
+     import os
+     os.link(target/'model.safetensors',teacher/'model.safetensors')
+     shutil.copytree(target/'assets',teacher/'assets',dirs_exist_ok=True)
+     shutil.copy2(target/'training.json',teacher/'training.json')
+     write(teacher/'validation.json',result)
+     write(WORK/'teacher.json',dict(checkpoint=str(teacher),source_checkpoint=str(target),step=step,validation=result))
+     publish(teacher,'checkpoints/teacher',full_readback=True,defer=True)
     model.train()
    # Bound local storage: remote history is retained; keep common D0, teacher and latest.
    teacher=json.loads((WORK/'teacher.json').read_text())['checkpoint'] if (WORK/'teacher.json').exists() else None
    for old in root.iterdir():
-    if old.is_dir() and old.name.isdecimal() and int(old.name)<step and str(old)!=teacher:
+    if old.is_dir() and old.name.isdecimal() and int(old.name)<step and str(old)!=teacher and (old/'upload_receipt.json').exists():
      shutil.rmtree(old)
  write(WORK/'evidence'/f'{stage}_complete.json',dict(stage=stage,updates=step,cuda_peak_allocated=peak))
 if __name__=='__main__':

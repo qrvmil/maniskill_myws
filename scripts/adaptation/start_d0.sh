@@ -18,7 +18,9 @@ p=WORK/'sft/d0/3000'
 m=json.loads((p/'training.json').read_text())
 assert sha(p/'model.safetensors')==m['weights_sha256']
 assert sha(NORM)==sha(p/'assets/d0/norm_stats.json')==m['normalization_sha256']
-assert (p/'upload_receipt.json').exists()
+if not (p/'upload_receipt.json').exists():
+ from publication_queue import submit
+ submit(p,'checkpoints/d0/3000',True)
 print('D0_ALREADY_COMPLETED_AND_VERIFIED')
 VERIFY
   exit 0

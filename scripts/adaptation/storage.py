@@ -3,7 +3,10 @@ import json, os, subprocess, time
 from pathlib import Path
 from common import ROOT,WORK,HF_REPO,sha,write
 
-def publish(folder,remote,*,full_readback=False):
+def publish(folder,remote,*,full_readback=False,defer=False):
+ if defer:
+  from publication_queue import submit
+  return submit(folder,remote,full_readback)
  if os.environ.get('PI0_ARTIFACT_WORKER')!='1':
   environment=dict(os.environ,PI0_ARTIFACT_WORKER='1',HF_XET_HIGH_PERFORMANCE='1',CUDA_VISIBLE_DEVICES='')
   environment.pop('HF_HUB_ENABLE_HF_TRANSFER',None)
@@ -19,7 +22,9 @@ def publish(folder,remote,*,full_readback=False):
  commit=api.upload_folder(repo_id=HF_REPO,folder_path=folder,path_in_repo=remote,commit_message='Save '+remote,ignore_patterns=['upload_receipt.json'])
  uploaded=time.time()
  paths=[remote+'/'+name for name in inventory]
- infos={item.path:item for item in api.get_paths_info(HF_REPO,paths,revision=commit.oid)}
+ infos={}
+ for offset in range(0,len(paths),200):
+  infos.update({item.path:item for item in api.get_paths_info(HF_REPO,paths[offset:offset+200],revision=commit.oid)})
  # Independent readbacks share one batched metadata request and bounded network concurrency.
  def verify(item):
   name,meta=item;path=remote+'/'+name;info=infos[path]
@@ -54,7 +59,7 @@ def publish(folder,remote,*,full_readback=False):
  print('HF_VERIFIED',remote,commit.oid,flush=True)
  return receipt
 
-def push_progress(message):
+def _push_progress_unlocked(message):
  dest=ROOT/'experiments/pi0_d0_d1_three_adaptations'
  import datetime
  lines=['# Статус эксперимента','', 'Обновлено UTC: '+datetime.datetime.now(datetime.timezone.utc).isoformat(), '', 'GitHub/HF write/read probes прошли. Бюджеты и правила выбора: [PREREGISTRATION.md](PREREGISTRATION.md).', '']
@@ -84,3 +89,11 @@ def push_progress(message):
  if subprocess.run(['git','diff','--cached','--quiet'],cwd=ROOT).returncode:
   subprocess.run(['git','commit','-m',message],cwd=ROOT,check=True)
   subprocess.run(['git','push','origin','HEAD'],cwd=ROOT,check=True)
+
+
+def push_progress(message):
+ import fcntl
+ WORK.mkdir(exist_ok=True)
+ with (WORK/'git_progress.lock').open('a') as lock:
+  fcntl.flock(lock,fcntl.LOCK_EX)
+  _push_progress_unlocked(message)

@@ -85,7 +85,7 @@ def main():
  if (root/'latest.json').exists():last=json.loads((root/'latest.json').read_text())
  if last:
   folder=Path(last['checkpoint'])
-  if not (folder/'upload_receipt.json').exists():publish(folder,'checkpoints/residual/'+folder.name,full_readback=folder.name=='final')
+  if not (folder/'upload_receipt.json').exists():publish(folder,'checkpoints/residual/'+folder.name,full_readback=folder.name=='final',defer=True)
   metadata=json.loads((folder/'training.json').read_text());assert metadata['base_weights_sha256']==base_hash and metadata['normalization_sha256']==sha(NORM)
   agent=ResidualSAC.load(folder/'residual.pt',device='cuda')
   s=torch.load(folder/'training_state.pt',weights_only=False,map_location='cpu');counters=s['counters'];rows=s['rows'];calql_done=s['calql_done']
@@ -114,15 +114,17 @@ def main():
   assert json.loads((tmp/'training.json').read_text())['frozen_d0_weights_unchanged']
   for name in ('critic_after_calql.json','critic_after_warmup.json'):
    if (root/name).exists():shutil.copy2(root/name,tmp/name)
-  if (root/'collection').exists():shutil.copytree(root/'collection',tmp/'collection',dirs_exist_ok=True)
+  if (root/'collection').exists():
+   import tarfile
+   with tarfile.open(tmp/'collection_traces.tar.gz','w:gz') as archive:archive.add(root/'collection',arcname='collection')
   tmp.replace(folder);write(root/'latest.json',dict(checkpoint=str(folder),counters=counters))
-  publish(folder,'checkpoints/residual/'+label,full_readback=label=='final')
+  publish(folder,'checkpoints/residual/'+label,full_readback=label=='final',defer=True)
   write(WORK/'evidence'/('rl_'+label+'.json'),json.loads((folder/'training.json').read_text()))
   shutil.copy2(metrics_path,ROOT/'experiments/pi0_d0_d1_three_adaptations/evidence/rl_updates.jsonl')
   push_progress('exp: preserve residual '+label+' including optimizer, RNG and replay')
   # Keep only the latest large local replay; uploaded versions remain resumable on HF.
   for old in root.iterdir():
-   if old.is_dir() and old!=folder and not old.name.endswith('.partial'):
+   if old.is_dir() and old!=folder and not old.name.endswith('.partial') and (old/'upload_receipt.json').exists():
     for name in ('online_replay.npz','training_state.pt'):
      if (old/name).exists():(old/name).unlink()
   return folder
