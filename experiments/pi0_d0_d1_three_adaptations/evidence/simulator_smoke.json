@@ -1,0 +1,79 @@
+{
+  "passed": true,
+  "episodes": [
+    {
+      "task": "D0",
+      "reset_hash": "3974a73cb820e6db039cb0a5977dfa0d28f6dfd58f5de454d1c9a3f1cf92e192",
+      "initial_progress": {
+        "reach_distance": 0.3058068448189025,
+        "reach_horizontal_distance": 0.13401950821477338,
+        "bowl_plate_distance": 0.23692623113303482,
+        "bowl_height": 0.8984038715812133,
+        "grasp": false
+      },
+      "shaping_rewards": [
+        {
+          "success_reward": 0.0,
+          "phi": 0.004404210563895394,
+          "next_phi": 0.004406802681146916,
+          "absorbing_next_phi": 0.004406802681146916,
+          "done": false,
+          "reward": -4.1475909559947345e-06
+        },
+        {
+          "success_reward": 0.0,
+          "phi": 0.004406802681146916,
+          "next_phi": 0.004407510082913548,
+          "absorbing_next_phi": 0.004407510082913548,
+          "done": false,
+          "reward": -4.336769906250308e-06
+        },
+        {
+          "success_reward": 0.0,
+          "phi": 0.004407510082913548,
+          "next_phi": 0.004407703136390259,
+          "absorbing_next_phi": 0.004407703136390259,
+          "done": false,
+          "reward": -4.3883977887192e-06
+        }
+      ]
+    },
+    {
+      "task": "D1",
+      "reset_hash": "2aef2e0dbf982947cc110e303cb43f08665e748dbe5d4818163d17fc7aaabf3d",
+      "initial_progress": {
+        "reach_distance": 0.4709978238137838,
+        "reach_horizontal_distance": 0.38246875987635576,
+        "bowl_plate_distance": 0.13802218747147935,
+        "bowl_height": 0.8984038715812133,
+        "grasp": false
+      },
+      "shaping_rewards": [
+        {
+          "success_reward": 0.0,
+          "phi": 0.00016216594713958088,
+          "next_phi": 0.00016499983512184723,
+          "absorbing_next_phi": 0.00016499983512184723,
+          "done": false,
+          "reward": 1.183889631047871e-07
+        },
+        {
+          "success_reward": 0.0,
+          "phi": 0.00016499983512184723,
+          "next_phi": 0.00016577321733338474,
+          "absorbing_next_phi": 0.00016577321733338474,
+          "done": false,
+          "reward": -8.843499617963453e-08
+        },
+        {
+          "success_reward": 0.0,
+          "phi": 0.00016577321733338474,
+          "next_phi": 0.00016598427720585226,
+          "absorbing_next_phi": 0.00016598427720585226,
+          "done": false,
+          "reward": -1.448782899590999e-07
+        }
+      ]
+    }
+  ]
+}

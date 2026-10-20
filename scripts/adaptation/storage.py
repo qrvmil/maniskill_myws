@@ -9,7 +9,7 @@ def publish(folder,remote,*,full_readback=False):
  folder=Path(folder)
  inventory={str(p.relative_to(folder)):dict(bytes=p.stat().st_size,sha256=sha(p)) for p in sorted(folder.rglob('*')) if p.is_file() and p.name not in ('upload_receipt.json','inventory.json')}
  write(folder/'inventory.json',inventory)
- api=HfApi();commit=api.upload_folder(repo_id=HF_REPO,folder_path=folder,path_in_repo=remote,commit_message='Save '+remote)
+ api=HfApi();commit=api.upload_folder(repo_id=HF_REPO,folder_path=folder,path_in_repo=remote,commit_message='Save '+remote,ignore_patterns=['upload_receipt.json'])
  # Read back each small artifact; large artifacts require exact remote LFS content hash plus sampled HTTP bytes.
  verified=[]
  for name,meta in inventory.items():

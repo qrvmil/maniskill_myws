@@ -13,6 +13,9 @@ def save(model,opt,stage,step,scope_rows,indices,initial_hash):
  root=WORK/'sft'/stage;target=root/str(step);tmp=root/(str(step)+'.partial')
  if target.exists():return target
  tmp.mkdir(parents=True,exist_ok=True)
+ for name in ('scope.json','gradient_scope.json'):
+  if (root/name).exists():shutil.copy2(root/name,tmp/name)
+ np.save(tmp/'sample_indices.npy',indices)
  safetensors.torch.save_model(model,str(tmp/'model.safetensors'))
  torch.save(dict(optimizer=opt.state_dict(),step=step,cpu_rng=torch.get_rng_state(),cuda_rng=torch.cuda.get_rng_state(),numpy_rng=np.random.get_state()),tmp/'training_state.pt')
  (tmp/'assets/d0').mkdir(parents=True,exist_ok=True);shutil.copy2(NORM,tmp/'assets/d0/norm_stats.json')
@@ -26,6 +29,7 @@ def save(model,opt,stage,step,scope_rows,indices,initial_hash):
   effective_batch=BATCH,microbatch=MICROBATCH,accumulation=BATCH//MICROBATCH,
   initial_weights_sha256=initial_hash,weights_sha256=sha(tmp/'model.safetensors'),normalization_sha256=sha(NORM),
   frozen_scope_verified=True,frozen_tensors=len(frozen),scope=SFT[stage]['scope'],
+  total_parameters=sum(r['numel'] for r in scope_rows),trainable_parameters=sum(r['numel'] for r in scope_rows if r['trainable']),
   optimizer='AdamW float32 master parameters/states',lr_schedule='cosine warmup100 3e-5 to3e-6',final_budget=SFT[stage]['updates']))
  tmp.replace(target)
  write(root/'latest.json',dict(checkpoint=str(target),step=step))
@@ -65,6 +69,8 @@ def train(stage,*,profile=False):
  assert all(p.dtype==torch.float32 for p in model.parameters())
  rows=scope(model,SFT[stage]['scope'])
  write(root/'scope.json',dict(parameters=rows,total_parameters=sum(r['numel'] for r in rows),trainable_parameters=sum(r['numel'] for r in rows if r['trainable'])))
+ shutil.copy2(root/'scope.json',WORK/'evidence'/f'sft_{stage}_scope.json')
+ assert not any('lora' in r['name'].lower() for r in rows)
  opt=torch.optim.AdamW([p for p in model.parameters() if p.requires_grad],lr=3e-5,betas=(.9,.95),eps=1e-8,weight_decay=1e-10,foreach=False)
  if step:
   state=torch.load(checkpoint/'training_state.pt',map_location='cpu',weights_only=False)
@@ -90,6 +96,7 @@ def train(stage,*,profile=False):
   if current==0:
    gradients={n:dict(gradient_present=p.grad is not None,gradient_finite=p.grad is None or bool(torch.isfinite(p.grad).all())) for n,p in model.named_parameters()}
    write(root/'gradient_scope.json',gradients)
+   shutil.copy2(root/'gradient_scope.json',WORK/'evidence'/f'sft_{stage}_gradient_scope.json')
    assert all(p.grad is None for n,p in model.named_parameters() if not p.requires_grad)
    for prefix in ('paligemma_with_expert.gemma_expert.model.','state_proj.','action_in_proj.','action_out_proj.','action_time_mlp_in.','action_time_mlp_out.'):
     assert any(n.startswith(prefix) and p.grad is not None and bool(torch.any(p.grad!=0)) for n,p in model.named_parameters()),prefix
@@ -106,6 +113,7 @@ def train(stage,*,profile=False):
    action=policy.act(raw);assert action.shape==(7,) and np.isfinite(action).all()
    env.step(action);env.close()
    write(WORK/'evidence/memory_profile.json',dict(stage=stage,**row,effective_batch=BATCH,microbatch=MICROBATCH,fp32_master=True,profile_discarded=True))
+   push_progress('exp: verify full-model memory and inference before fixed-budget D0 SFT')
    return
   with (root/'metrics.jsonl').open('a') as f:f.write(json.dumps(row)+'\n')
   step=current+1
