@@ -46,8 +46,8 @@ class ActionContract:
     residual_scale: float = .5
 
     def __post_init__(self):
-        if not 0 < self.residual_scale <= 1:
-            raise ValueError('residual_scale must be finite in (0,1]')
+        if not 0 < self.residual_scale <= 2:
+            raise ValueError('residual_scale must be finite in (0,2]')
 
     @staticmethod
     def _validate(action):

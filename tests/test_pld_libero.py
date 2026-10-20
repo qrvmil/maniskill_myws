@@ -76,7 +76,7 @@ def test_bounded_actions_zero_equivalence_and_invalid_inputs():
     for bad in [np.zeros(8), np.full(7, np.nan), np.full(7, 1.1)]:
         with pytest.raises(ValueError):
             c.to_env(bad)
-    for scale in [-.1, 0, 1.1, float('nan')]:
+    for scale in [-.1, 0, 2.1, float('nan'), float('inf')]:
         with pytest.raises(ValueError):
             ActionContract(scale)
     with pytest.raises(ValueError):
