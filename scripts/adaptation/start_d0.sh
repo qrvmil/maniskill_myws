@@ -9,6 +9,7 @@ cd /workspace/pi0_experiment
 while [ ! -f /workspace/pi0_three/runtime_ready ] || [ ! -f /workspace/pi0_three/assets/official_base_verified.json ]; do sleep 10; done
 PYTHON=/workspace/pi0_venv/bin/python
 "$PYTHON" -m pytest -q tests/test_three_adaptations.py tests/test_pld_libero.py tests/test_pld_v3.py tests/test_pld_v4.py
+"$PYTHON" -u scripts/adaptation/check_simulator.py
 "$PYTHON" -u scripts/adaptation/prepare_base.py
 "$PYTHON" -u scripts/adaptation/prepare.py
 "$PYTHON" -u scripts/adaptation/train_sft.py d0 --profile

@@ -47,6 +47,20 @@ def publish(folder,remote,*,full_readback=False):
 
 def push_progress(message):
  dest=ROOT/'experiments/pi0_d0_d1_three_adaptations'
+ import datetime
+ lines=['# Статус эксперимента','', 'Обновлено UTC: '+datetime.datetime.now(datetime.timezone.utc).isoformat(), '', 'GitHub/HF write/read probes прошли. Бюджеты и правила выбора: [PREREGISTRATION.md](PREREGISTRATION.md).', '']
+ for stage in ('d0','full','expert'):
+  p=WORK/'sft'/stage/'latest.json'
+  latest=json.loads(p.read_text()) if p.exists() else None
+  lines.append('- SFT '+stage+': '+(str(latest['step'])+' updates; checkpoint '+latest['checkpoint'] if latest else 'ещё нет сохранённого checkpoint'))
+ p=WORK/'teacher.json'
+ lines.append('- Teacher: '+(str(json.loads(p.read_text())['step'])+' D1 full-SFT updates, validation passed' if p.exists() else 'ещё не выбран по отдельной validation'))
+ p=WORK/'rl/latest.json'
+ lines.append('- Residual RL: '+(str(json.loads(p.read_text())['counters']) if p.exists() else 'ещё нет сохранённого checkpoint'))
+ final_rows=list((WORK/'final').glob('*/*/*/episode.json'))
+ lines+=['- Финальные episodes: '+str(len(final_rows))+'/300. Каждому завершённому episode соответствует проверенное двухкамерное видео с terminal frame.', '', 'Final seeds не используются для настройки или выбора checkpoints. Завершённые episodes при resume проверяются и переиспользуются без увеличения N.', '', 'Код: `/workspace/pi0_experiment`; артефакты: `/workspace/pi0_three`; среда: `/workspace/pi0_venv`. Supervisor и логи: `pi0_three_d0`, `pi0_three_pipeline`, `/var/log/portal/<name>.log`.']
+ if (dest/'results/completeness.json').exists():lines+=['', '[Результаты и completeness check](results/completeness.json); [краткий отчёт](REPORT.md).']
+ (dest/'STATUS.md').write_text('\n'.join(lines)+'\n')
  for src in (WORK/'evidence').glob('*.json'):
   import shutil
   (dest/'evidence').mkdir(exist_ok=True);shutil.copy2(src,dest/'evidence'/src.name)
