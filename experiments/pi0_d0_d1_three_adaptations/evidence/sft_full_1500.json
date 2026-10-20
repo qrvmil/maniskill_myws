@@ -1,0 +1,22 @@
+{
+  "checkpoint": "/workspace/pi0_three/sft/full/1500",
+  "stage": "full",
+  "completed_updates": 1500,
+  "source_task": "D1",
+  "training_seed": 1,
+  "effective_batch": 8,
+  "microbatch": 2,
+  "accumulation": 4,
+  "initial_weights_sha256": "9ba40f3f7c1b7eb40805df49901109f9fe00089aae10b04eab412d62694cb451",
+  "weights_sha256": "a9a46f6779060ed7b85dcfc671254fe329fff66d7a411c126d1cdda2bdd41c1d",
+  "normalization_sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e",
+  "frozen_scope_verified": true,
+  "frozen_tensors": 0,
+  "scope": "full",
+  "total_parameters": 3501372176,
+  "trainable_parameters": 3501372176,
+  "optimizer": "AdamW float32 master parameters/states",
+  "lr_schedule": "cosine warmup100 3e-5 to3e-6",
+  "final_budget": 1500,
+  "hf_commit": null
+}
