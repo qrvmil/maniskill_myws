@@ -1,0 +1,13 @@
+{
+  "stage": "d0",
+  "step": 1,
+  "loss": 0.28026147931814194,
+  "lr": 2.9702970297029703e-07,
+  "grad_norm": 7.525007247924805,
+  "seconds": 4.071951150894165,
+  "cuda_peak_allocated": 55900439552,
+  "effective_batch": 8,
+  "microbatch": 2,
+  "fp32_master": true,
+  "profile_discarded": true
+}
