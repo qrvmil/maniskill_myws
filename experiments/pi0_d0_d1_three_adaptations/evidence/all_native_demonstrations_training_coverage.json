@@ -1,0 +1,938 @@
+{
+  "d0": {
+    "task": "D0",
+    "demonstrations": 50,
+    "all_aligned_frames_seen": true,
+    "aligned_frames": 5832,
+    "sampled_contexts": 24000,
+    "minimum_frame_repetitions": 4,
+    "maximum_frame_repetitions": 5,
+    "sampler_sha256": "5f0d5d17eac511f92d5fef0ef448dea7c81472ebe6d08037408b59103bc3589e",
+    "episodes": [
+      {
+        "demo": "demo_0",
+        "aligned_frames": 102,
+        "unique_frames_seen": 102,
+        "sampled_contexts": 419
+      },
+      {
+        "demo": "demo_1",
+        "aligned_frames": 122,
+        "unique_frames_seen": 122,
+        "sampled_contexts": 499
+      },
+      {
+        "demo": "demo_2",
+        "aligned_frames": 121,
+        "unique_frames_seen": 121,
+        "sampled_contexts": 504
+      },
+      {
+        "demo": "demo_3",
+        "aligned_frames": 101,
+        "unique_frames_seen": 101,
+        "sampled_contexts": 415
+      },
+      {
+        "demo": "demo_4",
+        "aligned_frames": 110,
+        "unique_frames_seen": 110,
+        "sampled_contexts": 458
+      },
+      {
+        "demo": "demo_5",
+        "aligned_frames": 110,
+        "unique_frames_seen": 110,
+        "sampled_contexts": 448
+      },
+      {
+        "demo": "demo_6",
+        "aligned_frames": 108,
+        "unique_frames_seen": 108,
+        "sampled_contexts": 451
+      },
+      {
+        "demo": "demo_7",
+        "aligned_frames": 122,
+        "unique_frames_seen": 122,
+        "sampled_contexts": 501
+      },
+      {
+        "demo": "demo_8",
+        "aligned_frames": 110,
+        "unique_frames_seen": 110,
+        "sampled_contexts": 449
+      },
+      {
+        "demo": "demo_9",
+        "aligned_frames": 109,
+        "unique_frames_seen": 109,
+        "sampled_contexts": 448
+      },
+      {
+        "demo": "demo_10",
+        "aligned_frames": 108,
+        "unique_frames_seen": 108,
+        "sampled_contexts": 445
+      },
+      {
+        "demo": "demo_11",
+        "aligned_frames": 100,
+        "unique_frames_seen": 100,
+        "sampled_contexts": 407
+      },
+      {
+        "demo": "demo_12",
+        "aligned_frames": 123,
+        "unique_frames_seen": 123,
+        "sampled_contexts": 503
+      },
+      {
+        "demo": "demo_13",
+        "aligned_frames": 121,
+        "unique_frames_seen": 121,
+        "sampled_contexts": 503
+      },
+      {
+        "demo": "demo_14",
+        "aligned_frames": 113,
+        "unique_frames_seen": 113,
+        "sampled_contexts": 461
+      },
+      {
+        "demo": "demo_15",
+        "aligned_frames": 135,
+        "unique_frames_seen": 135,
+        "sampled_contexts": 558
+      },
+      {
+        "demo": "demo_16",
+        "aligned_frames": 104,
+        "unique_frames_seen": 104,
+        "sampled_contexts": 426
+      },
+      {
+        "demo": "demo_17",
+        "aligned_frames": 163,
+        "unique_frames_seen": 163,
+        "sampled_contexts": 664
+      },
+      {
+        "demo": "demo_18",
+        "aligned_frames": 106,
+        "unique_frames_seen": 106,
+        "sampled_contexts": 433
+      },
+      {
+        "demo": "demo_19",
+        "aligned_frames": 97,
+        "unique_frames_seen": 97,
+        "sampled_contexts": 403
+      },
+      {
+        "demo": "demo_20",
+        "aligned_frames": 116,
+        "unique_frames_seen": 116,
+        "sampled_contexts": 481
+      },
+      {
+        "demo": "demo_21",
+        "aligned_frames": 107,
+        "unique_frames_seen": 107,
+        "sampled_contexts": 436
+      },
+      {
+        "demo": "demo_22",
+        "aligned_frames": 116,
+        "unique_frames_seen": 116,
+        "sampled_contexts": 476
+      },
+      {
+        "demo": "demo_23",
+        "aligned_frames": 116,
+        "unique_frames_seen": 116,
+        "sampled_contexts": 474
+      },
+      {
+        "demo": "demo_24",
+        "aligned_frames": 105,
+        "unique_frames_seen": 105,
+        "sampled_contexts": 431
+      },
+      {
+        "demo": "demo_25",
+        "aligned_frames": 116,
+        "unique_frames_seen": 116,
+        "sampled_contexts": 475
+      },
+      {
+        "demo": "demo_26",
+        "aligned_frames": 142,
+        "unique_frames_seen": 142,
+        "sampled_contexts": 588
+      },
+      {
+        "demo": "demo_27",
+        "aligned_frames": 124,
+        "unique_frames_seen": 124,
+        "sampled_contexts": 508
+      },
+      {
+        "demo": "demo_28",
+        "aligned_frames": 110,
+        "unique_frames_seen": 110,
+        "sampled_contexts": 458
+      },
+      {
+        "demo": "demo_29",
+        "aligned_frames": 109,
+        "unique_frames_seen": 109,
+        "sampled_contexts": 448
+      },
+      {
+        "demo": "demo_30",
+        "aligned_frames": 114,
+        "unique_frames_seen": 114,
+        "sampled_contexts": 475
+      },
+      {
+        "demo": "demo_31",
+        "aligned_frames": 121,
+        "unique_frames_seen": 121,
+        "sampled_contexts": 494
+      },
+      {
+        "demo": "demo_32",
+        "aligned_frames": 118,
+        "unique_frames_seen": 118,
+        "sampled_contexts": 485
+      },
+      {
+        "demo": "demo_33",
+        "aligned_frames": 120,
+        "unique_frames_seen": 120,
+        "sampled_contexts": 496
+      },
+      {
+        "demo": "demo_34",
+        "aligned_frames": 130,
+        "unique_frames_seen": 130,
+        "sampled_contexts": 536
+      },
+      {
+        "demo": "demo_35",
+        "aligned_frames": 139,
+        "unique_frames_seen": 139,
+        "sampled_contexts": 573
+      },
+      {
+        "demo": "demo_36",
+        "aligned_frames": 120,
+        "unique_frames_seen": 120,
+        "sampled_contexts": 493
+      },
+      {
+        "demo": "demo_37",
+        "aligned_frames": 128,
+        "unique_frames_seen": 128,
+        "sampled_contexts": 529
+      },
+      {
+        "demo": "demo_38",
+        "aligned_frames": 113,
+        "unique_frames_seen": 113,
+        "sampled_contexts": 461
+      },
+      {
+        "demo": "demo_39",
+        "aligned_frames": 114,
+        "unique_frames_seen": 114,
+        "sampled_contexts": 470
+      },
+      {
+        "demo": "demo_40",
+        "aligned_frames": 107,
+        "unique_frames_seen": 107,
+        "sampled_contexts": 441
+      },
+      {
+        "demo": "demo_41",
+        "aligned_frames": 105,
+        "unique_frames_seen": 105,
+        "sampled_contexts": 433
+      },
+      {
+        "demo": "demo_42",
+        "aligned_frames": 137,
+        "unique_frames_seen": 137,
+        "sampled_contexts": 565
+      },
+      {
+        "demo": "demo_43",
+        "aligned_frames": 92,
+        "unique_frames_seen": 92,
+        "sampled_contexts": 376
+      },
+      {
+        "demo": "demo_44",
+        "aligned_frames": 99,
+        "unique_frames_seen": 99,
+        "sampled_contexts": 407
+      },
+      {
+        "demo": "demo_45",
+        "aligned_frames": 125,
+        "unique_frames_seen": 125,
+        "sampled_contexts": 516
+      },
+      {
+        "demo": "demo_46",
+        "aligned_frames": 124,
+        "unique_frames_seen": 124,
+        "sampled_contexts": 513
+      },
+      {
+        "demo": "demo_47",
+        "aligned_frames": 116,
+        "unique_frames_seen": 116,
+        "sampled_contexts": 483
+      },
+      {
+        "demo": "demo_48",
+        "aligned_frames": 130,
+        "unique_frames_seen": 130,
+        "sampled_contexts": 533
+      },
+      {
+        "demo": "demo_49",
+        "aligned_frames": 134,
+        "unique_frames_seen": 134,
+        "sampled_contexts": 551
+      }
+    ]
+  },
+  "full": {
+    "task": "D1",
+    "demonstrations": 50,
+    "all_aligned_frames_seen": true,
+    "aligned_frames": 5913,
+    "sampled_contexts": 12000,
+    "minimum_frame_repetitions": 2,
+    "maximum_frame_repetitions": 3,
+    "sampler_sha256": "1364baf4af32ebf05d2c93b323abbfba67cc88ac696fea13da3de3f753342792",
+    "episodes": [
+      {
+        "demo": "demo_0",
+        "aligned_frames": 114,
+        "unique_frames_seen": 114,
+        "sampled_contexts": 231
+      },
+      {
+        "demo": "demo_1",
+        "aligned_frames": 106,
+        "unique_frames_seen": 106,
+        "sampled_contexts": 214
+      },
+      {
+        "demo": "demo_2",
+        "aligned_frames": 137,
+        "unique_frames_seen": 137,
+        "sampled_contexts": 279
+      },
+      {
+        "demo": "demo_3",
+        "aligned_frames": 156,
+        "unique_frames_seen": 156,
+        "sampled_contexts": 316
+      },
+      {
+        "demo": "demo_4",
+        "aligned_frames": 137,
+        "unique_frames_seen": 137,
+        "sampled_contexts": 277
+      },
+      {
+        "demo": "demo_5",
+        "aligned_frames": 112,
+        "unique_frames_seen": 112,
+        "sampled_contexts": 229
+      },
+      {
+        "demo": "demo_6",
+        "aligned_frames": 109,
+        "unique_frames_seen": 109,
+        "sampled_contexts": 222
+      },
+      {
+        "demo": "demo_7",
+        "aligned_frames": 106,
+        "unique_frames_seen": 106,
+        "sampled_contexts": 218
+      },
+      {
+        "demo": "demo_8",
+        "aligned_frames": 103,
+        "unique_frames_seen": 103,
+        "sampled_contexts": 209
+      },
+      {
+        "demo": "demo_9",
+        "aligned_frames": 125,
+        "unique_frames_seen": 125,
+        "sampled_contexts": 252
+      },
+      {
+        "demo": "demo_10",
+        "aligned_frames": 115,
+        "unique_frames_seen": 115,
+        "sampled_contexts": 234
+      },
+      {
+        "demo": "demo_11",
+        "aligned_frames": 124,
+        "unique_frames_seen": 124,
+        "sampled_contexts": 249
+      },
+      {
+        "demo": "demo_12",
+        "aligned_frames": 105,
+        "unique_frames_seen": 105,
+        "sampled_contexts": 214
+      },
+      {
+        "demo": "demo_13",
+        "aligned_frames": 136,
+        "unique_frames_seen": 136,
+        "sampled_contexts": 273
+      },
+      {
+        "demo": "demo_14",
+        "aligned_frames": 96,
+        "unique_frames_seen": 96,
+        "sampled_contexts": 195
+      },
+      {
+        "demo": "demo_15",
+        "aligned_frames": 151,
+        "unique_frames_seen": 151,
+        "sampled_contexts": 306
+      },
+      {
+        "demo": "demo_16",
+        "aligned_frames": 113,
+        "unique_frames_seen": 113,
+        "sampled_contexts": 232
+      },
+      {
+        "demo": "demo_17",
+        "aligned_frames": 164,
+        "unique_frames_seen": 164,
+        "sampled_contexts": 331
+      },
+      {
+        "demo": "demo_18",
+        "aligned_frames": 98,
+        "unique_frames_seen": 98,
+        "sampled_contexts": 197
+      },
+      {
+        "demo": "demo_19",
+        "aligned_frames": 103,
+        "unique_frames_seen": 103,
+        "sampled_contexts": 213
+      },
+      {
+        "demo": "demo_20",
+        "aligned_frames": 124,
+        "unique_frames_seen": 124,
+        "sampled_contexts": 252
+      },
+      {
+        "demo": "demo_21",
+        "aligned_frames": 126,
+        "unique_frames_seen": 126,
+        "sampled_contexts": 254
+      },
+      {
+        "demo": "demo_22",
+        "aligned_frames": 99,
+        "unique_frames_seen": 99,
+        "sampled_contexts": 200
+      },
+      {
+        "demo": "demo_23",
+        "aligned_frames": 109,
+        "unique_frames_seen": 109,
+        "sampled_contexts": 221
+      },
+      {
+        "demo": "demo_24",
+        "aligned_frames": 110,
+        "unique_frames_seen": 110,
+        "sampled_contexts": 224
+      },
+      {
+        "demo": "demo_25",
+        "aligned_frames": 139,
+        "unique_frames_seen": 139,
+        "sampled_contexts": 279
+      },
+      {
+        "demo": "demo_26",
+        "aligned_frames": 108,
+        "unique_frames_seen": 108,
+        "sampled_contexts": 218
+      },
+      {
+        "demo": "demo_27",
+        "aligned_frames": 115,
+        "unique_frames_seen": 115,
+        "sampled_contexts": 233
+      },
+      {
+        "demo": "demo_28",
+        "aligned_frames": 123,
+        "unique_frames_seen": 123,
+        "sampled_contexts": 250
+      },
+      {
+        "demo": "demo_29",
+        "aligned_frames": 172,
+        "unique_frames_seen": 172,
+        "sampled_contexts": 348
+      },
+      {
+        "demo": "demo_30",
+        "aligned_frames": 95,
+        "unique_frames_seen": 95,
+        "sampled_contexts": 192
+      },
+      {
+        "demo": "demo_31",
+        "aligned_frames": 115,
+        "unique_frames_seen": 115,
+        "sampled_contexts": 234
+      },
+      {
+        "demo": "demo_32",
+        "aligned_frames": 94,
+        "unique_frames_seen": 94,
+        "sampled_contexts": 189
+      },
+      {
+        "demo": "demo_33",
+        "aligned_frames": 108,
+        "unique_frames_seen": 108,
+        "sampled_contexts": 218
+      },
+      {
+        "demo": "demo_34",
+        "aligned_frames": 121,
+        "unique_frames_seen": 121,
+        "sampled_contexts": 246
+      },
+      {
+        "demo": "demo_35",
+        "aligned_frames": 110,
+        "unique_frames_seen": 110,
+        "sampled_contexts": 220
+      },
+      {
+        "demo": "demo_36",
+        "aligned_frames": 120,
+        "unique_frames_seen": 120,
+        "sampled_contexts": 242
+      },
+      {
+        "demo": "demo_37",
+        "aligned_frames": 109,
+        "unique_frames_seen": 109,
+        "sampled_contexts": 227
+      },
+      {
+        "demo": "demo_38",
+        "aligned_frames": 104,
+        "unique_frames_seen": 104,
+        "sampled_contexts": 209
+      },
+      {
+        "demo": "demo_39",
+        "aligned_frames": 122,
+        "unique_frames_seen": 122,
+        "sampled_contexts": 251
+      },
+      {
+        "demo": "demo_40",
+        "aligned_frames": 113,
+        "unique_frames_seen": 113,
+        "sampled_contexts": 230
+      },
+      {
+        "demo": "demo_41",
+        "aligned_frames": 119,
+        "unique_frames_seen": 119,
+        "sampled_contexts": 243
+      },
+      {
+        "demo": "demo_42",
+        "aligned_frames": 96,
+        "unique_frames_seen": 96,
+        "sampled_contexts": 194
+      },
+      {
+        "demo": "demo_43",
+        "aligned_frames": 98,
+        "unique_frames_seen": 98,
+        "sampled_contexts": 198
+      },
+      {
+        "demo": "demo_44",
+        "aligned_frames": 116,
+        "unique_frames_seen": 116,
+        "sampled_contexts": 239
+      },
+      {
+        "demo": "demo_45",
+        "aligned_frames": 112,
+        "unique_frames_seen": 112,
+        "sampled_contexts": 231
+      },
+      {
+        "demo": "demo_46",
+        "aligned_frames": 132,
+        "unique_frames_seen": 132,
+        "sampled_contexts": 268
+      },
+      {
+        "demo": "demo_47",
+        "aligned_frames": 112,
+        "unique_frames_seen": 112,
+        "sampled_contexts": 228
+      },
+      {
+        "demo": "demo_48",
+        "aligned_frames": 168,
+        "unique_frames_seen": 168,
+        "sampled_contexts": 340
+      },
+      {
+        "demo": "demo_49",
+        "aligned_frames": 114,
+        "unique_frames_seen": 114,
+        "sampled_contexts": 231
+      }
+    ]
+  },
+  "expert": {
+    "task": "D1",
+    "demonstrations": 50,
+    "all_aligned_frames_seen": true,
+    "aligned_frames": 5913,
+    "sampled_contexts": 12000,
+    "minimum_frame_repetitions": 2,
+    "maximum_frame_repetitions": 3,
+    "sampler_sha256": "1364baf4af32ebf05d2c93b323abbfba67cc88ac696fea13da3de3f753342792",
+    "episodes": [
+      {
+        "demo": "demo_0",
+        "aligned_frames": 114,
+        "unique_frames_seen": 114,
+        "sampled_contexts": 231
+      },
+      {
+        "demo": "demo_1",
+        "aligned_frames": 106,
+        "unique_frames_seen": 106,
+        "sampled_contexts": 214
+      },
+      {
+        "demo": "demo_2",
+        "aligned_frames": 137,
+        "unique_frames_seen": 137,
+        "sampled_contexts": 279
+      },
+      {
+        "demo": "demo_3",
+        "aligned_frames": 156,
+        "unique_frames_seen": 156,
+        "sampled_contexts": 316
+      },
+      {
+        "demo": "demo_4",
+        "aligned_frames": 137,
+        "unique_frames_seen": 137,
+        "sampled_contexts": 277
+      },
+      {
+        "demo": "demo_5",
+        "aligned_frames": 112,
+        "unique_frames_seen": 112,
+        "sampled_contexts": 229
+      },
+      {
+        "demo": "demo_6",
+        "aligned_frames": 109,
+        "unique_frames_seen": 109,
+        "sampled_contexts": 222
+      },
+      {
+        "demo": "demo_7",
+        "aligned_frames": 106,
+        "unique_frames_seen": 106,
+        "sampled_contexts": 218
+      },
+      {
+        "demo": "demo_8",
+        "aligned_frames": 103,
+        "unique_frames_seen": 103,
+        "sampled_contexts": 209
+      },
+      {
+        "demo": "demo_9",
+        "aligned_frames": 125,
+        "unique_frames_seen": 125,
+        "sampled_contexts": 252
+      },
+      {
+        "demo": "demo_10",
+        "aligned_frames": 115,
+        "unique_frames_seen": 115,
+        "sampled_contexts": 234
+      },
+      {
+        "demo": "demo_11",
+        "aligned_frames": 124,
+        "unique_frames_seen": 124,
+        "sampled_contexts": 249
+      },
+      {
+        "demo": "demo_12",
+        "aligned_frames": 105,
+        "unique_frames_seen": 105,
+        "sampled_contexts": 214
+      },
+      {
+        "demo": "demo_13",
+        "aligned_frames": 136,
+        "unique_frames_seen": 136,
+        "sampled_contexts": 273
+      },
+      {
+        "demo": "demo_14",
+        "aligned_frames": 96,
+        "unique_frames_seen": 96,
+        "sampled_contexts": 195
+      },
+      {
+        "demo": "demo_15",
+        "aligned_frames": 151,
+        "unique_frames_seen": 151,
+        "sampled_contexts": 306
+      },
+      {
+        "demo": "demo_16",
+        "aligned_frames": 113,
+        "unique_frames_seen": 113,
+        "sampled_contexts": 232
+      },
+      {
+        "demo": "demo_17",
+        "aligned_frames": 164,
+        "unique_frames_seen": 164,
+        "sampled_contexts": 331
+      },
+      {
+        "demo": "demo_18",
+        "aligned_frames": 98,
+        "unique_frames_seen": 98,
+        "sampled_contexts": 197
+      },
+      {
+        "demo": "demo_19",
+        "aligned_frames": 103,
+        "unique_frames_seen": 103,
+        "sampled_contexts": 213
+      },
+      {
+        "demo": "demo_20",
+        "aligned_frames": 124,
+        "unique_frames_seen": 124,
+        "sampled_contexts": 252
+      },
+      {
+        "demo": "demo_21",
+        "aligned_frames": 126,
+        "unique_frames_seen": 126,
+        "sampled_contexts": 254
+      },
+      {
+        "demo": "demo_22",
+        "aligned_frames": 99,
+        "unique_frames_seen": 99,
+        "sampled_contexts": 200
+      },
+      {
+        "demo": "demo_23",
+        "aligned_frames": 109,
+        "unique_frames_seen": 109,
+        "sampled_contexts": 221
+      },
+      {
+        "demo": "demo_24",
+        "aligned_frames": 110,
+        "unique_frames_seen": 110,
+        "sampled_contexts": 224
+      },
+      {
+        "demo": "demo_25",
+        "aligned_frames": 139,
+        "unique_frames_seen": 139,
+        "sampled_contexts": 279
+      },
+      {
+        "demo": "demo_26",
+        "aligned_frames": 108,
+        "unique_frames_seen": 108,
+        "sampled_contexts": 218
+      },
+      {
+        "demo": "demo_27",
+        "aligned_frames": 115,
+        "unique_frames_seen": 115,
+        "sampled_contexts": 233
+      },
+      {
+        "demo": "demo_28",
+        "aligned_frames": 123,
+        "unique_frames_seen": 123,
+        "sampled_contexts": 250
+      },
+      {
+        "demo": "demo_29",
+        "aligned_frames": 172,
+        "unique_frames_seen": 172,
+        "sampled_contexts": 348
+      },
+      {
+        "demo": "demo_30",
+        "aligned_frames": 95,
+        "unique_frames_seen": 95,
+        "sampled_contexts": 192
+      },
+      {
+        "demo": "demo_31",
+        "aligned_frames": 115,
+        "unique_frames_seen": 115,
+        "sampled_contexts": 234
+      },
+      {
+        "demo": "demo_32",
+        "aligned_frames": 94,
+        "unique_frames_seen": 94,
+        "sampled_contexts": 189
+      },
+      {
+        "demo": "demo_33",
+        "aligned_frames": 108,
+        "unique_frames_seen": 108,
+        "sampled_contexts": 218
+      },
+      {
+        "demo": "demo_34",
+        "aligned_frames": 121,
+        "unique_frames_seen": 121,
+        "sampled_contexts": 246
+      },
+      {
+        "demo": "demo_35",
+        "aligned_frames": 110,
+        "unique_frames_seen": 110,
+        "sampled_contexts": 220
+      },
+      {
+        "demo": "demo_36",
+        "aligned_frames": 120,
+        "unique_frames_seen": 120,
+        "sampled_contexts": 242
+      },
+      {
+        "demo": "demo_37",
+        "aligned_frames": 109,
+        "unique_frames_seen": 109,
+        "sampled_contexts": 227
+      },
+      {
+        "demo": "demo_38",
+        "aligned_frames": 104,
+        "unique_frames_seen": 104,
+        "sampled_contexts": 209
+      },
+      {
+        "demo": "demo_39",
+        "aligned_frames": 122,
+        "unique_frames_seen": 122,
+        "sampled_contexts": 251
+      },
+      {
+        "demo": "demo_40",
+        "aligned_frames": 113,
+        "unique_frames_seen": 113,
+        "sampled_contexts": 230
+      },
+      {
+        "demo": "demo_41",
+        "aligned_frames": 119,
+        "unique_frames_seen": 119,
+        "sampled_contexts": 243
+      },
+      {
+        "demo": "demo_42",
+        "aligned_frames": 96,
+        "unique_frames_seen": 96,
+        "sampled_contexts": 194
+      },
+      {
+        "demo": "demo_43",
+        "aligned_frames": 98,
+        "unique_frames_seen": 98,
+        "sampled_contexts": 198
+      },
+      {
+        "demo": "demo_44",
+        "aligned_frames": 116,
+        "unique_frames_seen": 116,
+        "sampled_contexts": 239
+      },
+      {
+        "demo": "demo_45",
+        "aligned_frames": 112,
+        "unique_frames_seen": 112,
+        "sampled_contexts": 231
+      },
+      {
+        "demo": "demo_46",
+        "aligned_frames": 132,
+        "unique_frames_seen": 132,
+        "sampled_contexts": 268
+      },
+      {
+        "demo": "demo_47",
+        "aligned_frames": 112,
+        "unique_frames_seen": 112,
+        "sampled_contexts": 228
+      },
+      {
+        "demo": "demo_48",
+        "aligned_frames": 168,
+        "unique_frames_seen": 168,
+        "sampled_contexts": 340
+      },
+      {
+        "demo": "demo_49",
+        "aligned_frames": 114,
+        "unique_frames_seen": 114,
+        "sampled_contexts": 231
+      }
+    ]
+  }
+}
