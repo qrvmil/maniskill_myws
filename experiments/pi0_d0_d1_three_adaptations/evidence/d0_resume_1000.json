@@ -1,0 +1,7 @@
+{
+  "resumed_first_update": 1001,
+  "learning_rate": 2.4076025382392163e-05,
+  "first_resumed_loss": 0.07378899771720171,
+  "sampler_indices_identical": true,
+  "optimizer_rng_snapshot": "/workspace/pi0_three/sft/d0/1000/training_state.pt"
+}

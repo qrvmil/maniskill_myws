@@ -39,7 +39,7 @@ def save(model,opt,stage,step,scope_rows,indices,initial_hash):
  if metrics.exists():
   dest=ROOT/'experiments/pi0_d0_d1_three_adaptations/evidence'/f'{stage}_metrics.jsonl'
   shutil.copy2(metrics,dest)
- push_progress(f'exp: save {stage} SFT after {step} updates with verified HF artifacts')
+ push_progress(f'exp: save {stage} SFT after {step} updates queued for verified HF publication')
  # Older local optimizer states are unnecessary once a newer resumable save has been read back.
  for old in root.iterdir():
   if old.is_dir() and old.name.isdecimal() and int(old.name)<step:

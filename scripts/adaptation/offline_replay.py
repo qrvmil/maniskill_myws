@@ -77,5 +77,5 @@ def main():
   original_demonstrations=50,transitions=len(buffer),replay_sha256=sha(root/'replay.npz'),
   observation_source='original native HDF5; no generated observations',potential_source='restored matching original XML saved states; final recorded action for final post-action state',
   action_alignment='native obs[i] to actions[i+1]',residual_scale=2,teacher_not_used=True))
- publish(root,'offline',full_readback=True);push_progress('exp: preserve native D1 replay recomputed for the new frozen D0 base')
+ publish(root,'offline',full_readback=True,defer=True);push_progress('exp: preserve native D1 replay recomputed for the new frozen D0 base')
 if __name__=='__main__':main()
