@@ -53,7 +53,10 @@ def main():
     def logged(raw):
      result=original(raw);inference.append(dict(observation_index=len(bases),noise_sha256=flow.noise_hashes[-1],first5_preclip=np.asarray(result['actions'][:5]).tolist()));return result
     flow.infer=logged
-    for obs in selected:bases.append(base.act(obs['raw']))
+    for obs in selected[:-1]:bases.append(base.act(obs['raw']))
+    # The final observation is an absorbing goal: match the online runner's
+    # zero next-base sentinel and avoid planning an action after termination.
+    bases.append(np.zeros(7,np.float32))
     flow.infer=original
     phi=[potential(p,progress[0]['bowl_height']) for p in progress[:first+1]];transitions=[]
     for i in range(first):
@@ -78,6 +81,6 @@ def main():
   base_weights_sha256=base_hash,normalization_sha256=sha(NORM),accepted_demonstrations=sum(r['accepted'] for r in reports),
   original_demonstrations=50,transitions=len(buffer),replay_sha256=sha(root/'replay.npz'),
   observation_source='original native HDF5; no generated observations',potential_source='restored matching original XML saved states; final recorded action for final post-action state',
-  action_alignment='native obs[i] to actions[i+1]',residual_scale=2,teacher_not_used=True))
+  action_alignment='native obs[i] to actions[i+1]',terminal_next_base_action='zero absorbing sentinel, identical to online runner',residual_scale=2,teacher_not_used=True))
  publish(root,'offline',full_readback=True,defer=True);push_progress('exp: preserve native D1 replay recomputed for the new frozen D0 base')
 if __name__=='__main__':main()
