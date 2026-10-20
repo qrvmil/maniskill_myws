@@ -55,7 +55,11 @@ def train(stage,*,profile=False):
  checkpoint=initial;step=0
  if not profile and (root/'latest.json').exists():
   latest=json.loads((root/'latest.json').read_text());checkpoint=Path(latest['checkpoint']);step=latest['step']
- if step==SFT[stage]['updates']:return
+ if step and not (checkpoint/'upload_receipt.json').exists():
+  publish(checkpoint,f'checkpoints/{stage}/{step}',full_readback=step==SFT[stage]['updates'])
+ if step==SFT[stage]['updates']:
+  write(WORK/'evidence'/f'{stage}_complete.json',dict(stage=stage,updates=step,resumed_completed=True))
+  return
  model=load_model(checkpoint,training=True)
  # Master weights stay float32; freezing never changes their stored dtype or bytes.
  assert all(p.dtype==torch.float32 for p in model.parameters())
@@ -93,6 +97,12 @@ def train(stage,*,profile=False):
   row=dict(step=current+1,loss=total_loss,lr=lr(current,SFT[stage]['updates']),grad_norm=grad,seconds=time.time()-last,cuda_peak_allocated=peak)
   last=time.time();print('SFT',stage,json.dumps(row),flush=True)
   if profile:
+   from evaluate import FlowModel,PairedVideoEnv
+   from maniskill_myws.pld.libero_backend import ChunkedBasePolicy
+   env=PairedVideoEnv('D0','profile',video=False);raw,_=env.reset(seed=23010)
+   model.eval();flow=FlowModel(model,'D0');policy=ChunkedBasePolicy(flow,replan_steps=5);policy.reset(23010)
+   action=policy.act(raw);assert action.shape==(7,) and np.isfinite(action).all()
+   env.step(action);env.close()
    write(WORK/'evidence/memory_profile.json',dict(stage=stage,**row,effective_batch=BATCH,microbatch=MICROBATCH,fp32_master=True,profile_discarded=True))
    return
   with (root/'metrics.jsonl').open('a') as f:f.write(json.dumps(row)+'\n')

@@ -32,3 +32,11 @@
 Каждый эпизод: двухкамерное видео с terminal frame, method/task/seed/outcome, JSON и CSV. Возобновление проверяет завершённые episodes и не добавляет повтор как новое наблюдение. SR и Wilson 95% CI на шесть ячеек, paired differences и exact McNemar; N=50 на ячейку, не объединяем correlated measurements. Одна training seed на метод — ограничение.
 
 Код, preregistration, логи и отчёты публикуются постепенно в GitHub; checkpoints, norm, replay, reset states и 300 видео — в новом HF repo `qrvmil/pi0-d0-d1-three-adaptations-20261020`, с проверкой скачивания. Видимость существующих repo не меняем.
+
+## Уточнение реализации до первого optimizer update
+
+Фиксируем microbatch2 × accumulation4 для всех SFT (effective batch8), float32 master weights и AdamW states, bf16 autocast только вычислений. Короткий одношаговый memory/inference profile отбрасывается; он не является общим D0 checkpoint и не входит в результаты. При OOM меняем только microbatch/accumulation при сохранении batch8, публикуя изменение до длительного обучения.
+
+Новый путь использует официальный PyTorch forward/loss и inference transforms; старый JAX numerical contract не применяется к этим новым PyTorch weights. Все методы используют одинаковый backend и explicit NumPy-generated flow noise. Нормализация считается official RunningStats по всем aligned D0 frames и их 50-action chunks (последнее действие повторяется при padding), без отбрасывания неполного последнего batch.
+
+Offline RL сохраняет оригинальные native images/proprioception/actions. Для state potential и подтверждения success восстанавливаются соответствующие original XML и saved simulator states (`obs[i]` соответствует `states[i+1]`; последнее post-action state получается исполнением последнего записанного action из его pre-action state). Это восстановление для диагностики и наград, не новые demonstrations. В replay входят native траектории с исходной положительной terminal reward и подтверждённым LIBERO goal после начального observation; число прошедших проверку публикуется. SFT продолжает использовать все 50/50 demonstrations.

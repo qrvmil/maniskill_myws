@@ -74,6 +74,7 @@ def episode(env,base,*,seed,method,task,checkpoint,residual=None,scale=2.):
  imageio.mimwrite(path,env.frames,fps=20,codec='libx264',quality=7,macro_block_size=1)
  verified=validate_video(path,row['length']+1)
  row.update(method=method,task=task,checkpoint=str(checkpoint),normalization_sha256=sha(NORM),
+   first_action=transitions[0]['action'].tolist(),first_base_action=transitions[0]['base_action'].tolist(),
    video=path.name,video_sha256=sha(path),video_verification=verified,includes_terminal_frame=True,
    cameras=['agentview','robot0_eye_in_hand'],camera_render_size=256,replan_steps=5,horizon=220,
    flow_noise_hashes=base.model.noise_hashes)
