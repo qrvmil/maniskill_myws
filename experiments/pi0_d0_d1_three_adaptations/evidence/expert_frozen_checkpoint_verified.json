@@ -1,0 +1,13 @@
+{
+  "common_d0_weights_sha256": "9ba40f3f7c1b7eb40805df49901109f9fe00089aae10b04eab412d62694cb451",
+  "completed_updates": 1500,
+  "all_optimizer_steps": [
+    1500
+  ],
+  "fresh_D1_optimizer": true,
+  "frozen_tensor_hashes_verified_from_saved_safetensors": 603,
+  "frozen_weight_dtype": "float32 unchanged",
+  "normalization_sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e",
+  "matched_D1_sampler": true,
+  "final_seeds_used": false
+}
