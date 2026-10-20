@@ -1,0 +1,13 @@
+{
+  "all_777_initial_parameter_hashes_equal": true,
+  "matched_D1_sampler_sha256": "1364baf4af32ebf05d2c93b323abbfba67cc88ac696fea13da3de3f753342792",
+  "trainable_full": 3501372176,
+  "trainable_expert": 578036768,
+  "frozen_expert_tensors": 603,
+  "frozen_gradients_all_absent": true,
+  "first_update_losses": {
+    "full": 0.3402516543865204,
+    "expert": 0.3402516543865204
+  },
+  "final_seeds_used": false
+}
