@@ -20,12 +20,14 @@ tail -20 /var/log/portal/pi0_three_pipeline.log
 
 `latest.json` внутри `sft/<stage>` или `rl` указывает на целый checkpoint. Файлы сначала сохраняются атомарно, затем загружаются и проверяются. Не прерывать работающий GPU run ради косметических правок кода; текущий процесс уже загрузил свои Python modules. Новые child stages читают обновлённые scripts при старте.
 
-После фактического исправления ошибки/восстановления зависимостей:
+При незавершённом D0, после фактического исправления ошибки/восстановления зависимостей:
 
 ```bash
 supervisorctl restart pi0_three_d0
 supervisorctl restart pi0_three_pipeline
 ```
+
+Если D0 уже завершён, перезапускайте только `pi0_three_pipeline`. D0 wrapper в таком случае проверит hashes и завершится без нового profile/training.
 
 D0 wrapper проверяет существующую конверсию/data/norm и возобновляет optimizer/RNG из последнего checkpoint. Пока первый checkpoint1000 не сохранён, прерывание теряет текущие updates. Pipeline сам переиспользует завершённые SFT stages. RL сохраняет actor/critic/temperature optimizers, replay, RNG и counters на границах episodes. Удалённые receipts и hashes лежат в `evidence/`.
 
