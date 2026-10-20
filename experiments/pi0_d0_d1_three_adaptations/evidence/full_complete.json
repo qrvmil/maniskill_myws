@@ -1,5 +1,5 @@
 {
   "stage": "full",
   "updates": 1500,
-  "cuda_peak_allocated": 57554170880
+  "resumed_completed": true
 }

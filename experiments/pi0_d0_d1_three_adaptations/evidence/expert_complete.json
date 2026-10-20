@@ -1,5 +1,5 @@
 {
   "stage": "expert",
   "updates": 1500,
-  "cuda_peak_allocated": 19170682880
+  "resumed_completed": true
 }
