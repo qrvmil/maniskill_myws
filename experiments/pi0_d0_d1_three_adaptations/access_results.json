@@ -1,0 +1,17 @@
+{
+  "branch": "exp/pi0-d0-d1-three-adaptations-20261020",
+  "base_sha": "c6b77f51e3e5bd8873b812d258744c43380fdfeb",
+  "github": {
+    "write_read": "PASS",
+    "commit": "0d5b7355e3ed1151feb9b216d0a1da38af57658a",
+    "url": "https://github.com/qrvmil/maniskill_myws/tree/exp/pi0-d0-d1-three-adaptations-20261020"
+  },
+  "huggingface": {
+    "identity": "qrvmil",
+    "write_read": "PASS",
+    "repo_id": "qrvmil/pi0-d0-d1-three-adaptations-20261020",
+    "commit": "1473492c27cfa063175005dab4b85c1f928161d1",
+    "sha256": "7e465b74e41b4e9000f82a341bde133b0648cb85a641bfc566cbef35892685d0",
+    "url": "https://huggingface.co/qrvmil/pi0-d0-d1-three-adaptations-20261020"
+  }
+}
