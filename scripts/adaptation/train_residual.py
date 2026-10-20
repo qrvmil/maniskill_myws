@@ -53,9 +53,9 @@ def zero_check():
     a,_=run_episode(env,base,seed=seed,residual_scale=SCALE)
     noises=list(flow.noise_hashes)
     b,_=run_episode(env,base,seed=seed,residual=lambda o,a:np.zeros(7,np.float32),residual_scale=SCALE)
-    for k in ('reset_hash','trajectory_hash','length','success'):assert a[k]==b[k],(task,seed,k)
+    for k in ('reset_hash','trajectory_hash','image_hash','length','success'):assert a[k]==b[k],(task,seed,k)
     assert noises==flow.noise_hashes
-    rows.append(dict(task=task,seed=seed,passed=True,**{k:a[k] for k in ('reset_hash','trajectory_hash','length','success')}))
+    rows.append(dict(task=task,seed=seed,passed=True,**{k:a[k] for k in ('reset_hash','trajectory_hash','image_hash','length','success')}))
   finally:env.close()
  write(root/'complete.json',dict(passed=True,episodes=rows,base_weights_sha256=sha(WORK/'sft/d0/3000/model.safetensors')))
  publish(root,'zero_residual',full_readback=True);push_progress('exp: verify frozen D0 equals D0 plus zero residual on both tasks')
@@ -74,6 +74,7 @@ def main():
  assert offline_info['replay_sha256']==sha(WORK/'offline/replay.npz')
  offline=ReplayBuffer(offline_info['transitions'],8,7,image_shape=SHAPE);offline.load(WORK/'offline/replay.npz')
  teacher_info=json.loads((WORK/'teacher.json').read_text());assert teacher_info['validation']['successes']>0
+ assert teacher_info['canonical_validation']['successes']>0
  base_path=WORK/'sft/d0/3000';base_hash=sha(base_path/'model.safetensors');assert base_hash==offline_info['base_weights_sha256']
  model=load_model(base_path).to('cuda');frozen=model_signature(model)
  assert not any(p.requires_grad for p in model.parameters())

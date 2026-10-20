@@ -22,6 +22,7 @@ def main():
  call('train_sft.py','full')
  call('train_sft.py','expert')
  if not (WORK/'teacher.json').exists():raise RuntimeError('No registered early full-SFT teacher has nonzero validation SR; residual warmup cannot run')
+ call('revalidate_teacher.py')
  if not (ASSETS/'serl_resnet10.pt').exists():
   subprocess.run([sys.executable,str(ROOT/'scripts/pld/prepare_serl_encoder.py'),'--output',str(ASSETS/'serl_resnet10.pt')],cwd=ROOT,check=True)
  call('train_residual.py','--zero-check')

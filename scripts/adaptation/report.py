@@ -8,7 +8,7 @@ def load_rows():
 
 def interim():
  rows=load_rows();dest=ROOT/'experiments/pi0_d0_d1_three_adaptations/results';dest.mkdir(parents=True,exist_ok=True)
- compact=[{k:r[k] for k in ('method','task','seed','success','length','reset_hash','trajectory_hash','video','video_sha256','checkpoint','normalization_sha256')} for r in rows]
+ compact=[{k:r[k] for k in ('method','task','seed','success','length','reset_hash','initial_observation_hash','trajectory_hash','video','video_sha256','checkpoint','normalization_sha256')} for r in rows]
  write(dest/'episodes.json',compact)
  with (dest/'episodes.csv').open('w') as f:
   w=csv.DictWriter(f,fieldnames=list(compact[0]) if compact else ['method','task','seed','success']);w.writeheader();w.writerows(compact)
@@ -32,6 +32,7 @@ def analyze(rows):
   for seed in range(30000,30050):
    triple=[r for r in rows if (r['task'],r['seed'])==(task,seed)]
    assert len({r['reset_hash'] for r in triple})==1
+   assert len({r['initial_observation_hash'] for r in triple})==1,'Equal physics resets must have identical initial observations'
    common=min(len(r['flow_noise_hashes']) for r in triple)
    assert all(r['flow_noise_hashes'][:common]==triple[0]['flow_noise_hashes'][:common] for r in triple)
  pairs=[]
@@ -56,7 +57,7 @@ def main():
   verified_episode(WORK/'final'/r['method']/r['task']/str(r['seed']),r['method'],r['task'],r['seed'],selection[r['method']]['checkpoint'])
  dest=ROOT/'experiments/pi0_d0_d1_three_adaptations/results'
  write(dest/'success_rates.json',cells);write(dest/'paired_comparisons.json',pairs)
- write(dest/'completeness.json',dict(passed=True,episodes=300,videos=300,cells=6,n_per_cell=50,terminal_frames_verified=True,reset_hashes_equal=True,common_flow_noise_prefixes_equal=True))
+ write(dest/'completeness.json',dict(passed=True,episodes=300,videos=300,cells=6,n_per_cell=50,terminal_frames_verified=True,reset_hashes_equal=True,initial_observation_hashes_equal=True,common_flow_noise_prefixes_equal=True))
  with (dest/'success_rates.csv').open('w') as f:
   w=csv.DictWriter(f,fieldnames=['method','task','n','successes','success_rate','wilson_low','wilson_high']);w.writeheader()
   for method in METHODS:
@@ -75,6 +76,7 @@ def main():
   return ', '.join('`'+m+'`' for m in METHODS if cells[m+'_'+task]['success_rate']==top)
  best,retain=leaders('D1'),leaders('D0')
  offline=json.loads((WORK/'offline/complete.json').read_text());teacher=json.loads((WORK/'teacher.json').read_text());rl=json.loads((WORK/'evidence/residual_complete.json').read_text())
+ validation=teacher['canonical_validation']
  report=f'''# Три способа адаптации π₀: D0 → D1
 
 Это сравнение освоения D1 и сохранения D0 на двух **знакомых задачах LIBERO**. D0 — миска в центре стола; D1 — миска рядом с тарелкой. Во всех SFT использованы все 50 исходных native demonstrations соответствующей задачи. Финальная оценка — новые generated scenes этих задач; это не held-out demonstrations и не OOD.
@@ -87,13 +89,13 @@ def main():
 - **Action-expert SFT D1:** те же 1500 updates, данные, seed и LR schedule; обучались action expert и state/action/time projections. PaliGemma, vision encoder и multimodal projector frozen; trainable scope, gradients и hashes проверены.
 - **Residual RL D1:** исходная D0 π₀ полностью frozen. Отдельные actor/critic/temperature; corrected V3 SAC и auxiliary full-action Cal-QL, V4 разделение ролей D0/D1. Offline initialization: 1000 updates на успешных native D1 demos ({offline['accepted_demonstrations']}/50 прошли state-based LIBERO goal check). База/replay пересчитаны. Затем 20 teacher-warmup episodes с обновлениями actor/critic/temperature и ровно 50000 active online transitions, UTD1, batch256, offline fraction .5. Всего online environment steps: {rl['environment_steps']}.
 
-Два изменения V4 заданы **до результатов**: warmup исполняет ранний full-SFT teacher (D1 update {teacher['step']}, validation {teacher['validation']['successes']}/10), а reward содержит potential-based shaping (gamma .99, beta .1): reach нужной миски, grasp, lift/transport. Teacher не заменяет D0-базу; исполненные teacher actions и cached D0 actions записаны отдельно. Terminal Phi=0; offline/online rewards и MC returns вычисляются одним кодом. Успех всегда определяется исходным LIBERO predicate. Online OTF, probe_fraction0; evaluation deterministic actor.
+Два изменения V4 заданы **до результатов**: warmup исполняет ранний full-SFT teacher (D1 update {teacher['step']}, повторная validation после унификации reset {validation['successes']}/10), а reward содержит potential-based shaping (gamma .99, beta .1): reach нужной миски, grasp, lift/transport. Teacher не заменяет D0-базу; исполненные teacher actions и cached D0 actions записаны отдельно. Terminal Phi=0; offline/online rewards и MC returns вычисляются одним кодом. Успех всегда определяется исходным LIBERO predicate. Online OTF, probe_fraction0; evaluation deterministic actor.
 
 Действие residual: `clip(a_D0 + 2 * residual, -1, 1)` в OSC units. xi2 обеспечивает достижимость любых bounded teacher actions, включая gripper. Это широкая correction authority, поэтому результат нельзя трактовать как проверку только малых поправок.
 
 ## Результаты
 
-N=50 в каждой ячейке; в скобках Wilson 95% CI. Horizon220, replan5. Методы получают одинаковые сохранённые generated reset states и flow noise; hashes проверены. Последние checkpoints выбраны по заранее фиксированному бюджету; final seeds не участвовали в выборе.
+N=50 в каждой ячейке; в скобках Wilson 95% CI. Horizon220, replan5. Методы получают одинаковые сохранённые generated reset states и flow noise; hashes physics state и начальных observations проверены. До RL обнаружен различный refresh sensor caches у fresh/restored resets; оба пути унифицированы и прошли точную zero-residual проверку. Последние checkpoints выбраны по заранее фиксированному бюджету; final seeds не участвовали в выборе.
 
 | Метод | D0 SR [95% CI] | D1 SR [95% CI] |
 |---|---|---|

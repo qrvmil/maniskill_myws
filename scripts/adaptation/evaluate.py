@@ -33,14 +33,21 @@ class PairedVideoEnv:
    self.frames.append(np.concatenate([np.ascontiguousarray(raw[k][::-1,::-1]) for k in ('agentview_image','robot0_eye_in_hand_image')],axis=1))
  def reset(self,*,seed):
   path=WORK/'reset_states'/self.role/self.task/f'{seed}.npz'
+  old=None
   if path.exists():
-   old=np.load(path,allow_pickle=False)
+   with np.load(path,allow_pickle=False) as archive:old={k:archive[k] for k in archive.files}
    raw,info=self._env.reset(seed=seed,initial_state=old['sampled_initial_state'])
    assert info['reset_hash']==str(old['reset_hash']),f'Reset drift {self.task}/{seed}'
    assert np.array_equal(info['initial_state'],old['initial_state'])
   else:
    raw,info=self._env.reset(seed=seed);path.parent.mkdir(parents=True,exist_ok=True)
-   np.savez_compressed(path,initial_state=info['initial_state'],sampled_initial_state=info['sampled_initial_state'],reset_hash=info['reset_hash'],seed=seed,task=self.task)
+  from maniskill_myws.pld.libero_backend import convert_observation
+  observed=convert_observation(raw,self.prompt,image_size=None)
+  self.initial_observation_hash=hashlib.sha256(observed['state'].tobytes()+observed['images'].tobytes()).hexdigest()
+  if old is not None and 'initial_observation_hash' in old:
+   assert self.initial_observation_hash==str(old['initial_observation_hash']),f'Initial sensor cache drift {self.task}/{seed}'
+  else:
+   np.savez_compressed(path,initial_state=info['initial_state'],sampled_initial_state=info['sampled_initial_state'],reset_hash=info['reset_hash'],initial_observation_hash=self.initial_observation_hash,seed=seed,task=self.task)
   self.frames=[];self.record(raw);return raw,info
  def step(self,action):
   raw,*rest=self._env.step(action);self.record(raw);return (raw,*rest)
@@ -79,7 +86,7 @@ def episode(env,base,*,seed,method,task,checkpoint,residual=None,scale=2.):
  imageio.mimwrite(path,env.frames,fps=20,codec='libx264',quality=7,macro_block_size=1)
  verified=validate_video(path,row['length']+1)
  assert (verified['width'],verified['height'])==(512,256)
- row.update(method=method,task=task,checkpoint=str(checkpoint),normalization_sha256=sha(NORM),
+ row.update(method=method,task=task,checkpoint=str(checkpoint),normalization_sha256=sha(NORM),initial_observation_hash=env.initial_observation_hash,
    first_action=transitions[0]['action'].tolist(),first_base_action=transitions[0]['base_action'].tolist(),
    video=path.name,video_sha256=sha(path),video_verification=verified,includes_terminal_frame=True,
    cameras=['agentview','robot0_eye_in_hand'],camera_render_size=256,replan_steps=5,horizon=220,
@@ -95,6 +102,7 @@ def verified_episode(folder,method,task,seed,checkpoint):
  assert (row['method'],row['task'],row['seed'],row['checkpoint'])==(method,task,seed,str(checkpoint))
  assert row['normalization_sha256']==sha(NORM)
  reset=np.load(WORK/'reset_states/final'/task/f'{seed}.npz');assert row['reset_hash']==str(reset['reset_hash'])
+ assert row['initial_observation_hash']==str(reset['initial_observation_hash'])
  assert int(reset['seed'])==seed and str(reset['task'])==task
  assert row['includes_terminal_frame'] and row['cameras']==['agentview','robot0_eye_in_hand']
  video=folder/row['video'];assert sha(video)==row['video_sha256']

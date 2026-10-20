@@ -25,6 +25,12 @@
 - Shaping: gamma=.99, beta=.1, state potential отражает reach, grasp, lift/transport целевой миски к тарелке. Для absorbing success и конечного горизонта Phi(next)=0. Offline/online reward и Monte Carlo returns пересчитываются одним кодом. Success всегда оригинальный LIBERO check_success.
 - RL seeds: 20000–20999, циклически; offline flow seeds 1000000+demo index. Validation 22000–22009; sanity/zero-residual 23000–23002. Final 30000–30049. Наборы не пересекаются.
 
+## Уточнение reset перед RL, 2026-10-20
+
+Zero-residual gate выявил разные sensor caches у fresh и restored resets при одинаковом physics-state hash. Все resets теперь проходят один и тот же `set_init_state(sampled_state)` до10 settle steps. Generated physics states и budgets не меняются. В реальной диагностике после исправления совпадают observations, actions, images, physics trajectories и noise; до исправления повторные restored runs совпадали, а первый fresh run отличался. Добавлены hashes начальных observations в reset artifacts, episode JSON/CSV и paired completeness checks. Ранее выбранный teacher250 повторно проверяется на тех же validation seeds22000–22009; его weights и исходный результат3/10 сохраняются. Финальные seeds ещё не открывались.
+
+Offline absorbing goal использует тот же zero `next_base_action`, что online runner; после terminal не вызывается новый policy inference. Общие shaping rewards и returns сохраняют terminal Phi=0.
+
 ## Финальная оценка
 
 Только после фиксации всех трёх финальных checkpoints: 3 метода × 2 задачи × 50 scenes = 300 rollout, horizon 220, replan 5. Для каждой задачи сохраняются generated reset states, hashes проверяются перед эпизодами. Noise определяется seed и номером replan, одинаков для всех методов. Не используем demo-associated benchmark init files.

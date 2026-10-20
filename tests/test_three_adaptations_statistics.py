@@ -14,7 +14,7 @@ def corpus():
     length=100 if success else 220;seed=30000+index
     h=lambda s:hashlib.sha256(s.encode()).hexdigest()
     rows.append(dict(method=method,task=task,seed=seed,success=success,length=length,
-       reset_hash=h(f'{task}:{seed}'),flow_noise_hashes=[h(f'{seed}:{i}') for i in range((length+4)//5)]))
+       reset_hash=h(f'{task}:{seed}'),initial_observation_hash=h(f'obs:{task}:{seed}'),flow_noise_hashes=[h(f'{seed}:{i}') for i in range((length+4)//5)]))
  return rows
 
 def test_known_success_rates_and_paired_exact_test():
@@ -27,11 +27,12 @@ def test_known_success_rates_and_paired_exact_test():
  assert result['mcnemar_exact_p']==pytest.approx(.098737146705)
  assert all(p['mcnemar_holm_p']>=p['mcnemar_exact_p'] for p in pairs)
 
-@pytest.mark.parametrize('damage',['duplicate','reset','noise','short_failure'])
+@pytest.mark.parametrize('damage',['duplicate','reset','observation','noise','short_failure'])
 def test_invalid_paired_dataset_is_rejected(damage):
  rows=corpus()
  if damage=='duplicate':rows[1]=copy.deepcopy(rows[0])
  elif damage=='reset':rows[100]['reset_hash']='other'
+ elif damage=='observation':rows[100]['initial_observation_hash']='other'
  elif damage=='noise':rows[100]['flow_noise_hashes'][0]='other'
  else:
   row=next(r for r in rows if not r['success']);row['length']=100;row['flow_noise_hashes']=row['flow_noise_hashes'][:20]

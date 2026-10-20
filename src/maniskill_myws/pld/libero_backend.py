@@ -141,9 +141,10 @@ class LiberoEnv:
     def reset(self, *, seed, initial_state=None):
         self.env.seed(int(seed))
         obs = self.env.reset()
-        if initial_state is not None:
-            obs = self.env.set_init_state(initial_state)
-        sampled_state = np.asarray(self.env.get_sim_state()).copy()
+        sampled_state = np.asarray(self.env.get_sim_state() if initial_state is None else initial_state).copy()
+        # Canonicalize fresh and saved resets through the same observation-cache
+        # refresh. Equal MuJoCo state alone does not imply equal sensor caches.
+        obs = self.env.set_init_state(sampled_state)
         for _ in range(self.settle_steps):
             obs, _, _, _ = self.env.step([0.]*6+[-1.])
         self.steps, self.done = 0, False
