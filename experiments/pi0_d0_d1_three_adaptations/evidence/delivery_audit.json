@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "required_policies": [
+    {
+      "path": "/workspace/pi0_three/sft/d0/3000",
+      "weights_sha256": "9ba40f3f7c1b7eb40805df49901109f9fe00089aae10b04eab412d62694cb451",
+      "hf_commit": "f77d51171e113ef76cc8c64c2f47aeb3698e0225"
+    },
+    {
+      "path": "/workspace/pi0_three/teacher_policy",
+      "weights_sha256": "a5caf094b09faaed0ff84d20e994a11f7ff19f91501c7af02670c4f355a28ea3",
+      "hf_commit": "eea776e036a8c3fa53954f3c5ad556d2205b5923"
+    },
+    {
+      "path": "/workspace/pi0_three/sft/full/1500",
+      "weights_sha256": "a9a46f6779060ed7b85dcfc671254fe329fff66d7a411c126d1cdda2bdd41c1d",
+      "hf_commit": "ffdd00e8969ad4aa065ad40f37a09abd63b54687"
+    },
+    {
+      "path": "/workspace/pi0_three/sft/expert/1500",
+      "weights_sha256": "d76e243072b0196b68503afdb8aa32fcfe9dc623d771bc2e2d5d5a880812e40d",
+      "hf_commit": "cbb07704c98597169fe780ad905243339216339a"
+    },
+    {
+      "path": "/workspace/pi0_three/rl/final",
+      "weights_sha256": "c4f2b9853e00fc9c3eab31492d48bcebd25f35a3d334b0dde8ffd59310319094",
+      "hf_commit": "c0121e7176f15a9baaf7e15b30e6d320563715d4"
+    }
+  ],
+  "final_episodes": 300,
+  "verified_remote_videos": 300,
+  "unique_task_reset_states": 100,
+  "executed_notebook_code_cells": 28,
+  "embedded_videos": 3,
+  "notebook_rerun_executed": true,
+  "final_manifest_unchanged": true,
+  "manifest_files": 1306,
+  "residual_final_replay_audit_passed": true,
+  "remote_head": "57b978774e8e177d8d721b71f15542751e0610d9",
+  "remote_head_required_paths_verified": 1051
+}

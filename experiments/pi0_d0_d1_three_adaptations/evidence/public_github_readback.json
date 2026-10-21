@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "files": [
+    {
+      "provider": "GitHub",
+      "file": "REPORT.md",
+      "commit": "eb05ab6c4c5dd149b7796b3ca3a65c217334853f",
+      "anonymous_read": true
+    },
+    {
+      "provider": "GitHub",
+      "file": "seminar.ipynb",
+      "commit": "eb05ab6c4c5dd149b7796b3ca3a65c217334853f",
+      "anonymous_read": true
+    }
+  ]
+}
