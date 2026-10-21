@@ -1,0 +1,19 @@
+{
+  "repo": "qrvmil/pi0-d0-d1-three-adaptations-20261020",
+  "commit": "df8ba3e06405776d1fa4c7bdb8261a24e7b1ca59",
+  "verified": [
+    {
+      "path": "final/full/D1/30036/episode.json",
+      "verification": "download+sha256",
+      "sha256": "12e986b27dc428943db9c5d6e05cdee404a0fa37a3be8f3262a179ce46277a5d"
+    },
+    {
+      "path": "final/full/D1/30036/full_D1_seed30036_failure.mp4",
+      "verification": "download+sha256",
+      "sha256": "542d237c120fdcfba5cf801e89cde0e2d491f079367906465b7f39c516003b75"
+    }
+  ],
+  "time": 1792549480.2424884,
+  "upload_seconds": 19.05483627319336,
+  "verification_seconds": 7.341899871826172
+}
