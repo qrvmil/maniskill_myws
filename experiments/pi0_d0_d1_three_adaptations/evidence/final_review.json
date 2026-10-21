@@ -1,0 +1,42 @@
+{
+  "passed": true,
+  "time_utc": "2026-10-21T04:11:28.552770+00:00",
+  "report_reviewed": true,
+  "all_six_visual_cells_reviewed": true,
+  "executed_notebook_rerun_passed": true,
+  "public_readbacks_passed": true,
+  "all_required_artifacts_published_and_read_back": true,
+  "results": {
+    "full": {
+      "D0": [
+        0,
+        50
+      ],
+      "D1": [
+        20,
+        50
+      ]
+    },
+    "expert": {
+      "D0": [
+        0,
+        50
+      ],
+      "D1": [
+        19,
+        50
+      ]
+    },
+    "residual": {
+      "D0": [
+        0,
+        50
+      ],
+      "D1": [
+        0,
+        50
+      ]
+    }
+  },
+  "no_final_result_checkpoint_tuning": true
+}

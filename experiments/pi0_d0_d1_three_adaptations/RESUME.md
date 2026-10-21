@@ -2,6 +2,16 @@
 
 Рабочий код: `/workspace/pi0_experiment`, ветка `exp/pi0-d0-d1-three-adaptations-20261020`. Артефакты: `/workspace/pi0_three`; Python: `/workspace/pi0_venv/bin/python`. Эта машина не имеет persistent workspace volume; stop/start сохраняет диск, recycle/destroy — нет. HF: `qrvmil/pi0-d0-d1-three-adaptations-20261020`. Credentials находятся в стандартном для этой сессии cache, токены не входят в код/логи.
 
+## Завершено, 2026-10-21, около 04:10 UTC
+
+Все три эксперимента,300 финальных episodes и300 двухкамерных MP4 завершены и опубликованы. N50 в каждой ячейке: full D0=0/50,D1=20/50; action-expert D0=0/50,D1=19/50; residual D0=0/50,D1=0/50. Это отрицательный результат сохранения D0 у адаптированных политик; точный спад относительно общего D0-base на N50 не оценивался. Checkpoints и научные настройки по final results не менялись.
+
+[REPORT.md](REPORT.md) — около1050 слов, SR/Wilson95% CI, paired bootstrap/boundary intervals, exact McNemar/Holm и ограничения. [VIDEOS.md](VIDEOS.md) индексирует все300 MP4 и episode JSON; [results](results) содержит JSON/CSV и completeness gate. Общие D0 weights, ранний teacher250 и три финальные модели с той же normalization находятся в HF `checkpoints/`; optimizer/RNG/replay сохранены для resume.
+
+[seminar.ipynb](seminar.ipynb) действительно выполнен и опубликован; `audit_delivery.py` независимо повторил все28 code cells, три first-action checks и три embedded videos. Ни один из1306 файлов финальных episodes/reset manifests при повторном выполнении не изменился, N осталось300. Проверены1051 обязательных путей в текущем HF head `57b978774e8e177d8d721b71f15542751e0610d9`, включая300 видео,100 generated final reset states и пять policies. `evidence/delivery_audit.json`, `visual_review.json`, `report_review.json` и публичные GH/HF readback receipts подтверждают финальную проверку.
+
+HF429 разрешён ожиданием Retry-After и пакетами до30 episodes/90 operations; каждый файл полностью прочитан обратно и проверен по SHA256. Все300 video receipts готовы, очередь пуста. Supervisor pipeline штатно EXITED, publisher простаивает. Для просмотра или повторного запуска семинара не требуется заново запускать обучение/собирать evaluation. Все более ранние заметки ниже — датированная история прогресса.
+
 ## Публикация, 2026-10-21, около 03:03 UTC
 
 HF commit API вернул429 после124 опубликованных final episodes и потребовал около часа ожидания. Модели и первые124 видео уже проверены, GPU evaluation продолжает работать. Publisher приостановлен до консервативного `2026-10-21T03:53:28Z` (файл `publication_queue/commit-backoff`); до этого срока новых write requests не посылает. Не обходить ограничение другими credentials/repositories.

@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "anonymous_read": true,
+  "repo_public": true,
+  "files": [
+    "README.md",
+    "seminar/REPORT.md"
+  ],
+  "head": "57b978774e8e177d8d721b71f15542751e0610d9"
+}

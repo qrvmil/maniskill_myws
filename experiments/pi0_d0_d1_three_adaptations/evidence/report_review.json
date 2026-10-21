@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "words": 1057,
+  "readability_target_minutes": 5,
+  "actual_results_and_negative_outcomes_described": true,
+  "paired_uncertainty_and_degenerate_interval_bounds_present": true,
+  "no_n50_baseline_drop_claimed": true,
+  "all_requested_artifact_links_present": true
+}

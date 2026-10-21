@@ -1,9 +1,15 @@
 {
-  "actual_remote_batches_verified": true,
+  "passed": true,
+  "total_episode_receipts": 300,
+  "batched_episode_receipts": 176,
+  "batched_commits": 6,
   "episode_receipts_per_commit": {
     "f7e9bfc38ed0e1e3f5a568e8d3cf54839a5aa40f": 30,
     "0172abee400be8c6dbc81d37016f0ed3de517984": 30,
-    "a8e530d1613be2083867bdf2e955233cdc605b63": 30
+    "a8e530d1613be2083867bdf2e955233cdc605b63": 30,
+    "f416c45ad035d4572fc0ff63ae19a8c64ae2c1a0": 30,
+    "27ab60e70493d18ed329f51d3df3a76e154c56bb": 30,
+    "0a65579a063996d7a7687d66d8da4341d53bb1fa": 26
   },
   "full_download_and_sha256_per_file": true,
   "retry_after_respected": true
