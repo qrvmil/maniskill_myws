@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "prior_commits": [
+    "8a2d04a6e6695aa86475c39a54ee990b6d84b37f"
+  ],
+  "all370_source_files_match_previous_remote_readback": true,
+  "final_reset_states": 100,
+  "new_commit_not_needed": true
+}
