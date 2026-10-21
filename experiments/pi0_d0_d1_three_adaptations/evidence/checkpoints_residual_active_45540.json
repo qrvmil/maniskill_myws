@@ -1,0 +1,49 @@
+{
+  "repo": "qrvmil/pi0-d0-d1-three-adaptations-20261020",
+  "commit": "3dd194f16dece0363368ba8ad544e3f3b2a450cc",
+  "verified": [
+    {
+      "path": "checkpoints/residual/active_45540/assets/d0/norm_stats.json",
+      "verification": "download+sha256",
+      "sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e"
+    },
+    {
+      "path": "checkpoints/residual/active_45540/collection_traces.tar.gz",
+      "verification": "download+sha256",
+      "sha256": "4006b51db2162bbd432711adc37f13fe00c0bff603570d0d904ed02de2cc448b"
+    },
+    {
+      "path": "checkpoints/residual/active_45540/critic_after_calql.json",
+      "verification": "download+sha256",
+      "sha256": "724a782b232e177d199ace2d8aa89f2ecdaa6a1c2245a253bb0d45f9b29e0b6d"
+    },
+    {
+      "path": "checkpoints/residual/active_45540/critic_after_warmup.json",
+      "verification": "download+sha256",
+      "sha256": "5baa0c72481bdeaff8902e7a6b2305b26e6c6a6cb944363e16ad16d5325895f0"
+    },
+    {
+      "path": "checkpoints/residual/active_45540/online_replay.npz",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "39a1041d1e07d97c99665d2f2ea03622bedc6aed0d137c59b076401a7fbd529b"
+    },
+    {
+      "path": "checkpoints/residual/active_45540/residual.pt",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "e964800138761f16138d1ad7be3f05fe1234789ab9d64dd3f5c606fd6fd9834a"
+    },
+    {
+      "path": "checkpoints/residual/active_45540/training.json",
+      "verification": "download+sha256",
+      "sha256": "61971326aeb8e9fab8b08177241b78ec9f6cd31319fdfb37b2ab5821914488fc"
+    },
+    {
+      "path": "checkpoints/residual/active_45540/training_state.pt",
+      "verification": "download+sha256",
+      "sha256": "497bb583c965b41a09fcb606b931141cee5d4b4a7eaacd2bd16fb7a514a3258b"
+    }
+  ],
+  "time": 1792546495.4628632,
+  "upload_seconds": 939.8307151794434,
+  "verification_seconds": 18.34861993789673
+}
