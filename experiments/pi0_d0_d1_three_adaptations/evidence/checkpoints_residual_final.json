@@ -1,0 +1,49 @@
+{
+  "repo": "qrvmil/pi0-d0-d1-three-adaptations-20261020",
+  "commit": "c0121e7176f15a9baaf7e15b30e6d320563715d4",
+  "verified": [
+    {
+      "path": "checkpoints/residual/final/assets/d0/norm_stats.json",
+      "verification": "download+sha256",
+      "sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e"
+    },
+    {
+      "path": "checkpoints/residual/final/collection_traces.tar.gz",
+      "verification": "download+sha256",
+      "sha256": "ae6bc3fe7813125577629cd5f0906f75f80ff99956d66bc5e0fe4d748c31555d"
+    },
+    {
+      "path": "checkpoints/residual/final/critic_after_calql.json",
+      "verification": "download+sha256",
+      "sha256": "724a782b232e177d199ace2d8aa89f2ecdaa6a1c2245a253bb0d45f9b29e0b6d"
+    },
+    {
+      "path": "checkpoints/residual/final/critic_after_warmup.json",
+      "verification": "download+sha256",
+      "sha256": "5baa0c72481bdeaff8902e7a6b2305b26e6c6a6cb944363e16ad16d5325895f0"
+    },
+    {
+      "path": "checkpoints/residual/final/online_replay.npz",
+      "verification": "download+sha256",
+      "sha256": "6e996e359828d9891766186512864b7cab78cc189709e7489badae6fb5697857"
+    },
+    {
+      "path": "checkpoints/residual/final/residual.pt",
+      "verification": "download+sha256",
+      "sha256": "c4f2b9853e00fc9c3eab31492d48bcebd25f35a3d334b0dde8ffd59310319094"
+    },
+    {
+      "path": "checkpoints/residual/final/training.json",
+      "verification": "download+sha256",
+      "sha256": "ac8990588bba6482001c7415aec2ff2fe14d4b88922faa489ac678c012139ad2"
+    },
+    {
+      "path": "checkpoints/residual/final/training_state.pt",
+      "verification": "download+sha256",
+      "sha256": "ef68c25db66f995523dac75925dcbdb4e25d85fc3984c8cdac183502bd764c53"
+    }
+  ],
+  "time": 1792547974.7022514,
+  "upload_seconds": 124.3147759437561,
+  "verification_seconds": 207.73384642601013
+}
