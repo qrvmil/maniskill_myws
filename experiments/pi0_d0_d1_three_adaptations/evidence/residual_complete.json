@@ -1,0 +1,7 @@
+{
+  "checkpoint": "/workspace/pi0_three/rl/final",
+  "active_steps": 50000,
+  "environment_steps": 54127,
+  "episodes": 248,
+  "weights_sha256": "c4f2b9853e00fc9c3eab31492d48bcebd25f35a3d334b0dde8ffd59310319094"
+}
