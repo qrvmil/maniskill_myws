@@ -1,0 +1,119 @@
+[
+  {
+    "n": 50,
+    "rescue": 0,
+    "harm": 0,
+    "gain_pp": 0.0,
+    "bootstrap_95_pp": [
+      0.0,
+      0.0
+    ],
+    "bootstrap_draws": 10000,
+    "bootstrap_seed": 0,
+    "exact_boundary_95_pp": [
+      -5.815507911697226,
+      5.815507911697226
+    ],
+    "task": "D0",
+    "before": "full",
+    "after": "expert",
+    "mcnemar_exact_p": 1.0,
+    "mcnemar_holm_p": 1.0
+  },
+  {
+    "n": 50,
+    "rescue": 0,
+    "harm": 0,
+    "gain_pp": 0.0,
+    "bootstrap_95_pp": [
+      0.0,
+      0.0
+    ],
+    "bootstrap_draws": 10000,
+    "bootstrap_seed": 0,
+    "exact_boundary_95_pp": [
+      -5.815507911697226,
+      5.815507911697226
+    ],
+    "task": "D0",
+    "before": "full",
+    "after": "residual",
+    "mcnemar_exact_p": 1.0,
+    "mcnemar_holm_p": 1.0
+  },
+  {
+    "n": 50,
+    "rescue": 0,
+    "harm": 0,
+    "gain_pp": 0.0,
+    "bootstrap_95_pp": [
+      0.0,
+      0.0
+    ],
+    "bootstrap_draws": 10000,
+    "bootstrap_seed": 0,
+    "exact_boundary_95_pp": [
+      -5.815507911697226,
+      5.815507911697226
+    ],
+    "task": "D0",
+    "before": "expert",
+    "after": "residual",
+    "mcnemar_exact_p": 1.0,
+    "mcnemar_holm_p": 1.0
+  },
+  {
+    "n": 50,
+    "rescue": 1,
+    "harm": 2,
+    "gain_pp": -2.0,
+    "bootstrap_95_pp": [
+      -10.0,
+      4.0
+    ],
+    "bootstrap_draws": 10000,
+    "bootstrap_seed": 0,
+    "exact_boundary_95_pp": null,
+    "task": "D1",
+    "before": "full",
+    "after": "expert",
+    "mcnemar_exact_p": 1.0,
+    "mcnemar_holm_p": 1.0
+  },
+  {
+    "n": 50,
+    "rescue": 0,
+    "harm": 20,
+    "gain_pp": -40.0,
+    "bootstrap_95_pp": [
+      -54.0,
+      -26.0
+    ],
+    "bootstrap_draws": 10000,
+    "bootstrap_seed": 0,
+    "exact_boundary_95_pp": null,
+    "task": "D1",
+    "before": "full",
+    "after": "residual",
+    "mcnemar_exact_p": 1.9073486328125e-06,
+    "mcnemar_holm_p": 1.1444091796875e-05
+  },
+  {
+    "n": 50,
+    "rescue": 0,
+    "harm": 19,
+    "gain_pp": -38.0,
+    "bootstrap_95_pp": [
+      -52.0,
+      -24.0
+    ],
+    "bootstrap_draws": 10000,
+    "bootstrap_seed": 0,
+    "exact_boundary_95_pp": null,
+    "task": "D1",
+    "before": "expert",
+    "after": "residual",
+    "mcnemar_exact_p": 3.814697265625e-06,
+    "mcnemar_holm_p": 1.9073486328125e-05
+  }
+]

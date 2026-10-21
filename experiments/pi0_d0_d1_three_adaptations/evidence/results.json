@@ -1,0 +1,39 @@
+{
+  "repo": "qrvmil/pi0-d0-d1-three-adaptations-20261020",
+  "commit": "2a5518ede92c0df599e48270ac2a79c171d60db6",
+  "verified": [
+    {
+      "path": "results/completeness.json",
+      "verification": "download+sha256",
+      "sha256": "123ddc9c1c66d41aceae8617066f6f1d829a853852fe8ca3308b4b7dc3c4dcef"
+    },
+    {
+      "path": "results/episodes.csv",
+      "verification": "download+sha256",
+      "sha256": "07070a3f9ca1400b5d99239795f5b5103155ee50117fa8de434fb4df2c932758"
+    },
+    {
+      "path": "results/episodes.json",
+      "verification": "download+sha256",
+      "sha256": "e87008de6170e8721e765b2bf6ef124646e64da8ebedb0a0593a34009ce22afe"
+    },
+    {
+      "path": "results/paired_comparisons.json",
+      "verification": "download+sha256",
+      "sha256": "1a53c32e30bb02e45dcbf997444a3bab53e63d70a1b2cdee4dc9903785c87c09"
+    },
+    {
+      "path": "results/success_rates.csv",
+      "verification": "download+sha256",
+      "sha256": "c4a52f39fb9aa98b1982cb7c0f9ad14bde3a2dc1bc08403c2ad5475fe37ceccf"
+    },
+    {
+      "path": "results/success_rates.json",
+      "verification": "download+sha256",
+      "sha256": "a3280b69233dcc76a662e6bcb1c1b2e3a4471a71e61a2894350b7dfa56df1022"
+    }
+  ],
+  "time": 1792555346.8735824,
+  "upload_seconds": 4.367676734924316,
+  "verification_seconds": 5.27923583984375
+}

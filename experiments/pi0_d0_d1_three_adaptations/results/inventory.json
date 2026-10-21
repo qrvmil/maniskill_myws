@@ -1,0 +1,26 @@
+{
+  "completeness.json": {
+    "bytes": 245,
+    "sha256": "123ddc9c1c66d41aceae8617066f6f1d829a853852fe8ca3308b4b7dc3c4dcef"
+  },
+  "episodes.csv": {
+    "bytes": 129306,
+    "sha256": "07070a3f9ca1400b5d99239795f5b5103155ee50117fa8de434fb4df2c932758"
+  },
+  "episodes.json": {
+    "bytes": 214355,
+    "sha256": "e87008de6170e8721e765b2bf6ef124646e64da8ebedb0a0593a34009ce22afe"
+  },
+  "paired_comparisons.json": {
+    "bytes": 2252,
+    "sha256": "1a53c32e30bb02e45dcbf997444a3bab53e63d70a1b2cdee4dc9903785c87c09"
+  },
+  "success_rates.csv": {
+    "bytes": 430,
+    "sha256": "c4a52f39fb9aa98b1982cb7c0f9ad14bde3a2dc1bc08403c2ad5475fe37ceccf"
+  },
+  "success_rates.json": {
+    "bytes": 1178,
+    "sha256": "a3280b69233dcc76a662e6bcb1c1b2e3a4471a71e61a2894350b7dfa56df1022"
+  }
+}

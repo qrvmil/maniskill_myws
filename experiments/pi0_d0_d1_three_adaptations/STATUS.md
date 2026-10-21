@@ -1,6 +1,6 @@
 # Статус эксперимента
 
-Обновлено UTC: 2026-10-21T03:56:35.171158+00:00
+Обновлено UTC: 2026-10-21T04:02:26.946413+00:00
 
 GitHub/HF write/read probes прошли. Бюджеты и правила выбора: [PREREGISTRATION.md](PREREGISTRATION.md).
 
@@ -14,3 +14,5 @@ GitHub/HF write/read probes прошли. Бюджеты и правила вы�
 Final seeds не используются для настройки или выбора checkpoints. Завершённые episodes при resume проверяются и переиспользуются без увеличения N.
 
 Код: `/workspace/pi0_experiment`; артефакты: `/workspace/pi0_three`; среда: `/workspace/pi0_venv`. Supervisor и логи: `pi0_three_d0`, `pi0_three_pipeline`, `/var/log/portal/<name>.log`.
+
+[Результаты и completeness check](results/completeness.json); [краткий отчёт](REPORT.md).

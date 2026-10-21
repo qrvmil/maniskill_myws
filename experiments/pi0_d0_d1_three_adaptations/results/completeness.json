@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "episodes": 300,
+  "videos": 300,
+  "cells": 6,
+  "n_per_cell": 50,
+  "terminal_frames_verified": true,
+  "reset_hashes_equal": true,
+  "initial_observation_hashes_equal": true,
+  "common_flow_noise_prefixes_equal": true
+}

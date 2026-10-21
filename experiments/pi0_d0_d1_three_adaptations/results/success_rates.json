@@ -1,0 +1,62 @@
+{
+  "full_D0": {
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 220.0
+  },
+  "full_D1": {
+    "n": 50,
+    "successes": 20,
+    "success_rate": 0.4,
+    "wilson_95ci": [
+      0.27608389730256544,
+      0.5381856225241064
+    ],
+    "mean_episode_length": 178.18
+  },
+  "expert_D0": {
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 220.0
+  },
+  "expert_D1": {
+    "n": 50,
+    "successes": 19,
+    "success_rate": 0.38,
+    "wilson_95ci": [
+      0.25862789310193596,
+      0.5184955306900703
+    ],
+    "mean_episode_length": 179.82
+  },
+  "residual_D0": {
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 220.0
+  },
+  "residual_D1": {
+    "n": 50,
+    "successes": 0,
+    "success_rate": 0.0,
+    "wilson_95ci": [
+      6.938893903907228e-18,
+      0.07134759913335872
+    ],
+    "mean_episode_length": 220.0
+  }
+}
