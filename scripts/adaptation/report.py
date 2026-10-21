@@ -75,11 +75,15 @@ def main():
   top=max(cells[m+'_'+task]['success_rate'] for m in METHODS)
   return ', '.join('`'+m+'`' for m in METHODS if cells[m+'_'+task]['success_rate']==top)
  best,retain=leaders('D1'),leaders('D0')
+ ranking=(f'На этом запуске наибольший измеренный D1 SR: {best}. На D0 все три политики дали 0/50; лидера по сохранению D0 в этих данных нет.'
+  if max(cells[m+'_D0']['successes'] for m in METHODS)==0 else
+  f'На этом запуске наибольший измеренный D1 SR: {best}; наибольший D0 SR: {retain}. При равенстве указаны все методы.')
  labels={'full':'Full SFT','expert':'Action-expert SFT','residual':'Residual RL'}
  paired_table=[]
  for p in pairs:
-  lo,hi=p['bootstrap_95_pp']
-  paired_table.append(f"| {p['task']} | {labels[p['before']]} → {labels[p['after']]} | {p['gain_pp']:+.0f} [{lo:+.1f}; {hi:+.1f}] | {p['rescue']}/{p['harm']} | {p['mcnemar_holm_p']:.4g} |")
+  boundary=p['exact_boundary_95_pp'];lo,hi=boundary if boundary is not None else p['bootstrap_95_pp']
+  marker='†' if boundary is not None else ''
+  paired_table.append(f"| {p['task']} | {labels[p['before']]} → {labels[p['after']]} | {p['gain_pp']:+.0f} [{lo:+.1f}; {hi:+.1f}]{marker} | {p['rescue']}/{p['harm']} | {p['mcnemar_holm_p']:.4g} |")
  paired_table='\n'.join(paired_table)
  expert_delta={t:next(p for p in pairs if (p['task'],p['before'],p['after'])==(t,'full','expert'))['gain_pp'] for t in TASKS}
  significant=[p for p in pairs if p['mcnemar_holm_p']<.05]
@@ -88,7 +92,7 @@ def main():
   if all(cells[m+'_D0']['successes']==0 for m in ('full','expert')) else
   f"На D0 full/expert SFT получили {cells['full_D0']['successes']}/50 и {cells['expert_D0']['successes']}/50; это наблюдаемый эффект области обновляемых параметров в данном запуске.")
  residual_result=(f"Residual RL получил {cells['residual_D0']['successes']}/50 на D0 и {cells['residual_D1']['successes']}/50 на D1. "
-  + ('В зафиксированном бюджете этот рецепт не показал ни одного успеха D1; одной успешной teacher validation оказалось недостаточно для успешной RL-адаптации. '
+  + ('В зафиксированном бюджете этот рецепт не показал ни одного успеха D1; ненулевого SR teacher на validation оказалось недостаточно для успешной RL-адаптации. '
      if cells['residual_D1']['successes']==0 else '')
   + 'Неизменность D0 weights сама по себе не гарантирует сохранение поведения: исполняемое действие изменяется residual actor.')
  offline=json.loads((WORK/'offline/complete.json').read_text());teacher=json.loads((WORK/'teacher.json').read_text());rl=json.loads((WORK/'evidence/residual_complete.json').read_text())
@@ -119,11 +123,11 @@ N=50 в каждой ячейке; в скобках Wilson 95% CI. Horizon220, 
 |---|---|---|
 {table}
 
-На этом запуске наибольший измеренный D1 SR: {best}; наибольший D0 SR: {retain}. При равенстве указаны все методы. Заморозка PaliGemma относительно full SFT изменила D1 SR на {expert_delta['D1']:+.0f} процентных пунктов, D0 SR — на {expert_delta['D0']:+.0f} п.п. {inference}
+{ranking} Заморозка PaliGemma относительно full SFT изменила D1 SR на {expert_delta['D1']:+.0f} процентных пунктов, D0 SR — на {expert_delta['D0']:+.0f} п.п. {inference}
 
 {sft_retention} {residual_result}
 
-Парное изменение ниже означает **второй метод минус первый**. Gained/lost — число сцен, где второй метод приобрёл/потерял успех. Интервалы — paired bootstrap 95% (10000 draws); p — exact McNemar после Holm correction всех шести сравнений.
+Парное изменение ниже означает **второй метод минус первый**. Gained/lost — число сцен, где второй метод приобрёл/потерял успех. Интервалы — paired bootstrap 95% (10000 draws); † — при вырожденном bootstrap показана консервативная 95% граница, чтобы одинаковые исходы не создавали иллюзии точной эквивалентности. p — exact McNemar после Holm correction всех шести сравнений.
 
 | Задача | Сравнение | Δ SR, п.п. [95% CI] | Gained/lost | p Holm |
 |---|---|---:|---:|---:|

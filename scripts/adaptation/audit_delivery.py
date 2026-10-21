@@ -28,13 +28,19 @@ def main():
   row=json.loads(path.read_text());receipt=json.loads((path.parent/'upload_receipt.json').read_text())
   video=next(v for v in receipt['verified'] if v['path'].endswith('/'+row['video']))
   assert video['verification']=='download+sha256' and video['sha256']==row['video_sha256']
-  remote=str(path.parent.relative_to(WORK));expected_remote.update((remote+'/episode.json',remote+'/'+row['video']))
+  remote=str(path.parent.relative_to(WORK));expected_remote.update((remote+'/episode.json',remote+'/'+row['video'],remote+'/inventory.json'))
  assert len(list((WORK/'reset_states/final').glob('*/*.npz')))==100
  expected_remote.update(str(p.relative_to(WORK)) for p in (WORK/'reset_states/final').glob('*/*.npz'))
  for folder in required:
   receipt=json.loads((folder/'upload_receipt.json').read_text())
-  expected_remote.update(v['path'] for v in receipt['verified'] if v['path'].endswith(('model.safetensors','residual.pt','norm_stats.json')))
+  expected_remote.update(v['path'] for v in receipt['verified'])
+  weights=next(v['path'] for v in receipt['verified'] if v['path'].endswith(('model.safetensors','residual.pt')))
+  expected_remote.add(weights.rsplit('/',1)[0]+'/inventory.json')
+ residual_receipt=json.loads((WORK/'rl/final/upload_receipt.json').read_text())
+ replay=next(v for v in residual_receipt['verified'] if v['path'].endswith('/online_replay.npz'))
+ assert replay['verification']=='download+sha256' and replay['sha256']==sha(WORK/'rl/final/online_replay.npz')
  expected_remote.update(('README.md','seminar/seminar.ipynb','seminar/REPORT.md','seminar/VIDEOS.md',
+  'seminar/PREREGISTRATION.md','normalization/d0/norm_stats.json','selection/final_selection.json','offline/replay.npz',
   'results/episodes.json','results/episodes.csv','results/success_rates.json','results/paired_comparisons.json','results/completeness.json'))
  # Receipts verify immutable historical commits. Also verify that every requested
  # artifact still exists together at the current head after concurrent uploads.
