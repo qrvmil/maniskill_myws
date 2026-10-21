@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "total_updates": 55127,
+  "actor_optimizer_steps": 27063,
+  "critic_optimizer_steps": 54127,
+  "temperature_optimizer_steps": [
+    27063
+  ]
+}
