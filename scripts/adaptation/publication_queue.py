@@ -97,6 +97,38 @@ def recover_interrupted():
     job['status']='queued';write(path,job)
     print('HF_RECOVER_INTERRUPTED',job['remote'],flush=True)
 
+def claim_group():
+ """Batch 10–30 episodes, or flush a smaller tail; keep non-episode jobs separate."""
+ with queue_lock():
+  backoff=QUEUE/'commit-backoff'
+  if backoff.exists() and json.loads(backoff.read_text())['until']>time.time():return []
+  _retire_superseded_unlocked();candidates=[]
+  for path in QUEUE.glob('*.json'):
+   job=json.loads(path.read_text())
+   if job['status']!='queued' or job.get('retry_after',0)>time.time():continue
+   if not Path(job['folder']).exists():
+    job.update(status='failed',error='snapshot directory missing');write(path,job);continue
+   candidates.append((path,job))
+  finals=[x for x in candidates if x[1]['remote'].startswith('final/')]
+  flush=(QUEUE/'.flush').exists() or (finals and time.time()-min(j['created_at'] for _,j in finals)>=300)
+  if len(finals)<10 and not flush:candidates=[x for x in candidates if not x[1]['remote'].startswith('final/')]
+  if not candidates:return []
+  first=min(candidates,key=lambda x:(x[1]['priority'],x[1]['created_at']))
+  group=sorted(finals,key=lambda x:x[1]['created_at'])[:30] if first[1]['remote'].startswith('final/') else [first]
+  for path,job in group:
+   job.update(status='running',attempts=job['attempts']+1);write(path,job)
+  return group
+
+def receipt_matches(job):
+ """A partially failed batch may still have fully verified individual episodes."""
+ folder=Path(job['folder']);path=folder/'upload_receipt.json'
+ if not path.exists() or version(folder)!=job['version']:return False
+ from common import sha
+ receipt=json.loads(path.read_text())
+ actual={str(p.relative_to(folder)):sha(p) for p in folder.rglob('*') if p.is_file() and p.name not in ('inventory.json','upload_receipt.json') and '.cache' not in p.parts}
+ expected={v['path'][len(job['remote'])+1:]:v['sha256'] for v in receipt['verified'] if v['path'].startswith(job['remote']+'/')}
+ return actual==expected
+
 def serve():
  from storage import push_progress
  QUEUE.mkdir(exist_ok=True);last_push=0;active={}
@@ -105,31 +137,38 @@ def serve():
  recover_interrupted()
  while True:
   retire_superseded()
-  for path,(job,process) in list(active.items()):
+  for key,(group,process) in list(active.items()):
    if process.poll() is None:continue
-   del active[path]
-   if process.returncode:
-    job.update(status='queued' if job['attempts']<5 else 'failed',retry_after=time.time()+60,error='publisher process exit '+str(process.returncode))
-    print('HF_PUBLISH_RETRY_OR_ERROR',job['remote'],job['status'],flush=True)
-   else:job.update(status='done',completed_at=time.time())
-   with queue_lock():write(path,job)
-   if not process.returncode and (job['priority']==0 or time.time()-last_push>=300):
-    push_progress('exp: verify queued HF publication '+job['remote']);last_push=time.time()
+   del active[key];completed=[]
+   for path,job in group:
+    if not process.returncode or receipt_matches(job):
+     job.update(status='done',completed_at=time.time());completed.append(job)
+    else:
+     job.update(status='queued' if job['attempts']<5 else 'failed',retry_after=time.time()+60,error='publisher process exit '+str(process.returncode))
+     print('HF_PUBLISH_RETRY_OR_ERROR',job['remote'],job['status'],flush=True)
+    with queue_lock():write(path,job)
+   if completed and (any(j['priority']==0 for j in completed) or time.time()-last_push>=300):
+    push_progress('exp: verify queued HF publication '+completed[0]['remote']);last_push=time.time()
   # Three independent folders can be committed/read back concurrently. Each
   # retains its own immutable inventory, commit receipt and full verification.
   while len(active)<3:
-   claimed=claim_next()
-   if claimed is None:break
-   path,job=claimed
+   group=claim_group()
+   if not group:break
+   path,job=group[0]
    env=dict(os.environ,PI0_ARTIFACT_WORKER='1',HF_XET_HIGH_PERFORMANCE='1',CUDA_VISIBLE_DEVICES='')
    env.pop('HF_HUB_ENABLE_HF_TRANSFER',None)
-   cmd=['/venv/main/bin/python','-u',str(ROOT/'scripts/adaptation/publish_remote.py'),job['folder'],job['remote']]
-   if job['full_readback']:cmd.append('--full-readback')
-   print('HF_PUBLISH_START',job['remote'],flush=True)
-   active[path]=(job,subprocess.Popen(cmd,cwd=ROOT,env=env))
+   if job['remote'].startswith('final/'):
+    manifest=QUEUE/(path.stem+'.batch');write(manifest,[j for _,j in group])
+    cmd=['/venv/main/bin/python','-u',str(ROOT/'scripts/adaptation/publish_episode_batch.py'),str(manifest)]
+   else:
+    cmd=['/venv/main/bin/python','-u',str(ROOT/'scripts/adaptation/publish_remote.py'),job['folder'],job['remote']]
+    if job['full_readback']:cmd.append('--full-readback')
+   print('HF_PUBLISH_START',job['remote'],'group_size',len(group),flush=True)
+   active[path]=(group,subprocess.Popen(cmd,cwd=ROOT,env=env))
   time.sleep(2 if active else 5)
 
 def drain():
+ QUEUE.mkdir(exist_ok=True);(QUEUE/'.flush').touch()
  while True:
   jobs=[json.loads(p.read_text()) for p in QUEUE.glob('*.json')] if QUEUE.exists() else []
   failures=[j['remote'] for j in jobs if j['status']=='failed' and not obsolete(j)]
