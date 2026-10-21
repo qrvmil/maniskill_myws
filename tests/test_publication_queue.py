@@ -73,3 +73,26 @@ def test_interrupted_upload_recovered_without_changing_snapshot(isolated):
  assert recovered_path==path and recovered['attempts']==2
  assert recovered['version']==job['version']==digest==queue.version(folder)
  assert (folder/'episode.json').read_text()=='{"seed":30000}'
+
+def test_batch_respects_backoff_and_operation_bound(isolated):
+ import time
+ for i in range(35):
+  folder=isolated/str(i);folder.mkdir();(folder/'episode.json').write_text('{}')
+  queue.submit(folder,f'final/full/D0/{30000+i}')
+ (queue.QUEUE/'commit-backoff').write_text(json.dumps(dict(until=time.time()+60)))
+ assert queue.claim_group()==[]
+ (queue.QUEUE/'commit-backoff').unlink()
+ first=queue.claim_group();assert len(first)==30 and len({p for p,j in first})==30
+ assert queue.claim_group()==[], 'Small tail waits for the flush barrier or age threshold'
+ (queue.QUEUE/'.flush').touch();second=queue.claim_group();assert len(second)==5
+ assert not {p for p,j in first}&{p for p,j in second}
+
+def test_previously_verified_identical_reset_tree_reused(isolated):
+ from hashlib import sha256
+ folder=isolated/'resets';folder.mkdir();payload=b'fixed reset bytes';(folder/'state.npz').write_bytes(payload)
+ receipt=dict(commit='already-verified',verified=[dict(path='reset_states/state.npz',sha256=sha256(payload).hexdigest(),verification='download+sha256')])
+ (folder/'upload_receipt.json').write_text(json.dumps(receipt))
+ assert queue.submit(folder,'reset_states')==receipt
+ assert not list(queue.QUEUE.glob('*.json'))
+ (folder/'state.npz').write_bytes(b'new reset')
+ assert queue.submit(folder,'reset_states')['queued']

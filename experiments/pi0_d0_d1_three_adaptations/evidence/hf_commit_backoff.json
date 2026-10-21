@@ -1,0 +1,11 @@
+{
+  "until": 1792554808.129803,
+  "until_utc": "2026-10-21T03:53:28.129803+00:00",
+  "reason": "HF commit API 429 with approximately one-hour Retry-After; conservative deadline after all active retry windows",
+  "batched_episode_minimum": 10,
+  "batched_episode_maximum": 30,
+  "commit_operations_maximum": 90,
+  "offline_tests_passed": 11,
+  "individual_full_readback_unchanged": true,
+  "actual_batched_remote_verification_pending": true
+}

@@ -2,7 +2,15 @@
 
 Рабочий код: `/workspace/pi0_experiment`, ветка `exp/pi0-d0-d1-three-adaptations-20261020`. Артефакты: `/workspace/pi0_three`; Python: `/workspace/pi0_venv/bin/python`. Эта машина не имеет persistent workspace volume; stop/start сохраняет диск, recycle/destroy — нет. HF: `qrvmil/pi0-d0-d1-three-adaptations-20261020`. Credentials находятся в стандартном для этой сессии cache, токены не входят в код/логи.
 
-## Состояние на 2026-10-21, 02:16 UTC
+## Публикация, 2026-10-21, около 03:03 UTC
+
+HF commit API вернул429 после124 опубликованных final episodes и потребовал около часа ожидания. Модели и первые124 видео уже проверены, GPU evaluation продолжает работать. Publisher приостановлен до консервативного `2026-10-21T03:53:28Z` (файл `publication_queue/commit-backoff`); до этого срока новых write requests не посылает. Не обходить ограничение другими credentials/repositories.
+
+Оставшиеся final episodes публикуются пакетами10–30: один commit содержит не более90 операций (MP4, episode JSON, inventory каждого episode), но каждый файл по-прежнему скачивается полностью и получает индивидуальный SHA256 receipt. Хвост flush-ится при final publication barrier. Неизменный reset tree с уже проверенным receipt переиспользуется без нового commit.11 offline tests passed: atomic claims/recovery, backoff, batch bound/flush, reuse exact verified bytes, individual receipts и отказ на повреждённом видео. Фактические batched HF readbacks ещё предстоят после срока ожидания.
+
+Рекомендации HF: [group files in commits](https://huggingface.co/docs/hub/storage-limits), [granular commit rate limits and retry handling](https://huggingface.co/docs/hub/rate-limits). Меняется только I/O; checkpoints, seeds, policy actions и scientific protocol неизменны. Следить за очередью после03:53; финальное завершение требует всех300 удалённых MP4 и выполненного notebook, а не только локальных300 episodes.
+
+## Датированная заметка, 2026-10-21, 02:16 UTC
 
 Обучение полностью завершено: D03000, D1 full/expert1500 каждый, residual1000 Cal-QL +20 teacher episodes/4127 transitions +ровно50000 active transitions. Final replay audit прошёл на всех54127 transitions; critic54127, actor/temperature27063, total55127 updates. Residual final weights и весь replay опубликованы и полностью прочитаны из HF. Hashes всех3 final models зафиксированы до открытия seeds30000–30049. Выполнена первая ячейка full/D0:50 эпизодов; продолжается full/D1. Ни checkpoints, ни настройки по final results не меняются.
 

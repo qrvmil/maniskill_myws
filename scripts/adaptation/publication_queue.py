@@ -29,6 +29,10 @@ def _submit(folder,remote,full_readback=False):
   old=json.loads(path.read_text())
   if old['status']=='done' and (folder/'upload_receipt.json').exists():return json.loads((folder/'upload_receipt.json').read_text())
   return dict(commit=None,queued=True,job=str(path))
+ if receipt_matches(dict(folder=str(folder),remote=remote,version=digest)):
+  # Reuse a fully verified immutable publication, e.g. the same 100 reset
+  # states restored by later methods. No extra commit or repeated readback.
+  return json.loads((folder/'upload_receipt.json').read_text())
  priority=0 if remote=='checkpoints/teacher' or remote.endswith('/final') else 2 if remote.startswith('final/') else 5
  parts=remote.split('/')
  if len(parts)==3 and parts[0]=='checkpoints' and parts[1] in SFT and parts[2].isdigit():
