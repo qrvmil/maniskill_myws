@@ -143,7 +143,9 @@ def final(method):
      from report import interim
      interim();push_progress(f'exp: preserve final {method}/{task}, {len(rows)} of 50 paired episodes')
   finally:env.close()
- publish(WORK/'reset_states','reset_states',full_readback=True)
+ # All 100 final scenes exist after the first method. Subsequent methods only
+ # restore them; the immutable tree can be verified by the publication barrier.
+ publish(WORK/'reset_states','reset_states',full_readback=True,defer=True)
  write(WORK/'evidence'/f'final_{method}_complete.json',dict(method=method,episodes=100))
 if __name__=='__main__':
  p=argparse.ArgumentParser();p.add_argument('method',choices=['full','expert','residual']);args=p.parse_args();final(args.method)
