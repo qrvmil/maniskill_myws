@@ -1,6 +1,6 @@
 # Статус эксперимента
 
-Обновлено UTC: 2026-10-21T03:18:30.007053+00:00
+Обновлено UTC: 2026-10-21T03:19:46.354198+00:00
 
 GitHub/HF write/read probes прошли. Бюджеты и правила выбора: [PREREGISTRATION.md](PREREGISTRATION.md).
 
@@ -9,7 +9,7 @@ GitHub/HF write/read probes прошли. Бюджеты и правила вы�
 - SFT expert: 1500 выполненных updates; 1500 updates; checkpoint /workspace/pi0_three/sft/expert/1500
 - Teacher: 250 D1 full-SFT updates, validation passed
 - Residual RL: {'episode': 248, 'active_steps': 50000, 'environment_steps': 54127}
-- Финальные episodes: 206/300. Каждому завершённому episode соответствует проверенное двухкамерное видео с terminal frame.
+- Финальные episodes: 210/300. Каждому завершённому episode соответствует проверенное двухкамерное видео с terminal frame.
 
 Final seeds не используются для настройки или выбора checkpoints. Завершённые episodes при resume проверяются и переиспользуются без увеличения N.
 
