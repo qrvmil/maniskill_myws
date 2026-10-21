@@ -1,0 +1,8 @@
+{
+  "workers": 3,
+  "tests_passed": 7,
+  "atomic_distinct_snapshot_claim": true,
+  "interrupted_retry_preserves_bytes": true,
+  "scientific_settings_unchanged": true,
+  "episodes_unchanged": true
+}

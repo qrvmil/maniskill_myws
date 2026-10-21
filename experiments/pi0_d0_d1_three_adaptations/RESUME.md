@@ -2,7 +2,15 @@
 
 Рабочий код: `/workspace/pi0_experiment`, ветка `exp/pi0-d0-d1-three-adaptations-20261020`. Артефакты: `/workspace/pi0_three`; Python: `/workspace/pi0_venv/bin/python`. Эта машина не имеет persistent workspace volume; stop/start сохраняет диск, recycle/destroy — нет. HF: `qrvmil/pi0-d0-d1-three-adaptations-20261020`. Credentials находятся в стандартном для этой сессии cache, токены не входят в код/логи.
 
-## Состояние на 2026-10-21, 00:02 UTC
+## Состояние на 2026-10-21, 02:16 UTC
+
+Обучение полностью завершено: D03000, D1 full/expert1500 каждый, residual1000 Cal-QL +20 teacher episodes/4127 transitions +ровно50000 active transitions. Final replay audit прошёл на всех54127 transitions; critic54127, actor/temperature27063, total55127 updates. Residual final weights и весь replay опубликованы и полностью прочитаны из HF. Hashes всех3 final models зафиксированы до открытия seeds30000–30049. Выполнена первая ячейка full/D0:50 эпизодов; продолжается full/D1. Ни checkpoints, ни настройки по final results не меняются.
+
+Первое настоящее final MP4 визуально проверено: обе камеры и terminal frame. Ещё нужны остальные250 episodes/videos, все paired/reset/noise checks, report, выполненный notebook и повторное выполнение notebook через `audit_delivery.py` (не добавляет final observations). Marker `complete.json` появляется после автоматического конвейера; до завершения независимой delivery/visual review goal не закрывать.
+
+Publisher I/O ускорен до3 независимых upload/readback processes для разных immutable folders: median одного маленького episode upload+readback был28s, очередь отставала от evaluation. Atomic claim не выбирает running jobs; singleton server lock и recovery interrupted jobs сохраняют resume. Семь queue tests passed, включая concurrent claims и recovery без изменения bytes. Меняются только передача и проверка артефактов, все scientific settings/episodes неизменны.
+
+## Датированная заметка, 2026-10-21, 00:02 UTC
 
 Residual достиг active35420/50000 (environment39547, episode181), полный snapshot `rl/active_35420` сохранён и публикуется. Предыдущие checkpoints, включаяactive30360, проверены в HF. Online collection пока0/161 successes; бюджет/настройки/последний checkpoint не менялись. Все четыре уже готовые обязательные модели D0/teacher/full/expert опубликованы с полным policy-weight readback. Финальных seeds/300 episodes ещё нет, goal остаётся active.
 

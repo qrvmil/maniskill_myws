@@ -53,3 +53,23 @@ def test_queue_writer_preserves_running_upload(isolated):
  (isolated/'evidence').mkdir();(isolated/'evidence/full_complete.json').write_text('{}')
  queue.retire_superseded()
  assert old.exists() and json.loads(path.read_text())['status']=='running'
+
+def test_parallel_claims_never_duplicate_active_snapshot(isolated):
+ from concurrent.futures import ThreadPoolExecutor
+ for i in range(5):
+  folder=isolated/str(i);folder.mkdir();(folder/'episode.json').write_text('{}')
+  queue.submit(folder,f'final/full/D0/{30000+i}')
+ with ThreadPoolExecutor(max_workers=8) as pool:claimed=list(pool.map(lambda _:queue.claim_next(),range(8)))
+ paths=[path for result in claimed if result is not None for path,job in [result]]
+ assert len(paths)==len(set(paths))==5
+ assert queue.claim_next() is None
+ assert all(json.loads(p.read_text())['attempts']==1 for p in paths)
+
+def test_interrupted_upload_recovered_without_changing_snapshot(isolated):
+ folder=isolated/'episode';folder.mkdir();(folder/'episode.json').write_text('{"seed":30000}')
+ queue.submit(folder,'final/full/D0/30000');path,job=queue.claim_next()
+ digest=queue.version(folder);queue.recover_interrupted()
+ recovered_path,recovered=queue.claim_next()
+ assert recovered_path==path and recovered['attempts']==2
+ assert recovered['version']==job['version']==digest==queue.version(folder)
+ assert (folder/'episode.json').read_text()=='{"seed":30000}'
