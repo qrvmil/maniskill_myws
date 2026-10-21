@@ -84,6 +84,13 @@ def main():
  expert_delta={t:next(p for p in pairs if (p['task'],p['before'],p['after'])==(t,'full','expert'))['gain_pp'] for t in TASKS}
  significant=[p for p in pairs if p['mcnemar_holm_p']<.05]
  inference=('После Holm correction обнаружены различия в '+str(len(significant))+' из шести парных сравнений.' if significant else 'После Holm correction ни одно из шести парных сравнений не достигает уровня .05; это не доказывает эквивалентность методов.')
+ sft_retention=('Оба SFT дали 0/50 на D0: в этом запуске заморозки PaliGemma оказалось недостаточно для успешного выполнения старой задачи.'
+  if all(cells[m+'_D0']['successes']==0 for m in ('full','expert')) else
+  f"На D0 full/expert SFT получили {cells['full_D0']['successes']}/50 и {cells['expert_D0']['successes']}/50; это наблюдаемый эффект области обновляемых параметров в данном запуске.")
+ residual_result=(f"Residual RL получил {cells['residual_D0']['successes']}/50 на D0 и {cells['residual_D1']['successes']}/50 на D1. "
+  + ('В зафиксированном бюджете этот рецепт не показал ни одного успеха D1; одной успешной teacher validation оказалось недостаточно для успешной RL-адаптации. '
+     if cells['residual_D1']['successes']==0 else '')
+  + 'Неизменность D0 weights сама по себе не гарантирует сохранение поведения: исполняемое действие изменяется residual actor.')
  offline=json.loads((WORK/'offline/complete.json').read_text());teacher=json.loads((WORK/'teacher.json').read_text());rl=json.loads((WORK/'evidence/residual_complete.json').read_text())
  validation=teacher['canonical_validation']
  collection=json.loads((WORK/'rl/episodes.json').read_text());warmup=[r for r in collection if r['warmup']]
@@ -113,6 +120,8 @@ N=50 в каждой ячейке; в скобках Wilson 95% CI. Horizon220, 
 {table}
 
 На этом запуске наибольший измеренный D1 SR: {best}; наибольший D0 SR: {retain}. При равенстве указаны все методы. Заморозка PaliGemma относительно full SFT изменила D1 SR на {expert_delta['D1']:+.0f} процентных пунктов, D0 SR — на {expert_delta['D0']:+.0f} п.п. {inference}
+
+{sft_retention} {residual_result}
 
 Парное изменение ниже означает **второй метод минус первый**. Gained/lost — число сцен, где второй метод приобрёл/потерял успех. Интервалы — paired bootstrap 95% (10000 draws); p — exact McNemar после Holm correction всех шести сравнений.
 
