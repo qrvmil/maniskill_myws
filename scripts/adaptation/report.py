@@ -75,6 +75,15 @@ def main():
   top=max(cells[m+'_'+task]['success_rate'] for m in METHODS)
   return ', '.join('`'+m+'`' for m in METHODS if cells[m+'_'+task]['success_rate']==top)
  best,retain=leaders('D1'),leaders('D0')
+ labels={'full':'Full SFT','expert':'Action-expert SFT','residual':'Residual RL'}
+ paired_table=[]
+ for p in pairs:
+  lo,hi=p['bootstrap_95_pp']
+  paired_table.append(f"| {p['task']} | {labels[p['before']]} → {labels[p['after']]} | {p['gain_pp']:+.0f} [{lo:+.1f}; {hi:+.1f}] | {p['rescue']}/{p['harm']} | {p['mcnemar_holm_p']:.4g} |")
+ paired_table='\n'.join(paired_table)
+ expert_delta={t:next(p for p in pairs if (p['task'],p['before'],p['after'])==(t,'full','expert'))['gain_pp'] for t in TASKS}
+ significant=[p for p in pairs if p['mcnemar_holm_p']<.05]
+ inference=('После Holm correction обнаружены различия в '+str(len(significant))+' из шести парных сравнений.' if significant else 'После Holm correction ни одно из шести парных сравнений не достигает уровня .05; это не доказывает эквивалентность методов.')
  offline=json.loads((WORK/'offline/complete.json').read_text());teacher=json.loads((WORK/'teacher.json').read_text());rl=json.loads((WORK/'evidence/residual_complete.json').read_text())
  validation=teacher['canonical_validation']
  collection=json.loads((WORK/'rl/episodes.json').read_text());warmup=[r for r in collection if r['warmup']]
@@ -103,7 +112,15 @@ N=50 в каждой ячейке; в скобках Wilson 95% CI. Horizon220, 
 |---|---|---|
 {table}
 
-На этом запуске наибольший измеренный D1 SR: {best}; наибольший D0 SR: {retain}. При равенстве указаны все методы. Это описательное сравнение: различия и неопределённость нужно читать вместе с [paired comparisons](results/paired_comparisons.json), где есть gained/lost successes, paired bootstrap CI, exact McNemar и Holm correction шести сравнений. [Episode CSV](results/episodes.csv) позволяет проверить каждую пару.
+На этом запуске наибольший измеренный D1 SR: {best}; наибольший D0 SR: {retain}. При равенстве указаны все методы. Заморозка PaliGemma относительно full SFT изменила D1 SR на {expert_delta['D1']:+.0f} процентных пунктов, D0 SR — на {expert_delta['D0']:+.0f} п.п. {inference}
+
+Парное изменение ниже означает **второй метод минус первый**. Gained/lost — число сцен, где второй метод приобрёл/потерял успех. Интервалы — paired bootstrap 95% (10000 draws); p — exact McNemar после Holm correction всех шести сравнений.
+
+| Задача | Сравнение | Δ SR, п.п. [95% CI] | Gained/lost | p Holm |
+|---|---|---:|---:|---:|
+{paired_table}
+
+[Полные paired comparisons](results/paired_comparisons.json) содержат также нескорректированные p-values и conservative bounds для вырожденного bootstrap на границе; [episode CSV](results/episodes.csv) позволяет проверить каждую пару. Эти интервалы описывают вариативность сцен при фиксированных обученных моделях.
 
 ## Как читать выводы
 
