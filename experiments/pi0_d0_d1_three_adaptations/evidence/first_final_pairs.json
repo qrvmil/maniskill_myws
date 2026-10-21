@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "pairs": [
+    {
+      "task": "D0",
+      "seed": 30000,
+      "physics_and_initial_observation_hashes_equal": true,
+      "common_flow_noise_prefixes_equal": true
+    },
+    {
+      "task": "D0",
+      "seed": 30001,
+      "physics_and_initial_observation_hashes_equal": true,
+      "common_flow_noise_prefixes_equal": true
+    }
+  ]
+}

@@ -23,11 +23,26 @@ def main():
   assert verified['verification']=='download+sha256' and verified['sha256']==sha(folder/weights)
   policies.append(dict(path=str(folder),weights_sha256=verified['sha256'],hf_commit=receipt['commit']))
  episodes=list((WORK/'final').glob('*/*/*/episode.json'));assert len(episodes)==300
+ expected_remote=set()
  for path in episodes:
   row=json.loads(path.read_text());receipt=json.loads((path.parent/'upload_receipt.json').read_text())
   video=next(v for v in receipt['verified'] if v['path'].endswith('/'+row['video']))
   assert video['verification']=='download+sha256' and video['sha256']==row['video_sha256']
+  remote=str(path.parent.relative_to(WORK));expected_remote.update((remote+'/episode.json',remote+'/'+row['video']))
  assert len(list((WORK/'reset_states/final').glob('*/*.npz')))==100
+ expected_remote.update(str(p.relative_to(WORK)) for p in (WORK/'reset_states/final').glob('*/*.npz'))
+ for folder in required:
+  receipt=json.loads((folder/'upload_receipt.json').read_text())
+  expected_remote.update(v['path'] for v in receipt['verified'] if v['path'].endswith(('model.safetensors','residual.pt','norm_stats.json')))
+ expected_remote.update(('README.md','seminar/seminar.ipynb','seminar/REPORT.md','seminar/VIDEOS.md',
+  'results/episodes.json','results/episodes.csv','results/success_rates.json','results/paired_comparisons.json','results/completeness.json'))
+ # Receipts verify immutable historical commits. Also verify that every requested
+ # artifact still exists together at the current head after concurrent uploads.
+ from huggingface_hub import HfApi
+ api=HfApi();remote_head=api.repo_info(HF_REPO).sha;remote_files=set(api.list_repo_files(HF_REPO,revision=remote_head))
+ assert expected_remote<=remote_files,sorted(expected_remote-remote_files)
+ assert sum(p.startswith('final/') and p.endswith('.mp4') for p in remote_files)==300
+ assert sum(p.startswith('final/') and p.endswith('/episode.json') for p in remote_files)==300
  audit=json.loads((WORK/'evidence/online_audit_final.json').read_text())
  assert audit['passed'] and audit['active_transitions']==50000 and audit['transitions']==54127
  notebook=experiment/'seminar.ipynb';nb=nbformat.read(notebook,as_version=4)
@@ -47,7 +62,8 @@ def main():
  proof=dict(passed=True,required_policies=policies,final_episodes=300,verified_remote_videos=300,
   unique_task_reset_states=100,executed_notebook_code_cells=cells,embedded_videos=3,
   notebook_rerun_executed=True,final_manifest_unchanged=True,manifest_files=len(before),
-  residual_final_replay_audit_passed=True)
+  residual_final_replay_audit_passed=True,remote_head=remote_head,
+  remote_head_required_paths_verified=len(expected_remote))
  write(WORK/'evidence/delivery_audit.json',proof)
  push_progress('exp: verify five published policies, 300 remote videos and idempotent executed notebook rerun')
  print(json.dumps(proof),flush=True)
