@@ -2,7 +2,15 @@
 
 Рабочий код: `/workspace/pi0_experiment`, ветка `exp/pi0-d0-d1-three-adaptations-20261020`. Артефакты: `/workspace/pi0_three`; Python: `/workspace/pi0_venv/bin/python`. Эта машина не имеет persistent workspace volume; stop/start сохраняет диск, recycle/destroy — нет. HF: `qrvmil/pi0-d0-d1-three-adaptations-20261020`. Credentials находятся в стандартном для этой сессии cache, токены не входят в код/логи.
 
-## Состояние на 2026-10-20, 20:35 UTC
+## Состояние на 2026-10-21, 00:02 UTC
+
+Residual достиг active35420/50000 (environment39547, episode181), полный snapshot `rl/active_35420` сохранён и публикуется. Предыдущие checkpoints, включаяactive30360, проверены в HF. Online collection пока0/161 successes; бюджет/настройки/последний checkpoint не менялись. Все четыре уже готовые обязательные модели D0/teacher/full/expert опубликованы с полным policy-weight readback. Финальных seeds/300 episodes ещё нет, goal остаётся active.
+
+Сокращены только лишние вычисления final evaluation: существующий `actor_residual(agent)` вызывает deterministic actor напрямую. `check_actor_adapter.py` доказал эквивалентность прежнему diagnostic wrapper (10 base-action cases и полный D1 rollout23004): actions/physics/images/noise побайтово совпадают, actor weights и global CPU/CUDA RNG неизменны, wall time27→22s. Online OTF code не менялся. Final JSON/CSV содержит `evaluation_policy`; notebook использует тот же actor-only adapter. Encoder/полное декодирование MP4 прошли smoke (FFmpeg7.0.2, test clip вне final).
+
+После final RL snapshot выполнить read-only `audit_online.py final` (можно параллельно CPU с уже начавшейся final evaluation). Pipeline сам фиксирует hashes всех3 final models до первых final seeds и запускает300 paired episodes/videos, report и executed notebook. После окончания ещё нужны визуальная проверка нескольких настоящих final videos, содержательная интерпретация REPORT.md (с paired differences) и проверка всей публикации. Не считать промежуточное обучение или marker без этих проверок выполненным goal.
+
+## Датированная заметка, 2026-10-20, 20:35 UTC
 
 Все четыре готовых обязательных checkpoints (D0/teacher/full/expert) опубликованы и прошли полное чтение policy weights из HF. Residual прошёл1000 Cal-QL updates и20 teacher-warmup episodes:4127 transitions,2 success. Проверены реальные изменения actor/critic/temperature и неизменность D0. Online OTF сбор продолжается до50000 active transitions, сейчас более6000. Финальной оценки ещё нет.
 
