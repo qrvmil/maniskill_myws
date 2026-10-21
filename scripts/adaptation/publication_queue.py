@@ -72,40 +72,62 @@ def discard(job,path):
   if str(folder)!=current:shutil.rmtree(folder)
  print('HF_SUPERSEDED_INTERMEDIATE',job['remote'],flush=True)
 
+def claim_next():
+ """Claim one waiting snapshot atomically; never select another active upload."""
+ with queue_lock():
+  _retire_superseded_unlocked()
+  candidates=[]
+  for p in QUEUE.glob('*.json'):
+   job=json.loads(p.read_text())
+   if job['status']=='queued' and job.get('retry_after',0)<=time.time():candidates.append((p,job))
+  for path,job in sorted(candidates,key=lambda x:(x[1]['priority'],x[1]['created_at'])):
+   if not Path(job['folder']).exists():
+    job.update(status='failed',error='snapshot directory missing');write(path,job);continue
+   job.update(status='running',attempts=job['attempts']+1);write(path,job)
+   return path,job
+ return None
+
+def recover_interrupted():
+ # Called only by the sole server after its process lock is acquired. All old
+ # children died with the supervisor process group; repeating an immutable upload is safe.
+ with queue_lock():
+  for path in QUEUE.glob('*.json'):
+   job=json.loads(path.read_text())
+   if job['status']=='running':
+    job['status']='queued';write(path,job)
+    print('HF_RECOVER_INTERRUPTED',job['remote'],flush=True)
+
 def serve():
  from storage import push_progress
- QUEUE.mkdir(exist_ok=True);last_push=0
+ QUEUE.mkdir(exist_ok=True);last_push=0;active={}
+ server_lock=(QUEUE/'.serve.lock').open('a')
+ fcntl.flock(server_lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+ recover_interrupted()
  while True:
-  with queue_lock():
-   candidates=[]
-   for p in QUEUE.glob('*.json'):
-    j=json.loads(p.read_text())
-    if j['status'] in ('queued','running','failed') and obsolete(j):discard(j,p);continue
-    if j['status'] in ('queued','running') and j.get('retry_after',0)<=time.time():candidates.append((p,j))
-   if candidates:
-    path,job=min(candidates,key=lambda x:(x[1]['priority'],x[1]['created_at']))
-    if not Path(job['folder']).exists():
-     job.update(status='failed',error='snapshot directory missing');write(path,job);candidates=[]
-    else:
-     job.update(status='running',attempts=job['attempts']+1);write(path,job)
-  if not candidates:time.sleep(5);continue
-  env=dict(os.environ,PI0_ARTIFACT_WORKER='1',HF_XET_HIGH_PERFORMANCE='1',CUDA_VISIBLE_DEVICES='')
-  env.pop('HF_HUB_ENABLE_HF_TRANSFER',None)
-  cmd=['/venv/main/bin/python','-u',str(ROOT/'scripts/adaptation/publish_remote.py'),job['folder'],job['remote']]
-  if job['full_readback']:cmd.append('--full-readback')
-  print('HF_PUBLISH_START',job['remote'],flush=True)
-  process=subprocess.Popen(cmd,cwd=ROOT,env=env)
-  while process.poll() is None:
-   # Clean obsolete *queued* snapshots while another immutable snapshot is uploading.
-   retire_superseded()
-   time.sleep(5)
-  if process.returncode:
-   job.update(status='queued' if job['attempts']<5 else 'failed',retry_after=time.time()+60,error='publisher process exit '+str(process.returncode));write(path,job)
-   print('HF_PUBLISH_RETRY_OR_ERROR',job['remote'],job['status'],flush=True);continue
-  job.update(status='done',completed_at=time.time());write(path,job)
-  if job['priority']==0 or time.time()-last_push>=300:
-   push_progress('exp: verify queued HF publication '+job['remote']);last_push=time.time()
-  # A newly queued final supersedes older unselected snapshots, but an active upload is allowed to finish.
+  retire_superseded()
+  for path,(job,process) in list(active.items()):
+   if process.poll() is None:continue
+   del active[path]
+   if process.returncode:
+    job.update(status='queued' if job['attempts']<5 else 'failed',retry_after=time.time()+60,error='publisher process exit '+str(process.returncode))
+    print('HF_PUBLISH_RETRY_OR_ERROR',job['remote'],job['status'],flush=True)
+   else:job.update(status='done',completed_at=time.time())
+   with queue_lock():write(path,job)
+   if not process.returncode and (job['priority']==0 or time.time()-last_push>=300):
+    push_progress('exp: verify queued HF publication '+job['remote']);last_push=time.time()
+  # Three independent folders can be committed/read back concurrently. Each
+  # retains its own immutable inventory, commit receipt and full verification.
+  while len(active)<3:
+   claimed=claim_next()
+   if claimed is None:break
+   path,job=claimed
+   env=dict(os.environ,PI0_ARTIFACT_WORKER='1',HF_XET_HIGH_PERFORMANCE='1',CUDA_VISIBLE_DEVICES='')
+   env.pop('HF_HUB_ENABLE_HF_TRANSFER',None)
+   cmd=['/venv/main/bin/python','-u',str(ROOT/'scripts/adaptation/publish_remote.py'),job['folder'],job['remote']]
+   if job['full_readback']:cmd.append('--full-readback')
+   print('HF_PUBLISH_START',job['remote'],flush=True)
+   active[path]=(job,subprocess.Popen(cmd,cwd=ROOT,env=env))
+  time.sleep(2 if active else 5)
 
 def drain():
  while True:
