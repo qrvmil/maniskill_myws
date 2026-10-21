@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "episodes": 300,
+  "cells": 6,
+  "n_per_cell": 50,
+  "reset_hashes_equal": true,
+  "initial_observation_hashes_equal": true,
+  "common_flow_noise_prefixes_equal": true,
+  "unique_reset_scenes_per_task": 50
+}

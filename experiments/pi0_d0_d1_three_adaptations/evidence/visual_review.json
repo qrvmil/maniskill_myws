@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "methods": [
+    "full",
+    "expert",
+    "residual"
+  ],
+  "tasks": [
+    "D0",
+    "D1"
+  ],
+  "seed": 30000,
+  "reviewed_episodes": 6,
+  "first_middle_terminal_frames_reviewed": true,
+  "both_camera_views_and_orientation_correct": true,
+  "contact_sheets": [
+    "final_full_D0_visual.png",
+    "final_full_D1_visual.png",
+    "final_expert_D0_visual.png",
+    "final_expert_D1_visual.png",
+    "final_residual_D0_visual.png",
+    "final_residual_D1_visual.png"
+  ]
+}
