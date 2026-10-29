@@ -41,3 +41,9 @@ HF_VERIFIED checkpoints/full/250 ce773abc9aa377308416787f0a4d94080a73f3ee
  create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/checkpoints_full_250.json
 To https://github.com/qrvmil/maniskill_myws.git
    4bd155f..0be755b  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+HF_VERIFIED checkpoints/teacher 7947792c94ed9427d03e4582e04ffbd8eb0e8266
+[exp/pi0-d0-d1-visual-alignment-20261029 0f1cefb] exp: verify queued HF publication checkpoints/teacher
+ 1 file changed, 29 insertions(+)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/checkpoints_teacher.json
+To https://github.com/qrvmil/maniskill_myws.git
+   4c6d2f8..0f1cefb  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
