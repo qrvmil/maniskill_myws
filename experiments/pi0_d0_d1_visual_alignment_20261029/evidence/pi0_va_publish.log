@@ -12,3 +12,4 @@ HF_VERIFIED checkpoints/d0/1000 45e21b787e158f9df44fed45ddef7b14f46c6f6a
  create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/checkpoints_d0_1000.json
 To https://github.com/qrvmil/maniskill_myws.git
    c95852f..41bd2d0  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+HF_PUBLISH_START checkpoints/d0/2000 group_size 1
