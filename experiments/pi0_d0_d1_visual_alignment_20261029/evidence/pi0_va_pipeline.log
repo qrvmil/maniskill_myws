@@ -3320,3 +3320,27 @@ PIPELINE_STAGE offline_replay.py ()
 Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
 Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
 See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+NATIVE_OFFLINE_REPLAY demo_0 True 101 101
+NATIVE_OFFLINE_REPLAY demo_1 True 95 196
+NATIVE_OFFLINE_REPLAY demo_2 True 107 303
+NATIVE_OFFLINE_REPLAY demo_3 True 134 437
+NATIVE_OFFLINE_REPLAY demo_4 True 97 534
+NATIVE_OFFLINE_REPLAY demo_5 True 102 636
+NATIVE_OFFLINE_REPLAY demo_6 True 90 726
+NATIVE_OFFLINE_REPLAY demo_7 True 95 821
+NATIVE_OFFLINE_REPLAY demo_8 True 92 913
+NATIVE_OFFLINE_REPLAY demo_9 True 98 1011
+NATIVE_OFFLINE_REPLAY demo_10 True 96 1107
+NATIVE_OFFLINE_REPLAY demo_11 True 90 1197
+NATIVE_OFFLINE_REPLAY demo_12 True 92 1289
+NATIVE_OFFLINE_REPLAY demo_13 True 125 1414
+NATIVE_OFFLINE_REPLAY demo_14 True 85 1499
+NATIVE_OFFLINE_REPLAY demo_15 True 132 1631
+NATIVE_OFFLINE_REPLAY demo_16 True 102 1733
+NATIVE_OFFLINE_REPLAY demo_17 True 153 1886
+NATIVE_OFFLINE_REPLAY demo_18 True 86 1972
+NATIVE_OFFLINE_REPLAY demo_19 True 92 2064
+NATIVE_OFFLINE_REPLAY demo_20 True 106 2170
+NATIVE_OFFLINE_REPLAY demo_21 True 109 2279
+NATIVE_OFFLINE_REPLAY demo_22 True 88 2367
+NATIVE_OFFLINE_REPLAY demo_23 True 90 2457
