@@ -38,6 +38,7 @@ def main():
   subprocess.run([sys.executable,str(ROOT/'scripts/pld/prepare_serl_encoder.py'),'--output',str(ASSETS/'serl_resnet10.pt')],cwd=ROOT,check=True)
  call('train_residual.py','--zero-check')
  call('offline_replay.py')
+ barrier()
  call('train_residual.py')
  barrier()
  if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1':call('audit_online.py','final')

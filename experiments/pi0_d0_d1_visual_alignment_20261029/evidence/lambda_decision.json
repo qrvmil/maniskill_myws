@@ -1,0 +1,12 @@
+{
+  "tasks": [
+    "D0"
+  ],
+  "pilot_updates": 20,
+  "initial": 0.2,
+  "selected": 0.2,
+  "median_last10": 0.029216929196370776,
+  "rule": "r>1:.2/r;r<.01:min(2,.02/r);otherwise.2;single adjustment;fixed for D0 and D1-full",
+  "pilot_weights_discarded": true,
+  "projector_sha256": "8de0854391128426ab5104ae26461655408f59b805a63e3bc86875dacfc43273"
+}

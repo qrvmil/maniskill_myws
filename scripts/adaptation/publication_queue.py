@@ -43,6 +43,8 @@ def _submit(folder,remote,full_readback=False):
  return dict(commit=None,queued=True,job=str(path))
 
 def obsolete(job):
+ # This reproduction requires every unpublished snapshot to survive slow/failed transfers.
+ if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1':return False
  parts=job['remote'].split('/')
  if len(parts)==3 and parts[0]=='checkpoints' and parts[1] in SFT and parts[2].isdigit():
   stage=parts[1]

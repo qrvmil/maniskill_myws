@@ -1,11 +1,56 @@
 """Independent full or action-expert SFT with exact update counts and resumable RNG."""
-import argparse, math, shutil, time, sys
+import argparse, math, shutil, time, sys, os
 from common import *
+
+def is_teacher_candidate(stage,step,selected):
+ return stage=='full' and step in (250,500,750,1000,1250) and not selected
 
 def lr(step,total):
  peak=3e-5;end=3e-6;warm=100
  if step<warm:return peak/(warm+1)+(peak-peak/(warm+1))*step/warm
  return end+(peak-end)*.5*(1+math.cos(math.pi*min(1,(step-warm)/(total-warm))))
+
+def complete_teacher_candidate(model,target,step):
+ """Reconcile validation, atomic teacher registration and publication after a crash."""
+ import torch
+ from storage import publish
+ selected=WORK/'teacher.json';teacher=WORK/'teacher_policy'
+ if selected.exists():
+  info=json.loads(selected.read_text())
+  assert sha(teacher/'model.safetensors')==info['validation']['weights_sha256']
+  if not (teacher/'upload_receipt.json').exists():publish(teacher,'checkpoints/teacher',full_readback=True,defer=True)
+  return
+ if not is_teacher_candidate('full',step,False):return
+ target=Path(target);evidence=WORK/'evidence'/f'teacher_validation_{step}.json'
+ weights_hash=sha(target/'model.safetensors')
+ if evidence.exists():
+  result=json.loads(evidence.read_text())
+  assert result['checkpoint']==str(target) and result['weights_sha256']==weights_hash
+ else:
+  from evaluate import validation_teacher
+  cpu=torch.get_rng_state();gpu=torch.cuda.get_rng_state_all() if torch.cuda.is_available() else None
+  numpy_state=np.random.get_state();training=model.training
+  try:result=validation_teacher(model,target)
+  finally:
+   torch.set_rng_state(cpu)
+   if gpu is not None:torch.cuda.set_rng_state_all(gpu)
+   np.random.set_state(numpy_state);model.train(training)
+  result['weights_sha256']=weights_hash
+  assert result['n']==10 and result['seeds']==list(range(22000,22010))
+  assert len(result['episodes'])==10 and result['successes']==sum(bool(e['success']) for e in result['episodes'])
+  write(evidence,result)
+ if result['successes']>0:
+  if not teacher.exists():
+   partial=WORK/'teacher_policy.partial';partial.mkdir(exist_ok=True)
+   path=partial/'model.safetensors'
+   if path.exists():assert sha(path)==weights_hash
+   else:os.link(target/'model.safetensors',path)
+   shutil.copytree(target/'assets',partial/'assets',dirs_exist_ok=True)
+   shutil.copy2(target/'training.json',partial/'training.json');write(partial/'validation.json',result)
+   partial.replace(teacher)
+  assert sha(teacher/'model.safetensors')==weights_hash
+  write(selected,dict(checkpoint=str(teacher),source_checkpoint=str(target),step=step,validation=result))
+  publish(teacher,'checkpoints/teacher',full_readback=True,defer=True)
 
 def save(model,opt,stage,step,scope_rows,indices,initial_hash,alignment_objective=None):
  import torch,safetensors.torch
@@ -95,6 +140,13 @@ def train(stage,*,profile=False):
  for opt_state in opt.state.values():
   for k,v in opt_state.items():
    if isinstance(v,torch.Tensor) and k!='step':opt_state[k]=v.to('cuda')
+ if alignment_objective is not None and stage=='full' and step:
+  if not (WORK/'teacher.json').exists():
+   for candidate in (250,500,750,1000,1250):
+    if candidate<step:
+     prior=WORK/'evidence'/f'teacher_validation_{candidate}.json'
+     if not prior.exists() or json.loads(prior.read_text())['successes']>0:raise RuntimeError('Earlier teacher candidate must be reconciled before advancing')
+  complete_teacher_candidate(model,checkpoint,step)
  rng=np.random.default_rng(SFT[stage]['seed']);n=SFT[stage]['updates']*BATCH
  indices=np.concatenate([rng.permutation(len(ds)) for _ in range(math.ceil(n/len(ds)))])[:n].reshape(-1,BATCH)
  np.save(root/'sample_indices.npy',indices)
@@ -145,20 +197,20 @@ def train(stage,*,profile=False):
   with (root/'metrics.jsonl').open('a') as f:f.write(json.dumps(row)+'\n')
   step=current+1
   interval=1000 if stage=='d0' else 500
-  teacher_candidate=stage=='full' and step%250==0 and not (WORK/'teacher.json').exists()
+  teacher_candidate=is_teacher_candidate(stage,step,(WORK/'teacher.json').exists())
   if (alignment_objective is not None and step==1) or step%interval==0 or step==SFT[stage]['updates'] or teacher_candidate:
    target=save(model,opt,stage,step,rows,indices,initial_hash,alignment_objective)
    if alignment_objective is not None and step==1:
     from publication_queue import drain
     drain()
     assert (target/'upload_receipt.json').exists(),'First created model must be durable before the remaining long run'
-   if stage=='full' and step<1500 and not (WORK/'teacher.json').exists():
+   if teacher_candidate and alignment_objective is not None:complete_teacher_candidate(model,target,step)
+   elif teacher_candidate:
     from evaluate import validation_teacher
     result=validation_teacher(model,target)
     write(WORK/'evidence'/f'teacher_validation_{step}.json',result)
     if result['successes']>0:
      teacher=WORK/'teacher_policy';teacher.mkdir(exist_ok=True)
-     import os
      os.link(target/'model.safetensors',teacher/'model.safetensors')
      shutil.copytree(target/'assets',teacher/'assets',dirs_exist_ok=True)
      shutil.copy2(target/'training.json',teacher/'training.json')
