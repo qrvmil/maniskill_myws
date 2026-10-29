@@ -1,0 +1,46 @@
+{
+  "checkpoint": "/workspace/visual-alignment-repro-20261029/run/sft/d0/2000",
+  "stage": "d0",
+  "completed_updates": 2000,
+  "source_task": "D0",
+  "training_seed": 0,
+  "effective_batch": 8,
+  "microbatch": 2,
+  "accumulation": 4,
+  "initial_weights_sha256": "8df3cbff6d06f55fc77202b7d66c671c5a9e05403620bd05c8eac95955f09926",
+  "weights_sha256": "8548dc5d7f7928a11c89827b26b94fc9a76b82644328a5e31cf8b3610875a756",
+  "normalization_sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e",
+  "frozen_scope_verified": true,
+  "frozen_tensors": 0,
+  "scope": "full",
+  "total_parameters": 3501372176,
+  "trainable_parameters": 3501372176,
+  "optimizer": "AdamW float32 master parameters/states",
+  "lr_schedule": "cosine warmup100 3e-5 to3e-6",
+  "final_budget": 3000,
+  "visual_alignment": {
+    "teacher_repo": "nvidia/C-RADIOv3-L",
+    "teacher_revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "projector_sha256": "8de0854391128426ab5104ae26461655408f59b805a63e3bc86875dacfc43273",
+    "lambda_decision_sha256": "0d4a3322053267cacc1438be5f665183b12148a1f9d9f784667c3e6f8a45cfc0",
+    "cache_manifest_sha256": "fbf160e8ed2940955306477756642cddb865613b4ac27539632214b3477ff8bd",
+    "data_tasks": [
+      "D0"
+    ],
+    "calibration_tasks": [
+      "D0"
+    ],
+    "K": 4,
+    "augmentation_selection": "(update*effective_batch+sample_slot)%4; original sample permutation unchanged",
+    "student_block_index": 8,
+    "cameras": [
+      "base_0_rgb",
+      "left_wrist_0_rgb"
+    ],
+    "teacher_frozen": true,
+    "projector_frozen": true,
+    "method": "active_spatial_regularizer",
+    "lambda_align": 0.2
+  },
+  "hf_commit": null
+}
