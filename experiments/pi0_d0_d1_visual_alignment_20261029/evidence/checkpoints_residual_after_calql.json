@@ -1,0 +1,39 @@
+{
+  "repo": "qrvmil/pi0-d0-d1-three-adaptations-visual-alignment-20261029",
+  "commit": "2e99edb81194ebaa9625872d157a97fdd8503585",
+  "verified": [
+    {
+      "path": "checkpoints/residual/after_calql/assets/d0/norm_stats.json",
+      "verification": "download+sha256",
+      "sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e"
+    },
+    {
+      "path": "checkpoints/residual/after_calql/critic_after_calql.json",
+      "verification": "download+sha256",
+      "sha256": "394beb1dd0e371fb7c4f7995a949d10e1b0bbf4e1870541dc58d3ffb624cffdd"
+    },
+    {
+      "path": "checkpoints/residual/after_calql/online_replay.npz",
+      "verification": "download+sha256",
+      "sha256": "96685058fd8313facaadfc4bd0af7a867a020d59d920f5eb994800cf7b96235e"
+    },
+    {
+      "path": "checkpoints/residual/after_calql/residual.pt",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "3ab264a41db63bb7f1bacf009ff179f33a998f26888ffe5dd8a5a6bca8d69066"
+    },
+    {
+      "path": "checkpoints/residual/after_calql/training.json",
+      "verification": "download+sha256",
+      "sha256": "b4817176fc071139ba07673ab36685503413b2c9ff57dcbcfb6438e8cf385c3a"
+    },
+    {
+      "path": "checkpoints/residual/after_calql/training_state.pt",
+      "verification": "download+sha256",
+      "sha256": "feca4d47d1abd9a174bb28fcbd701891d8ffbfc65cafc4ddf193416c30eebd1c"
+    }
+  ],
+  "time": 1793310598.1368842,
+  "upload_seconds": 5.413658380508423,
+  "verification_seconds": 1.867401123046875
+}
