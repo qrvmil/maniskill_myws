@@ -784,3 +784,14 @@ EVIDENCE_DURABLE {"utc": "20261029T222951528162Z", "github_commit": "2939837f3bf
 To https://github.com/qrvmil/maniskill_myws.git
    2939837..2b83d65  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
 EVIDENCE_DURABLE {"utc": "20261029T223506410509Z", "github_commit": "2b83d651ec2e8e3bed9b950871c12f867e7bc938", "hf_commit": "08416dc90a43012787854975bd217a88035014f8", "files": 6, "full_readback": true, "unchanged_previously_verified_files": 371}
+[exp/pi0-d0-d1-visual-alignment-20261029 7bbd28e] exp: preserve current experiment logs and metrics
+ 6 files changed, 735 insertions(+), 1 deletion(-)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publication-20261029T223506410509Z.json
+fatal: unable to access 'https://github.com/qrvmil/maniskill_myws.git/': Recv failure: Connection reset by peer
+Traceback (most recent call last):
+  File "/workspace/visual-alignment-repro-20261029/maniskill_myws/experiments/pi0_d0_d1_visual_alignment_20261029/tools/save_progress.py", line 50, in <module>
+    subprocess.run(['git','push','origin','HEAD'],cwd=ROOT,check=True)
+  File "/venv/main/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'push', 'origin', 'HEAD']' returned non-zero exit status 128.
+LOG_PUBLICATION_FAILED 1
