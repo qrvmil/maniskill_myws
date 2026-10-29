@@ -1,5 +1,5 @@
 {
-  "utc": "20261029T204050888227Z",
+  "utc": "20261029T204558461301Z",
   "phases": {
     "d0": {
       "latest_update": 3000,
@@ -16,7 +16,7 @@
       }
     },
     "expert": {
-      "latest_update": 864,
+      "latest_update": 1000,
       "durable_local": {
         "checkpoint": "/workspace/visual-alignment-repro-20261029/run/sft/expert/500",
         "step": 500
