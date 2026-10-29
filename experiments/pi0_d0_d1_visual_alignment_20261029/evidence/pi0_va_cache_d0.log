@@ -1,0 +1,98 @@
+[exp/pi0-d0-d1-visual-alignment-20261029 1db3e08] exp: save preflight and alignment cache implementation before D0 cache
+ 19 files changed, 550 insertions(+), 10 deletions(-)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/actual-replay-test.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/hf-visibility.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/preflight_media.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publication-20261029T104302Z.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publisher-dependencies.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/simulator-smoke-attempt1.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/simulator-smoke.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/training-hook-contract-tests.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/video-smoke.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/run-config.sh
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/tools/alignment_runtime.py
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/tools/prepare_alignment.py
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_actual_replay.py
+To https://github.com/qrvmil/maniskill_myws.git
+   546de88..1db3e08  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+EVIDENCE_DURABLE {"utc": "20261029T105355Z", "github_commit": "1db3e08161d565b16f40951eb4d0c48209bd049c", "hf_commit": "963b1158618e0c898d7a61ccbcd6238fe6864ec3", "files": 103, "full_readback": true}
+TEACHER_CACHE D0 0 5832 0.4
+TEACHER_CACHE D0 100 5832 8.2
+TEACHER_CACHE D0 200 5832 16.2
+TEACHER_CACHE D0 300 5832 24.1
+TEACHER_CACHE D0 400 5832 32.2
+TEACHER_CACHE D0 500 5832 40.2
+TEACHER_CACHE D0 600 5832 48.3
+TEACHER_CACHE D0 700 5832 56.2
+TEACHER_CACHE D0 800 5832 64.3
+TEACHER_CACHE D0 900 5832 72.2
+TEACHER_CACHE D0 1000 5832 80.2
+TEACHER_CACHE D0 1100 5832 88.2
+TEACHER_CACHE D0 1200 5832 96.2
+TEACHER_CACHE D0 1300 5832 104.1
+TEACHER_CACHE D0 1400 5832 112.1
+TEACHER_CACHE D0 1500 5832 120.1
+TEACHER_CACHE D0 1600 5832 128.1
+TEACHER_CACHE D0 1700 5832 136.1
+TEACHER_CACHE D0 1800 5832 144.1
+TEACHER_CACHE D0 1900 5832 152.0
+TEACHER_CACHE D0 2000 5832 160.0
+TEACHER_CACHE D0 2100 5832 167.9
+TEACHER_CACHE D0 2200 5832 176.0
+TEACHER_CACHE D0 2300 5832 183.9
+TEACHER_CACHE D0 2400 5832 191.9
+TEACHER_CACHE D0 2500 5832 199.8
+TEACHER_CACHE D0 2600 5832 207.8
+TEACHER_CACHE D0 2700 5832 215.7
+TEACHER_CACHE D0 2800 5832 223.7
+TEACHER_CACHE D0 2900 5832 231.6
+TEACHER_CACHE D0 3000 5832 239.6
+TEACHER_CACHE D0 3100 5832 247.5
+TEACHER_CACHE D0 3200 5832 255.8
+TEACHER_CACHE D0 3300 5832 264.0
+TEACHER_CACHE D0 3400 5832 271.9
+TEACHER_CACHE D0 3500 5832 279.7
+TEACHER_CACHE D0 3600 5832 287.6
+TEACHER_CACHE D0 3700 5832 295.5
+TEACHER_CACHE D0 3800 5832 303.4
+TEACHER_CACHE D0 3900 5832 311.3
+TEACHER_CACHE D0 4000 5832 319.3
+TEACHER_CACHE D0 4100 5832 327.1
+TEACHER_CACHE D0 4200 5832 335.2
+TEACHER_CACHE D0 4300 5832 343.1
+TEACHER_CACHE D0 4400 5832 351.2
+TEACHER_CACHE D0 4500 5832 359.5
+TEACHER_CACHE D0 4600 5832 367.6
+TEACHER_CACHE D0 4700 5832 375.5
+TEACHER_CACHE D0 4800 5832 383.6
+TEACHER_CACHE D0 4900 5832 391.5
+TEACHER_CACHE D0 5000 5832 399.5
+TEACHER_CACHE D0 5100 5832 407.4
+TEACHER_CACHE D0 5200 5832 415.5
+TEACHER_CACHE D0 5300 5832 423.4
+TEACHER_CACHE D0 5400 5832 431.5
+TEACHER_CACHE D0 5500 5832 439.4
+TEACHER_CACHE D0 5600 5832 447.5
+TEACHER_CACHE D0 5700 5832 455.4
+TEACHER_CACHE D0 5800 5832 463.5
+HF_VERIFIED alignment/cache_metadata/D0 a4e7fb39c6b31221779f348914f5f217ecc461f6
+[exp/pi0-d0-d1-visual-alignment-20261029 8d24666] exp: verify frozen C-RADIO D0 cache and exact K4 pixel identities
+ 6 files changed, 129 insertions(+), 3 deletions(-)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/alignment_cache_D0.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/alignment_cache_metadata_D0.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/simulator_smoke.json
+To https://github.com/qrvmil/maniskill_myws.git
+   1db3e08..8d24666  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+[exp/pi0-d0-d1-visual-alignment-20261029 7e327ff] exp: preserve D0 C-RADIO cache outcome
+ 11 files changed, 225 insertions(+), 12 deletions(-)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/alignment-cache-D0.exitcode
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/alignment-cache-D0.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/camera_smoke_D0.png
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/camera_smoke_D1.png
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/pi0_va_cache_d0.conf
+ create mode 100755 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/pi0_va_cache_d0.sh
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publication-20261029T105355Z.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publication-barrier-contract-tests.log
+To https://github.com/qrvmil/maniskill_myws.git
+   8d24666..7e327ff  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+EVIDENCE_DURABLE {"utc": "20261029T110236Z", "github_commit": "7e327ff44245116653935fa07bcf2c5b5cbf7dbe", "hf_commit": "4d17cdf46ac7e66ba36fc018425fb8f3e989bc11", "files": 110, "full_readback": true}

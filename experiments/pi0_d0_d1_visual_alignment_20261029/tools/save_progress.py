@@ -15,6 +15,22 @@ stamp=datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')
 for p in (BASE/'evidence').iterdir():
  if p.name=='vast-capabilities.json' or p.suffix not in {'.json','.log','.txt','.exitcode'}:continue
  shutil.copy2(p,DEST/'evidence'/p.name)
+# Explicit generated run logs/metrics only; never recurse into assets/checkpoint/cache trees.
+for src in (BASE/'run/evidence').glob('*.json'):
+ shutil.copy2(src,DEST/'evidence'/src.name)
+for stage in ['d0','full','expert']:
+ src=BASE/'run/sft'/stage/'metrics.jsonl'
+ if src.exists():shutil.copy2(src,DEST/'evidence'/f'{stage}_metrics.jsonl')
+src=BASE/'run/rl/updates.jsonl'
+if src.exists():shutil.copy2(src,DEST/'evidence/rl_updates.jsonl')
+for src in Path('/var/log/portal').glob('pi0_va_*.log'):
+ shutil.copy2(src,DEST/'evidence'/src.name)
+live={'utc':stamp,'phases':{},'final_episodes':len(list((BASE/'run/final').glob('*/*/*/episode.json')))}
+for stage in ['d0','full','expert']:
+ metrics=BASE/'run/sft'/stage/'metrics.jsonl';latest=BASE/'run/sft'/stage/'latest.json'
+ last=json.loads(metrics.read_text().splitlines()[-1]) if metrics.exists() and metrics.stat().st_size else None
+ live['phases'][stage]={'latest_update':None if last is None else last['step'],'durable_local':json.loads(latest.read_text()) if latest.exists() else None}
+write_live=DEST/'LIVE_STATUS.json';write_live.write_text(json.dumps(live,indent=2)+'\n')
 telemetry=Path('/var/log/portal/pi0_preflight_telemetry.log')
 if telemetry.exists():shutil.copy2(telemetry,DEST/'evidence/gpu-telemetry.csv')
 for p in [Path('/opt/supervisor-scripts/pi0_preflight_telemetry.sh'),Path('/etc/supervisor/conf.d/pi0_preflight_telemetry.conf'),Path('/opt/supervisor-scripts/pi0_model_preflight.sh'),Path('/etc/supervisor/conf.d/pi0_model_preflight.conf'),Path('/opt/supervisor-scripts/pi0_va_cache_d0.sh'),Path('/etc/supervisor/conf.d/pi0_va_cache_d0.conf')]:
