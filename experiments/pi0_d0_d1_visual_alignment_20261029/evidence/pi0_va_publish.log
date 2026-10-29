@@ -227,3 +227,10 @@ HF_VERIFIED offline e1f73f030b37957dc674537fe0bb80c68a39bcb9
  create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/offline.json
 To https://github.com/qrvmil/maniskill_myws.git
    c179508..678fc70  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+HF_PUBLISH_START checkpoints/residual/after_calql group_size 1
+HF_VERIFIED checkpoints/residual/after_calql 2e99edb81194ebaa9625872d157a97fdd8503585
+[exp/pi0-d0-d1-visual-alignment-20261029 0384c78] exp: verify queued HF publication checkpoints/residual/after_calql
+ 1 file changed, 39 insertions(+)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/checkpoints_residual_after_calql.json
+To https://github.com/qrvmil/maniskill_myws.git
+   0295c5f..0384c78  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
