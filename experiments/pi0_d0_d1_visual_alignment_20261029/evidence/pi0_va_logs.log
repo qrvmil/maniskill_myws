@@ -760,3 +760,9 @@ EVIDENCE_DURABLE {"utc": "20261029T220849322244Z", "github_commit": "51ce572b726
 To https://github.com/qrvmil/maniskill_myws.git
    51ce572..af3fdae  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
 EVIDENCE_DURABLE {"utc": "20261029T221406960580Z", "github_commit": "af3fdae80d869f2885e3733c23ccfa86f88580aa", "hf_commit": "8f28d3d8c9fd29e61161bf6b9b76f8d1c4478753", "files": 6, "full_readback": true, "unchanged_previously_verified_files": 364}
+[exp/pi0-d0-d1-visual-alignment-20261029 9597793] exp: preserve current experiment logs and metrics
+ 6 files changed, 737 insertions(+), 1 deletion(-)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publication-20261029T221406960580Z.json
+To https://github.com/qrvmil/maniskill_myws.git
+   af3fdae..9597793  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+EVIDENCE_DURABLE {"utc": "20261029T221914352937Z", "github_commit": "9597793017f073312ba984e6cb1acd71f5a2e1d4", "hf_commit": "bf2e6a2884c3ca0b2043369980cee807aa82d93c", "files": 6, "full_readback": true, "unchanged_previously_verified_files": 365}
