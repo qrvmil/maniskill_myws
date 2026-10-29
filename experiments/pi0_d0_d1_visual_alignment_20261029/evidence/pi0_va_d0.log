@@ -1,0 +1,60 @@
+[exp/pi0-d0-d1-visual-alignment-20261029 d558ba9] exp: save verified cache and preflight before D0 projector calibration
+ 18 files changed, 346 insertions(+)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/LIVE_STATUS.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/pi0_va_cache_d0.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/pi0_va_d0.conf
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/pi0_va_d0.log
+ create mode 100755 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/pi0_va_d0.sh
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/pi0_va_logs.conf
+ create mode 100755 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/pi0_va_logs.sh
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/pi0_va_pipeline.conf
+ create mode 100755 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/pi0_va_pipeline.sh
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/pi0_va_publish.conf
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/pi0_va_publish.log
+ create mode 100755 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/pi0_va_publish.sh
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publication-20261029T110236Z.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/stage-controller-contract-tests.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/tools/run_stage.py
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/tools/watch_logs.py
+To https://github.com/qrvmil/maniskill_myws.git
+   7e327ff..d558ba9  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+EVIDENCE_DURABLE {"utc": "20261029T110803Z", "github_commit": "d558ba91810224c19498648f977bc63ccc119782", "hf_commit": "936656ddd5061672be72d6935f50d2655e0434bb", "files": 126, "full_readback": true}
+ALIGNED_D0_STAGE /workspace/visual-alignment-repro-20261029/maniskill_myws/scripts/adaptation/prepare.py ()
+HF_VERIFIED normalization/d0 bd705a4b5ea45c263adc3ca8b3de8a61fffbf7e4
+[exp/pi0-d0-d1-visual-alignment-20261029 fe3809a] exp: verify 50 native demos per task and publish immutable D0 normalization
+ 4 files changed, 476 insertions(+)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/D0_source_audit.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/D1_source_audit.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/data_prepared.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/normalization_d0.json
+To https://github.com/qrvmil/maniskill_myws.git
+   d558ba9..fe3809a  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+ALL_NATIVE_DEMOS_AND_D0_NORM_PREPARED a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e
+ALIGNED_D0_STAGE /workspace/visual-alignment-repro-20261029/maniskill_myws/experiments/pi0_d0_d1_visual_alignment_20261029/tools/prepare_alignment.py ('calibrate',)
+PROJECTOR_CALIBRATION 10 0.3239016681909561
+PROJECTOR_CALIBRATION 20 0.21813301742076874
+PROJECTOR_CALIBRATION 30 0.18184714019298553
+PROJECTOR_CALIBRATION 40 0.16611361503601074
+PROJECTOR_CALIBRATION 50 0.1509391851723194
+PROJECTOR_CALIBRATION 60 0.14188102632761002
+PROJECTOR_CALIBRATION 70 0.1294453702867031
+PROJECTOR_CALIBRATION 80 0.12327993474900723
+PROJECTOR_CALIBRATION 90 0.11817431263625622
+PROJECTOR_CALIBRATION 100 0.11481459438800812
+PROJECTOR_CALIBRATION 110 0.1108410507440567
+PROJECTOR_CALIBRATION 120 0.10108395852148533
+PROJECTOR_CALIBRATION 130 0.10201396234333515
+PROJECTOR_CALIBRATION 140 0.10353362746536732
+PROJECTOR_CALIBRATION 150 0.0994882732629776
+PROJECTOR_CALIBRATION 160 0.09811484813690186
+PROJECTOR_CALIBRATION 170 0.09386848472058773
+PROJECTOR_CALIBRATION 180 0.09066161513328552
+PROJECTOR_CALIBRATION 190 0.089682312682271
+PROJECTOR_CALIBRATION 200 0.08548427931964397
+HF_VERIFIED alignment/projector 201798f0e9032771834f0556e71452a2032c2a26
+[exp/pi0-d0-d1-visual-alignment-20261029 1f7ff49] exp: freeze D0-only projector after200calibration updates
+ 5 files changed, 861 insertions(+), 4 deletions(-)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/alignment_projector.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/projector_calibration.json
+To https://github.com/qrvmil/maniskill_myws.git
+   fe3809a..1f7ff49  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
