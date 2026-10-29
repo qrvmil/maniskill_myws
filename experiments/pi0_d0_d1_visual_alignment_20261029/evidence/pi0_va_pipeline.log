@@ -371,3 +371,18 @@ See the migration guide at https://gymnasium.farama.org/introduction/migration_g
 TEACHER_VALIDATION /workspace/visual-alignment-repro-20261029/run/sft/full/250 22000 False
 TEACHER_VALIDATION /workspace/visual-alignment-repro-20261029/run/sft/full/250 22001 False
 TEACHER_VALIDATION /workspace/visual-alignment-repro-20261029/run/sft/full/250 22002 True
+TEACHER_VALIDATION /workspace/visual-alignment-repro-20261029/run/sft/full/250 22003 False
+TEACHER_VALIDATION /workspace/visual-alignment-repro-20261029/run/sft/full/250 22004 False
+TEACHER_VALIDATION /workspace/visual-alignment-repro-20261029/run/sft/full/250 22005 False
+TEACHER_VALIDATION /workspace/visual-alignment-repro-20261029/run/sft/full/250 22006 True
+TEACHER_VALIDATION /workspace/visual-alignment-repro-20261029/run/sft/full/250 22007 True
+TEACHER_VALIDATION /workspace/visual-alignment-repro-20261029/run/sft/full/250 22008 True
+TEACHER_VALIDATION /workspace/visual-alignment-repro-20261029/run/sft/full/250 22009 False
+HF_QUEUED checkpoints/teacher
+SFT full {"step": 251, "loss": 0.1476947318762541, "lr": 2.924242495916296e-05, "grad_norm": 0.9174171090126038, "seconds": 538.2632765769958, "cuda_peak_allocated": 57563331072, "L_flow": 0.13445759750902653, "L_align": 0.06618567183613777, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}
+SFT full {"step": 252, "loss": 0.12308694161474704, "lr": 2.923238743474798e-05, "grad_norm": 0.7809407114982605, "seconds": 6.199158191680908, "cuda_peak_allocated": 57563331072, "L_flow": 0.11064776964485645, "L_align": 0.06219585984945297, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}
+SFT full {"step": 253, "loss": 0.12089770399034024, "lr": 2.9222285796264468e-05, "grad_norm": 0.650225043296814, "seconds": 5.138983726501465, "cuda_peak_allocated": 57563331072, "L_flow": 0.1080938745290041, "L_align": 0.06401914730668068, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}
+SFT full {"step": 254, "loss": 0.12294797524809838, "lr": 2.9212120094579325e-05, "grad_norm": 0.8836547136306763, "seconds": 5.707657814025879, "cuda_peak_allocated": 57563331072, "L_flow": 0.10985579714179039, "L_align": 0.06546089053153992, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}
+SFT full {"step": 255, "loss": 0.128966991789639, "lr": 2.920189038088204e-05, "grad_norm": 0.772133469581604, "seconds": 5.1573100090026855, "cuda_peak_allocated": 57563331072, "L_flow": 0.11495730374008417, "L_align": 0.07004844024777412, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}
+SFT full {"step": 256, "loss": 0.12060050629079341, "lr": 2.9191596706684456e-05, "grad_norm": 0.6093454957008362, "seconds": 5.686202526092529, "cuda_peak_allocated": 57563331072, "L_flow": 0.1071797888725996, "L_align": 0.06710358709096909, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}
+SFT full {"step": 257, "loss": 0.10022517833858728, "lr": 2.9181239123820467e-05, "grad_norm": 0.5580586791038513, "seconds": 5.1612584590911865, "cuda_peak_allocated": 57563331072, "L_flow": 0.08655852638185024, "L_align": 0.06833325978368521, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}
