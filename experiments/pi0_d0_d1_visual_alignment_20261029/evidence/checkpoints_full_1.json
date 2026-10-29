@@ -1,0 +1,54 @@
+{
+  "repo": "qrvmil/pi0-d0-d1-three-adaptations-visual-alignment-20261029",
+  "commit": "6d9b0c034c887bed1a6a72eebb84c669fc827ae7",
+  "verified": [
+    {
+      "path": "checkpoints/full/1/assets/d0/norm_stats.json",
+      "verification": "download+sha256",
+      "sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e"
+    },
+    {
+      "path": "checkpoints/full/1/gradient_scope.json",
+      "verification": "download+sha256",
+      "sha256": "added7f7db47ac49af59e8a923ae749bd8071edff0b8062801c10b002eb1ba23"
+    },
+    {
+      "path": "checkpoints/full/1/model.safetensors",
+      "verification": "download+sha256",
+      "sha256": "e3af5a0961b89627a0cb96cc6d16570969af26039407c44834b2cac4e2fa585e"
+    },
+    {
+      "path": "checkpoints/full/1/projector.npz",
+      "verification": "download+sha256",
+      "sha256": "8de0854391128426ab5104ae26461655408f59b805a63e3bc86875dacfc43273"
+    },
+    {
+      "path": "checkpoints/full/1/sample_indices.npy",
+      "verification": "download+sha256",
+      "sha256": "1364baf4af32ebf05d2c93b323abbfba67cc88ac696fea13da3de3f753342792"
+    },
+    {
+      "path": "checkpoints/full/1/scope.json",
+      "verification": "download+sha256",
+      "sha256": "54d93950a35da0ad52b1ff6bd3076b53d9c050711f625e2c2e45fcf91dad9b9a"
+    },
+    {
+      "path": "checkpoints/full/1/training.json",
+      "verification": "download+sha256",
+      "sha256": "e7d3a6bd1d3bcbf2e992b7b3c231d3c0cde19da6cecb3e54a15d354dadd0685c"
+    },
+    {
+      "path": "checkpoints/full/1/training_state.pt",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "78bd06b9660b3ff574e761140c6b0c282eeacc89d7d0eb97e7792f13f00d1a46"
+    },
+    {
+      "path": "checkpoints/full/1/visual_alignment.json",
+      "verification": "download+sha256",
+      "sha256": "49b5c52580a02a3f198956c0681556ec43eccaffcb4810f0564f165336a39bc3"
+    }
+  ],
+  "time": 1793293326.157415,
+  "upload_seconds": 363.7879457473755,
+  "verification_seconds": 159.07616305351257
+}
