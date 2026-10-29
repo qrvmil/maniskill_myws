@@ -1,0 +1,15 @@
+
+==================================== ERRORS ====================================
+_ ERROR collecting experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_alignment_port.py _
+ImportError while importing test module '/workspace/visual-alignment-repro-20261029/maniskill_myws/experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_alignment_port.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/.uv/python_install/cpython-3.11.17-linux-x86_64-gnu/lib/python3.11/importlib/__init__.py:126: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+../../experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_alignment_port.py:12: in <module>
+    from alignment_port import project,cosine_loss
+E   ModuleNotFoundError: No module named 'alignment_port'
+=========================== short test summary info ============================
+ERROR ../../experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_alignment_port.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 14.47s

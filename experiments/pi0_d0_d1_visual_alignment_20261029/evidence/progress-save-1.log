@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/workspace/visual-alignment-repro-20261029/maniskill_myws/experiments/pi0_d0_d1_visual_alignment_20261029/tools/save_progress.py", line 25, in <module>
+    if any(re.search(pattern,text) for pattern in patterns):raise ValueError('Potential secret; publication blocked: '+str(p))
+                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Potential secret; publication blocked: /workspace/visual-alignment-repro-20261029/maniskill_myws/experiments/pi0_d0_d1_visual_alignment_20261029/tools/save_progress.py

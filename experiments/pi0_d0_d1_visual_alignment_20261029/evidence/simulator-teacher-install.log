@@ -1,0 +1,36 @@
+warning: The `tool.uv.dev-dependencies` field (used in `packages/openpi-client/pyproject.toml`) is deprecated and will be removed in a future release; use `dependency-groups.dev` instead
+Resolved 80 packages in 1.21s
+   Building future==0.18.2
+   Building bddl==1.0.1
+   Building gym==0.25.2
+   Building easydict==1.9
+Downloading robosuite (184.6MiB)
+Downloading timm (2.3MiB)
+Downloading mujoco (6.1MiB)
+ Downloaded timm
+      Built easydict==1.9
+      Built bddl==1.0.1
+      Built gym==0.25.2
+      Built future==0.18.2
+ Downloaded mujoco
+ Downloaded robosuite
+Prepared 16 packages in 14.91s
+Uninstalled 1 package in 1ms
+Installed 16 packages in 523ms
+ + bddl==1.0.1
+ + easydict==1.9
+ + fastjsonschema==2.22.2
+ + future==0.18.2
+ + gym==0.25.2
+ + gym-notices==0.1.0
+ + jsonschema==4.26.0
+ + jsonschema-specifications==2025.9.1
+ + jupytext==1.19.6
+ + mdit-py-plugins==0.6.1
+ - mujoco==2.3.7
+ + mujoco==3.2.7
+ + nbformat==5.11.1
+ + referencing==0.37.0
+ + robosuite==1.4.1
+ + rpds-py==2026.9.1
+ + timm==1.0.15

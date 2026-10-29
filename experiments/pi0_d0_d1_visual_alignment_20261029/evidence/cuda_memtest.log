@@ -1,0 +1,20 @@
+[10/29/2026 10:05:46][3471290477b2][0]:Running cuda memtest, version 1.2.3
+[10/29/2026 10:05:46][3471290477b2][0]:NVRM version: NVIDIA UNIX Open Kernel Module for x86_64  615.71.09  Release Build  (root@cmp170hx03)  Fri Oct  9 04:14:45 PM MDT 2026
+[10/29/2026 10:05:46][3471290477b2][0]:num_gpus=1
+[10/29/2026 10:05:46][3471290477b2][0]:Device name=NVIDIA CMP 170HX, global memory size=68070735872, serial=1322921045712
+[10/29/2026 10:05:46][3471290477b2][0]:Attached to device 0 successfully.
+[10/29/2026 10:05:46][3471290477b2][0]:WARNING: driver reported at least 67747446784 bytes are free but largest possible allocation is 67744301056 bytes.
+[10/29/2026 10:05:46][3471290477b2][0]:Allocated 64606 MB
+[10/29/2026 10:05:46][3471290477b2][0]:Test0 [Walking 1 bit]
+[10/29/2026 10:06:25][3471290477b2][0]:Test0 finished in 39.0 seconds
+[10/29/2026 10:06:25][3471290477b2][0]:Test1 [Own address test]
+[10/29/2026 10:06:34][3471290477b2][0]:Test1 finished in 8.4 seconds
+[10/29/2026 10:06:34][3471290477b2][0]:Test2 [Moving inversions, ones&zeros]
+[10/29/2026 10:07:17][3471290477b2][0]:Test2 finished in 43.2 seconds
+[10/29/2026 10:07:17][3471290477b2][0]:Test3 [Moving inversions, 8 bit pat]
+[10/29/2026 10:08:00][3471290477b2][0]:Test3 finished in 43.2 seconds
+[10/29/2026 10:08:00][3471290477b2][0]:Test4 [Moving inversions, random pattern]
+[10/29/2026 10:08:22][3471290477b2][0]:Test4 finished in 21.6 seconds
+[10/29/2026 10:08:22][3471290477b2][0]:Test5 [Block move, 64 moves]
+[10/29/2026 10:08:35][3471290477b2][0]:Test5 finished in 13.1 seconds
+[10/29/2026 10:08:35][3471290477b2][0]:Test6 [Moving inversions, 32 bit pat]

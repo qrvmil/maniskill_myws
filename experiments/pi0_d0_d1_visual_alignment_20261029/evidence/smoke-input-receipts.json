@@ -1,0 +1,205 @@
+[
+  {
+    "repo": "qrvmil/pi0-d0-d1-three-adaptations-20261020",
+    "revision": "57b978774e8e177d8d721b71f15542751e0610d9",
+    "path": "checkpoints/d0/3000/model.safetensors",
+    "bytes": 14005618584,
+    "sha256": "9ba40f3f7c1b7eb40805df49901109f9fe00089aae10b04eab412d62694cb451"
+  },
+  {
+    "repo": "qrvmil/pi0-d0-d1-three-adaptations-20261020",
+    "revision": "57b978774e8e177d8d721b71f15542751e0610d9",
+    "path": "checkpoints/d0/3000/assets/d0/norm_stats.json",
+    "bytes": 1941,
+    "sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e"
+  },
+  {
+    "repo": "yifengzhu-hf/LIBERO-datasets",
+    "revision": "f13aa24a3da8c43c7225569f28c562979fa0e35a",
+    "path": "libero_spatial/pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate_demo.hdf5",
+    "bytes": 589630943,
+    "sha256": "75ede0cf5fbfc925093671b55032ad80f1b1f1cf35442ec6c663460d37d3e0b3"
+  },
+  {
+    "repo": "yifengzhu-hf/LIBERO-datasets",
+    "revision": "f13aa24a3da8c43c7225569f28c562979fa0e35a",
+    "path": "libero_spatial/pick_up_the_black_bowl_next_to_the_plate_and_place_it_on_the_plate_demo.hdf5",
+    "bytes": 597677074,
+    "sha256": "3961cb7126eaca47d0f5be29eb297bb62e7591e3c86172c9587c0bf670112f84"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "README.md",
+    "bytes": 11094,
+    "sha256": "44acb9a911229b2fb0c6c06df26eaad4b8fe390f0d596794919ec2568a5612cb"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "adaptor_base.py",
+    "bytes": 1207,
+    "sha256": "85b4c1d0a6d0c8c5ff9fdc8fb3afd7ee2be65407ee36600d6fedd5eabc4b7346"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "adaptor_generic.py",
+    "bytes": 3306,
+    "sha256": "938444bbb6c8beafd6b5c5faa51567847f9be4a696929dbcd67f6cd6e4ea67e9"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "adaptor_mlp.py",
+    "bytes": 6017,
+    "sha256": "0c720adfa8cddddae36b439c297756a4cd27066e2bdef8b648c862fca4bd8be4"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "adaptor_registry.py",
+    "bytes": 1371,
+    "sha256": "16963e07de300e5f3cbd5e343aed111d04e4e55a50e07f50ccc2ab930883ea1e"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "cls_token.py",
+    "bytes": 1787,
+    "sha256": "64ee35f128380c3bb9bc1a913e98ac328220be88964f2092686c637ef866fc79"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "common.py",
+    "bytes": 6146,
+    "sha256": "9a6ddfbc0204b914431e47aad9960c2957bb382ac266ff7cb7cb97394ded4c3d"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "config.json",
+    "bytes": 5912,
+    "sha256": "eb337a8f3adb1d78546e5cbcd4c008b7b5dddba756aae8313090330a536d69a7"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "dinov2_arch.py",
+    "bytes": 35529,
+    "sha256": "5433d08522c28f46a69e710da1a86fc1d76fc03562dbb9b2b49baf5db21195d3"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "dual_hybrid_vit.py",
+    "bytes": 7179,
+    "sha256": "86853ae2ed28c902529cd9b78201350e7dba1cf54ea9e57578241ecc0d88d867"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "enable_cpe_support.py",
+    "bytes": 6557,
+    "sha256": "3c1e3df656960f5c83b38ba5f632fc5b335edf1d6de67731396a865aaa5ce1ed"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "enable_spectral_reparam.py",
+    "bytes": 11004,
+    "sha256": "b8e703400604ee5f9cdfac0de9b857b7f5126aad8bba03604b04f52f7641d6cb"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "eradio_model.py",
+    "bytes": 58289,
+    "sha256": "bf76c60b991813eef45c76246cd7dcee3fefbf39bde3d2b6ac8576067012d05f"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "extra_models.py",
+    "bytes": 5763,
+    "sha256": "a938b96715266d2f65325e56d0d8e42465d23e944e905d2820023472785c55a9"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "extra_timm_models.py",
+    "bytes": 8378,
+    "sha256": "42f532b882f18ca448df68b1bc581dee9374ca53f6f163a81ccec1fd80d43621"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "feature_normalizer.py",
+    "bytes": 4399,
+    "sha256": "a74401f5220c2e5960d39addce9ba40f481efca9ab44bb9d96535ed23e1ef62b"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "forward_intermediates.py",
+    "bytes": 5604,
+    "sha256": "eb5a562d11edc655876eeb95bc1c3b4c7484b963dae41a3f76f7acd2a6906b9e"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "hf_model.py",
+    "bytes": 7758,
+    "sha256": "7120e573ddbf6e58e24cab4da01ea5c2213b18a565b3a09c1ba1f44f38c9a3d4"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "input_conditioner.py",
+    "bytes": 1492,
+    "sha256": "72062d3b71877e1469e069cf090e5f35d6ad7abaeb451e56502f7f32dc6c1075"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "model.safetensors",
+    "bytes": 1279776576,
+    "sha256": "2aedceebd3f8bd04a55bb23977dccf9d539724d715461f74db10c2a9b800e1a1"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "open_clip_adaptor.py",
+    "bytes": 1623,
+    "sha256": "c2eb9166de48f5eb5f90f8a750e8ebe67da93698e794dc0bbdab5f013bab8e66"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "radio_model.py",
+    "bytes": 14018,
+    "sha256": "2be659f5cd5b9db9c49db70387b65253c74bc16b3eb86e976f0f693271d4b183"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "utils.py",
+    "bytes": 1109,
+    "sha256": "3b83163ce2650ef04973538dd79716ab015d24344ea25d52cfb0c37b093ba4ba"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "vit_patch_generator.py",
+    "bytes": 11475,
+    "sha256": "092e9a0b8eca4fee162484ef3ef77b399f686e5e0ffc7be85fb2d69bc2f9ebd9"
+  },
+  {
+    "repo": "nvidia/C-RADIOv3-L",
+    "revision": "9d0413465e8a91e67bbf2c1ad342815478d1b906",
+    "path": "vitdet.py",
+    "bytes": 6318,
+    "sha256": "5b83b4c7b90b797d854a6da2fd4093ce9210a52533d3f7ba6bf505793b6c68c3"
+  }
+]

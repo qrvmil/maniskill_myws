@@ -1,0 +1,20 @@
+{
+  "stage": "d0",
+  "completed_updates": 3000,
+  "source_task": "D0",
+  "training_seed": 0,
+  "effective_batch": 8,
+  "microbatch": 2,
+  "accumulation": 4,
+  "initial_weights_sha256": "8df3cbff6d06f55fc77202b7d66c671c5a9e05403620bd05c8eac95955f09926",
+  "weights_sha256": "9ba40f3f7c1b7eb40805df49901109f9fe00089aae10b04eab412d62694cb451",
+  "normalization_sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e",
+  "frozen_scope_verified": true,
+  "frozen_tensors": 0,
+  "scope": "full",
+  "total_parameters": 3501372176,
+  "trainable_parameters": 3501372176,
+  "optimizer": "AdamW float32 master parameters/states",
+  "lr_schedule": "cosine warmup100 3e-5 to3e-6",
+  "final_budget": 3000
+}
