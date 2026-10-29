@@ -409,3 +409,14 @@ EVIDENCE_DURABLE {"utc": "20261029T171229657894Z", "github_commit": "ec40e42a0f7
 To https://github.com/qrvmil/maniskill_myws.git
    ec40e42..6085829  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
 EVIDENCE_DURABLE {"utc": "20261029T171736057939Z", "github_commit": "6085829c10b60616e86406e57e234744b8cebbd8", "hf_commit": "37beb7bb3d89f82b6c10bd2a771c75d634e2098b", "files": 6, "full_readback": true, "unchanged_previously_verified_files": 275}
+[exp/pi0-d0-d1-visual-alignment-20261029 4c7adf1] exp: preserve current experiment logs and metrics
+ 6 files changed, 195 insertions(+), 2 deletions(-)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publication-20261029T171736057939Z.json
+fatal: unable to access 'https://github.com/qrvmil/maniskill_myws.git/': Could not resolve host: github.com
+Traceback (most recent call last):
+  File "/workspace/visual-alignment-repro-20261029/maniskill_myws/experiments/pi0_d0_d1_visual_alignment_20261029/tools/save_progress.py", line 50, in <module>
+    subprocess.run(['git','push','origin','HEAD'],cwd=ROOT,check=True)
+  File "/venv/main/lib/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'push', 'origin', 'HEAD']' returned non-zero exit status 128.
+LOG_PUBLICATION_FAILED 1
