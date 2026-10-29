@@ -1709,3 +1709,16 @@ To https://github.com/qrvmil/maniskill_myws.git
    d93169b..1db876a  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
 EVIDENCE_DURABLE {"utc": "20261029T195755693716Z", "github_commit": "1db876ac81f59def15f25decedcef63aa2b92162", "hf_commit": "25ba57623feaeb87efdddb43b38aa066b53222cc", "files": 8, "full_readback": true, "unchanged_previously_verified_files": 314}
 PIPELINE_STAGE train_sft.py ('expert',)
+SFT expert {"step": 1, "loss": 0.36734122410416603, "lr": 2.9702970297029703e-07, "grad_norm": 1.6841894388198853, "seconds": 3.2540125846862793, "cuda_peak_allocated": 17865810944, "L_flow": 0.36734122410416603, "L_align": null, "lambda_align": 0.0, "alignment_mode": "inherited_aligned_D0_only"}
+HF_QUEUED checkpoints/expert/1
+[exp/pi0-d0-d1-visual-alignment-20261029 fef5a38] exp: save expert SFT after 1 updates queued for verified HF publication
+ 3 files changed, 11358 insertions(+)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/sft_expert_1.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/sft_expert_gradient_scope.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/sft_expert_scope.json
+To https://github.com/qrvmil/maniskill_myws.git
+   48a18e5..fef5a38  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/expert/1']
+AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/expert/1']
+AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/expert/1']
+AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/expert/1']

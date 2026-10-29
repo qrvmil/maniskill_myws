@@ -1,0 +1,1 @@
+{"step": 1, "loss": 0.36734122410416603, "lr": 2.9702970297029703e-07, "grad_norm": 1.6841894388198853, "seconds": 3.2540125846862793, "cuda_peak_allocated": 17865810944, "L_flow": 0.36734122410416603, "L_align": null, "lambda_align": 0.0, "alignment_mode": "inherited_aligned_D0_only"}
