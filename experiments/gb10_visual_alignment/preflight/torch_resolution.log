@@ -1,0 +1,5 @@
+Using Python 3.11.17 environment at: /workspace/pi0-gb10-venv
+error: No solution found when resolving dependencies
+  cause: Because torchvision==0.22.1+cu128 has no wheels with a matching platform tag (e.g., `manylinux_2_35_aarch64`) and you require torchvision==0.22.1+cu128, we can conclude that your requirements are unsatisfiable.
+
+hint: Wheels are available for `torchvision` (v0.22.1+cu128) on the following platforms: `manylinux_2_28_x86_64`, `win_amd64`

@@ -1,0 +1,49 @@
+{
+  "utc": "2026-10-29T09:43:31.549993+00:00",
+  "instance_id": "58229523",
+  "gpu_count": 1,
+  "gpu_name": "GB10",
+  "cpu_arch": "aarch64",
+  "cpu_name": "Cortex-A725",
+  "os_release": "PRETTY_NAME=\"Ubuntu 22.04.5 LTS\"\nNAME=\"Ubuntu\"\nVERSION_ID=\"22.04\"\nVERSION=\"22.04.5 LTS (Jammy Jellyfish)\"\nVERSION_CODENAME=jammy\nID=ubuntu\nID_LIKE=debian\nHOME_URL=\"https://www.ubuntu.com/\"\nSUPPORT_URL=\"https://help.ubuntu.com/\"\nBUG_REPORT_URL=\"https://bugs.launchpad.net/ubuntu/\"\nPRIVACY_POLICY_URL=\"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy\"\nUBUNTU_CODENAME=jammy\n",
+  "kernel": "7.0.0-1019-nvidia",
+  "gpu_cuda": {
+    "driver_version": "615.71.09",
+    "components": {
+      "nvcc": true,
+      "dev_headers": true,
+      "cudart": true,
+      "nvrtc": true,
+      "cublas": true,
+      "cudnn": true,
+      "cufft": true,
+      "cusparse": true,
+      "cusolver": true,
+      "curand": true,
+      "nccl": true,
+      "npp": true,
+      "nvjpeg": true
+    },
+    "installed_version": "11.8",
+    "cuda_home": "/usr/local/cuda",
+    "driver_max_cuda": "13.4",
+    "compute_capability": "12.1",
+    "min_cuda_for_wheels": "12.8",
+    "note": "CUDA compute works via the host-injected driver. A PARTIAL CUDA 11.8 install is present (components: nvcc, dev_headers, cudart, nvrtc, cublas, cudnn, cufft, cusparse, cusolver, curand, nccl, npp, nvjpeg); this is NOT a full toolkit, so check the `components` map before assuming a library exists \u2014 missing ones (e.g. cuBLAS/cuDNN) must be added from the configured nvidia apt repo (cuda-<lib>-X-Y / libcudnn*) or come bundled with framework wheels. COMPATIBILITY (agents get this wrong): the toolkit/wheel does NOT need to match the driver's exact CUDA version. CUDA minor-version compatibility means any CUDA 12.x build runs on any driver that supports CUDA 12.0+ (and 13.x on a 13.0+ driver) \u2014 so a 12.x wheel is fine here as long as driver_max_cuda is >= 12.0; do NOT 'upgrade the driver to match CUDA'. CAVEAT: this excludes PTX JIT \u2014 code shipped as PTX from a toolkit NEWER than the host driver fails with CUDA_ERROR_UNSUPPORTED_PTX_VERSION (222) since the driver owns the JIT (only bites when the host driver is older than the build; use native-cubin builds or forward compat). Forward compatibility (running a newer CUDA MAJOR on an older driver) is the separate cuda-compat mechanism, auto-managed at boot (see forward_compat). What DOES bind is the GPU architecture: compute_capability >= 10.0 (Blackwell) needs CUDA >= 12.8 wheels \u2014 an older build (e.g. torch cu124) installs cleanly but fails at runtime with 'no kernel image is available'. When installing CUDA libs: NEVER install the NVIDIA driver from apt (it must match the host \u2014 avoid the 'cuda' metapackage and nvidia-driver-*/libcuda* packages); install only components <= driver_max_cuda, and prefer framework wheels that bundle their own CUDA runtime. See AGENTS.md."
+  },
+  "unified_memory": {
+    "MemTotal": 130594021376,
+    "MemFree": 20056272896,
+    "MemAvailable": 126797611008,
+    "SwapTotal": 17179865088,
+    "SwapFree": 17179865088
+  },
+  "cgroup_memory_max_bytes": 125369843712,
+  "hourly_cost_usd": {
+    "dph_base": 0.39866666666666667,
+    "dph_total": 0.49125925925925923,
+    "storage_total_cost": 0.09259259259259257
+  },
+  "user_quote_usd_per_hour": 0.39,
+  "workspace_is_volume": false
+}

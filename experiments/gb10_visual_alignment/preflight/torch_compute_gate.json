@@ -1,0 +1,23 @@
+{
+  "gate": "torch_cuda_primitives",
+  "status": "passed",
+  "cpu_arch": "aarch64",
+  "torch": "2.7.1+cu128",
+  "torchvision": "0.22.1",
+  "cuda_runtime": "12.8",
+  "device": "NVIDIA GB10",
+  "capability": [
+    12,
+    1
+  ],
+  "compiled_arches": [
+    "sm_90",
+    "sm_100",
+    "sm_120"
+  ],
+  "loss": 0.24979668855667114,
+  "peak_allocated_bytes": 69538304,
+  "peak_reserved_bytes": 94371840,
+  "optimizer_changed_weights": true,
+  "seconds": 16.221007811000163
+}
