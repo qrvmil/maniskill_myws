@@ -1,0 +1,1 @@
+{"step": 1, "loss": 0.28833215087652203, "lr": 2.9702970297029703e-07, "grad_norm": 8.261150360107422, "seconds": 6.0627782344818115, "cuda_peak_allocated": 55905916928, "L_flow": 0.2706127166748047, "L_align": 0.08859717100858688, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}

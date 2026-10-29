@@ -1,8 +1,8 @@
 {
-  "utc": "20261029T114438Z",
+  "utc": "20261029T114810Z",
   "phases": {
     "d0": {
-      "latest_update": null,
+      "latest_update": 1,
       "durable_local": null
     },
     "full": {

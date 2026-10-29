@@ -40,7 +40,7 @@ def render(cells,pairs,selection):
  significant=sum(p['mcnemar_holm_p']<.05 for p in pairs)
  lines+=['','Парные CI: bootstrap10000draws; † — conservative boundary interval при вырожденном bootstrap. Holm применяется ко всем6comparisons; статистически значимы '+str(significant)+' из6. SR отражает вероятность успеха на sampled scenes при фиксированной модели. Одна training seed на метод ограничивает переносимость; равные/незначимые различия не доказывают эквивалентность. RL использует дополнительный online опыт и simulator-state shaping.', '',
   'Исторический запуск без новой методики: fullD0=0/50,D1=20/50; expertD0=0/50,D1=19/50; residualD0=0/50,D1=0/50. Сравнение с этими числами описательное: меняются общая D0-база и аугментации. Изолированный причинный эффект самого alignment этим новым трёхсторонним запуском не оценивается.', '',
-  f"Preflight: host150140,instance58231938,1×CMP170HX,x86_64; NVML65536MiB, CUDA-visible{gate['cuda_total_bytes']/(1<<30):.2f}GiB. Проверены все allocatable{gate['tested_MiB']}MiB тестами0–8и10,exit0,ECC0; driver-reserved{gate['driver_reserved_MiB']}MiB и CUDA context не являются allocatable test cells. Optional3hour bit-fade9 отключён. JAX0.5.3/PyTorch2.7.1+cu128 GPU probes и3actual AdamW steps прошли; block9prefix relativeRMSE={smoke['middle_prefix_relative_rmse']:.6f}<.005, минимальный запас{smoke['minimum_headroom_bytes']/(1<<30):.2f}GiB. Это наблюдаемая проверка доступной памяти и стабильности, без утверждения о происхождении unlocked capacity или бесконечной безошибочности.", '',
+  f"Preflight: host150140,instance58231938,1×CMP170HX,x86_64; NVML65536MiB, CUDA-visible{gate['cuda_total_bytes']/(1<<30):.2f}GiB. Проверены все allocatable{gate['tested_MiB']}MiB тестами0–8и10,exit0,ECC0; driver-reserved{gate['driver_reserved_MiB']}MiB и CUDA context не являются allocatable test cells. UpstreamTest10 имел int32overflow; исправленный64bit full-volume stress1000iterations прошёл за141.3s,exit0,ECC0; source/binary/patch hashes сохранены. Optional3hour bit-fade9 отключён. JAX0.5.3/PyTorch2.7.1+cu128 GPU probes и3actual AdamW steps прошли; block9prefix relativeRMSE={smoke['middle_prefix_relative_rmse']:.6f}<.005, минимальный запас{smoke['minimum_headroom_bytes']/(1<<30):.2f}GiB. Это наблюдаемая проверка доступной памяти и стабильности, без утверждения о происхождении unlocked capacity или бесконечной безошибочности.", '',
   f"[Код/протокол/логи]({GITHUB}/experiments/pi0_d0_d1_visual_alignment_20261029), [HF checkpoints]({HF}/tree/main/checkpoints), [projector/pilot/cache metadata]({HF}/tree/main/alignment), [episode CSV и статистика]({HF}/tree/main/results), [все видео](VIDEOS.md), [preflight и runtime logs]({HF}/tree/main/preflight/evidence).", '',
   f"Общий D0: `{sha(WORK/'sft/d0/3000/model.safetensors')}`; teacher: `{sha(WORK/'teacher_policy/model.safetensors')}`."]
  for method in ['full','expert','residual']:lines.append(f"- {labels[method]}: `{selection[method]['weights_sha256']}` — {HF}/tree/main/checkpoints/{'residual/final' if method=='residual' else method+'/1500'}")
@@ -49,8 +49,11 @@ def render(cells,pairs,selection):
 def publish_card():
  from huggingface_hub import HfApi,hf_hub_download
  report=(EXPERIMENT/'REPORT.md').read_text()
- text='---\nlicense: apache-2.0\nlanguage: [ru, en]\ntags: [openpi, pi0, robotics, libero, visual-alignment]\n---\n\n'+report
+ text='---\nlanguage: [ru, en]\ntags: [openpi, pi0, robotics, libero, visual-alignment]\n---\n\n'+report
  path=WORK/'model_card/README.md';path.parent.mkdir(exist_ok=True);path.write_text(text)
- commit=HfApi().upload_file(path_or_fileobj=path,path_in_repo='README.md',repo_id=HF_REPO,commit_message='Publish verified three-adaptation visual alignment results')
- downloaded=hf_hub_download(HF_REPO,'README.md',revision=commit.oid);assert sha(downloaded)==sha(path)
+ from huggingface_hub import CommitOperationAdd
+ documents={'README.md':path,**{name:EXPERIMENT/name for name in ['REPORT.md','VIDEOS.md','PREREGISTRATION.md','SOURCE_AUDIT.md']}}
+ commit=HfApi().create_commit(repo_id=HF_REPO,operations=[CommitOperationAdd(path_in_repo=name,path_or_fileobj=str(local)) for name,local in documents.items()],commit_message='Publish verified three-adaptation visual alignment results')
+ for name,local in documents.items():
+  downloaded=hf_hub_download(HF_REPO,name,revision=commit.oid);assert sha(downloaded)==sha(local)
  write(WORK/'evidence/hf_model_card.json',dict(commit=commit.oid,sha256=sha(path),completed=True,readback=True))

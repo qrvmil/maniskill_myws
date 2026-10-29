@@ -57,13 +57,19 @@ for p in files:
  out=snapshot/p.relative_to(DEST);out.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(p,out)
 for p in shared:
  out=snapshot/'code'/p.relative_to(ROOT);out.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(p,out)
-api=HfApi();paths=[p for p in snapshot.rglob('*') if p.is_file()]
+api=HfApi();all_paths=[p for p in snapshot.rglob('*') if p.is_file()]
+state_path=BASE/'private/verified_evidence_state.json'
+try:previous=json.loads(state_path.read_text())['hashes'] if state_path.exists() else {}
+except (KeyError,json.JSONDecodeError):previous={}
+hashes={str(p.relative_to(snapshot)):hashlib.sha256(p.read_bytes()).hexdigest() for p in all_paths}
+paths=[p for p in all_paths if previous.get(str(p.relative_to(snapshot)))!=hashes[str(p.relative_to(snapshot))]]
 operations=[CommitOperationAdd(path_in_repo='preflight/'+str(p.relative_to(snapshot)),path_or_fileobj=str(p)) for p in paths]
 for start in range(0,len(operations),80):
  commit=api.create_commit(HF_REPO,operations=operations[start:start+80],commit_message=args.message)
 for p in paths:
  downloaded=hf_hub_download(HF_REPO,'preflight/'+str(p.relative_to(snapshot)),revision=commit.oid)
  assert Path(downloaded).read_bytes()==p.read_bytes()
-receipt=dict(utc=stamp,github_commit=head,hf_commit=commit.oid,files=len(paths),full_readback=True)
+temporary=state_path.with_suffix('.tmp');temporary.write_text(json.dumps(dict(hashes=hashes,hf_commit=commit.oid),indent=2)+'\n');temporary.replace(state_path)
+receipt=dict(utc=stamp,github_commit=head,hf_commit=commit.oid,files=len(paths),full_readback=True,unchanged_previously_verified_files=len(all_paths)-len(paths))
 (BASE/'evidence'/('publication-'+stamp+'.json')).write_text(json.dumps(receipt,indent=2)+'\n')
 print('EVIDENCE_DURABLE',json.dumps(receipt),flush=True)

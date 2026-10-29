@@ -32,3 +32,12 @@ To https://github.com/qrvmil/maniskill_myws.git
    148b3cf..9c87a3a  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
 No files have been modified since last commit. Skipping to prevent empty commit.
 EVIDENCE_DURABLE {"utc": "20261029T114402Z", "github_commit": "9c87a3acff08b3df83bacc9dee753d4f14edc657", "hf_commit": "dd5703ffc5871a17e9958aa4206eb112d26257c1", "files": 176, "full_readback": true}
+[exp/pi0-d0-d1-visual-alignment-20261029 7136eab] exp: save integrated actual-cache training profile before long D0 SFT
+ 4 files changed, 22 insertions(+), 1 deletion(-)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publication-20261029T114402Z.json
+To https://github.com/qrvmil/maniskill_myws.git
+   9c87a3a..7136eab  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+No files have been modified since last commit. Skipping to prevent empty commit.
+EVIDENCE_DURABLE {"utc": "20261029T114438Z", "github_commit": "7136eab4a3ff8832facad88fef4a51dfe7c5b7c4", "hf_commit": "8768bc875c81454d78a720d8b3a2eed81fca177e", "files": 177, "full_readback": true}
+ALIGNED_D0_STAGE /workspace/visual-alignment-repro-20261029/maniskill_myws/scripts/adaptation/train_sft.py ('d0',)
+SFT d0 {"step": 1, "loss": 0.28833215087652203, "lr": 2.9702970297029703e-07, "grad_norm": 8.261150360107422, "seconds": 6.0627782344818115, "cuda_peak_allocated": 55905916928, "L_flow": 0.2706127166748047, "L_align": 0.08859717100858688, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}
