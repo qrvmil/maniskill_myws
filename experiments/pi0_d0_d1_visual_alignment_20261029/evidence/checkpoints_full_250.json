@@ -1,0 +1,54 @@
+{
+  "repo": "qrvmil/pi0-d0-d1-three-adaptations-visual-alignment-20261029",
+  "commit": "ce773abc9aa377308416787f0a4d94080a73f3ee",
+  "verified": [
+    {
+      "path": "checkpoints/full/250/assets/d0/norm_stats.json",
+      "verification": "download+sha256",
+      "sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e"
+    },
+    {
+      "path": "checkpoints/full/250/gradient_scope.json",
+      "verification": "download+sha256",
+      "sha256": "added7f7db47ac49af59e8a923ae749bd8071edff0b8062801c10b002eb1ba23"
+    },
+    {
+      "path": "checkpoints/full/250/model.safetensors",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "b5202d6bf14de4506a39f2c2bf319bb6a90d54207c13acf40982d80b84e9a2e0"
+    },
+    {
+      "path": "checkpoints/full/250/projector.npz",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "8de0854391128426ab5104ae26461655408f59b805a63e3bc86875dacfc43273"
+    },
+    {
+      "path": "checkpoints/full/250/sample_indices.npy",
+      "verification": "download+sha256",
+      "sha256": "1364baf4af32ebf05d2c93b323abbfba67cc88ac696fea13da3de3f753342792"
+    },
+    {
+      "path": "checkpoints/full/250/scope.json",
+      "verification": "download+sha256",
+      "sha256": "54d93950a35da0ad52b1ff6bd3076b53d9c050711f625e2c2e45fcf91dad9b9a"
+    },
+    {
+      "path": "checkpoints/full/250/training.json",
+      "verification": "download+sha256",
+      "sha256": "168977977e0897ed9800a2cca0521a4829cd28fe9cfd76cc62b3d3b2c76b72bb"
+    },
+    {
+      "path": "checkpoints/full/250/training_state.pt",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "87f692f14b215a1281c71004bede4967b41cebd0b68e78850158efd95e612784"
+    },
+    {
+      "path": "checkpoints/full/250/visual_alignment.json",
+      "verification": "download+sha256",
+      "sha256": "49b5c52580a02a3f198956c0681556ec43eccaffcb4810f0564f165336a39bc3"
+    }
+  ],
+  "time": 1793295386.6763048,
+  "upload_seconds": 519.8532276153564,
+  "verification_seconds": 25.319917917251587
+}
