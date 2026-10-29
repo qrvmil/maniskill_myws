@@ -53,3 +53,24 @@ def test_corrupt_or_mismatched_state_counters_close_gate(monkeypatch,tmp_path):
  # Even when file digest is valid, semantic counters must match the metadata.
  data=json.loads((p/'training.json').read_text());data['training_state_sha256']=hashlib.sha256((p/'training_state.pt').read_bytes()).hexdigest();(p/'training.json').write_text(json.dumps(data))
  with pytest.raises((ValueError,AssertionError)):train_residual.reconcile_residual_checkpoint(root,'base','offline',teacher)
+
+def test_recovered_final_returns_without_loading_or_updating_model(monkeypatch,tmp_path):
+ import maniskill_myws.pld.replay_buffer as buffers
+ root,teacher,events=setup(monkeypatch,tmp_path)
+ monkeypatch.setattr(train_residual,'WORK',tmp_path)
+ base=tmp_path/'sft/d0/3000';base.mkdir(parents=True);(base/'model.safetensors').write_bytes(b'baseweights')
+ offline=tmp_path/'offline';offline.mkdir();(offline/'replay.npz').write_bytes(b'offline')
+ digest=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+ base_hash=digest(base/'model.safetensors');offline_hash=digest(offline/'replay.npz')
+ (offline/'complete.json').write_text(json.dumps(dict(replay_sha256=offline_hash,base_weights_sha256=base_hash,transitions=0)))
+ (tmp_path/'teacher.json').write_text(json.dumps(teacher))
+ final=checkpoint(root,'final',50000,54127,248,teacher)
+ data=json.loads((final/'training.json').read_text());data.update(base_weights_sha256=base_hash,offline_replay_sha256=offline_hash);(final/'training.json').write_text(json.dumps(data))
+ class Replay:
+  def load(self,path):pass
+ monkeypatch.setattr(buffers,'ReplayBuffer',lambda *a,**k:Replay())
+ def model(*a,**k):raise AssertionError('Completed residual must not reload model or train')
+ monkeypatch.setattr(train_residual,'load_model',model)
+ train_residual.main()
+ done=json.loads((tmp_path/'evidence/residual_complete.json').read_text())
+ assert done['resumed_completed'] and done['active_steps']==50000 and done['environment_steps']==54127
