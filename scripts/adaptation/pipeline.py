@@ -64,9 +64,11 @@ def main():
   sys.path.insert(0,str(EXPERIMENT/'tools'))
   from alignment_report import publish_card
   publish_card()
+  subprocess.run([sys.executable,'-u',str(EXPERIMENT/'tools/audit_alignment_delivery.py')],cwd=ROOT,check=True)
  else:
   call('build_notebook.py')
   call('publish_card.py')
  write(WORK/'complete.json',dict(objective_complete=True,episodes=300,videos=300,executed_notebook=os.environ.get('PI0_VISUAL_ALIGNMENT')!='1',github_branch=os.environ.get('PI0_GITHUB_BRANCH','exp/pi0-d0-d1-three-adaptations-20261020'),hf_repo=HF_REPO))
+ barrier()
  print('THREE_ADAPTATIONS_COMPLETE',flush=True)
 if __name__=='__main__':main()
