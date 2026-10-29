@@ -1702,3 +1702,10 @@ AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/full/1500']
 AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/full/1500']
 AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/full/1500']
 AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/full/1500']
+[exp/pi0-d0-d1-visual-alignment-20261029 1db876a] exp: verify prior phase logs before next major stage
+ 7 files changed, 75 insertions(+), 2 deletions(-)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publication-20261029T195413265433Z.json
+To https://github.com/qrvmil/maniskill_myws.git
+   d93169b..1db876a  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+EVIDENCE_DURABLE {"utc": "20261029T195755693716Z", "github_commit": "1db876ac81f59def15f25decedcef63aa2b92162", "hf_commit": "25ba57623feaeb87efdddb43b38aa066b53222cc", "files": 8, "full_readback": true, "unchanged_previously_verified_files": 314}
+PIPELINE_STAGE train_sft.py ('expert',)
