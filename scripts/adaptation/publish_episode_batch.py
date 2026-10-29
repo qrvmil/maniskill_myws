@@ -2,7 +2,7 @@
 import argparse,os,time
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
-from common import ROOT,WORK,HF_REPO,sha,write,json
+from common import ROOT,WORK,HF_REPO,EXPERIMENT,sha,write,json
 
 def publish_groups(groups,*,api=None,download=None):
  from huggingface_hub import HfApi,CommitOperationAdd,hf_hub_download
@@ -33,7 +33,7 @@ def publish_groups(groups,*,api=None,download=None):
   receipt=dict(repo=HF_REPO,commit=commit.oid,verified=verified,time=time.time(),upload_seconds=uploaded-started,
    verification_seconds=time.time()-uploaded,batch_episodes=len(groups),commit_operations=len(operations))
   write(Path(job['folder'])/'upload_receipt.json',receipt)
-  write(ROOT/'experiments/pi0_d0_d1_three_adaptations/evidence'/(remote.replace('/','_')+'.json'),receipt)
+  write(EXPERIMENT/'evidence'/(remote.replace('/','_')+'.json'),receipt)
   print('HF_VERIFIED',remote,commit.oid,flush=True)
   return receipt
  with ThreadPoolExecutor(max_workers=8) as executor:return list(executor.map(verify_episode,groups))

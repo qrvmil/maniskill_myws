@@ -3,15 +3,19 @@ import dataclasses, hashlib, json, os
 from pathlib import Path
 import numpy as np
 ROOT=Path(__file__).resolve().parents[2]
-WORK=Path('/workspace/pi0_three')
+WORK=Path(os.environ.get('PI0_WORK','/workspace/pi0_three'))
+EXPERIMENT=ROOT/'experiments'/os.environ.get('PI0_EXPERIMENT_DIR','pi0_d0_d1_three_adaptations')
 ASSETS=WORK/'assets'
-HF_REPO='qrvmil/pi0-d0-d1-three-adaptations-20261020'
+HF_REPO=os.environ.get('PI0_HF_REPO','qrvmil/pi0-d0-d1-three-adaptations-20261020')
+if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1' and (WORK==Path('/workspace/pi0_three') or HF_REPO=='qrvmil/pi0-d0-d1-three-adaptations-20261020' or EXPERIMENT.name=='pi0_d0_d1_three_adaptations'):
+ raise ValueError('Visual alignment requires isolated work, HF and experiment destinations')
 TASKS=json.loads((ROOT/'configs/pld_libero/multitask_sft.json').read_text())['tasks']
 TASKS={k:TASKS[k] for k in ('D0','D1')}
 NORM=ASSETS/'normalization'/'d0'/'norm_stats.json'
 SFT={'d0':dict(task='D0',updates=3000,seed=0,scope='full'), 'full':dict(task='D1',updates=1500,seed=1,scope='full'), 'expert':dict(task='D1',updates=1500,seed=1,scope='expert')}
-MICROBATCH=2
+MICROBATCH=int(os.environ.get('PI0_MICROBATCH','2'))
 BATCH=8
+if MICROBATCH not in (1,2):raise ValueError('Unsupported microbatch; effective batch remains8')
 
 def sha(path):
  h=hashlib.sha256()

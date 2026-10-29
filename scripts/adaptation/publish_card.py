@@ -2,7 +2,7 @@
 from common import *
 def main():
  from huggingface_hub import HfApi,hf_hub_download
- results=ROOT/'experiments/pi0_d0_d1_three_adaptations/results';complete=(results/'completeness.json').exists()
+ results=EXPERIMENT/'results';complete=(results/'completeness.json').exists()
  text='''---
 library_name: openpi
 language:

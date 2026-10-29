@@ -5,7 +5,7 @@ def main():
  from nbclient import NotebookClient
  from jupyter_client.kernelspec import KernelSpecManager
  from storage import publish,push_progress
- complete=json.loads((ROOT/'experiments/pi0_d0_d1_three_adaptations/results/completeness.json').read_text());assert complete['passed']
+ complete=json.loads((EXPERIMENT/'results/completeness.json').read_text());assert complete['passed']
  nb=nbformat.v4.new_notebook();cells=[]
  def md(s):cells.append(nbformat.v4.new_markdown_cell(s))
  def code(s):cells.append(nbformat.v4.new_code_cell(s))
@@ -75,7 +75,7 @@ Shaping: `r = r_success + .1 × (.99 × Phi(next) − Phi(state))`. Phi зави
  md('''## Итоговая таблица и paired comparisons
 
 В каждой ячейке **N=50**. Wilson95% CI отражает неопределённость SR для сцен; одна training seed не измеряет вариативность самого обучения. Paired differences сопоставляют одинаковые scenes/noise, exact McNemar использует discordant pairs; Holm adjustment учитывает шесть сравнений. Не объединяем correlated episodes между методами в один размер выборки.''')
- code("import pandas as pd\nresults = ROOT/'experiments/pi0_d0_d1_three_adaptations/results'\npd.read_csv(results/'success_rates.csv')")
+ code("import pandas as pd\nresults = EXPERIMENT/'results'\npd.read_csv(results/'success_rates.csv')")
  code("pd.DataFrame(json.loads((results/'paired_comparisons.json').read_text()))")
  code("completeness = json.loads((results/'completeness.json').read_text())\nassert completeness['episodes'] == completeness['videos'] == 300\ncompleteness")
  md('''## Обсуждение для студентов
@@ -91,7 +91,7 @@ Shaping: `r = r_success + .1 × (.99 × Phi(next) − Phi(state))`. Phi зави
  kernel_dir=WORK/'kernels/pi0_three';kernel_dir.mkdir(parents=True,exist_ok=True)
  write(kernel_dir/'kernel.json',dict(argv=['/workspace/pi0_venv/bin/python','-m','ipykernel_launcher','-f','{connection_file}'],display_name='π₀ three adaptations',language='python'))
  KernelSpecManager().install_kernel_spec(str(kernel_dir),kernel_name='pi0_three',user=True,replace=True)
- path=ROOT/'experiments/pi0_d0_d1_three_adaptations/seminar.ipynb'
+ path=EXPERIMENT/'seminar.ipynb'
  nbformat.write(nb,path)
  NotebookClient(nb,timeout=1800,kernel_name='pi0_three',resources={'metadata':{'path':str(ROOT)}}).execute()
  assert all(c['cell_type']!='code' or c['execution_count'] is not None for c in nb.cells)

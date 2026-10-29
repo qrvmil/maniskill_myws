@@ -9,7 +9,7 @@ def main():
  import nbformat
  from nbclient import NotebookClient
  from storage import push_progress
- experiment=ROOT/'experiments/pi0_d0_d1_three_adaptations'
+ experiment=EXPERIMENT
  complete=json.loads((WORK/'complete.json').read_text())
  assert complete['objective_complete'] and complete['episodes']==complete['videos']==300
  selection=json.loads((WORK/'final_selection.json').read_text())

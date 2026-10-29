@@ -7,7 +7,7 @@ def load_rows():
  return [json.loads(p.read_text()) for p in sorted((WORK/'final').glob('*/*/*/episode.json'))]
 
 def interim():
- rows=load_rows();dest=ROOT/'experiments/pi0_d0_d1_three_adaptations/results';dest.mkdir(parents=True,exist_ok=True)
+ rows=load_rows();dest=EXPERIMENT/'results';dest.mkdir(parents=True,exist_ok=True)
  compact=[{k:r[k] for k in ('method','evaluation_policy','task','seed','success','length','reset_hash','initial_observation_hash','trajectory_hash','video','video_sha256','checkpoint','normalization_sha256')} for r in rows]
  write(dest/'episodes.json',compact)
  with (dest/'episodes.csv').open('w') as f:
@@ -55,7 +55,7 @@ def main():
  assert len(list((WORK/'final').glob('*/*/*/*.mp4')))==300,'Unexpected missing or orphan final videos'
  for r in rows:
   verified_episode(WORK/'final'/r['method']/r['task']/str(r['seed']),r['method'],r['task'],r['seed'],selection[r['method']]['checkpoint'])
- dest=ROOT/'experiments/pi0_d0_d1_three_adaptations/results'
+ dest=EXPERIMENT/'results'
  write(dest/'success_rates.json',cells);write(dest/'paired_comparisons.json',pairs)
  write(dest/'completeness.json',dict(passed=True,episodes=300,videos=300,cells=6,n_per_cell=50,terminal_frames_verified=True,reset_hashes_equal=True,initial_observation_hashes_equal=True,common_flow_noise_prefixes_equal=True))
  with (dest/'success_rates.csv').open('w') as f:

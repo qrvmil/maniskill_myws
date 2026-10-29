@@ -40,7 +40,7 @@ def main():
  else:write(WORK/'final_selection.json',selected)
  binding=WORK/'selection';binding.mkdir(exist_ok=True)
  write(binding/'final_selection.json',selected)
- write(ROOT/'experiments/pi0_d0_d1_three_adaptations/final_selection.json',selected)
+ write(EXPERIMENT/'final_selection.json',selected)
  publish(binding,'selection',full_readback=True);push_progress('exp: freeze three final checkpoints before opening final evaluation seeds')
  for method in ('full','expert','residual'):call('evaluate.py',method)
  call('publication_queue.py','drain')

@@ -20,10 +20,12 @@ for p in [Path('/opt/supervisor-scripts/pi0_preflight_telemetry.sh'),Path('/etc/
 allowed={'.json','.jsonl','.log','.txt','.md','.csv','.py','.sh','.conf','.exitcode'}
 files=[p for p in DEST.rglob('*') if p.is_file() and p.suffix in allowed and '__pycache__' not in p.parts]
 patterns=[r'gh[pousr]_[A-Za-z0-9]{20,}',r'hf_[A-Za-z0-9]{20,}',r'-----BEGIN (?:RSA |OPENSSH |EC )?PRIVATE KEY-----\n[A-Za-z0-9+/]',r'Bearer\s+[A-Za-z0-9._-]{20,}',r'[?&](?:token|X-Amz-Signature|X-Goog-Signature)=']
-for p in files:
+changed=subprocess.check_output(['git','diff','HEAD','--name-only','--','scripts/adaptation'],cwd=ROOT,text=True).splitlines()
+shared=[ROOT/name for name in changed]
+for p in files+shared:
  text=p.read_text()
  if any(re.search(pattern,text) for pattern in patterns):raise ValueError('Potential secret; publication blocked: '+str(p))
-subprocess.run(['git','add',str(REL)],cwd=ROOT,check=True)
+subprocess.run(['git','add',str(REL),*[str(p.relative_to(ROOT)) for p in shared]],cwd=ROOT,check=True)
 subprocess.run(['git','add','-f',*[str(p.relative_to(ROOT)) for p in files]],cwd=ROOT,check=True)
 if subprocess.run(['git','diff','--cached','--quiet'],cwd=ROOT).returncode:
  subprocess.run(['git','commit','-m',args.message],cwd=ROOT,check=True)
@@ -35,6 +37,8 @@ assert remote==head
 snapshot=BASE/'private/publication_snapshots'/stamp;snapshot.mkdir(parents=True)
 for p in files:
  out=snapshot/p.relative_to(DEST);out.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(p,out)
+for p in shared:
+ out=snapshot/'code'/p.relative_to(ROOT);out.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(p,out)
 api=HfApi();paths=[p for p in snapshot.rglob('*') if p.is_file()]
 commit=api.create_commit(HF_REPO,operations=[CommitOperationAdd(path_in_repo='preflight/'+str(p.relative_to(snapshot)),path_or_fileobj=str(p)) for p in paths],commit_message=args.message)
 for p in paths:

@@ -37,7 +37,7 @@ def save(model,opt,stage,step,scope_rows,indices,initial_hash):
  write(WORK/'evidence'/f'sft_{stage}_{step}.json',dict(checkpoint=str(target),**json.loads((target/'training.json').read_text()),hf_commit=receipt['commit']))
  metrics=root/'metrics.jsonl'
  if metrics.exists():
-  dest=ROOT/'experiments/pi0_d0_d1_three_adaptations/evidence'/f'{stage}_metrics.jsonl'
+  dest=EXPERIMENT/'evidence'/f'{stage}_metrics.jsonl'
   shutil.copy2(metrics,dest)
  push_progress(f'exp: save {stage} SFT after {step} updates queued for verified HF publication')
  # Older local optimizer states are unnecessary once a newer resumable save has been read back.

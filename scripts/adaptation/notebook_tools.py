@@ -44,7 +44,7 @@ class SeminarPolicy:
   from IPython.display import Video
   return Video(str(WORK/'final'/self.method/self.task/str(self.seed)/row['video']),embed=True,width=720)
  def success_rates(self):
-  stats=json.loads((ROOT/'experiments/pi0_d0_d1_three_adaptations/results/success_rates.json').read_text())
+  stats=json.loads((EXPERIMENT/'results/success_rates.json').read_text())
   return {task:stats[self.method+'_'+task] for task in TASKS}
  def close(self):
   import torch

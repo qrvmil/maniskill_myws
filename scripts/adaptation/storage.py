@@ -1,7 +1,7 @@
 """Publish progress, verify remote bytes, preserve resumable model/optimizer states."""
 import json, os, subprocess, time
 from pathlib import Path
-from common import ROOT,WORK,HF_REPO,sha,write
+from common import ROOT,WORK,HF_REPO,EXPERIMENT,sha,write
 
 def publish(folder,remote,*,full_readback=False,defer=False):
  if defer:
@@ -43,7 +43,9 @@ def publish(folder,remote,*,full_readback=False,defer=False):
    for start in (0,max(0,meta['bytes']-65536)):
     end=min(meta['bytes']-1,start+65535)
     import requests
-    with requests.get(url,headers={'Range':f'bytes={start}-{end}'},stream=True,timeout=120) as response:
+    from huggingface_hub.utils import build_hf_headers
+    headers=build_hf_headers();headers['Range']=f'bytes={start}-{end}'
+    with requests.get(url,headers=headers,stream=True,timeout=120) as response:
      response.raise_for_status();assert response.status_code==206,(path,response.status_code)
      data=response.content
     with open(folder/name,'rb') as stream:
@@ -54,13 +56,13 @@ def publish(folder,remote,*,full_readback=False,defer=False):
  with ThreadPoolExecutor(max_workers=4) as executor:verified=list(executor.map(verify,inventory.items()))
  receipt=dict(repo=HF_REPO,commit=commit.oid,verified=verified,time=time.time(),upload_seconds=uploaded-started,verification_seconds=time.time()-uploaded)
  write(folder/'upload_receipt.json',receipt)
- evidence=ROOT/'experiments/pi0_d0_d1_three_adaptations/evidence'/ (remote.replace('/','_')+'.json')
+ evidence=EXPERIMENT/'evidence'/ (remote.replace('/','_')+'.json')
  write(evidence,receipt)
  print('HF_VERIFIED',remote,commit.oid,flush=True)
  return receipt
 
 def _push_progress_unlocked(message):
- dest=ROOT/'experiments/pi0_d0_d1_three_adaptations'
+ dest=EXPERIMENT
  import datetime
  lines=['# Статус эксперимента','', 'Обновлено UTC: '+datetime.datetime.now(datetime.timezone.utc).isoformat(), '', 'GitHub/HF write/read probes прошли. Бюджеты и правила выбора: [PREREGISTRATION.md](PREREGISTRATION.md).', '']
  for stage in ('d0','full','expert'):

@@ -121,7 +121,7 @@ def main():
   tmp.replace(folder);write(root/'latest.json',dict(checkpoint=str(folder),counters=counters))
   publish(folder,'checkpoints/residual/'+label,full_readback=label=='final',defer=True)
   write(WORK/'evidence'/('rl_'+label+'.json'),json.loads((folder/'training.json').read_text()))
-  shutil.copy2(metrics_path,ROOT/'experiments/pi0_d0_d1_three_adaptations/evidence/rl_updates.jsonl')
+  shutil.copy2(metrics_path,EXPERIMENT/'evidence/rl_updates.jsonl')
   push_progress('exp: preserve residual '+label+' including optimizer, RNG and replay')
   # Keep only the latest large local replay; uploaded versions remain resumable on HF.
   for old in root.iterdir():
