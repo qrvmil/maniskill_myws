@@ -425,3 +425,10 @@ LOG_PUBLICATION_FAILED 1
 To https://github.com/qrvmil/maniskill_myws.git
    d488701..3780e58  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
 EVIDENCE_DURABLE {"utc": "20261029T172824688151Z", "github_commit": "3780e582c03f6eeccb2f047140afeefc6ab41b1d", "hf_commit": "15ab3031f906fe026db575e5cb6b1eae6b2d8eff", "files": 9, "full_readback": true, "unchanged_previously_verified_files": 274}
+[exp/pi0-d0-d1-visual-alignment-20261029 4bd155f] exp: preserve current experiment logs and metrics
+ 8 files changed, 530 insertions(+), 2 deletions(-)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publication-20261029T172824688151Z.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/teacher_validation_250.json
+To https://github.com/qrvmil/maniskill_myws.git
+   3780e58..4bd155f  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+EVIDENCE_DURABLE {"utc": "20261029T173334312139Z", "github_commit": "4bd155f0b660b8ea9211f610047606833904a88b", "hf_commit": "8ddbc8c43dce0371bf0417cf4eff1643afe9e8da", "files": 8, "full_readback": true, "unchanged_previously_verified_files": 277}
