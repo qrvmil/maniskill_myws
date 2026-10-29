@@ -1,0 +1,49 @@
+{
+  "repo": "qrvmil/pi0-d0-d1-three-adaptations-visual-alignment-20261029",
+  "commit": "8b0d69df64301669239169286460a3cf94ed4f74",
+  "verified": [
+    {
+      "path": "checkpoints/residual/after_teacher_warmup/assets/d0/norm_stats.json",
+      "verification": "download+sha256",
+      "sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e"
+    },
+    {
+      "path": "checkpoints/residual/after_teacher_warmup/collection_traces.tar.gz",
+      "verification": "download+sha256",
+      "sha256": "7c1ba6e91bc2fb43977e6572097828ef903cdb75c83f49f2d2a7e6b05d0f3ba6"
+    },
+    {
+      "path": "checkpoints/residual/after_teacher_warmup/critic_after_calql.json",
+      "verification": "download+sha256",
+      "sha256": "394beb1dd0e371fb7c4f7995a949d10e1b0bbf4e1870541dc58d3ffb624cffdd"
+    },
+    {
+      "path": "checkpoints/residual/after_teacher_warmup/critic_after_warmup.json",
+      "verification": "download+sha256",
+      "sha256": "9c07aecc9bae1dff6d960a54f9f7be3ac315066bf3f9bd0a9b127ae976c3a8ec"
+    },
+    {
+      "path": "checkpoints/residual/after_teacher_warmup/online_replay.npz",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "850a989e1c222dcc2bde8a3dbdbc4a12c83381ca247e55964f2daffe0f82c030"
+    },
+    {
+      "path": "checkpoints/residual/after_teacher_warmup/residual.pt",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "d77b53e6d14999e71420c0c2ca68fe3ad845684c334bd86a63cf66a920329c88"
+    },
+    {
+      "path": "checkpoints/residual/after_teacher_warmup/training.json",
+      "verification": "download+sha256",
+      "sha256": "3abe74333be02a57d8dbef4f552b42163803c1220c88a4d963c5c751894cfa50"
+    },
+    {
+      "path": "checkpoints/residual/after_teacher_warmup/training_state.pt",
+      "verification": "download+sha256",
+      "sha256": "e4bc4430c35b4df2aec98f6b2f598c91c354c54b5a568bba3789fcfcd1f79b87"
+    }
+  ],
+  "time": 1793312649.2057216,
+  "upload_seconds": 29.052757740020752,
+  "verification_seconds": 7.011521100997925
+}
