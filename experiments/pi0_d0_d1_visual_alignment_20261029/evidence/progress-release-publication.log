@@ -1,0 +1,8 @@
+[exp/pi0-d0-d1-visual-alignment-20261029 1ffe4a4] exp: preserve source parity review and report schema verification during D0 training
+ 8 files changed, 128 insertions(+), 2 deletions(-)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/progress-release-publication.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publication-20261029T122937746703Z.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/report-render-schema-smoke.log
+To https://github.com/qrvmil/maniskill_myws.git
+   882474a..1ffe4a4  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+EVIDENCE_DURABLE {"utc": "20261029T123243877456Z", "github_commit": "1ffe4a4e4f07ee1ce67e34a43cbc0bf6d93c3755", "hf_commit": "ef6fd3ac27ebf5b5bc54191dcd0093d887bb2439", "files": 8, "full_readback": true, "unchanged_previously_verified_files": 201}
