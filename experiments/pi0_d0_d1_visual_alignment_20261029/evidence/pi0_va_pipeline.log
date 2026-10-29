@@ -3280,3 +3280,29 @@ TEACHER_VALIDATION /workspace/visual-alignment-repro-20261029/run/teacher_policy
 TEACHER_VALIDATION /workspace/visual-alignment-repro-20261029/run/teacher_policy 22001 False
 TEACHER_VALIDATION /workspace/visual-alignment-repro-20261029/run/teacher_policy 22002 True
 TEACHER_VALIDATION /workspace/visual-alignment-repro-20261029/run/teacher_policy 22003 False
+TEACHER_VALIDATION /workspace/visual-alignment-repro-20261029/run/teacher_policy 22004 False
+TEACHER_VALIDATION /workspace/visual-alignment-repro-20261029/run/teacher_policy 22005 False
+TEACHER_VALIDATION /workspace/visual-alignment-repro-20261029/run/teacher_policy 22006 True
+TEACHER_VALIDATION /workspace/visual-alignment-repro-20261029/run/teacher_policy 22007 True
+TEACHER_VALIDATION /workspace/visual-alignment-repro-20261029/run/teacher_policy 22008 True
+TEACHER_VALIDATION /workspace/visual-alignment-repro-20261029/run/teacher_policy 22009 False
+HF_VERIFIED validation/teacher_canonical_reset 690e7e24398bf9f2ee07e8d0657a72cf49c0626f
+[exp/pi0-d0-d1-visual-alignment-20261029 b918373] exp: confirm unchanged early teacher on canonical-reset validation scenes
+ 2 files changed, 448 insertions(+)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/teacher_canonical_validation.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/validation_teacher_canonical_reset.json
+To https://github.com/qrvmil/maniskill_myws.git
+   8c3ae1c..b918373  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+/workspace/visual-alignment-repro-20261029/maniskill_myws/scripts/pld/prepare_serl_encoder.py:25: DeprecationWarning: Pickled array contains an aval with a named_shape attribute. This is deprecated and the code path supporting such avals will be removed. Please re-pickle the array.
+  with src.open('rb') as stream:params=pickle.load(stream)
+PIPELINE_STAGE train_residual.py ('--zero-check',)
+[robosuite WARNING] No private macro file found! (macros.py:53)
+WARNING:robosuite_logs:No private macro file found!
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:54)
+WARNING:robosuite_logs:It is recommended to use a private macro file
+[robosuite WARNING] To setup, run: python /workspace/visual-alignment-repro-20261029/maniskill_myws/third_party/openpi/.venv/lib/python3.11/site-packages/robosuite/scripts/setup_macros.py (macros.py:55)
+WARNING:robosuite_logs:To setup, run: python /workspace/visual-alignment-repro-20261029/maniskill_myws/third_party/openpi/.venv/lib/python3.11/site-packages/robosuite/scripts/setup_macros.py
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
