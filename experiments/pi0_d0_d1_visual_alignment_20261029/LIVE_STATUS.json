@@ -1,8 +1,8 @@
 {
-  "utc": "20261029T152939120765Z",
+  "utc": "20261029T153457030915Z",
   "phases": {
     "d0": {
-      "latest_update": 2375,
+      "latest_update": 2438,
       "durable_local": {
         "checkpoint": "/workspace/visual-alignment-repro-20261029/run/sft/d0/2000",
         "step": 2000
