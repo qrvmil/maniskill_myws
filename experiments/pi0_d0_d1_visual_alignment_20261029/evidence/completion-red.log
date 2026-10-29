@@ -1,0 +1,21 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________ test_completion_marker_waits_for_successful_final_publication _________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7c633e7ad4d0>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-19/test_completion_marker_waits_f0')
+
+    def test_completion_marker_waits_for_successful_final_publication(monkeypatch,tmp_path):
+     import storage
+     monkeypatch.setattr(pipeline,'WORK',tmp_path/'run');monkeypatch.setattr(pipeline,'EXPERIMENT',tmp_path/'experiment')
+     events=[]
+     monkeypatch.setattr(pipeline,'barrier',lambda:events.append('barrier'))
+     def fail(*args,**kwargs):raise RuntimeError('remote unavailable')
+     monkeypatch.setattr(storage,'publish',fail)
+>    with pytest.raises(RuntimeError,match='remote unavailable'):pipeline.mark_complete()
+E    AttributeError: module 'pipeline' has no attribute 'mark_complete'
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_review_regressions.py:57: AttributeError
+=========================== short test summary info ============================
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_review_regressions.py::test_completion_marker_waits_for_successful_final_publication
+1 failed, 4 deselected in 0.04s

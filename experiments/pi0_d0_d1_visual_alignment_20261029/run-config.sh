@@ -12,3 +12,4 @@ export PYOPENGL_PLATFORM=egl
 export PYTHONPATH=/workspace/visual-alignment-repro-20261029/maniskill_myws/src:/workspace/visual-alignment-repro-20261029/maniskill_myws/third_party/openpi/third_party/libero
 export PI0_D0_SERVICE=pi0_va_d0
 export PI0_PIPELINE_SERVICE=pi0_va_pipeline
+export PI0_GITHUB_BRANCH=exp/pi0-d0-d1-visual-alignment-20261029

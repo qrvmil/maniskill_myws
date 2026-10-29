@@ -1,0 +1,41 @@
+...............................F.F.................s.................... [ 90%]
+........                                                                 [100%]
+=================================== FAILURES ===================================
+_________________ test_final_and_teacher_never_become_obsolete _________________
+
+isolated = PosixPath('/tmp/pytest-of-root/pytest-20/test_final_and_teacher_never_b0/work')
+
+    def test_final_and_teacher_never_become_obsolete(isolated):
+     (isolated/'evidence').mkdir();(isolated/'evidence/d0_complete.json').write_text('{}')
+>    assert queue.obsolete(dict(remote='checkpoints/d0/1000'))
+E    AssertionError: assert False
+E     +  where False = <function obsolete at 0x783972346de0>({'remote': 'checkpoints/d0/1000'})
+E     +    where <function obsolete at 0x783972346de0> = queue.obsolete
+E     +    and   {'remote': 'checkpoints/d0/1000'} = dict(remote='checkpoints/d0/1000')
+
+tests/test_publication_queue.py:24: AssertionError
+________ test_waiting_snapshot_retired_only_after_newer_resumable_save _________
+
+isolated = PosixPath('/tmp/pytest-of-root/pytest-20/test_waiting_snapshot_retired_0/work')
+
+    def test_waiting_snapshot_retired_only_after_newer_resumable_save(isolated):
+     old=isolated/'sft/full/250';old.mkdir(parents=True);(old/'model.safetensors').write_bytes(b'old')
+     first=queue.submit(old,'checkpoints/full/250')
+     newer=isolated/'sft/full/500';newer.mkdir();(newer/'model.safetensors').write_bytes(b'new')
+     (newer.parent/'latest.json').write_text(json.dumps(dict(checkpoint=str(newer),step=500)))
+     queue.retire_superseded()
+     assert old.exists(), 'Weights alone are insufficient to resume optimization'
+     (newer/'training_state.pt').write_bytes(b'optimizer and RNG')
+     queue.retire_superseded()
+>    assert not old.exists() and newer.exists()
+E    AssertionError: assert (not True)
+E     +  where True = exists()
+E     +    where exists = PosixPath('/tmp/pytest-of-root/pytest-20/test_waiting_snapshot_retired_0/work/sft/full/250').exists
+
+tests/test_publication_queue.py:46: AssertionError
+----------------------------- Captured stdout call -----------------------------
+HF_QUEUED checkpoints/full/250
+=========================== short test summary info ============================
+FAILED tests/test_publication_queue.py::test_final_and_teacher_never_become_obsolete
+FAILED tests/test_publication_queue.py::test_waiting_snapshot_retired_only_after_newer_resumable_save
+2 failed, 77 passed, 1 skipped in 5.51s

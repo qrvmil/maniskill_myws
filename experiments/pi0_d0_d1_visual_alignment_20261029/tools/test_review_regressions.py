@@ -46,3 +46,18 @@ def test_offline_replay_is_durable_before_residual_updates(monkeypatch,tmp_path)
  with pytest.raises(StoppedBeforeTraining):pipeline.main()
  i=events.index(('offline_replay.py',()))
  assert ('BARRIER',()) in events[i+1:-1]
+
+def test_completion_marker_waits_for_successful_final_publication(monkeypatch,tmp_path):
+ import storage
+ monkeypatch.setattr(pipeline,'WORK',tmp_path/'run');monkeypatch.setattr(pipeline,'EXPERIMENT',tmp_path/'experiment')
+ events=[]
+ monkeypatch.setattr(pipeline,'barrier',lambda:events.append('barrier'))
+ def fail(*args,**kwargs):raise RuntimeError('remote unavailable')
+ monkeypatch.setattr(storage,'publish',fail)
+ with pytest.raises(RuntimeError,match='remote unavailable'):pipeline.mark_complete()
+ assert not (pipeline.WORK/'complete.json').exists()
+ monkeypatch.setattr(storage,'publish',lambda *a,**k:events.append('published'))
+ monkeypatch.setattr(storage,'push_progress',lambda *a,**k:events.append('pushed'))
+ pipeline.mark_complete()
+ assert events[-3:]==['barrier','published','pushed']
+ assert json.loads((pipeline.WORK/'complete.json').read_text())['objective_complete']

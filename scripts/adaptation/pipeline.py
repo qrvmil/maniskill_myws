@@ -18,6 +18,16 @@ def barrier():
   call('publication_queue.py','drain')
   subprocess.run(['/venv/main/bin/python','-u',str(EXPERIMENT/'tools/save_progress.py'),'exp: verify prior phase logs before next major stage'],cwd=ROOT,check=True)
 
+def mark_complete():
+ from storage import publish,push_progress
+ barrier()
+ record=dict(objective_complete=True,episodes=300,videos=300,executed_notebook=os.environ.get('PI0_VISUAL_ALIGNMENT')!='1',github_branch=os.environ.get('PI0_GITHUB_BRANCH','exp/pi0-d0-d1-three-adaptations-20261020'),hf_repo=HF_REPO)
+ if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1':
+  release=EXPERIMENT/'completion';write(release/'complete.json',record)
+  publish(release,'completion',full_readback=True)
+  push_progress('exp: preserve verified completion record after all artifacts and final audit')
+ write(WORK/'complete.json',record)
+
 def main():
  d0_service=os.environ.get('PI0_D0_SERVICE','pi0_three_d0')
  while not (WORK/'evidence/d0_complete.json').exists():
@@ -68,7 +78,6 @@ def main():
  else:
   call('build_notebook.py')
   call('publish_card.py')
- write(WORK/'complete.json',dict(objective_complete=True,episodes=300,videos=300,executed_notebook=os.environ.get('PI0_VISUAL_ALIGNMENT')!='1',github_branch=os.environ.get('PI0_GITHUB_BRANCH','exp/pi0-d0-d1-three-adaptations-20261020'),hf_repo=HF_REPO))
- barrier()
+ mark_complete()
  print('THREE_ADAPTATIONS_COMPLETE',flush=True)
 if __name__=='__main__':main()

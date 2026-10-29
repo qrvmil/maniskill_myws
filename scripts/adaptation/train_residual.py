@@ -137,6 +137,8 @@ def main():
   s=torch.load(folder/'training_state.pt',weights_only=False,map_location='cpu');counters=s['counters'];rows=s['rows'];calql_done=s['calql_done']
   online.load(folder/'online_replay.npz');torch.set_rng_state(s['cpu_rng']);torch.cuda.set_rng_state(s['cuda_rng']);np.random.set_state(s['numpy_rng'])
  else:agent=create_agent()
+ if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1' and counters['episode']>=WARMUP_EPISODES:
+  teacher_model.to('cpu');torch.cuda.empty_cache()
  deployment=None
  metrics_path=root/'updates.jsonl'
  def update(kind,batch):
