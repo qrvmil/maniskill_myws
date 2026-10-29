@@ -1,0 +1,24 @@
+{
+  "utc": "2026-10-29T12:24:29.780098+00:00",
+  "reviewer": "runtime_review",
+  "source_revision": "783bab5dc0502f4c7eccb4d7231a480a88dcc3d9",
+  "important_discrepancies": 0,
+  "confirmed": [
+    "frozen C-RADIO spatial teacher; 14x14 to16x16 bilinear align_corners=False",
+    "PaliGemma block9 index8; two valid prefix cameras; dummy right wrist masked",
+    "masked cosine; frozen LN+MLP2048/1024/1024; eps1e-5; approximate GELU",
+    "projector200Adam steps lr1e-3 seed101 effectivebatch8",
+    "source K4 pixel replay; discarded20pilot steps; exact median-last10 gradient ratio lambda rule"
+  ],
+  "declared_approved_deviations": [
+    "D0-only calibration/pilot/normalization",
+    "sequential original SFT budgets, optimizer, scopes",
+    "deterministic K4 variant selection",
+    "fullD1 continues alignment; expert/residual inherit aligned D0 with frozen prefix"
+  ],
+  "numeric_evidence": {
+    "prefix_relative_rmse": 0.0011083877179771662,
+    "tolerance": 0.005,
+    "projector_loss_grad_equivalence_tests": 2
+  }
+}

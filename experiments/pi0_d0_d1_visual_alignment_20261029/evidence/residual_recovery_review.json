@@ -1,0 +1,22 @@
+{
+  "utc": "2026-10-29T12:22:58.827185+00:00",
+  "reviewer": "runtime_review",
+  "scope": "residual checkpoint atomic-rename recovery and final completion publication order",
+  "important_or_critical_remaining": 0,
+  "checks": "70 passed, 1 skipped; legacy queue separately 9 passed with VA disabled",
+  "mixed_first_run": "two legacy queue retirement tests failed under deliberately enabled VA no-retirement mode; separated by mode and both passed",
+  "review_findings_fixed": [
+    "highest committed episode-boundary snapshot reconciled before model loading",
+    "checksums/base/offline/norm/teacher lineage/counters verified",
+    "drain before resumed updates",
+    "completed final snapshot returns without new GPU updates",
+    "final local completion marker follows successful external publication",
+    "post-warmup resume releases unused teacher from GPU"
+  ],
+  "code_sha256": {
+    "scripts/adaptation/train_residual.py": "a0372e560953dbc14e96018798de777895dd4cd39fb69ff851c91dfc3d32fa28",
+    "scripts/adaptation/pipeline.py": "47575081f00f855b8c91a944314d135c4601d74dc0e4628389d244937a7c43b8",
+    "experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_residual_resume.py": "2be0121aecdbb3ac60ae04132037faed12836b08c0822d68704b84239de2b45d",
+    "experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_review_regressions.py": "2cdd40e9e14479a70247eb6257bf8865558734ed268a6097eea594a462d26829"
+  }
+}

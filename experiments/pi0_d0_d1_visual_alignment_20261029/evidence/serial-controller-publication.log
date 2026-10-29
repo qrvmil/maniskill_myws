@@ -1,0 +1,12 @@
+[exp/pi0-d0-d1-visual-alignment-20261029 1af3064] exp: verify residual recovery and durable completion before starting serial continuation
+ 17 files changed, 228 insertions(+), 6 deletions(-)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/RESUME.md
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/completion-red.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/legacy-queue-contracts-green.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publication-20261029T121922995798Z.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/recovery-and-residual-contracts-green.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/recovery-combined-first-run.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/serial-controller-publication.log
+To https://github.com/qrvmil/maniskill_myws.git
+   878a859..1af3064  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+EVIDENCE_DURABLE {"utc": "20261029T122133279797Z", "github_commit": "1af30642f26037798c9fd0828112d2331a5e3668", "hf_commit": "622ee62796bf60dcfab7740cf53b5e86504d5c81", "files": 17, "full_readback": true, "unchanged_previously_verified_files": 186}
