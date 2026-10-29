@@ -25,3 +25,10 @@ To https://github.com/qrvmil/maniskill_myws.git
 No files have been modified since last commit. Skipping to prevent empty commit.
 EVIDENCE_DURABLE {"utc": "20261029T114318Z", "github_commit": "148b3cf81bd9bc1be3e4c693cf5adf8cb606219c", "hf_commit": "767a9b1bdcf5aa961d3783b62e0adbdfef1bdb8d", "files": 175, "full_readback": true}
 ALIGNED_D0_STAGE /workspace/visual-alignment-repro-20261029/maniskill_myws/experiments/pi0_d0_d1_visual_alignment_20261029/tools/prepare_alignment.py ('pilot',)
+[exp/pi0-d0-d1-visual-alignment-20261029 9c87a3a] exp: save D0 lambda decision before integrated training profile
+ 4 files changed, 25 insertions(+), 1 deletion(-)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publication-20261029T114318Z.json
+To https://github.com/qrvmil/maniskill_myws.git
+   148b3cf..9c87a3a  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+No files have been modified since last commit. Skipping to prevent empty commit.
+EVIDENCE_DURABLE {"utc": "20261029T114402Z", "github_commit": "9c87a3acff08b3df83bacc9dee753d4f14edc657", "hf_commit": "dd5703ffc5871a17e9958aa4206eb112d26257c1", "files": 176, "full_readback": true}
