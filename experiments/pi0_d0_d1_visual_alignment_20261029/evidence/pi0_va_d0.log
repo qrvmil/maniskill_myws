@@ -17,3 +17,11 @@ To https://github.com/qrvmil/maniskill_myws.git
    8875495..875a7dd  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
 ALL_NATIVE_DEMOS_AND_D0_NORM_PREPARED a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e
 ALIGNED_D0_STAGE /workspace/visual-alignment-repro-20261029/maniskill_myws/experiments/pi0_d0_d1_visual_alignment_20261029/tools/prepare_alignment.py ('calibrate',)
+[exp/pi0-d0-d1-visual-alignment-20261029 148b3cf] exp: save frozen D0 projector before lambda pilot
+ 6 files changed, 34 insertions(+), 2 deletions(-)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publication-20261029T114234Z.json
+To https://github.com/qrvmil/maniskill_myws.git
+   875a7dd..148b3cf  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+No files have been modified since last commit. Skipping to prevent empty commit.
+EVIDENCE_DURABLE {"utc": "20261029T114318Z", "github_commit": "148b3cf81bd9bc1be3e4c693cf5adf8cb606219c", "hf_commit": "767a9b1bdcf5aa961d3783b62e0adbdfef1bdb8d", "files": 175, "full_readback": true}
+ALIGNED_D0_STAGE /workspace/visual-alignment-repro-20261029/maniskill_myws/experiments/pi0_d0_d1_visual_alignment_20261029/tools/prepare_alignment.py ('pilot',)
