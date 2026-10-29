@@ -60,6 +60,44 @@ def zero_check():
  write(root/'complete.json',dict(passed=True,episodes=rows,base_weights_sha256=sha(WORK/'sft/d0/3000/model.safetensors')))
  publish(root,'zero_residual',full_readback=True);push_progress('exp: verify frozen D0 equals D0 plus zero residual on both tasks')
 
+def reconcile_residual_checkpoint(root,base_hash,offline_hash,teacher_info):
+ """Recover the highest complete episode-boundary snapshot before model loading."""
+ import torch
+ from storage import publish
+ from publication_queue import drain
+ candidates=[]
+ for folder in Path(root).iterdir():
+  if not folder.is_dir() or folder.name.endswith('.partial'):continue
+  if folder.name not in ('after_calql','after_teacher_warmup','final') and not folder.name.startswith('active_'):continue
+  meta_path=folder/'training.json'
+  if not meta_path.exists():raise ValueError('Committed residual checkpoint lacks metadata: '+str(folder))
+  meta=json.loads(meta_path.read_text());c=meta['counters']
+  rank=(int(c['active_steps']),int(c['environment_steps']),int(c['episode']),folder.name=='final')
+  candidates.append((rank,folder,meta))
+ if not candidates:return None
+ _,folder,meta=max(candidates,key=lambda item:item[0]);c=meta['counters']
+ required=['residual.pt','training_state.pt','online_replay.npz','assets/d0/norm_stats.json']
+ if c['environment_steps']:required.append('collection_traces.tar.gz')
+ if not all((folder/name).is_file() for name in required):raise ValueError('Highest committed residual snapshot is incomplete')
+ if not (meta['base_weights_sha256']==base_hash and meta['offline_replay_sha256']==offline_hash and meta['normalization_sha256']==sha(NORM) and sha(folder/'assets/d0/norm_stats.json')==sha(NORM)):
+  raise ValueError('Residual base/data/normalization lineage changed')
+ if not (meta['teacher']['step']==teacher_info['step'] and meta['teacher']['validation']['weights_sha256']==teacher_info['validation']['weights_sha256']):raise ValueError('Residual teacher lineage changed')
+ if not (meta['gamma']==.99 and meta['beta']==.1 and meta['residual_scale']==SCALE and meta['frozen_d0_weights_unchanged']):raise ValueError('Residual algorithm binding changed')
+ for filename,key in [('residual.pt','weights_sha256'),('training_state.pt','training_state_sha256'),('online_replay.npz','online_replay_sha256')]:
+  if sha(folder/filename)!=meta[key]:raise ValueError('Residual checkpoint checksum mismatch: '+filename)
+ state=torch.load(folder/'training_state.pt',map_location='cpu',weights_only=False)
+ if state['counters']!=c or state['calql_done'] is not True:raise ValueError('Residual optimizer/state counters disagree with committed metadata')
+ if not (0<=c['active_steps']<=50000 and c['environment_steps']>=c['active_steps'] and c['episode']>=0):raise ValueError('Invalid residual budget counters')
+ if folder.name=='final' and c['active_steps']!=50000:raise ValueError('Final residual budget incomplete')
+ if folder.name=='after_calql' and any(c.values()):raise ValueError('CalQL checkpoint has online transitions')
+ if folder.name=='after_teacher_warmup' and (c['episode']!=20 or c['active_steps']):raise ValueError('Warmup checkpoint counters changed')
+ if folder.name.startswith('active_') and int(folder.name.split('_')[-1])!=c['active_steps']:raise ValueError('Residual checkpoint label/counters mismatch')
+ result=dict(checkpoint=str(folder),counters=c);write(Path(root)/'latest.json',result)
+ if not (folder/'upload_receipt.json').exists():publish(folder,'checkpoints/residual/'+folder.name,full_readback=folder.name=='final',defer=True)
+ drain()
+ if not (folder/'upload_receipt.json').exists():raise ValueError('Recovered residual checkpoint is not remotely verified')
+ return result
+
 def main():
  import torch
  from evaluate import FlowModel,PairedVideoEnv
@@ -76,14 +114,21 @@ def main():
  teacher_info=json.loads((WORK/'teacher.json').read_text());assert teacher_info['validation']['successes']>0
  assert teacher_info['canonical_validation']['successes']>0
  base_path=WORK/'sft/d0/3000';base_hash=sha(base_path/'model.safetensors');assert base_hash==offline_info['base_weights_sha256']
+ recovered=None
+ if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1':
+  recovered=reconcile_residual_checkpoint(root,base_hash,offline_info['replay_sha256'],teacher_info)
+  if recovered and Path(recovered['checkpoint']).name=='final':
+   final=Path(recovered['checkpoint']);c=recovered['counters']
+   write(WORK/'evidence/residual_complete.json',dict(checkpoint=str(final),active_steps=c['active_steps'],environment_steps=c['environment_steps'],episodes=c['episode'],weights_sha256=sha(final/'residual.pt'),resumed_completed=True))
+   return
  model=load_model(base_path).to('cuda');frozen=model_signature(model)
  assert not any(p.requires_grad for p in model.parameters())
  flow=FlowModel(model,'D1');base=ChunkedBasePolicy(flow,replan_steps=5)
  teacher_model=load_model(teacher_info['checkpoint']).to('cuda');teacher_flow=FlowModel(teacher_model,'D1');teacher=ChunkedBasePolicy(teacher_flow,replan_steps=5)
  online=ReplayBuffer(70000,8,7,image_shape=SHAPE)
  counters=dict(episode=0,active_steps=0,environment_steps=0);rows=[];calql_done=False
- last=None
- if (root/'latest.json').exists():last=json.loads((root/'latest.json').read_text())
+ last=recovered
+ if last is None and (root/'latest.json').exists():last=json.loads((root/'latest.json').read_text())
  if last:
   folder=Path(last['checkpoint'])
   if not (folder/'upload_receipt.json').exists():publish(folder,'checkpoints/residual/'+folder.name,full_readback=folder.name=='final',defer=True)
@@ -102,7 +147,9 @@ def main():
   if agent.total_updates%100==0:print('RL_UPDATE',json.dumps(row),flush=True)
  def save(label):
   folder=root/label
-  if folder.exists():return folder
+  if folder.exists():
+   if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1':raise RuntimeError('Residual checkpoint already committed; restart to reconcile authoritative state')
+   return folder
   tmp=root/(label+'.partial');tmp.mkdir(exist_ok=True)
   agent.save(tmp/'residual.pt');online.save(tmp/'online_replay.npz',base_weights_sha256=base_hash,gamma=.99,beta=.1)
   torch.save(dict(counters=counters,rows=rows,calql_done=calql_done,cpu_rng=torch.get_rng_state(),cuda_rng=torch.cuda.get_rng_state(),numpy_rng=np.random.get_state(),policy_rng=None if deployment is None else dict(cpu=deployment.cpu_rng,gpu=deployment.gpu_rng)),tmp/'training_state.pt')
@@ -112,6 +159,10 @@ def main():
     v4_changes=['early full-SFT teacher warmup, actor/critic/temperature updates','potential-based shaping with absorbing terminal Phi=0'],
     online_collection='OTF',final_policy='deterministic_actor',probe_fraction=0,selection='fixed 50000 active transitions',
     frozen_d0_weights_unchanged=model_signature(model)==frozen))
+  if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1':
+   metadata=json.loads((tmp/'training.json').read_text())
+   metadata.update(weights_sha256=sha(tmp/'residual.pt'),training_state_sha256=sha(tmp/'training_state.pt'),online_replay_sha256=sha(tmp/'online_replay.npz'))
+   write(tmp/'training.json',metadata)
   assert json.loads((tmp/'training.json').read_text())['frozen_d0_weights_unchanged']
   for name in ('critic_after_calql.json','critic_after_warmup.json'):
    if (root/name).exists():shutil.copy2(root/name,tmp/name)

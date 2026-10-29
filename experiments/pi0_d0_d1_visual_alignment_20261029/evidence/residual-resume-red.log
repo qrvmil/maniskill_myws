@@ -1,0 +1,102 @@
+FFFFFFF                                                                  [100%]
+=================================== FAILURES ===================================
+_ test_unindexed_residual_checkpoint_repairs_pointer_and_is_durable[after_calql-0-0-0] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x765d24fe3250>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-16/test_unindexed_residual_checkp0')
+label = 'after_calql', active = 0, environment = 0, episode = 0
+
+    @pytest.mark.parametrize('label,active,environment,episode',[('after_calql',0,0,0),('after_teacher_warmup',0,4127,20),('active_5060',5060,9187,43),('final',50000,54127,248)])
+    def test_unindexed_residual_checkpoint_repairs_pointer_and_is_durable(monkeypatch,tmp_path,label,active,environment,episode):
+     root,teacher,events=setup(monkeypatch,tmp_path);target=checkpoint(root,label,active,environment,episode,teacher)
+>    result=train_residual.reconcile_residual_checkpoint(root,'base','offline',teacher)
+E    AttributeError: module 'train_residual' has no attribute 'reconcile_residual_checkpoint'
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_residual_resume.py:33: AttributeError
+_ test_unindexed_residual_checkpoint_repairs_pointer_and_is_durable[after_teacher_warmup-0-4127-20] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x765d256f28d0>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-16/test_unindexed_residual_checkp1')
+label = 'after_teacher_warmup', active = 0, environment = 4127, episode = 20
+
+    @pytest.mark.parametrize('label,active,environment,episode',[('after_calql',0,0,0),('after_teacher_warmup',0,4127,20),('active_5060',5060,9187,43),('final',50000,54127,248)])
+    def test_unindexed_residual_checkpoint_repairs_pointer_and_is_durable(monkeypatch,tmp_path,label,active,environment,episode):
+     root,teacher,events=setup(monkeypatch,tmp_path);target=checkpoint(root,label,active,environment,episode,teacher)
+>    result=train_residual.reconcile_residual_checkpoint(root,'base','offline',teacher)
+E    AttributeError: module 'train_residual' has no attribute 'reconcile_residual_checkpoint'
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_residual_resume.py:33: AttributeError
+_ test_unindexed_residual_checkpoint_repairs_pointer_and_is_durable[active_5060-5060-9187-43] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x765d25c8de90>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-16/test_unindexed_residual_checkp2')
+label = 'active_5060', active = 5060, environment = 9187, episode = 43
+
+    @pytest.mark.parametrize('label,active,environment,episode',[('after_calql',0,0,0),('after_teacher_warmup',0,4127,20),('active_5060',5060,9187,43),('final',50000,54127,248)])
+    def test_unindexed_residual_checkpoint_repairs_pointer_and_is_durable(monkeypatch,tmp_path,label,active,environment,episode):
+     root,teacher,events=setup(monkeypatch,tmp_path);target=checkpoint(root,label,active,environment,episode,teacher)
+>    result=train_residual.reconcile_residual_checkpoint(root,'base','offline',teacher)
+E    AttributeError: module 'train_residual' has no attribute 'reconcile_residual_checkpoint'
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_residual_resume.py:33: AttributeError
+_ test_unindexed_residual_checkpoint_repairs_pointer_and_is_durable[final-50000-54127-248] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x765d25547810>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-16/test_unindexed_residual_checkp3')
+label = 'final', active = 50000, environment = 54127, episode = 248
+
+    @pytest.mark.parametrize('label,active,environment,episode',[('after_calql',0,0,0),('after_teacher_warmup',0,4127,20),('active_5060',5060,9187,43),('final',50000,54127,248)])
+    def test_unindexed_residual_checkpoint_repairs_pointer_and_is_durable(monkeypatch,tmp_path,label,active,environment,episode):
+     root,teacher,events=setup(monkeypatch,tmp_path);target=checkpoint(root,label,active,environment,episode,teacher)
+>    result=train_residual.reconcile_residual_checkpoint(root,'base','offline',teacher)
+E    AttributeError: module 'train_residual' has no attribute 'reconcile_residual_checkpoint'
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_residual_resume.py:33: AttributeError
+_____________ test_final_wins_counter_tie_and_partials_are_ignored _____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x765d24eae450>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-16/test_final_wins_counter_tie_an0')
+
+    def test_final_wins_counter_tie_and_partials_are_ignored(monkeypatch,tmp_path):
+     root,teacher,events=setup(monkeypatch,tmp_path)
+     checkpoint(root,'active_50000',50000,54127,248,teacher);final=checkpoint(root,'final',50000,54127,248,teacher)
+     (root/'future.partial').mkdir();(root/'future.partial/training.json').write_text('{}')
+>    result=train_residual.reconcile_residual_checkpoint(root,'base','offline',teacher)
+E    AttributeError: module 'train_residual' has no attribute 'reconcile_residual_checkpoint'
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_residual_resume.py:42: AttributeError
+____________ test_highest_incomplete_commit_is_not_silently_ignored ____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x765e39f63d90>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-16/test_highest_incomplete_commit0')
+
+    def test_highest_incomplete_commit_is_not_silently_ignored(monkeypatch,tmp_path):
+     root,teacher,events=setup(monkeypatch,tmp_path)
+     checkpoint(root,'after_calql',0,0,0,teacher);bad=checkpoint(root,'active_5060',5060,9187,43,teacher);(bad/'training_state.pt').unlink()
+>    with pytest.raises((ValueError,AssertionError)):train_residual.reconcile_residual_checkpoint(root,'base','offline',teacher)
+E    AttributeError: module 'train_residual' has no attribute 'reconcile_residual_checkpoint'
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_residual_resume.py:48: AttributeError
+_____________ test_corrupt_or_mismatched_state_counters_close_gate _____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x765d24e73f90>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-16/test_corrupt_or_mismatched_sta0')
+
+    def test_corrupt_or_mismatched_state_counters_close_gate(monkeypatch,tmp_path):
+     root,teacher,events=setup(monkeypatch,tmp_path);p=checkpoint(root,'active_5060',5060,9187,43,teacher)
+     state=dict(counters=dict(active_steps=5061,environment_steps=9188,episode=43),calql_done=True);torch.save(state,p/'training_state.pt')
+     # Even when file digest is valid, semantic counters must match the metadata.
+     data=json.loads((p/'training.json').read_text());data['training_state_sha256']=hashlib.sha256((p/'training_state.pt').read_bytes()).hexdigest();(p/'training.json').write_text(json.dumps(data))
+>    with pytest.raises((ValueError,AssertionError)):train_residual.reconcile_residual_checkpoint(root,'base','offline',teacher)
+E    AttributeError: module 'train_residual' has no attribute 'reconcile_residual_checkpoint'
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_residual_resume.py:55: AttributeError
+=========================== short test summary info ============================
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_residual_resume.py::test_unindexed_residual_checkpoint_repairs_pointer_and_is_durable[after_calql-0-0-0]
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_residual_resume.py::test_unindexed_residual_checkpoint_repairs_pointer_and_is_durable[after_teacher_warmup-0-4127-20]
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_residual_resume.py::test_unindexed_residual_checkpoint_repairs_pointer_and_is_durable[active_5060-5060-9187-43]
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_residual_resume.py::test_unindexed_residual_checkpoint_repairs_pointer_and_is_durable[final-50000-54127-248]
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_residual_resume.py::test_final_wins_counter_tie_and_partials_are_ignored
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_residual_resume.py::test_highest_incomplete_commit_is_not_silently_ignored
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_residual_resume.py::test_corrupt_or_mismatched_state_counters_close_gate
+7 failed in 1.58s
