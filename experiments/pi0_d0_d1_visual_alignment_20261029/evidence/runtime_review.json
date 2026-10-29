@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "utc": "2026-10-29T11:41:57.159782+00:00",
+  "reviewer": "runtime_review",
+  "scope": "read-only independent runtime review plus23passing review/original contract checks; no remaining Important/Critical blocker in reviewed paths",
+  "runtime_files_sha256": {
+    "scripts/adaptation/common.py": "577c0a39396d063b0641dcd1a523b6dd337a6a883a7bb26044647477703b243a",
+    "scripts/adaptation/train_sft.py": "51bd750ce3e0ef2c4c272a852ddcc714236fae8861adee6bdebe07bbf56b6b95",
+    "scripts/adaptation/publication_queue.py": "2bd34d990e22b0705d3d7288adc739505ebf4ea47f98ccd5f731f4a3741e0422",
+    "scripts/adaptation/storage.py": "fe1de0f6c184b1877f48448ce1dae3a3e745cd78345c0b763e235259ff3bfd91",
+    "scripts/adaptation/pipeline.py": "b33e603a1801a0a7828fca8d667e74af3dfbef18d3b947bdfba03acac15988af",
+    "scripts/adaptation/train_residual.py": "f61573dc0994e7a603d41ffded6ee21e8c8a0fe9d5a9d9d7353c1a94e978e99d",
+    "experiments/pi0_d0_d1_visual_alignment_20261029/tools/alignment_port.py": "7eb90aa0eccc57b92edbe24ef2710dd1c4d01687e6310233be3551d62d2f676c",
+    "experiments/pi0_d0_d1_visual_alignment_20261029/tools/alignment_runtime.py": "2c2b066861b3116713f8a798b15877385b3e5ba4c453936f3a3c5e4ec417c7f9",
+    "experiments/pi0_d0_d1_visual_alignment_20261029/tools/prepare_alignment.py": "c91ef39524b185a721799ebbcd033ceef19766979f36f49e56f891a0bd25da03",
+    "experiments/pi0_d0_d1_visual_alignment_20261029/tools/run_stage.py": "7b985ff040a0283e73ef62e89c7e81b23a2dcedbcf9173a3b784a8e64a69dd0a"
+  },
+  "resolved_findings": [
+    "local_os_binding",
+    "registered_teacher_candidates_only",
+    "preserve_unpublished_snapshots",
+    "offline_publication_barrier",
+    "teacher_candidate_resume_and_rng",
+    "committed_checkpoint_reconciliation",
+    "resumed_first_update_durability"
+  ],
+  "long_training_already_executed_updates": 0
+}
