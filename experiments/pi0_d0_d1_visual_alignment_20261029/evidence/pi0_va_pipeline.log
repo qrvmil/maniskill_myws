@@ -1632,3 +1632,25 @@ SFT full {"step": 1488, "loss": 0.06820706529542804, "lr": 3.0057438534737646e-0
 SFT full {"step": 1489, "loss": 0.10988529566675424, "lr": 3.004894222351215e-06, "grad_norm": 0.618294894695282, "seconds": 5.565309524536133, "cuda_peak_allocated": 57563331072, "L_flow": 0.09876471944153309, "L_align": 0.055602881126105785, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}
 SFT full {"step": 1490, "loss": 0.06684047309681773, "lr": 3.0041125459733013e-06, "grad_norm": 0.2857475280761719, "seconds": 5.256441831588745, "cuda_peak_allocated": 57563331072, "L_flow": 0.05581941781565547, "L_align": 0.05510527640581131, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}
 SFT full {"step": 1491, "loss": 0.10787601247429848, "lr": 3.003398828276162e-06, "grad_norm": 0.4866411089897156, "seconds": 5.674062252044678, "cuda_peak_allocated": 57563331072, "L_flow": 0.09679610468447208, "L_align": 0.055399538949131966, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}
+SFT full {"step": 1492, "loss": 0.10315456315875055, "lr": 3.00275307285373e-06, "grad_norm": 0.6416381597518921, "seconds": 5.280718803405762, "cuda_peak_allocated": 57563331072, "L_flow": 0.09151223674416542, "L_align": 0.05821163207292557, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}
+SFT full {"step": 1493, "loss": 0.11344520673155785, "lr": 3.0021752829577145e-06, "grad_norm": 0.7653462290763855, "seconds": 5.826621770858765, "cuda_peak_allocated": 57563331072, "L_flow": 0.10293134115636349, "L_align": 0.052569327875971794, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}
+SFT full {"step": 1494, "loss": 0.09549531582742929, "lr": 3.0016654614975823e-06, "grad_norm": 0.4606386423110962, "seconds": 5.2860283851623535, "cuda_peak_allocated": 57563331072, "L_flow": 0.08367669209837914, "L_align": 0.0590931186452508, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}
+SFT full {"step": 1495, "loss": 0.11234797872602939, "lr": 3.0012236110405436e-06, "grad_norm": 0.5953912138938904, "seconds": 5.734638214111328, "cuda_peak_allocated": 57563331072, "L_flow": 0.10151241160929203, "L_align": 0.05417783558368683, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}
+SFT full {"step": 1496, "loss": 0.12347503900527954, "lr": 3.0008497338115423e-06, "grad_norm": 0.6812252402305603, "seconds": 5.329610586166382, "cuda_peak_allocated": 57563331072, "L_flow": 0.11249640583992004, "L_align": 0.054893165826797485, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}
+SFT full {"step": 1497, "loss": 0.09277546033263206, "lr": 3.0005438316932403e-06, "grad_norm": 0.48033571243286133, "seconds": 5.777525901794434, "cuda_peak_allocated": 57563331072, "L_flow": 0.08126751147210598, "L_align": 0.057539744302630424, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}
+SFT full {"step": 1498, "loss": 0.09433986488729716, "lr": 3.0003059062260108e-06, "grad_norm": 0.998299241065979, "seconds": 5.332906484603882, "cuda_peak_allocated": 57563331072, "L_flow": 0.08257512748241425, "L_align": 0.05882368702441454, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}
+SFT full {"step": 1499, "loss": 0.08473959658294916, "lr": 3.0001359586079296e-06, "grad_norm": 0.4497717618942261, "seconds": 5.9019622802734375, "cuda_peak_allocated": 57563331072, "L_flow": 0.07331101223826408, "L_align": 0.05714292172342539, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}
+SFT full {"step": 1500, "loss": 0.07557842433452606, "lr": 3.000033989694771e-06, "grad_norm": 0.7623443603515625, "seconds": 5.297847747802734, "cuda_peak_allocated": 57563331072, "L_flow": 0.06440040562301874, "L_align": 0.0558900935575366, "lambda_align": 0.2, "alignment_mode": "active_spatial_regularizer"}
+HF_QUEUED checkpoints/full/1500
+[exp/pi0-d0-d1-visual-alignment-20261029 eaf042c] exp: save full SFT after 1500 updates queued for verified HF publication
+ 1 file changed, 46 insertions(+)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/sft_full_1500.json
+To https://github.com/qrvmil/maniskill_myws.git
+   aef910e..eaf042c  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+PIPELINE_STAGE publication_queue.py ('drain',)
+AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/full/1500']
+AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/full/1500']
+AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/full/1500']
+AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/full/1500']
+AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/full/1500']
+AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/full/1500']
