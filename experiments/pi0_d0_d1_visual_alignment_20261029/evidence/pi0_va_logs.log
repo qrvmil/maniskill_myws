@@ -795,3 +795,8 @@ Traceback (most recent call last):
     raise CalledProcessError(retcode, process.args,
 subprocess.CalledProcessError: Command '['git', 'push', 'origin', 'HEAD']' returned non-zero exit status 128.
 LOG_PUBLICATION_FAILED 1
+[exp/pi0-d0-d1-visual-alignment-20261029 3d11a4e] exp: preserve current experiment logs and metrics
+ 5 files changed, 792 insertions(+), 1 deletion(-)
+To https://github.com/qrvmil/maniskill_myws.git
+   2b83d65..3d11a4e  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+EVIDENCE_DURABLE {"utc": "20261029T224548512667Z", "github_commit": "3d11a4ecff8fd261743b67083ae319dd908fabe4", "hf_commit": "72fc1d9ffa1cc297d7af4011f702d585b1e85850", "files": 6, "full_readback": true, "unchanged_previously_verified_files": 372}
