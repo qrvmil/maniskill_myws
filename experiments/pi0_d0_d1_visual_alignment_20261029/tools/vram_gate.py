@@ -25,7 +25,18 @@ def validate(evidence):
  after=p.joinpath('nvidia-smi-after.txt').read_text()
  ecc=[int(i) for i in re.findall(r'(?:SRAM Correctable|SRAM Uncorrectable Parity|SRAM Uncorrectable SEC-DED|DRAM Correctable|DRAM Uncorrectable)\s*:\s*(\d+)',after)]
  if len(ecc)<10 or any(ecc):raise ValueError('ECC counters are missing or nonzero')
+ stress=p.joinpath('vram-stress64.log').read_text()
+ if p.joinpath('vram-stress64.exitcode').read_text().strip()!='0' or 'ERROR' in stress or 'Test10 finished in' not in stress or 'main thread: Program exits' not in stress:raise ValueError('Corrected64bit full-volume stress incomplete or failed')
+ stressed=int(re.search(r'Allocated (\d+) MB',stress)[1])*MiB
+ if stressed<allocated-4*MiB:raise ValueError('Corrected stress did not cover the detected volume')
+ tool=json.loads(p.joinpath('stress64-tool.json').read_text())
+ if tool['memsize_bits']!=64 or tool['iterations']!=1000:raise ValueError('Full stress tool has unverified argument width or iteration budget')
+ final=p.joinpath('nvidia-smi-after-stress64.txt').read_text()
+ final_ecc=[int(i) for i in re.findall(r'(?:SRAM Correctable|SRAM Uncorrectable Parity|SRAM Uncorrectable SEC-DED|DRAM Correctable|DRAM Uncorrectable)\s*:\s*(\d+)',final)]
+ if len(final_ecc)<10 or any(final_ecc):raise ValueError('ECC error after corrected64bit stress')
  return dict(passed=True,nvml_total_MiB=nvml,driver_reserved_MiB=reserved,cuda_total_bytes=cuda_total,
+  stress64=dict(tested_bytes=stressed,iterations=1000,memsize_bits=64,ecc_counters=final_ecc,tool=tool),
+  upstream_test10_limitation='int32 memsize truncated large allocations; superseded by the corrected64bit full-volume supplemental stress',
   tested_bytes=allocated,tested_MiB=allocated//MiB,cuda_context_and_unallocated_MiB=(cuda_total-allocated)/MiB,
   completed_tests=sorted(done),ecc_counters=ecc,bit_fade_test9='upstream default disabled; not performed',
   limitations='Tests all allocatable detected VRAM; driver/context-reserved cells cannot be allocated. Does not prove indefinite stability or the physical origin of unlocked capacity.')

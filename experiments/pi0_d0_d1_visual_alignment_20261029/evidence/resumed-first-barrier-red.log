@@ -1,0 +1,38 @@
+...F                                                                     [100%]
+=================================== FAILURES ===================================
+________ test_resumed_first_update_must_be_remote_before_model_loading _________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7501dc3379d0>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-14/test_resumed_first_update_must0')
+
+    def test_resumed_first_update_must_be_remote_before_model_loading(monkeypatch,tmp_path):
+     import publication_queue
+     monkeypatch.setenv('PI0_VISUAL_ALIGNMENT','1');monkeypatch.setattr(train_sft,'WORK',tmp_path)
+     (tmp_path/'evidence').mkdir();(tmp_path/'evidence/runtime_review.json').write_text('{"passed":true}')
+     assets=tmp_path/'assets';base=assets/'pi0_base_torch';base.mkdir(parents=True);(base/'model.safetensors').write_bytes(b'initialweights');monkeypatch.setattr(train_sft,'ASSETS',assets)
+     root=tmp_path/'sft/d0';root.mkdir(parents=True);checkpoint(root,1,hashlib.sha256(b'initialweights').hexdigest())
+     monkeypatch.setattr(train_sft,'NativeDataset',lambda *a,**k:object())
+     monkeypatch.setattr(storage,'publish',lambda *a,**k:{'queued':True})
+     class ReachedBarrier(Exception):pass
+     class LoadedTooSoon(Exception):pass
+     def drain():raise ReachedBarrier
+     def model(*a,**k):raise LoadedTooSoon
+     monkeypatch.setattr(publication_queue,'drain',drain);monkeypatch.setattr(train_sft,'load_model',model)
+>    with pytest.raises(ReachedBarrier):train_sft.train('d0')
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_checkpoint_resume.py:51: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/adaptation/train_sft.py:139: in train
+    model=load_model(checkpoint,training=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = (PosixPath('/tmp/pytest-of-root/pytest-14/test_resumed_first_update_must0/sft/d0/1'),)
+k = {'training': True}
+
+>   def model(*a,**k):raise LoadedTooSoon
+E   test_checkpoint_resume.test_resumed_first_update_must_be_remote_before_model_loading.<locals>.LoadedTooSoon
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_checkpoint_resume.py:49: LoadedTooSoon
+=========================== short test summary info ============================
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_checkpoint_resume.py::test_resumed_first_update_must_be_remote_before_model_loading
+1 failed, 3 passed in 1.84s

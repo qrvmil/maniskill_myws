@@ -52,11 +52,28 @@ def complete_teacher_candidate(model,target,step):
   write(selected,dict(checkpoint=str(teacher),source_checkpoint=str(target),step=step,validation=result))
   publish(teacher,'checkpoints/teacher',full_readback=True,defer=True)
 
+def reconcile_checkpoint(root,stage,initial,initial_hash):
+ """Recover the highest atomically renamed save before loading model/optimizer/RNG."""
+ from storage import publish
+ complete=sorted((p for p in Path(root).iterdir() if p.is_dir() and p.name.isdecimal()),key=lambda p:int(p.name),reverse=True)
+ if not complete:return Path(initial),0
+ target=complete[0];step=int(target.name)
+ required=['training.json','training_state.pt','model.safetensors','assets/d0/norm_stats.json','visual_alignment.json']
+ if not all((target/name).is_file() for name in required):raise ValueError('Committed checkpoint is incomplete: '+str(target))
+ data=json.loads((target/'training.json').read_text())
+ if not (data['stage']==stage and data['completed_updates']==step and 1<=step<=SFT[stage]['updates'] and data['initial_weights_sha256']==initial_hash):raise ValueError('Checkpoint lineage/budget binding mismatch')
+ if sha(target/'model.safetensors')!=data['weights_sha256'] or sha(target/'assets/d0/norm_stats.json')!=data['normalization_sha256']:raise ValueError('Committed checkpoint checksum mismatch')
+ write(Path(root)/'latest.json',dict(checkpoint=str(target),step=step))
+ if not (target/'upload_receipt.json').exists():publish(target,f'checkpoints/{stage}/{step}',full_readback=step in (1,SFT[stage]['updates']),defer=True)
+ return target,step
+
 def save(model,opt,stage,step,scope_rows,indices,initial_hash,alignment_objective=None):
  import torch,safetensors.torch
  from storage import publish,push_progress
  root=WORK/'sft'/stage;target=root/str(step);tmp=root/(str(step)+'.partial')
- if target.exists():return target
+ if target.exists():
+  if alignment_objective is not None:raise RuntimeError('Committed checkpoint already exists; restart to reconcile its authoritative optimizer/RNG state')
+  return target
  tmp.mkdir(parents=True,exist_ok=True)
  for name in ('scope.json','gradient_scope.json'):
   if (root/name).exists():shutil.copy2(root/name,tmp/name)
@@ -110,10 +127,16 @@ def train(stage,*,profile=False):
  initial=ASSETS/'pi0_base_torch' if stage=='d0' else WORK/'sft/d0/3000'
  initial_hash=sha(initial/'model.safetensors')
  checkpoint=initial;step=0
- if not profile and (root/'latest.json').exists():
+ if not profile and os.environ.get('PI0_VISUAL_ALIGNMENT')=='1':
+  checkpoint,step=reconcile_checkpoint(root,stage,initial,initial_hash)
+ elif not profile and (root/'latest.json').exists():
   latest=json.loads((root/'latest.json').read_text());checkpoint=Path(latest['checkpoint']);step=latest['step']
  if step and not (checkpoint/'upload_receipt.json').exists():
   publish(checkpoint,f'checkpoints/{stage}/{step}',full_readback=step==SFT[stage]['updates'],defer=True)
+ if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1' and step==1:
+  from publication_queue import drain
+  drain()
+  assert (checkpoint/'upload_receipt.json').exists(),'Resumed first update must be durable before remaining training'
  if step==SFT[stage]['updates']:
   write(WORK/'evidence'/f'{stage}_complete.json',dict(stage=stage,updates=step,resumed_completed=True))
   return

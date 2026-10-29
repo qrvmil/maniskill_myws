@@ -1,0 +1,96 @@
+.......FFFF                                                              [100%]
+=================================== FAILURES ===================================
+______ test_unsafe_or_incomplete_test_keeps_gate_closed[stress64_missing] ______
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-12/test_unsafe_or_incomplete_test6')
+case = 'stress64_missing'
+
+    @pytest.mark.parametrize('case',['incomplete','nonzero_exit','memory_mismatch','allocation_shortfall','pattern_error','ecc_error','stress64_missing','stress64_short','stress64_error','stress64_ecc'])
+    def test_unsafe_or_incomplete_test_keeps_gate_closed(tmp_path,case):
+     p=inputs(tmp_path)
+     if case=='incomplete':p.joinpath('cuda_memtest.exitcode').unlink()
+     if case=='nonzero_exit':p.joinpath('cuda_memtest.exitcode').write_text('1')
+     if case=='memory_mismatch':p.joinpath('cuda_memtest.log').write_text(p.joinpath('cuda_memtest.log').read_text().replace('68070735872','8589934592'))
+     if case=='allocation_shortfall':p.joinpath('cuda_memtest.log').write_text(p.joinpath('cuda_memtest.log').read_text().replace('64606 MB','8192 MB'))
+     if case=='pattern_error':p.joinpath('cuda_memtest.log').write_text(p.joinpath('cuda_memtest.log').read_text()+'ERROR: data mismatch\n')
+     if case=='ecc_error':p.joinpath('nvidia-smi-after.txt').write_text(p.joinpath('nvidia-smi-after.txt').read_text().replace('DRAM Correctable : 0','DRAM Correctable : 1'))
+     if case=='stress64_missing':p.joinpath('vram-stress64.exitcode').unlink()
+     if case=='stress64_short':p.joinpath('vram-stress64.log').write_text(p.joinpath('vram-stress64.log').read_text().replace('64606 MB','8192 MB'))
+     if case=='stress64_error':p.joinpath('vram-stress64.log').write_text(p.joinpath('vram-stress64.log').read_text()+'ERROR: mismatch\n')
+     if case=='stress64_ecc':p.joinpath('nvidia-smi-after-stress64.txt').write_text(p.joinpath('nvidia-smi-after-stress64.txt').read_text().replace('DRAM Correctable : 0','DRAM Correctable : 1'))
+>    with pytest.raises((ValueError,FileNotFoundError)):validate(p)
+E    Failed: DID NOT RAISE (<class 'ValueError'>, <class 'FileNotFoundError'>)
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_vram_gate.py:32: Failed
+_______ test_unsafe_or_incomplete_test_keeps_gate_closed[stress64_short] _______
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-12/test_unsafe_or_incomplete_test7')
+case = 'stress64_short'
+
+    @pytest.mark.parametrize('case',['incomplete','nonzero_exit','memory_mismatch','allocation_shortfall','pattern_error','ecc_error','stress64_missing','stress64_short','stress64_error','stress64_ecc'])
+    def test_unsafe_or_incomplete_test_keeps_gate_closed(tmp_path,case):
+     p=inputs(tmp_path)
+     if case=='incomplete':p.joinpath('cuda_memtest.exitcode').unlink()
+     if case=='nonzero_exit':p.joinpath('cuda_memtest.exitcode').write_text('1')
+     if case=='memory_mismatch':p.joinpath('cuda_memtest.log').write_text(p.joinpath('cuda_memtest.log').read_text().replace('68070735872','8589934592'))
+     if case=='allocation_shortfall':p.joinpath('cuda_memtest.log').write_text(p.joinpath('cuda_memtest.log').read_text().replace('64606 MB','8192 MB'))
+     if case=='pattern_error':p.joinpath('cuda_memtest.log').write_text(p.joinpath('cuda_memtest.log').read_text()+'ERROR: data mismatch\n')
+     if case=='ecc_error':p.joinpath('nvidia-smi-after.txt').write_text(p.joinpath('nvidia-smi-after.txt').read_text().replace('DRAM Correctable : 0','DRAM Correctable : 1'))
+     if case=='stress64_missing':p.joinpath('vram-stress64.exitcode').unlink()
+     if case=='stress64_short':p.joinpath('vram-stress64.log').write_text(p.joinpath('vram-stress64.log').read_text().replace('64606 MB','8192 MB'))
+     if case=='stress64_error':p.joinpath('vram-stress64.log').write_text(p.joinpath('vram-stress64.log').read_text()+'ERROR: mismatch\n')
+     if case=='stress64_ecc':p.joinpath('nvidia-smi-after-stress64.txt').write_text(p.joinpath('nvidia-smi-after-stress64.txt').read_text().replace('DRAM Correctable : 0','DRAM Correctable : 1'))
+>    with pytest.raises((ValueError,FileNotFoundError)):validate(p)
+E    Failed: DID NOT RAISE (<class 'ValueError'>, <class 'FileNotFoundError'>)
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_vram_gate.py:32: Failed
+_______ test_unsafe_or_incomplete_test_keeps_gate_closed[stress64_error] _______
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-12/test_unsafe_or_incomplete_test8')
+case = 'stress64_error'
+
+    @pytest.mark.parametrize('case',['incomplete','nonzero_exit','memory_mismatch','allocation_shortfall','pattern_error','ecc_error','stress64_missing','stress64_short','stress64_error','stress64_ecc'])
+    def test_unsafe_or_incomplete_test_keeps_gate_closed(tmp_path,case):
+     p=inputs(tmp_path)
+     if case=='incomplete':p.joinpath('cuda_memtest.exitcode').unlink()
+     if case=='nonzero_exit':p.joinpath('cuda_memtest.exitcode').write_text('1')
+     if case=='memory_mismatch':p.joinpath('cuda_memtest.log').write_text(p.joinpath('cuda_memtest.log').read_text().replace('68070735872','8589934592'))
+     if case=='allocation_shortfall':p.joinpath('cuda_memtest.log').write_text(p.joinpath('cuda_memtest.log').read_text().replace('64606 MB','8192 MB'))
+     if case=='pattern_error':p.joinpath('cuda_memtest.log').write_text(p.joinpath('cuda_memtest.log').read_text()+'ERROR: data mismatch\n')
+     if case=='ecc_error':p.joinpath('nvidia-smi-after.txt').write_text(p.joinpath('nvidia-smi-after.txt').read_text().replace('DRAM Correctable : 0','DRAM Correctable : 1'))
+     if case=='stress64_missing':p.joinpath('vram-stress64.exitcode').unlink()
+     if case=='stress64_short':p.joinpath('vram-stress64.log').write_text(p.joinpath('vram-stress64.log').read_text().replace('64606 MB','8192 MB'))
+     if case=='stress64_error':p.joinpath('vram-stress64.log').write_text(p.joinpath('vram-stress64.log').read_text()+'ERROR: mismatch\n')
+     if case=='stress64_ecc':p.joinpath('nvidia-smi-after-stress64.txt').write_text(p.joinpath('nvidia-smi-after-stress64.txt').read_text().replace('DRAM Correctable : 0','DRAM Correctable : 1'))
+>    with pytest.raises((ValueError,FileNotFoundError)):validate(p)
+E    Failed: DID NOT RAISE (<class 'ValueError'>, <class 'FileNotFoundError'>)
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_vram_gate.py:32: Failed
+________ test_unsafe_or_incomplete_test_keeps_gate_closed[stress64_ecc] ________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-12/test_unsafe_or_incomplete_test9')
+case = 'stress64_ecc'
+
+    @pytest.mark.parametrize('case',['incomplete','nonzero_exit','memory_mismatch','allocation_shortfall','pattern_error','ecc_error','stress64_missing','stress64_short','stress64_error','stress64_ecc'])
+    def test_unsafe_or_incomplete_test_keeps_gate_closed(tmp_path,case):
+     p=inputs(tmp_path)
+     if case=='incomplete':p.joinpath('cuda_memtest.exitcode').unlink()
+     if case=='nonzero_exit':p.joinpath('cuda_memtest.exitcode').write_text('1')
+     if case=='memory_mismatch':p.joinpath('cuda_memtest.log').write_text(p.joinpath('cuda_memtest.log').read_text().replace('68070735872','8589934592'))
+     if case=='allocation_shortfall':p.joinpath('cuda_memtest.log').write_text(p.joinpath('cuda_memtest.log').read_text().replace('64606 MB','8192 MB'))
+     if case=='pattern_error':p.joinpath('cuda_memtest.log').write_text(p.joinpath('cuda_memtest.log').read_text()+'ERROR: data mismatch\n')
+     if case=='ecc_error':p.joinpath('nvidia-smi-after.txt').write_text(p.joinpath('nvidia-smi-after.txt').read_text().replace('DRAM Correctable : 0','DRAM Correctable : 1'))
+     if case=='stress64_missing':p.joinpath('vram-stress64.exitcode').unlink()
+     if case=='stress64_short':p.joinpath('vram-stress64.log').write_text(p.joinpath('vram-stress64.log').read_text().replace('64606 MB','8192 MB'))
+     if case=='stress64_error':p.joinpath('vram-stress64.log').write_text(p.joinpath('vram-stress64.log').read_text()+'ERROR: mismatch\n')
+     if case=='stress64_ecc':p.joinpath('nvidia-smi-after-stress64.txt').write_text(p.joinpath('nvidia-smi-after-stress64.txt').read_text().replace('DRAM Correctable : 0','DRAM Correctable : 1'))
+>    with pytest.raises((ValueError,FileNotFoundError)):validate(p)
+E    Failed: DID NOT RAISE (<class 'ValueError'>, <class 'FileNotFoundError'>)
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_vram_gate.py:32: Failed
+=========================== short test summary info ============================
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_vram_gate.py::test_unsafe_or_incomplete_test_keeps_gate_closed[stress64_missing]
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_vram_gate.py::test_unsafe_or_incomplete_test_keeps_gate_closed[stress64_short]
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_vram_gate.py::test_unsafe_or_incomplete_test_keeps_gate_closed[stress64_error]
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_vram_gate.py::test_unsafe_or_incomplete_test_keeps_gate_closed[stress64_ecc]
+4 failed, 7 passed in 0.08s

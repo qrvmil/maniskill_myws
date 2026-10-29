@@ -1,0 +1,46 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+_____________ test_latest_pointer_and_enqueue_recover_after_rename _____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ad22494da10>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-10/test_latest_pointer_and_enqueu0')
+
+    def test_latest_pointer_and_enqueue_recover_after_rename(monkeypatch,tmp_path):
+     monkeypatch.setenv('PI0_VISUAL_ALIGNMENT','1');root=tmp_path/'d0';root.mkdir()
+     old=checkpoint(root,1);new=checkpoint(root,1000)
+     (root/'latest.json').write_text(json.dumps(dict(checkpoint=str(old),step=1)))
+     published=[];monkeypatch.setattr(storage,'publish',lambda folder,remote,**kwargs:published.append((folder,remote)) or {})
+>    folder,step=train_sft.reconcile_checkpoint(root,'d0',tmp_path/'base','initial')
+E    AttributeError: module 'train_sft' has no attribute 'reconcile_checkpoint'
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_checkpoint_resume.py:21: AttributeError
+____________ test_incomplete_partial_is_not_a_committed_checkpoint _____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ad22494df10>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-10/test_incomplete_partial_is_not0')
+
+    def test_incomplete_partial_is_not_a_committed_checkpoint(monkeypatch,tmp_path):
+     monkeypatch.setenv('PI0_VISUAL_ALIGNMENT','1');root=tmp_path/'d0';root.mkdir();old=checkpoint(root,1)
+     (root/'1000.partial').mkdir();(root/'1000.partial/model.safetensors').write_bytes(b'unfinished')
+     monkeypatch.setattr(storage,'publish',lambda *a,**k:{})
+>    folder,step=train_sft.reconcile_checkpoint(root,'d0',tmp_path/'base','initial')
+E    AttributeError: module 'train_sft' has no attribute 'reconcile_checkpoint'
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_checkpoint_resume.py:30: AttributeError
+___________ test_changed_weights_in_committed_checkpoint_close_gate ____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7ad224951ad0>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-10/test_changed_weights_in_commit0')
+
+    def test_changed_weights_in_committed_checkpoint_close_gate(monkeypatch,tmp_path):
+     monkeypatch.setenv('PI0_VISUAL_ALIGNMENT','1');root=tmp_path/'d0';root.mkdir();p=checkpoint(root,1)
+     (p/'model.safetensors').write_bytes(b'corrupt')
+>    with pytest.raises((ValueError,AssertionError)):train_sft.reconcile_checkpoint(root,'d0',tmp_path/'base','initial')
+E    AttributeError: module 'train_sft' has no attribute 'reconcile_checkpoint'
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_checkpoint_resume.py:36: AttributeError
+=========================== short test summary info ============================
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_checkpoint_resume.py::test_latest_pointer_and_enqueue_recover_after_rename
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_checkpoint_resume.py::test_incomplete_partial_is_not_a_committed_checkpoint
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_checkpoint_resume.py::test_changed_weights_in_committed_checkpoint_close_gate
+3 failed in 0.06s

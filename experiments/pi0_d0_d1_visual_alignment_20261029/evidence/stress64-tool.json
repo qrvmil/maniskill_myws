@@ -1,0 +1,24 @@
+{
+  "upstream_revision": "e94e1ee54e0689c9f154a8a08202554452552ec6",
+  "memsize_bits": 64,
+  "iterations": 1000,
+  "patch_sha256": "f8aae0e9fd7ed41cf9044c704c1ddbb8ccd52a3dbb97b07124fd5ba027adb530",
+  "binary_sha256": "e77008414a47b665527287d81eb918d427ff5b15096f4ce8d859a969c077ec9b",
+  "source_sha256": "27fb7990c3c52a8d083fc27d95cc204256c88795671ca2e16128500c22a1443e",
+  "kernel_symbols": [
+    "000000000001d193 T test10_kernel_write(char*, unsigned long, unsigned long)",
+    "000000000001d3e5 T test10_kernel_readwrite(char*, unsigned long, unsigned long, unsigned long, unsigned int*, unsigned long*, unsigned long*, unsigned long*, unsigned long*)"
+  ],
+  "actual_command": [
+    "/workspace/visual-alignment-repro-20261029/cuda_memtest/build/cuda_memtest",
+    "--device",
+    "0",
+    "--stress",
+    "--num_iterations",
+    "1000",
+    "--num_passes",
+    "1"
+  ],
+  "actual_pid": 12993,
+  "coverage_reason": "Kernel memsize, avenumber, loop and word indices are size_t; block base offsets therefore use64bit arithmetic across the entire allocated byte range."
+}

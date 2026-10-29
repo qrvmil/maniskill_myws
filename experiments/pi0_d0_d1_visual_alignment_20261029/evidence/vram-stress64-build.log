@@ -1,0 +1,3 @@
+[ 25%] Building CUDA object CMakeFiles/cuda_memtest.dir/tests.cpp.o
+[ 50%] Linking CUDA executable cuda_memtest
+[100%] Built target cuda_memtest
