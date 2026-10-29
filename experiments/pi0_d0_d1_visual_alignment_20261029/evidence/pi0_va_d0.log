@@ -3114,3 +3114,9 @@ AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/d0/3000']
 AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/d0/3000']
 AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/d0/3000']
 AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/d0/3000']
+[exp/pi0-d0-d1-visual-alignment-20261029 6c157e0] exp: verify complete aligned D0 checkpoint before D1 adaptations
+ 7 files changed, 54 insertions(+), 2 deletions(-)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publication-20261029T163636980673Z.json
+To https://github.com/qrvmil/maniskill_myws.git
+   68d8a47..6c157e0  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+EVIDENCE_DURABLE {"utc": "20261029T163857909861Z", "github_commit": "6c157e090dfac52295e57fc1f1d758ad1c4db954", "hf_commit": "97ae4721f51c8cb2784a0cd65d5bcc1a0a4328d4", "files": 8, "full_readback": true, "unchanged_previously_verified_files": 257}
