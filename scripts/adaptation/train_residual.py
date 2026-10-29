@@ -136,6 +136,9 @@ def main():
   from maniskill_myws.pld.libero_diagnostics import diagnose_critic
   write(root/'critic_after_calql.json',diagnose_critic(agent,offline))
   save('after_calql')
+  if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1':
+   from publication_queue import drain
+   drain()
  env=ShapedEnv(PairedVideoEnv('D1','rl',video=False))
  teacher_residual=TeacherResidual(teacher,env)
  deployment=residual_policy(agent,{'otf_rollout_actions':1},'otf',seed=2000000)
@@ -177,6 +180,9 @@ def main():
     from maniskill_myws.pld.libero_diagnostics import diagnose_critic
     write(root/'critic_after_warmup.json',diagnose_critic(agent,offline))
     save('after_teacher_warmup')
+    if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1':
+     from publication_queue import drain
+     drain()
     # Teacher has no role after warmup and can leave GPU memory.
     teacher_model.to('cpu');torch.cuda.empty_cache()
    if counters['active_steps']-last_saved_active>=5000:

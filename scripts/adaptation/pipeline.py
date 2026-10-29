@@ -13,14 +13,23 @@ def service_status(name):
  if len(fields)<2:raise RuntimeError('Cannot read supervisor status for '+name+': '+result.stderr)
  return fields[1]
 
+def barrier():
+ if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1':call('publication_queue.py','drain')
+
 def main():
+ d0_service=os.environ.get('PI0_D0_SERVICE','pi0_three_d0')
  while not (WORK/'evidence/d0_complete.json').exists():
-  status=service_status('pi0_three_d0')
+  status=service_status(d0_service)
   if status in ('EXITED','FATAL','STOPPED'):raise RuntimeError('D0 did not complete; inspect pi0_three_d0 logs')
   time.sleep(10)
- while service_status('pi0_three_d0') in ('RUNNING','STOPPING'):time.sleep(2)
+ while service_status(d0_service) in ('RUNNING','STOPPING'):time.sleep(2)
+ barrier()
+ if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1':
+  subprocess.run([sys.executable,'-u',str(EXPERIMENT/'tools/prepare_alignment.py'),'cache','D1'],cwd=ROOT,check=True)
  call('train_sft.py','full')
+ barrier()
  call('train_sft.py','expert')
+ barrier()
  if not (WORK/'teacher.json').exists():raise RuntimeError('No registered early full-SFT teacher has nonzero validation SR; residual warmup cannot run')
  call('revalidate_teacher.py')
  if not (ASSETS/'serl_resnet10.pt').exists():
@@ -42,11 +51,12 @@ def main():
  write(binding/'final_selection.json',selected)
  write(EXPERIMENT/'final_selection.json',selected)
  publish(binding,'selection',full_readback=True);push_progress('exp: freeze three final checkpoints before opening final evaluation seeds')
+ barrier()
  for method in ('full','expert','residual'):call('evaluate.py',method)
  call('publication_queue.py','drain')
  call('report.py')
  call('build_notebook.py')
  call('publish_card.py')
- write(WORK/'complete.json',dict(objective_complete=True,episodes=300,videos=300,executed_notebook=True,github_branch='exp/pi0-d0-d1-three-adaptations-20261020',hf_repo=HF_REPO))
+ write(WORK/'complete.json',dict(objective_complete=True,episodes=300,videos=300,executed_notebook=True,github_branch=os.environ.get('PI0_GITHUB_BRANCH','exp/pi0-d0-d1-three-adaptations-20261020'),hf_repo=HF_REPO))
  print('THREE_ADAPTATIONS_COMPLETE',flush=True)
 if __name__=='__main__':main()

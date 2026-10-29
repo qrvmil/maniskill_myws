@@ -1,0 +1,11 @@
+{
+  "tasks": [
+    "D0"
+  ],
+  "samples": 5832,
+  "entries": 23328,
+  "bytes": 24461377758,
+  "manifest_sha256": "fbf160e8ed2940955306477756642cddb865613b4ac27539632214b3477ff8bd",
+  "teacher_unchanged": true,
+  "seconds": 470.6319773197174
+}
