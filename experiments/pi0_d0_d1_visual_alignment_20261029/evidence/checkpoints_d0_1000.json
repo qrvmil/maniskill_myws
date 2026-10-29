@@ -1,0 +1,54 @@
+{
+  "repo": "qrvmil/pi0-d0-d1-three-adaptations-visual-alignment-20261029",
+  "commit": "45e21b787e158f9df44fed45ddef7b14f46c6f6a",
+  "verified": [
+    {
+      "path": "checkpoints/d0/1000/assets/d0/norm_stats.json",
+      "verification": "download+sha256",
+      "sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e"
+    },
+    {
+      "path": "checkpoints/d0/1000/gradient_scope.json",
+      "verification": "download+sha256",
+      "sha256": "added7f7db47ac49af59e8a923ae749bd8071edff0b8062801c10b002eb1ba23"
+    },
+    {
+      "path": "checkpoints/d0/1000/model.safetensors",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "2ad5120c630d298c9e89518014db46adc773d892ae76329588f3e3095f684e93"
+    },
+    {
+      "path": "checkpoints/d0/1000/projector.npz",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "8de0854391128426ab5104ae26461655408f59b805a63e3bc86875dacfc43273"
+    },
+    {
+      "path": "checkpoints/d0/1000/sample_indices.npy",
+      "verification": "download+sha256",
+      "sha256": "5f0d5d17eac511f92d5fef0ef448dea7c81472ebe6d08037408b59103bc3589e"
+    },
+    {
+      "path": "checkpoints/d0/1000/scope.json",
+      "verification": "download+sha256",
+      "sha256": "cbd7e2c8fe2915431d0daa5fa1fcc75b23358dcd565c7ced450acca481bc4e13"
+    },
+    {
+      "path": "checkpoints/d0/1000/training.json",
+      "verification": "download+sha256",
+      "sha256": "1b540fe0acb46629189a8f9d5bd385e71af8a11d157d935e5799981950626d1f"
+    },
+    {
+      "path": "checkpoints/d0/1000/training_state.pt",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "a42b2380e29dca5b9e0e674f1542c874f3b6de3f7b9373e3f047b616ab200001"
+    },
+    {
+      "path": "checkpoints/d0/1000/visual_alignment.json",
+      "verification": "download+sha256",
+      "sha256": "ebde8141a98848ec75482f666a159e81d207c95eae5b12667570d6538e102cdd"
+    }
+  ],
+  "time": 1793280899.9230468,
+  "upload_seconds": 322.44709491729736,
+  "verification_seconds": 2.3708016872406006
+}
