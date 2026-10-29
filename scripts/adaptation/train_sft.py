@@ -53,6 +53,11 @@ def save(model,opt,stage,step,scope_rows,indices,initial_hash,alignment_objectiv
 def train(stage,*,profile=False):
  import torch,jax,safetensors.torch
  from storage import publish,push_progress
+ if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1' and not profile:
+  review=WORK/'evidence/runtime_review.json'
+  while not review.exists():
+   print('AWAITING_INDEPENDENT_RUNTIME_REVIEW',stage,flush=True);time.sleep(5)
+  if not json.loads(review.read_text()).get('passed'):raise RuntimeError('Runtime review gate is closed')
  torch.set_num_threads(8);torch.manual_seed(SFT[stage]['seed']);np.random.seed(SFT[stage]['seed'])
  torch.backends.cuda.matmul.allow_tf32=True
  ds=NativeDataset(SFT[stage]['task'])

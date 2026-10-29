@@ -14,7 +14,9 @@ def service_status(name):
  return fields[1]
 
 def barrier():
- if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1':call('publication_queue.py','drain')
+ if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1':
+  call('publication_queue.py','drain')
+  subprocess.run(['/venv/main/bin/python','-u',str(EXPERIMENT/'tools/save_progress.py'),'exp: verify prior phase logs before next major stage'],cwd=ROOT,check=True)
 
 def main():
  d0_service=os.environ.get('PI0_D0_SERVICE','pi0_three_d0')
@@ -37,6 +39,8 @@ def main():
  call('train_residual.py','--zero-check')
  call('offline_replay.py')
  call('train_residual.py')
+ barrier()
+ if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1':call('audit_online.py','final')
  from storage import publish,push_progress
  selected={}
  for method in ('full','expert','residual'):
@@ -55,8 +59,13 @@ def main():
  for method in ('full','expert','residual'):call('evaluate.py',method)
  call('publication_queue.py','drain')
  call('report.py')
- call('build_notebook.py')
- call('publish_card.py')
- write(WORK/'complete.json',dict(objective_complete=True,episodes=300,videos=300,executed_notebook=True,github_branch=os.environ.get('PI0_GITHUB_BRANCH','exp/pi0-d0-d1-three-adaptations-20261020'),hf_repo=HF_REPO))
+ if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1':
+  sys.path.insert(0,str(EXPERIMENT/'tools'))
+  from alignment_report import publish_card
+  publish_card()
+ else:
+  call('build_notebook.py')
+  call('publish_card.py')
+ write(WORK/'complete.json',dict(objective_complete=True,episodes=300,videos=300,executed_notebook=os.environ.get('PI0_VISUAL_ALIGNMENT')!='1',github_branch=os.environ.get('PI0_GITHUB_BRANCH','exp/pi0-d0-d1-three-adaptations-20261020'),hf_repo=HF_REPO))
  print('THREE_ADAPTATIONS_COMPLETE',flush=True)
 if __name__=='__main__':main()

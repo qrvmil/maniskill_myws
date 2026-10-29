@@ -1,0 +1,19 @@
+{
+  "repo": "qrvmil/pi0-d0-d1-three-adaptations-visual-alignment-20261029",
+  "commit": "201798f0e9032771834f0556e71452a2032c2a26",
+  "verified": [
+    {
+      "path": "alignment/projector/calibration.json",
+      "verification": "download+sha256",
+      "sha256": "95626e4090286c4b90e6465c339846d902212ec1d69d61b082f4d6e4210c9342"
+    },
+    {
+      "path": "alignment/projector/projector.npz",
+      "verification": "download+sha256",
+      "sha256": "8de0854391128426ab5104ae26461655408f59b805a63e3bc86875dacfc43273"
+    }
+  ],
+  "time": 1793272478.2775178,
+  "upload_seconds": 2.9533514976501465,
+  "verification_seconds": 1.3162808418273926
+}

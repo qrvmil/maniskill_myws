@@ -68,6 +68,15 @@ def main():
   prefix=f"https://huggingface.co/{HF_REPO}/resolve/main/final/{r['method']}/{r['task']}/{r['seed']}/"
   index.append(f"| {r['method']} | {r['task']} | {r['seed']} | {'success' if r['success'] else 'failure'} | {r['length']} | [MP4]({prefix+r['video']}) | [JSON]({prefix+'episode.json'}) |")
  (dest.parent/'VIDEOS.md').write_text('\n'.join(index)+'\n')
+ if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1':
+  import sys
+  sys.path.insert(0,str(EXPERIMENT/'tools'))
+  from alignment_report import render
+  (dest.parent/'REPORT.md').write_text(render(cells,pairs,selection))
+  publish(dest,'results',full_readback=True)
+  push_progress('exp: publish300verified paired episodes and actual aligned-base adaptation results')
+  print('ALL_300_ALIGNED_ADAPTATION_EPISODES_VERIFIED',flush=True)
+  return
  def fmt(method,task):
   s=cells[method+'_'+task];lo,hi=s['wilson_95ci'];return f"{s['successes']}/50 — {100*s['success_rate']:.0f}% [{100*lo:.1f}; {100*hi:.1f}]"
  table='\n'.join('| '+label+' | '+fmt(m,'D0')+' | '+fmt(m,'D1')+' |' for m,label in [('full','Full SFT'),('expert','Action-expert SFT'),('residual','Residual RL')])
