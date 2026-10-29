@@ -1,0 +1,7 @@
+{
+  "pretrained_checkpoint": "gs://openpi-assets/checkpoints/pi0_base",
+  "conversion": "official pinned converter, Pi0Config(dtype=float32), precision=float32,torch_seed0",
+  "weights_sha256": "8df3cbff6d06f55fc77202b7d66c671c5a9e05403620bd05c8eac95955f09926",
+  "historical_initial_weights_exact": true,
+  "openpi_revision": "981483dca0fd9acba698fea00aa6e52d56a66c58"
+}

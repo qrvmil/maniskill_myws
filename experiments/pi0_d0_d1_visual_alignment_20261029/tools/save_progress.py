@@ -15,7 +15,7 @@ for p in (BASE/'evidence').iterdir():
  shutil.copy2(p,DEST/'evidence'/p.name)
 telemetry=Path('/var/log/portal/pi0_preflight_telemetry.log')
 if telemetry.exists():shutil.copy2(telemetry,DEST/'evidence/gpu-telemetry.csv')
-for p in [Path('/opt/supervisor-scripts/pi0_preflight_telemetry.sh'),Path('/etc/supervisor/conf.d/pi0_preflight_telemetry.conf')]:
+for p in [Path('/opt/supervisor-scripts/pi0_preflight_telemetry.sh'),Path('/etc/supervisor/conf.d/pi0_preflight_telemetry.conf'),Path('/opt/supervisor-scripts/pi0_model_preflight.sh'),Path('/etc/supervisor/conf.d/pi0_model_preflight.conf')]:
  if p.exists():shutil.copy2(p,DEST/'evidence'/p.name)
 allowed={'.json','.jsonl','.log','.txt','.md','.csv','.py','.sh','.conf','.exitcode'}
 files=[p for p in DEST.rglob('*') if p.is_file() and p.suffix in allowed and '__pycache__' not in p.parts]

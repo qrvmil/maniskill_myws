@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/workspace/visual-alignment-repro-20261029/maniskill_myws/experiments/pi0_d0_d1_visual_alignment_20261029/tools/fetch_base.py", line 4, in <module>
+    import base64,hashlib,json,requests,shutil
+ModuleNotFoundError: No module named 'requests'

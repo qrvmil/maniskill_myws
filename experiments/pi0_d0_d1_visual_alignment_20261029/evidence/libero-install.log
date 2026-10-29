@@ -1,0 +1,7 @@
+warning: The `tool.uv.dev-dependencies` field (used in `packages/openpi-client/pyproject.toml`) is deprecated and will be removed in a future release; use `dependency-groups.dev` instead
+Resolved 1 package in 850ms
+   Building libero @ file:///workspace/visual-alignment-repro-20261029/maniskill_myws/third_party/openpi/third_party/libero
+      Built libero @ file:///workspace/visual-alignment-repro-20261029/maniskill_myws/third_party/openpi/third_party/libero
+Prepared 1 package in 211ms
+Installed 1 package in 4ms
+ + libero==0.1.0 (from file:///workspace/visual-alignment-repro-20261029/maniskill_myws/third_party/openpi/third_party/libero)

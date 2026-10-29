@@ -1,0 +1,5 @@
+Converting PI0 checkpoint from /workspace/visual-alignment-repro-20261029/private/official_base to /workspace/visual-alignment-repro-20261029/private/pi0_base_torch.partial
+Model config: Pi0Config(action_dim=32, action_horizon=50, max_token_len=48, dtype='float32', paligemma_variant='gemma_2b', action_expert_variant='gemma_300m', pi05=False, discrete_state_input=False)
+Model conversion completed successfully!
+Model saved to /workspace/visual-alignment-repro-20261029/private/pi0_base_torch.partial
+OFFICIAL_FP32_BASE_MATCHES_ORIGINAL {"pretrained_checkpoint": "gs://openpi-assets/checkpoints/pi0_base", "conversion": "official pinned converter, Pi0Config(dtype=float32), precision=float32,torch_seed0", "weights_sha256": "8df3cbff6d06f55fc77202b7d66c671c5a9e05403620bd05c8eac95955f09926", "historical_initial_weights_exact": true, "openpi_revision": "981483dca0fd9acba698fea00aa6e52d56a66c58"}

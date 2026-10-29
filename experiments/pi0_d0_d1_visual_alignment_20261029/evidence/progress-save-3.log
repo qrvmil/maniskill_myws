@@ -1,0 +1,17 @@
+[exp/pi0-d0-d1-visual-alignment-20261029 415d65e] exp: preserve exact data normalization and fail-closed smoke gates
+ 15 files changed, 481 insertions(+)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/data-preflight-attempt1.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/data-preflight.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/data-preflight.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/progress-save-3.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publication-20261029T101456Z.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/vram-gate-green.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/vram-gate-red.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/tools/framework_probe.py
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/tools/model_smoke.py
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/tools/prepare_smoke_data.py
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_vram_gate.py
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/tools/vram_gate.py
+To https://github.com/qrvmil/maniskill_myws.git
+   f675af0..415d65e  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+EVIDENCE_DURABLE {"utc": "20261029T101916Z", "github_commit": "415d65e384709a4c7ea109b5977ddcbfb3ed8bff", "hf_commit": "eda8c09c8a33dc30b329d0b11aa62e6485afb3f8", "files": 51, "full_readback": true}

@@ -55,7 +55,10 @@ def run():
  result['teacher_peak_allocated_bytes']=torch.cuda.max_memory_allocated();result['teacher_frozen']=all(not p.requires_grad for p in teacher.parameters())
  del teacher,pixels,grid,features;gc.collect();torch.cuda.empty_cache()
  print('LOAD_PI0',flush=True)
- path=BASE/'private/historical/checkpoints/d0/3000/model.safetensors'
+ path=BASE/'private/pi0_base_torch/model.safetensors'
+ provenance=json.loads((BASE/'evidence/base-conversion.json').read_text())
+ assert provenance['historical_initial_weights_exact']
+ result['initial_weights_sha256']=provenance['weights_sha256']
  model=load_pi0_pytorch(Pi0Config(dtype='float32'),path)
  if hasattr(model.sample_actions,'_torchdynamo_orig_callable'):model.sample_actions=model.sample_actions._torchdynamo_orig_callable
  assert all(p.dtype==torch.float32 for p in model.parameters())
