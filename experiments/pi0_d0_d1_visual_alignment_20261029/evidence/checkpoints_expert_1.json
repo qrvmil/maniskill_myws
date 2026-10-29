@@ -1,0 +1,54 @@
+{
+  "repo": "qrvmil/pi0-d0-d1-three-adaptations-visual-alignment-20261029",
+  "commit": "277a25d0520986bb53664227f95fd20015f0ea5a",
+  "verified": [
+    {
+      "path": "checkpoints/expert/1/assets/d0/norm_stats.json",
+      "verification": "download+sha256",
+      "sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e"
+    },
+    {
+      "path": "checkpoints/expert/1/gradient_scope.json",
+      "verification": "download+sha256",
+      "sha256": "0eb6ee012f45580133d97c6989340da3063963e3fcdd4b2c7ee6c58319727513"
+    },
+    {
+      "path": "checkpoints/expert/1/model.safetensors",
+      "verification": "download+sha256",
+      "sha256": "e4be4773a5020567b952c101a2657e01f274d93a1e9226435d984f0218545450"
+    },
+    {
+      "path": "checkpoints/expert/1/projector.npz",
+      "verification": "download+sha256",
+      "sha256": "8de0854391128426ab5104ae26461655408f59b805a63e3bc86875dacfc43273"
+    },
+    {
+      "path": "checkpoints/expert/1/sample_indices.npy",
+      "verification": "download+sha256",
+      "sha256": "1364baf4af32ebf05d2c93b323abbfba67cc88ac696fea13da3de3f753342792"
+    },
+    {
+      "path": "checkpoints/expert/1/scope.json",
+      "verification": "download+sha256",
+      "sha256": "1b69f4aa257354ada51c938205958d6ca6eb3f70517f696a601e85c2b38e05b6"
+    },
+    {
+      "path": "checkpoints/expert/1/training.json",
+      "verification": "download+sha256",
+      "sha256": "d8dce6dd7b96e08bc924b9a649e466b130ad991a72512fa87dd1c56ad2316320"
+    },
+    {
+      "path": "checkpoints/expert/1/training_state.pt",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "517dc73b8e05a8089cc2fa6cc08295bedea107916caa88a18789adaccbbeb779"
+    },
+    {
+      "path": "checkpoints/expert/1/visual_alignment.json",
+      "verification": "download+sha256",
+      "sha256": "0c8fb0980b7414be37fe5f0401485d07fb40f40e2244a3f0dc11e4ce9d6524d9"
+    }
+  ],
+  "time": 1793304502.8128936,
+  "upload_seconds": 138.85091519355774,
+  "verification_seconds": 156.5297770500183
+}
