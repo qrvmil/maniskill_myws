@@ -1,12 +1,12 @@
 # Статус эксперимента
 
-Обновлено UTC: 2026-10-29T20:50:06.546499+00:00
+Обновлено UTC: 2026-10-29T21:07:21.069694+00:00
 
 GitHub/HF write/read probes прошли. Бюджеты и правила выбора: [PREREGISTRATION.md](PREREGISTRATION.md).
 
 - SFT d0: 3000 выполненных updates; 3000 updates; checkpoint /workspace/visual-alignment-repro-20261029/run/sft/d0/3000
 - SFT full: 1500 выполненных updates; 1500 updates; checkpoint /workspace/visual-alignment-repro-20261029/run/sft/full/1500
-- SFT expert: 1062 выполненных updates; 1000 updates; checkpoint /workspace/visual-alignment-repro-20261029/run/sft/expert/1000
+- SFT expert: 1500 выполненных updates; 1500 updates; checkpoint /workspace/visual-alignment-repro-20261029/run/sft/expert/1500
 - Teacher: 250 D1 full-SFT updates, validation passed
 - Residual RL: ещё нет сохранённого checkpoint
 - Финальные episodes: 0/300. Каждому завершённому episode соответствует проверенное двухкамерное видео с terminal frame.

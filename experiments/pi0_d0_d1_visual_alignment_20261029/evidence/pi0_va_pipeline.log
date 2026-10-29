@@ -3240,3 +3240,19 @@ SFT expert {"step": 1497, "loss": 0.08015852887183428, "lr": 3.0005438316932403e
 SFT expert {"step": 1498, "loss": 0.08288784231990576, "lr": 3.0003059062260108e-06, "grad_norm": 1.0475207567214966, "seconds": 2.165982723236084, "cuda_peak_allocated": 19172143616, "L_flow": 0.08288784231990576, "L_align": null, "lambda_align": 0.0, "alignment_mode": "inherited_aligned_D0_only"}
 SFT expert {"step": 1499, "loss": 0.07387538813054562, "lr": 3.0001359586079296e-06, "grad_norm": 0.46308812499046326, "seconds": 2.304710626602173, "cuda_peak_allocated": 19172143616, "L_flow": 0.07387538813054562, "L_align": null, "lambda_align": 0.0, "alignment_mode": "inherited_aligned_D0_only"}
 SFT expert {"step": 1500, "loss": 0.06649468746036291, "lr": 3.000033989694771e-06, "grad_norm": 0.6499199867248535, "seconds": 2.693645477294922, "cuda_peak_allocated": 19172143616, "L_flow": 0.06649468746036291, "L_align": null, "lambda_align": 0.0, "alignment_mode": "inherited_aligned_D0_only"}
+HF_QUEUED checkpoints/expert/1500
+[exp/pi0-d0-d1-visual-alignment-20261029 8aabb2b] exp: save expert SFT after 1500 updates queued for verified HF publication
+ 1 file changed, 46 insertions(+)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/sft_expert_1500.json
+To https://github.com/qrvmil/maniskill_myws.git
+   711152e..8aabb2b  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+PIPELINE_STAGE publication_queue.py ('drain',)
+AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/expert/1500']
+AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/expert/1500']
+AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/expert/1500']
+AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/expert/1500']
+AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/expert/1500']
+AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/expert/1500']
+AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/expert/1500']
+AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/expert/1500']
+AWAITING_VERIFIED_HF_PUBLICATIONS 1 ['checkpoints/expert/1500']
