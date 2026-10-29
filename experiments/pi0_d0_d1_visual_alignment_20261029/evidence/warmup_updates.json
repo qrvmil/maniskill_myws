@@ -1,0 +1,10 @@
+{
+  "actor_changed": true,
+  "temperature_changed": true,
+  "critic_changed": true,
+  "critic_optimizer_steps": 3998,
+  "actor_optimizer_steps": 1999,
+  "teacher_checkpoint": "/workspace/visual-alignment-repro-20261029/run/teacher_policy",
+  "base_checkpoint": "/workspace/visual-alignment-repro-20261029/run/sft/d0/3000",
+  "base_unchanged": true
+}
