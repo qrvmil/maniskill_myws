@@ -56,3 +56,12 @@ EVIDENCE_DURABLE {"utc": "20261029T121416311723Z", "github_commit": "356653b05b0
 To https://github.com/qrvmil/maniskill_myws.git
    356653b..878a859  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
 EVIDENCE_DURABLE {"utc": "20261029T121922995798Z", "github_commit": "878a85940e102f93eb28078fd5972da9a8415068", "hf_commit": "017f44e6dc17bf04b43fb6e0c32912c8e1a88cc0", "files": 8, "full_readback": true, "unchanged_previously_verified_files": 186}
+[exp/pi0-d0-d1-visual-alignment-20261029 de6e8cc] exp: preserve current experiment logs and metrics
+ 10 files changed, 181 insertions(+), 13 deletions(-)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/pi0_va_pipeline.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publication-20261029T122133279797Z.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/residual_recovery_review.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/scientific_parity_review.json
+To https://github.com/qrvmil/maniskill_myws.git
+   1af3064..de6e8cc  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+EVIDENCE_DURABLE {"utc": "20261029T122430166678Z", "github_commit": "de6e8cc13b81b65ff91bc0fcb0a2662f5c4f1652", "hf_commit": "afec8371019dd385edab335cc0f114a28f6f9320", "files": 10, "full_readback": true, "unchanged_previously_verified_files": 195}
