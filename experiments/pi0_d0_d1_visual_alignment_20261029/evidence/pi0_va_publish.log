@@ -184,3 +184,4 @@ Traceback (most recent call last):
     raise ConnectionError(err, request=request)
 requests.exceptions.ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
 HF_PUBLISH_RETRY_OR_ERROR checkpoints/full/1500 queued
+HF_PUBLISH_START checkpoints/full/1500 group_size 1
