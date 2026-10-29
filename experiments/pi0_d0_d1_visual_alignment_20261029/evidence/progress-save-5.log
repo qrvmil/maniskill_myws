@@ -1,0 +1,9 @@
+[exp/pi0-d0-d1-visual-alignment-20261029 546de88] exp: isolate artifact paths without changing adaptation budgets
+ 18 files changed, 102 insertions(+), 27 deletions(-)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/original-contract-tests-after-paths.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/progress-save-5.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publication-20261029T103855Z.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/run-paths-green.log
+To https://github.com/qrvmil/maniskill_myws.git
+   a2fa35c..546de88  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+EVIDENCE_DURABLE {"utc": "20261029T104302Z", "github_commit": "546de880a7e1a5b8a5f3e9630973317c996472f1", "hf_commit": "d7d80007c72dc5768584fbddb4f86d2d8c0168d8", "files": 99, "full_readback": true}

@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/workspace/visual-alignment-repro-20261029/maniskill_myws/scripts/adaptation/check_simulator.py", line 26, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/workspace/visual-alignment-repro-20261029/maniskill_myws/scripts/adaptation/check_simulator.py", line 9, in main
+    env=ShapedEnv(PairedVideoEnv(task,'simulator_smoke'))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/visual-alignment-repro-20261029/maniskill_myws/scripts/adaptation/evaluate.py", line 28, in __init__
+    self._env=LiberoEnv(TASKS[task],render_size=256);self.task=task;self.role=role;self.video=video;self.frames=[]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/visual-alignment-repro-20261029/maniskill_myws/src/maniskill_myws/pld/libero_backend.py", line 112, in __init__
+    from libero.libero import benchmark, get_libero_path
+ModuleNotFoundError: No module named 'libero'

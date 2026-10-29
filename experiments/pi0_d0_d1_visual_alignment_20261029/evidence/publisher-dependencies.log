@@ -1,0 +1,11 @@
+Using Python 3.12.15 environment at: /venv/main
+Resolved 6 packages in 177ms
+Downloading numpy (17.1MiB)
+ Downloaded numpy
+Prepared 5 packages in 227ms
+Installed 5 packages in 206ms
+ + certifi==2026.10.23
+ + charset-normalizer==3.5.2
+ + numpy==1.26.4
+ + requests==2.32.3
+ + urllib3==2.8.0

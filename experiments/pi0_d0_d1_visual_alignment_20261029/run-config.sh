@@ -1,0 +1,14 @@
+export PI0_WORK=/workspace/visual-alignment-repro-20261029/run
+export PI0_HF_REPO=qrvmil/pi0-d0-d1-three-adaptations-visual-alignment-20261029
+export PI0_EXPERIMENT_DIR=pi0_d0_d1_visual_alignment_20261029
+export PI0_VISUAL_ALIGNMENT=1
+export PI0_MICROBATCH=2
+export HF_HOME=/workspace/.cache/huggingface
+export JAX_PLATFORMS=cpu
+export XLA_PYTHON_CLIENT_PREALLOCATE=false
+export OMP_NUM_THREADS=8
+export MUJOCO_GL=egl
+export PYOPENGL_PLATFORM=egl
+export PYTHONPATH=/workspace/visual-alignment-repro-20261029/maniskill_myws/src:/workspace/visual-alignment-repro-20261029/maniskill_myws/third_party/openpi/third_party/libero
+export PI0_D0_SERVICE=pi0_va_d0
+export PI0_PIPELINE_SERVICE=pi0_va_pipeline

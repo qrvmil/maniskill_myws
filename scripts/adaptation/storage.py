@@ -81,6 +81,8 @@ def _push_progress_unlocked(message):
  final_rows=list((WORK/'final').glob('*/*/*/episode.json'))
  lines+=['- Финальные episodes: '+str(len(final_rows))+'/300. Каждому завершённому episode соответствует проверенное двухкамерное видео с terminal frame.', '', 'Final seeds не используются для настройки или выбора checkpoints. Завершённые episodes при resume проверяются и переиспользуются без увеличения N.', '', 'Код: `/workspace/pi0_experiment`; артефакты: `/workspace/pi0_three`; среда: `/workspace/pi0_venv`. Supervisor и логи: `pi0_three_d0`, `pi0_three_pipeline`, `/var/log/portal/<name>.log`.']
  if (dest/'results/completeness.json').exists():lines+=['', '[Результаты и completeness check](results/completeness.json); [краткий отчёт](REPORT.md).']
+ if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1':
+  lines += ['', 'Новый запуск: alignment общей D0-базы; full D1 продолжает alignment; expert и residual сохраняют исходные frozen scopes и наследуют aligned D0. Протокол: PREREGISTRATION.md.', f'Рабочий код: `{ROOT}`; артефакты: `{WORK}`; HF: https://huggingface.co/{HF_REPO}.', 'Аппаратный и модельный preflight прошли; исходные historical results не являются результатами этого запуска.']
  (dest/'STATUS.md').write_text('\n'.join(lines)+'\n')
  for src in (WORK/'evidence').iterdir():
   if src.suffix not in ('.json','.png'):continue

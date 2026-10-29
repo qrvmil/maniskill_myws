@@ -1,0 +1,34 @@
+{
+  "repo": "qrvmil/pi0-d0-d1-three-adaptations-visual-alignment-20261029",
+  "commit": "35110c4857fd4dc75616caa36cbabb7fb86164e4",
+  "verified": [
+    {
+      "path": "preflight/media/D0_diagnostic_first_last.mp4",
+      "verification": "download+sha256",
+      "sha256": "9ecf4b74e504ee8a6fb446f1c630f30b0d365c5fc9eb1a9788a4967657fedc58"
+    },
+    {
+      "path": "preflight/media/D1_diagnostic_first_last.mp4",
+      "verification": "download+sha256",
+      "sha256": "cb83e0999ebbd7632e5dc8f0b78db780c96fe588108e976af34200578ea0e510"
+    },
+    {
+      "path": "preflight/media/camera_smoke_D0.png",
+      "verification": "download+sha256",
+      "sha256": "4822ed4a08f9764f8f8eb31162c8f86aa2a085b0a3e1019715cdd772f6a838b1"
+    },
+    {
+      "path": "preflight/media/camera_smoke_D1.png",
+      "verification": "download+sha256",
+      "sha256": "9447843ee69424c1ea4095b130c9bf28550a2b6a031a009067f008f2ae5773b0"
+    },
+    {
+      "path": "preflight/media/video_smoke.json",
+      "verification": "download+sha256",
+      "sha256": "a9d39f8711974949edad179501551dd06843f7a3f5058f662862122030e7b427"
+    }
+  ],
+  "time": 1793271036.659724,
+  "upload_seconds": 1.9523718357086182,
+  "verification_seconds": 1.2521445751190186
+}

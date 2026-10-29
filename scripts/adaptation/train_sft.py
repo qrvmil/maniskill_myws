@@ -1,5 +1,5 @@
 """Independent full or action-expert SFT with exact update counts and resumable RNG."""
-import argparse, math, shutil, time
+import argparse, math, shutil, time, sys
 from common import *
 
 def lr(step,total):
@@ -7,7 +7,7 @@ def lr(step,total):
  if step<warm:return peak/(warm+1)+(peak-peak/(warm+1))*step/warm
  return end+(peak-end)*.5*(1+math.cos(math.pi*min(1,(step-warm)/(total-warm))))
 
-def save(model,opt,stage,step,scope_rows,indices,initial_hash):
+def save(model,opt,stage,step,scope_rows,indices,initial_hash,alignment_objective=None):
  import torch,safetensors.torch
  from storage import publish,push_progress
  root=WORK/'sft'/stage;target=root/str(step);tmp=root/(str(step)+'.partial')
@@ -31,9 +31,12 @@ def save(model,opt,stage,step,scope_rows,indices,initial_hash):
   frozen_scope_verified=True,frozen_tensors=len(frozen),scope=SFT[stage]['scope'],
   total_parameters=sum(r['numel'] for r in scope_rows),trainable_parameters=sum(r['numel'] for r in scope_rows if r['trainable']),
   optimizer='AdamW float32 master parameters/states',lr_schedule='cosine warmup100 3e-5 to3e-6',final_budget=SFT[stage]['updates']))
+ if alignment_objective is not None:
+  binding=alignment_objective.save_metadata(tmp)
+  data=json.loads((tmp/'training.json').read_text());data['visual_alignment']=binding;write(tmp/'training.json',data)
  tmp.replace(target)
  write(root/'latest.json',dict(checkpoint=str(target),step=step))
- receipt=publish(target,f'checkpoints/{stage}/{step}',full_readback=step==SFT[stage]['updates'],defer=True)
+ receipt=publish(target,f'checkpoints/{stage}/{step}',full_readback=step in (1,SFT[stage]['updates']),defer=True)
  write(WORK/'evidence'/f'sft_{stage}_{step}.json',dict(checkpoint=str(target),**json.loads((target/'training.json').read_text()),hf_commit=receipt['commit']))
  metrics=root/'metrics.jsonl'
  if metrics.exists():
@@ -76,6 +79,14 @@ def train(stage,*,profile=False):
   state=torch.load(checkpoint/'training_state.pt',map_location='cpu',weights_only=False)
   opt.load_state_dict(state['optimizer']);torch.set_rng_state(state['cpu_rng']);torch.cuda.set_rng_state(state['cuda_rng']);np.random.set_state(state['numpy_rng'])
  model.to('cuda')
+ alignment_objective=None
+ if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1':
+  sys.path.insert(0,str(EXPERIMENT/'tools'))
+  from alignment_runtime import make_objective
+  alignment_objective=make_objective(model,stage)
+  if step:
+   expected=dict(alignment_objective.binding,lambda_align=alignment_objective.lambda_align)
+   assert json.loads((checkpoint/'visual_alignment.json').read_text())==expected,'Alignment resume binding changed'
  for opt_state in opt.state.values():
   for k,v in opt_state.items():
    if isinstance(v,torch.Tensor) and k!='step':opt_state[k]=v.to('cuda')
@@ -86,13 +97,22 @@ def train(stage,*,profile=False):
  for current in range(step,SFT[stage]['updates'] if not profile else step+1):
   opt.zero_grad(set_to_none=True)
   for group in opt.param_groups:group['lr']=lr(current,SFT[stage]['updates'])
-  total_loss=0.
+  total_loss=0.;total_flow=0.;total_align=0. if alignment_objective is not None and alignment_objective.active else None
   for offset in range(0,BATCH,MICROBATCH):
-   obs,actions=batch(ds,indices[current,offset:offset+MICROBATCH],'cuda')
+   target=None
+   if alignment_objective is None:obs,actions=batch(ds,indices[current,offset:offset+MICROBATCH],'cuda')
+   else:obs,actions,target=alignment_objective.batch(ds,indices[current,offset:offset+MICROBATCH],current,offset)
    with torch.autocast('cuda',dtype=torch.bfloat16):loss=model(obs,actions).mean()/(BATCH//MICROBATCH)
    if not torch.isfinite(loss):raise FloatingPointError('SFT loss nonfinite')
-   loss.backward();total_loss+=float(loss.detach())
-   del obs,actions,loss
+   loss.backward();total_loss+=float(loss.detach());total_flow+=float(loss.detach())
+   del loss
+   if alignment_objective is not None and alignment_objective.active:
+    align=alignment_objective.loss(obs,target)/(BATCH//MICROBATCH)
+    if not torch.isfinite(align):raise FloatingPointError('Alignment loss nonfinite')
+    (alignment_objective.lambda_align*align).backward()
+    total_align+=float(align.detach());total_loss+=alignment_objective.lambda_align*float(align.detach())
+    del align
+   del obs,actions,target
   if current==0:
    gradients={n:dict(gradient_present=p.grad is not None,gradient_finite=p.grad is None or bool(torch.isfinite(p.grad).all())) for n,p in model.named_parameters()}
    write(root/'gradient_scope.json',gradients)
@@ -104,6 +124,8 @@ def train(stage,*,profile=False):
   if not np.isfinite(grad):raise FloatingPointError('Nonfinite SFT grad')
   opt.step();torch.cuda.synchronize();peak=max(peak,torch.cuda.max_memory_allocated())
   row=dict(step=current+1,loss=total_loss,lr=lr(current,SFT[stage]['updates']),grad_norm=grad,seconds=time.time()-last,cuda_peak_allocated=peak)
+  if alignment_objective is not None:
+   row.update(L_flow=total_flow,L_align=total_align,lambda_align=alignment_objective.lambda_align,alignment_mode=alignment_objective.binding['method'])
   last=time.time();print('SFT',stage,json.dumps(row),flush=True)
   if profile:
    from evaluate import FlowModel,PairedVideoEnv
@@ -119,8 +141,12 @@ def train(stage,*,profile=False):
   step=current+1
   interval=1000 if stage=='d0' else 500
   teacher_candidate=stage=='full' and step%250==0 and not (WORK/'teacher.json').exists()
-  if step%interval==0 or step==SFT[stage]['updates'] or teacher_candidate:
-   target=save(model,opt,stage,step,rows,indices,initial_hash)
+  if (alignment_objective is not None and step==1) or step%interval==0 or step==SFT[stage]['updates'] or teacher_candidate:
+   target=save(model,opt,stage,step,rows,indices,initial_hash,alignment_objective)
+   if alignment_objective is not None and step==1:
+    from publication_queue import drain
+    drain()
+    assert (target/'upload_receipt.json').exists(),'First created model must be durable before the remaining long run'
    if stage=='full' and step<1500 and not (WORK/'teacher.json').exists():
     from evaluate import validation_teacher
     result=validation_teacher(model,target)
