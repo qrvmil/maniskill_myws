@@ -1,0 +1,11 @@
+{
+  "version": "2.7.1+cu128",
+  "cuda": "12.8",
+  "device": "NVIDIA CMP 170HX",
+  "capability": [
+    8,
+    0
+  ],
+  "matmul_mean": 282.0,
+  "passed": true
+}

@@ -1,0 +1,9 @@
+{
+  "version": "0.5.3",
+  "devices": [
+    "cuda:0"
+  ],
+  "cuda_runtime": 12080,
+  "matmul_mean": 281.47161865234375,
+  "passed": true
+}

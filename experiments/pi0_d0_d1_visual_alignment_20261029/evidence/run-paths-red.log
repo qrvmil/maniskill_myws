@@ -1,0 +1,50 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+__________ test_new_destinations_and_batch_preserve_original_budgets ___________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x751e2694d050>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-1/test_new_destinations_and_batc0')
+
+    def test_new_destinations_and_batch_preserve_original_budgets(monkeypatch,tmp_path):
+     m=load(monkeypatch,PI0_WORK=str(tmp_path/'run'),PI0_HF_REPO='qrvmil/new-experiment',PI0_EXPERIMENT_DIR='new_experiment',PI0_MICROBATCH='1',PI0_VISUAL_ALIGNMENT='1')
+>    assert m.WORK==tmp_path/'run' and m.HF_REPO=='qrvmil/new-experiment'
+E    AssertionError: assert (PosixPath('/workspace/pi0_three') == (PosixPath('/tmp/pytest-of-root/pytest-1/test_new_destinations_and_batc0') / 'run'))
+E     +  where PosixPath('/workspace/pi0_three') = <module 'isolated_adaptation_common' from '/workspace/visual-alignment-repro-20261029/maniskill_myws/scripts/adaptation/common.py'>.WORK
+
+../../experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_run_paths.py:15: AssertionError
+______________________ test_legacy_defaults_are_preserved ______________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x751e2694cf10>
+
+    def test_legacy_defaults_are_preserved(monkeypatch):
+     m=load(monkeypatch)
+     assert m.WORK==Path('/workspace/pi0_three')
+     assert m.HF_REPO=='qrvmil/pi0-d0-d1-three-adaptations-20261020'
+>    assert m.EXPERIMENT==ROOT/'experiments/pi0_d0_d1_three_adaptations'
+E    AttributeError: module 'isolated_adaptation_common' has no attribute 'EXPERIMENT'
+
+../../experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_run_paths.py:24: AttributeError
+__________ test_alignment_cannot_silently_write_to_legacy_experiment ___________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x751e26926f50>
+
+    def test_alignment_cannot_silently_write_to_legacy_experiment(monkeypatch):
+>    with pytest.raises(ValueError,match='isolated'):load(monkeypatch,PI0_VISUAL_ALIGNMENT='1')
+E    Failed: DID NOT RAISE <class 'ValueError'>
+
+../../experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_run_paths.py:28: Failed
+_____________________ test_unsupported_microbatch_rejected _____________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x751e2690f650>
+
+    def test_unsupported_microbatch_rejected(monkeypatch):
+>    with pytest.raises(ValueError,match='microbatch'):load(monkeypatch,PI0_MICROBATCH='3')
+E    Failed: DID NOT RAISE <class 'ValueError'>
+
+../../experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_run_paths.py:31: Failed
+=========================== short test summary info ============================
+FAILED ../../experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_run_paths.py::test_new_destinations_and_batch_preserve_original_budgets
+FAILED ../../experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_run_paths.py::test_legacy_defaults_are_preserved
+FAILED ../../experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_run_paths.py::test_alignment_cannot_silently_write_to_legacy_experiment
+FAILED ../../experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_run_paths.py::test_unsupported_microbatch_rejected
+4 failed in 0.06s
