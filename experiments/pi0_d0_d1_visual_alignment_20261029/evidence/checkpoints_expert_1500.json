@@ -1,0 +1,54 @@
+{
+  "repo": "qrvmil/pi0-d0-d1-three-adaptations-visual-alignment-20261029",
+  "commit": "046c6100726e47055654a6253aa76d23cc7fcdc6",
+  "verified": [
+    {
+      "path": "checkpoints/expert/1500/assets/d0/norm_stats.json",
+      "verification": "download+sha256",
+      "sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e"
+    },
+    {
+      "path": "checkpoints/expert/1500/gradient_scope.json",
+      "verification": "download+sha256",
+      "sha256": "0eb6ee012f45580133d97c6989340da3063963e3fcdd4b2c7ee6c58319727513"
+    },
+    {
+      "path": "checkpoints/expert/1500/model.safetensors",
+      "verification": "download+sha256",
+      "sha256": "444b243d57f2dd760fa0540e8ff356c681ef07f403ca4e744ff956028f700bdd"
+    },
+    {
+      "path": "checkpoints/expert/1500/projector.npz",
+      "verification": "download+sha256",
+      "sha256": "8de0854391128426ab5104ae26461655408f59b805a63e3bc86875dacfc43273"
+    },
+    {
+      "path": "checkpoints/expert/1500/sample_indices.npy",
+      "verification": "download+sha256",
+      "sha256": "1364baf4af32ebf05d2c93b323abbfba67cc88ac696fea13da3de3f753342792"
+    },
+    {
+      "path": "checkpoints/expert/1500/scope.json",
+      "verification": "download+sha256",
+      "sha256": "1b69f4aa257354ada51c938205958d6ca6eb3f70517f696a601e85c2b38e05b6"
+    },
+    {
+      "path": "checkpoints/expert/1500/training.json",
+      "verification": "download+sha256",
+      "sha256": "9c74a1f087ea1dc5b3826134bf8df030737d12f18d9482057e16b4f81b73d153"
+    },
+    {
+      "path": "checkpoints/expert/1500/training_state.pt",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "9040ed493b717bc8290fc047c1d1a7cd535a3472078b0c6cd4f8cce80e0b2d72"
+    },
+    {
+      "path": "checkpoints/expert/1500/visual_alignment.json",
+      "verification": "download+sha256",
+      "sha256": "0c8fb0980b7414be37fe5f0401485d07fb40f40e2244a3f0dc11e4ce9d6524d9"
+    }
+  ],
+  "time": 1793308385.9970212,
+  "upload_seconds": 132.16716504096985,
+  "verification_seconds": 164.79728293418884
+}
