@@ -1,7 +1,7 @@
 
 ==============NVSMI LOG==============
 
-Timestamp                                              : Thu Oct 29 10:38:55 2026
+Timestamp                                              : Thu Oct 29 11:37:42 2026
 Driver Version                                         : 615.71.09 [Deprecated; will be removed in CUDA 14.0. Use KMD Version instead]
 CUDA Version                                           : 13.4 [Deprecated; will be removed in CUDA 14.0. Use CUDA UMD Version instead]
 KMD Version                                            : 615.71.09
@@ -52,7 +52,7 @@ GPU 00000000:AF:00.0
         Latest Timestamp                               : 2026/10/14 02:18:20.740
         Latest Duration                                : 384127 us
     Inforom Time Data
-        Time Run                                       : 1685799 seconds
+        Time Run                                       : 1689326 seconds
     GPU Operation Mode
         Current                                        : N/A
         Pending                                        : N/A
@@ -89,8 +89,8 @@ GPU 00000000:AF:00.0
             Firmware                                   : N/A
         Replays Since Reset                            : 0
         Replay Number Rollovers                        : 0
-        Tx Throughput                                  : 390 KB/s
-        Rx Throughput                                  : 341 KB/s
+        Tx Throughput                                  : 634 KB/s
+        Rx Throughput                                  : 976 KB/s
         Atomic Caps Outbound                           : N/A
         Atomic Caps Inbound                            : N/A
     Fan Speed                                          : N/A
@@ -179,18 +179,18 @@ GPU 00000000:AF:00.0
     Remapped Rows                                      : N/A
     Remapped Banks                                     : N/A
     Temperature
-        GPU Current Temp                               : 43 C
+        GPU Current Temp                               : 44 C
         GPU Current Max Temp                           : N/A
         GPU Current T.Limit Temp                       : N/A
         GPU Shutdown Temp                              : 98 C
         GPU Slowdown Temp                              : 95 C
         GPU Max Operating Temp                         : 85 C
         GPU Target Temperature Specification           : N/A
-        Memory Current Temp                            : 54 C
+        Memory Current Temp                            : 55 C
         Memory Max Operating Temp                      : 95 C
     GPU Power Readings
         Average Power Draw                             : N/A
-        Instantaneous Power Draw                       : 51.37 W
+        Instantaneous Power Draw                       : 47.35 W
         GPU Ceiling Power Limit
             Current Power Limit                        : 200.00 W
             Requested Power Limit                      : 200.00 W
@@ -219,10 +219,10 @@ GPU 00000000:AF:00.0
         Enforced Profiles                              : N/A
     EDPp Multiplier                                    : N/A
     Clocks
-        Graphics                                       : 1260 MHz
-        SM                                             : 1260 MHz
+        Graphics                                       : 1140 MHz
+        SM                                             : 1140 MHz
         Memory                                         : 1458 MHz
-        Video                                          : 1140 MHz
+        Video                                          : 1035 MHz
     Applications Clocks
         Graphics                                       : Requested functionality has been deprecated
         Memory                                         : Requested functionality has been deprecated
