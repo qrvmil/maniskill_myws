@@ -185,3 +185,10 @@ Traceback (most recent call last):
 requests.exceptions.ConnectionError: ('Connection aborted.', ConnectionResetError(104, 'Connection reset by peer'))
 HF_PUBLISH_RETRY_OR_ERROR checkpoints/full/1500 queued
 HF_PUBLISH_START checkpoints/full/1500 group_size 1
+No files have been modified since last commit. Skipping to prevent empty commit.
+HF_VERIFIED checkpoints/full/1500 829ba1f17e7d92b67c39f47e7302bdee0012288c
+[exp/pi0-d0-d1-visual-alignment-20261029 d93169b] exp: verify queued HF publication checkpoints/full/1500
+ 1 file changed, 54 insertions(+)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/checkpoints_full_1500.json
+To https://github.com/qrvmil/maniskill_myws.git
+   2028c55..d93169b  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
