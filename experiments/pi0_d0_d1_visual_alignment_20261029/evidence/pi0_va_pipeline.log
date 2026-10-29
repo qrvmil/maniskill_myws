@@ -3306,3 +3306,17 @@ Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst othe
 Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
 See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
 [info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+HF_VERIFIED zero_residual 8580c0e4dcc0de07aa70e4799f5213f116dd3a6c
+[exp/pi0-d0-d1-visual-alignment-20261029 eb81ee6] exp: verify frozen D0 equals D0 plus zero residual on both tasks
+ 1 file changed, 14 insertions(+)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/zero_residual.json
+To https://github.com/qrvmil/maniskill_myws.git
+   5c87e42..eb81ee6  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+PIPELINE_STAGE offline_replay.py ()
+[robosuite WARNING] No private macro file found! (macros.py:53)
+[robosuite WARNING] It is recommended to use a private macro file (macros.py:54)
+[robosuite WARNING] To setup, run: python /workspace/visual-alignment-repro-20261029/maniskill_myws/third_party/openpi/.venv/lib/python3.11/site-packages/robosuite/scripts/setup_macros.py (macros.py:55)
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
