@@ -1,15 +1,19 @@
-# Status — 2026-10-29
+# Статус эксперимента
 
-Preflight in progress. Long training has NOT started. No new trained checkpoints or evaluation results.
+Обновлено UTC: 2026-10-29T11:02:33.161298+00:00
 
-Workspace: `/workspace/visual-alignment-repro-20261029`. Supervisor: `pi0_vram_preflight`. Full allocatable VRAM test runs without a memory cap, tests 0–8 and 10, one pass, 1000 iterations for tests 0/10. The optional three-hour bit-fade test 9 is disabled by the upstream default. The driver/CUDA-reserved portion cannot be tested as a user allocation. No claim of all physical cells or guaranteed future stability.
+GitHub/HF write/read probes прошли. Бюджеты и правила выбора: [PREREGISTRATION.md](PREREGISTRATION.md).
 
-Machine: requested host150140, instance58231938, machine153731, 1×CMP170HX, NVML65536MiB, CUDA sm80, driver615.71.09, toolkit12.8, x86_64. GPU idle before the test. No persistent volume; remote saves are mandatory.
+- SFT d0: ещё нет сохранённого checkpoint
+- SFT full: ещё нет сохранённого checkpoint
+- SFT expert: ещё нет сохранённого checkpoint
+- Teacher: ещё не выбран по отдельной validation
+- Residual RL: ещё нет сохранённого checkpoint
+- Финальные episodes: 0/300. Каждому завершённому episode соответствует проверенное двухкамерное видео с terminal frame.
 
-Local authenticated GitHub and HF identity: qrvmil. App HF connector: dpaleyev, read only. Actual machine credentials are checked independently and never copied into artifacts.
+Final seeds не используются для настройки или выбора checkpoints. Завершённые episodes при resume проверяются и переиспользуются без увеличения N.
 
-Update: protocol approved — alignment of the common D0 base, original expert/residual frozen scopes. CPU data audit passed:50/50demos,5832D0+5913D1aligned frames; recomputed D0 normalization exact SHA256a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e. Original12contract/statistical tests and2JAX/PyTorch alignment-port tests passed;7fail-closed VRAM-gate tests passed.
 
-Official base fetched as33immutable GCS generations; all MD5 checked. Official pinned fp32 conversion matches historical initial weights exactly:8df3cbff6d06f55fc77202b7d66c671c5a9e05403620bd05c8eac95955f09926. Model smoke will use this fresh official base; historical D0 weights remain an inspected reference only.
-
-PyTorch2.7.1+cu128/JAX0.5.3 and pinned Transformers4.53.2 plus the pinned OpenPI transformer replacements are installed. GPU framework/model probes await successful uncapped VRAM test. Model preflight service is installed but STOPPED; long training is not armed.
+Новый запуск: alignment общей D0-базы; full D1 продолжает alignment; expert и residual сохраняют исходные frozen scopes и наследуют aligned D0. Протокол: PREREGISTRATION.md.
+Рабочий код: `/workspace/visual-alignment-repro-20261029/maniskill_myws`; артефакты: `/workspace/visual-alignment-repro-20261029/run`; HF: https://huggingface.co/qrvmil/pi0-d0-d1-three-adaptations-visual-alignment-20261029.
+Аппаратный и модельный preflight прошли; исходные historical results не являются результатами этого запуска.
