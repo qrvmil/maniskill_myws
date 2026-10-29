@@ -58,3 +58,38 @@ HF_VERIFIED alignment/projector 201798f0e9032771834f0556e71452a2032c2a26
  create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/projector_calibration.json
 To https://github.com/qrvmil/maniskill_myws.git
    fe3809a..1f7ff49  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+[exp/pi0-d0-d1-visual-alignment-20261029 5504682] exp: save frozen D0 projector before lambda pilot
+ 6 files changed, 205 insertions(+), 2 deletions(-)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publication-20261029T110803Z.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/tools/alignment_report.py
+To https://github.com/qrvmil/maniskill_myws.git
+   1f7ff49..5504682  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+EVIDENCE_DURABLE {"utc": "20261029T111443Z", "github_commit": "5504682d655c8ce023123d20cb58ce00d4e3dd8c", "hf_commit": "08e631465dd52d13660cde84ac1248e0201abdce", "files": 134, "full_readback": true}
+ALIGNED_D0_STAGE /workspace/visual-alignment-repro-20261029/maniskill_myws/experiments/pi0_d0_d1_visual_alignment_20261029/tools/prepare_alignment.py ('pilot',)
+D0_LAMBDA_PILOT {"step": 1, "L_flow": 0.2706127166748047, "L_align": 0.08859717100858688, "flow_grad_norm": 8.260806657299733, "align_grad_norm": 0.3052388223152655, "weighted_gradient_ratio": 0.00739004881673483}
+D0_LAMBDA_PILOT {"step": 2, "L_flow": 0.19011178240180016, "L_align": 0.0834820345044136, "flow_grad_norm": 3.369112487674456, "align_grad_norm": 0.26526057175055473, "weighted_gradient_ratio": 0.015746614143694087}
+D0_LAMBDA_PILOT {"step": 3, "L_flow": 0.3061160370707512, "L_align": 0.08257189206779003, "flow_grad_norm": 5.275078996737756, "align_grad_norm": 0.2400733522194263, "weighted_gradient_ratio": 0.009102170881910728}
+D0_LAMBDA_PILOT {"step": 4, "L_flow": 0.15801847912371159, "L_align": 0.09149686619639397, "flow_grad_norm": 3.048950926730306, "align_grad_norm": 0.3544902362154331, "weighted_gradient_ratio": 0.023253259546265528}
+D0_LAMBDA_PILOT {"step": 5, "L_flow": 0.24142351001501083, "L_align": 0.08673260174691677, "flow_grad_norm": 4.888228843346391, "align_grad_norm": 0.25642118038972866, "weighted_gradient_ratio": 0.010491373812777044}
+D0_LAMBDA_PILOT {"step": 6, "L_flow": 0.18842037580907345, "L_align": 0.08637003973126411, "flow_grad_norm": 2.6251605287229363, "align_grad_norm": 0.29927304349114364, "weighted_gradient_ratio": 0.022800361365842355}
+D0_LAMBDA_PILOT {"step": 7, "L_flow": 0.10867875814437866, "L_align": 0.08951320685446262, "flow_grad_norm": 2.169977594567927, "align_grad_norm": 0.2891553469567426, "weighted_gradient_ratio": 0.02665053756136293}
+D0_LAMBDA_PILOT {"step": 8, "L_flow": 0.1945621222257614, "L_align": 0.0897859688848257, "flow_grad_norm": 3.802612353087899, "align_grad_norm": 0.2971559943482725, "weighted_gradient_ratio": 0.015629044812152257}
+D0_LAMBDA_PILOT {"step": 9, "L_flow": 0.19435269944369793, "L_align": 0.08718026615679264, "flow_grad_norm": 3.683401905241542, "align_grad_norm": 0.25574001416105, "weighted_gradient_ratio": 0.013886077096128324}
+D0_LAMBDA_PILOT {"step": 10, "L_flow": 0.1350817158818245, "L_align": 0.08499057590961456, "flow_grad_norm": 2.587023253935904, "align_grad_norm": 0.19925036394745443, "weighted_gradient_ratio": 0.015403832466083511}
+D0_LAMBDA_PILOT {"step": 11, "L_flow": 0.15712008997797966, "L_align": 0.08296197280287743, "flow_grad_norm": 3.278672291485041, "align_grad_norm": 0.2711521103643133, "weighted_gradient_ratio": 0.016540360625154016}
+D0_LAMBDA_PILOT {"step": 12, "L_flow": 0.13164780475199223, "L_align": 0.08843897096812725, "flow_grad_norm": 1.9433235251059016, "align_grad_norm": 0.3560536870171102, "weighted_gradient_ratio": 0.036643789098133525}
+D0_LAMBDA_PILOT {"step": 13, "L_flow": 0.14076152257621288, "L_align": 0.08785765059292316, "flow_grad_norm": 1.7444450439746448, "align_grad_norm": 0.28257347174677133, "weighted_gradient_ratio": 0.0323969474100416}
+D0_LAMBDA_PILOT {"step": 14, "L_flow": 0.11069651506841183, "L_align": 0.08826112188398838, "flow_grad_norm": 2.921259903848383, "align_grad_norm": 0.2873171668278424, "weighted_gradient_ratio": 0.019670770577403206}
+D0_LAMBDA_PILOT {"step": 15, "L_flow": 0.16774184815585613, "L_align": 0.08828259259462357, "flow_grad_norm": 3.6327821154085407, "align_grad_norm": 0.2776255134657551, "weighted_gradient_ratio": 0.01528445718162943}
+D0_LAMBDA_PILOT {"step": 16, "L_flow": 0.08948305249214172, "L_align": 0.09043170139193535, "flow_grad_norm": 1.6604491572177047, "align_grad_norm": 0.23922272456033605, "weighted_gradient_ratio": 0.028814218552910636}
+D0_LAMBDA_PILOT {"step": 17, "L_flow": 0.11312220059335232, "L_align": 0.0888820942491293, "flow_grad_norm": 1.4866405052826859, "align_grad_norm": 0.2390592304236963, "weighted_gradient_ratio": 0.0321610005343207}
+D0_LAMBDA_PILOT {"step": 18, "L_flow": 0.11610451899468899, "L_align": 0.08914488926529884, "flow_grad_norm": 1.6369255948076817, "align_grad_norm": 0.2424257328140226, "weighted_gradient_ratio": 0.029619639839830913}
+D0_LAMBDA_PILOT {"step": 19, "L_flow": 0.17782683111727238, "L_align": 0.09254751540720463, "flow_grad_norm": 2.598272972768538, "align_grad_norm": 0.25477603724737374, "weighted_gradient_ratio": 0.019611183268084587}
+D0_LAMBDA_PILOT {"step": 20, "L_flow": 0.09305907320231199, "L_align": 0.08687436394393444, "flow_grad_norm": 1.399174345838939, "align_grad_norm": 0.26445578665556674, "weighted_gradient_ratio": 0.03780169175371783}
+HF_VERIFIED alignment/pilot d332ee3eba2bc715d3e7dc9ad6888cbc659d30ba
+[exp/pi0-d0-d1-visual-alignment-20261029 4e2f87a] exp: select lambda on D0 gradients before fresh main initialization
+ 5 files changed, 90 insertions(+), 4 deletions(-)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/alignment_pilot.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/lambda_decision.json
+To https://github.com/qrvmil/maniskill_myws.git
+   5504682..4e2f87a  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029

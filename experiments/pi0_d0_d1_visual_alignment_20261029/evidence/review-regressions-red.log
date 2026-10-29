@@ -1,0 +1,90 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+__________ test_profile_reaches_data_loading_without_local_os_shadow ___________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x71d4ec647d90>
+
+    def test_profile_reaches_data_loading_without_local_os_shadow(monkeypatch):
+     class ReachedDataset(Exception):pass
+     def dataset(*args,**kwargs):raise ReachedDataset
+     monkeypatch.setattr(train_sft,'NativeDataset',dataset)
+>    with pytest.raises(ReachedDataset):train_sft.train('d0',profile=True)
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_review_regressions.py:12: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+stage = 'd0'
+
+    def train(stage,*,profile=False):
+     import torch,jax,safetensors.torch
+     from storage import publish,push_progress
+>    if os.environ.get('PI0_VISUAL_ALIGNMENT')=='1' and not profile:
+E    UnboundLocalError: cannot access local variable 'os' where it is not associated with a value
+
+scripts/adaptation/train_sft.py:56: UnboundLocalError
+_________ test_teacher_is_selected_only_at_registered_early_candidates _________
+
+    def test_teacher_is_selected_only_at_registered_early_candidates():
+>    selected=[step for step in range(1501) if train_sft.is_teacher_candidate('full',step,False)]
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_review_regressions.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+.0 = <range_iterator object at 0x71d3c8d68300>
+
+>   selected=[step for step in range(1501) if train_sft.is_teacher_candidate('full',step,False)]
+E   AttributeError: module 'train_sft' has no attribute 'is_teacher_candidate'
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_review_regressions.py:15: AttributeError
+____________ test_new_local_save_cannot_delete_unpublished_snapshot ____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x71d3c8d5f0d0>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-6/test_new_local_save_cannot_del0')
+
+    def test_new_local_save_cannot_delete_unpublished_snapshot(monkeypatch,tmp_path):
+     monkeypatch.setenv('PI0_VISUAL_ALIGNMENT','1');monkeypatch.setattr(publication_queue,'WORK',tmp_path);monkeypatch.setattr(publication_queue,'QUEUE',tmp_path/'publication_queue')
+     old=tmp_path/'sft/d0/1000';new=tmp_path/'sft/d0/2000'
+     for folder in [old,new]:
+      folder.mkdir(parents=True);(folder/'model.safetensors').write_bytes(b'policy');(folder/'training_state.pt').write_bytes(b'optimizer')
+     (new.parent/'latest.json').write_text(json.dumps({'checkpoint':str(new),'step':2000}))
+     publication_queue.QUEUE.mkdir()
+     path=publication_queue.QUEUE/'unpublished.json'
+     job={'folder':str(old),'remote':'checkpoints/d0/1000','status':'queued'};path.write_text(json.dumps(job))
+     publication_queue.retire_superseded()
+>    assert old.exists() and (old/'training_state.pt').exists()
+E    AssertionError: assert (False)
+E     +  where False = exists()
+E     +    where exists = PosixPath('/tmp/pytest-of-root/pytest-6/test_new_local_save_cannot_del0/sft/d0/1000').exists
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_review_regressions.py:30: AssertionError
+----------------------------- Captured stdout call -----------------------------
+HF_SUPERSEDED_INTERMEDIATE checkpoints/d0/1000
+____________ test_offline_replay_is_durable_before_residual_updates ____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x71d3c8bd6790>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-6/test_offline_replay_is_durable0')
+
+    def test_offline_replay_is_durable_before_residual_updates(monkeypatch,tmp_path):
+     monkeypatch.setenv('PI0_VISUAL_ALIGNMENT','1');monkeypatch.setattr(pipeline,'WORK',tmp_path)
+     assets=tmp_path/'assets';assets.mkdir();(assets/'serl_resnet10.pt').write_bytes(b'exists');monkeypatch.setattr(pipeline,'ASSETS',assets)
+     (tmp_path/'evidence').mkdir();(tmp_path/'evidence/d0_complete.json').write_text('{}');(tmp_path/'teacher.json').write_text('{}')
+     events=[]
+     class StoppedBeforeTraining(Exception):pass
+     def call(script,*args):
+      events.append((script,args))
+      if script=='train_residual.py' and not args:raise StoppedBeforeTraining
+     monkeypatch.setattr(pipeline,'call',call);monkeypatch.setattr(pipeline,'barrier',lambda:events.append(('BARRIER',())))
+     monkeypatch.setattr(pipeline,'service_status',lambda name:'EXITED')
+     monkeypatch.setattr(pipeline.subprocess,'run',lambda *a,**k:subprocess.CompletedProcess(a,0))
+     with pytest.raises(StoppedBeforeTraining):pipeline.main()
+     i=events.index(('offline_replay.py',()))
+>    assert ('BARRIER',()) in events[i+1:-1]
+E    AssertionError: assert ('BARRIER', ()) in []
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_review_regressions.py:48: AssertionError
+=========================== short test summary info ============================
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_review_regressions.py::test_profile_reaches_data_loading_without_local_os_shadow
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_review_regressions.py::test_teacher_is_selected_only_at_registered_early_candidates
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_review_regressions.py::test_new_local_save_cannot_delete_unpublished_snapshot
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_review_regressions.py::test_offline_replay_is_durable_before_residual_updates
+4 failed in 1.85s

@@ -1,0 +1,50 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+___ test_candidate_reconciliation_restores_rng_and_selects_exact_checkpoint ____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7a11a8917450>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-8/test_candidate_reconciliation_0')
+
+    def test_candidate_reconciliation_restores_rng_and_selects_exact_checkpoint(monkeypatch,tmp_path):
+     checkpoint,calls,publications=setup(monkeypatch,tmp_path)
+     torch.manual_seed(29);np.random.seed(29);cpu=torch.get_rng_state().clone();nr=np.random.get_state()
+>    model=Model();train_sft.complete_teacher_candidate(model,checkpoint,250)
+E    AttributeError: module 'train_sft' has no attribute 'complete_teacher_candidate'
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_teacher_resume.py:30: AttributeError
+_____________ test_crash_after_validation_reuses_complete_evidence _____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7a11a8569450>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-8/test_crash_after_validation_re0')
+
+    def test_crash_after_validation_reuses_complete_evidence(monkeypatch,tmp_path):
+     checkpoint,calls,publications=setup(monkeypatch,tmp_path)
+     original=train_sft.os.link
+     def fail(*a,**k):raise OSError('simulated interrupted link')
+     monkeypatch.setattr(train_sft.os,'link',fail)
+>    with pytest.raises(OSError):train_sft.complete_teacher_candidate(Model(),checkpoint,250)
+E    AttributeError: module 'train_sft' has no attribute 'complete_teacher_candidate'
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_teacher_resume.py:41: AttributeError
+__________ test_crash_after_registration_requeues_teacher_publication __________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7a11a8258210>
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-8/test_crash_after_registration_0')
+
+    def test_crash_after_registration_requeues_teacher_publication(monkeypatch,tmp_path):
+     checkpoint,calls,publications=setup(monkeypatch,tmp_path)
+     count=[]
+     def publish(*a,**k):
+      count.append(a[1])
+      if len(count)==1:raise OSError('simulated missing enqueue')
+      return {'queued':True}
+     monkeypatch.setattr(storage,'publish',publish)
+>    with pytest.raises(OSError):train_sft.complete_teacher_candidate(Model(),checkpoint,250)
+E    AttributeError: module 'train_sft' has no attribute 'complete_teacher_candidate'
+
+experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_teacher_resume.py:55: AttributeError
+=========================== short test summary info ============================
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_teacher_resume.py::test_candidate_reconciliation_restores_rng_and_selects_exact_checkpoint
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_teacher_resume.py::test_crash_after_validation_reuses_complete_evidence
+FAILED experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_teacher_resume.py::test_crash_after_registration_requeues_teacher_publication
+3 failed in 1.64s
