@@ -18,3 +18,13 @@
 [10/29/2026 10:08:22][3471290477b2][0]:Test5 [Block move, 64 moves]
 [10/29/2026 10:08:35][3471290477b2][0]:Test5 finished in 13.1 seconds
 [10/29/2026 10:08:35][3471290477b2][0]:Test6 [Moving inversions, 32 bit pat]
+[10/29/2026 10:33:40][3471290477b2][0]:Test6 finished in 1505.7 seconds
+[10/29/2026 10:33:40][3471290477b2][0]:Test7 [Random number sequence]
+[10/29/2026 10:34:11][3471290477b2][0]:Test7 finished in 30.2 seconds
+[10/29/2026 10:34:11][3471290477b2][0]:Test8 [Modulo 20, random pattern]
+[10/29/2026 10:34:11][3471290477b2][0]:test8[mod test]: p1=0x2dfc6407, p2=0xd2039bf8
+[10/29/2026 10:35:40][3471290477b2][0]:Test8 finished in 89.2 seconds
+[10/29/2026 10:35:40][3471290477b2][0]:Test10 [Memory stress test]
+[10/29/2026 10:35:40][3471290477b2][0]:Test10 with pattern=0xd1687bd5fe8c3fb
+[10/29/2026 10:35:48][3471290477b2][0]:Test10 finished in 7.8 seconds
+main thread: Program exits

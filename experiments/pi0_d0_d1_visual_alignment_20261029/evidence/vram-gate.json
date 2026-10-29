@@ -1,0 +1,35 @@
+{
+  "passed": true,
+  "nvml_total_MiB": 65536,
+  "driver_reserved_MiB": 619,
+  "cuda_total_bytes": 68070735872,
+  "tested_bytes": 67744301056,
+  "tested_MiB": 64606,
+  "cuda_context_and_unallocated_MiB": 311.3125,
+  "completed_tests": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    10
+  ],
+  "ecc_counters": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "bit_fade_test9": "upstream default disabled; not performed",
+  "limitations": "Tests all allocatable detected VRAM; driver/context-reserved cells cannot be allocated. Does not prove indefinite stability or the physical origin of unlocked capacity."
+}

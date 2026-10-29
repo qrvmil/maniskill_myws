@@ -1,0 +1,21 @@
+[exp/pi0-d0-d1-visual-alignment-20261029 1aa9bec] exp: verify exact official initialization and preserve pinned runtime
+ 22 files changed, 1574 insertions(+), 2 deletions(-)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/base-conversion.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/convert-base.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/environment.lock.txt
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/fetch-official-base-attempt1.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/fetch-official-base.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/libero-install.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/official-base-inventory.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/official-base-receipts.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/original-contract-tests.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/pi0_model_preflight.conf
+ create mode 100755 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/pi0_model_preflight.sh
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/progress-save-4.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/publication-20261029T101916Z.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/runtime-versions.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/tools/convert_base.py
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/tools/fetch_base.py
+To https://github.com/qrvmil/maniskill_myws.git
+   415d65e..1aa9bec  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+EVIDENCE_DURABLE {"utc": "20261029T102804Z", "github_commit": "1aa9bec517d055522e2772f806d365e0720a2c25", "hf_commit": "3e393a7dbde2cf228d51032f13acb84ae0e3af69", "files": 67, "full_readback": true}

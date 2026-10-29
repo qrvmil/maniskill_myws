@@ -1,0 +1,7 @@
+{
+  "hf_cache_path": "/workspace/.cache/huggingface",
+  "hf_token_present": true,
+  "hf_identity": "qrvmil",
+  "github_identity": "qrvmil",
+  "note": "Supervisor default cache had no credential; pin existing login cache path for experiment services. No secrets copied."
+}
