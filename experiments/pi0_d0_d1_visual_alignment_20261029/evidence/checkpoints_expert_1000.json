@@ -1,0 +1,54 @@
+{
+  "repo": "qrvmil/pi0-d0-d1-three-adaptations-visual-alignment-20261029",
+  "commit": "85e33f295b100d04add0ea768e1fce398ef7b876",
+  "verified": [
+    {
+      "path": "checkpoints/expert/1000/assets/d0/norm_stats.json",
+      "verification": "download+sha256",
+      "sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e"
+    },
+    {
+      "path": "checkpoints/expert/1000/gradient_scope.json",
+      "verification": "download+sha256",
+      "sha256": "0eb6ee012f45580133d97c6989340da3063963e3fcdd4b2c7ee6c58319727513"
+    },
+    {
+      "path": "checkpoints/expert/1000/model.safetensors",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "f11ddd1b7d5bfd966c19d53865e989724a12b7e99d3150e507815742ad5d8964"
+    },
+    {
+      "path": "checkpoints/expert/1000/projector.npz",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "8de0854391128426ab5104ae26461655408f59b805a63e3bc86875dacfc43273"
+    },
+    {
+      "path": "checkpoints/expert/1000/sample_indices.npy",
+      "verification": "download+sha256",
+      "sha256": "1364baf4af32ebf05d2c93b323abbfba67cc88ac696fea13da3de3f753342792"
+    },
+    {
+      "path": "checkpoints/expert/1000/scope.json",
+      "verification": "download+sha256",
+      "sha256": "1b69f4aa257354ada51c938205958d6ca6eb3f70517f696a601e85c2b38e05b6"
+    },
+    {
+      "path": "checkpoints/expert/1000/training.json",
+      "verification": "download+sha256",
+      "sha256": "460e22e65ea617b344f04ca4679dd640dd8736d1f665d80dba737d2d6628314d"
+    },
+    {
+      "path": "checkpoints/expert/1000/training_state.pt",
+      "verification": "remote LFS sha256 + first/last 64KiB readback",
+      "sha256": "5076029ad18fcba452165703acb33af5b374ced18471e2b6d0850dccfbd105cb"
+    },
+    {
+      "path": "checkpoints/expert/1000/visual_alignment.json",
+      "verification": "download+sha256",
+      "sha256": "0c8fb0980b7414be37fe5f0401485d07fb40f40e2244a3f0dc11e4ce9d6524d9"
+    }
+  ],
+  "time": 1793307005.4361057,
+  "upload_seconds": 115.02820253372192,
+  "verification_seconds": 4.5285725593566895
+}
