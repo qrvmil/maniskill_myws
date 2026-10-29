@@ -1,0 +1,82 @@
+{
+  "D1": {
+    "demonstrations": 50,
+    "aligned_frames": 5913,
+    "source_sha256": "3961cb7126eaca47d0f5be29eb297bb62e7591e3c86172c9587c0bf670112f84"
+  },
+  "D0": {
+    "demonstrations": 50,
+    "aligned_frames": 5832,
+    "source_sha256": "75ede0cf5fbfc925093671b55032ad80f1b1f1cf35442ec6c663460d37d3e0b3"
+  },
+  "normalization_sha256": "a06c2e745bf91d8dd6a3fa6377560d3104e6cad621da4ecebe1372c74bbb388e",
+  "historical_norm_exact": true,
+  "effective_batch": 8,
+  "samples": [
+    {
+      "sample_id": "D0/demo_8/78",
+      "augmentation": 0,
+      "image_sha256": [
+        "c8814a2658c6e05c4970bef6b757a16acca20569e05f8409d8fb571e1d4a61d4",
+        "bb953cb94f3cbebbdc2d1dee37ef54b11c1cb40ab657096983219fc489967a0e"
+      ]
+    },
+    {
+      "sample_id": "D0/demo_35/93",
+      "augmentation": 1,
+      "image_sha256": [
+        "5f5219d88b74b8c7a572d69550875589ac6ad7852829a509d4be1fe94b5181fe",
+        "db48cd008dedd4f7137911c30ae41b59605c6535e6c7035925d9dd77835302d0"
+      ]
+    },
+    {
+      "sample_id": "D0/demo_25/23",
+      "augmentation": 2,
+      "image_sha256": [
+        "54edda0f5d79fd97f61e8c1d661fa4e5f73e32d98764093f6981881536c643b9",
+        "f93eb702a1c7554ee4ba5d58d2dd5d075c525e4f7073c1698bb4d760159b8bc3"
+      ]
+    },
+    {
+      "sample_id": "D0/demo_4/98",
+      "augmentation": 3,
+      "image_sha256": [
+        "de0064066175901a7a9a6ea74cb59a7cc5d8a0d7d012603d3ec5bef540f241ea",
+        "05acf75f85e3b4dfb3a7d1bfd4f3cf48d9c1c4feaa69ab27fc62804d6fb4f833"
+      ]
+    },
+    {
+      "sample_id": "D0/demo_49/39",
+      "augmentation": 0,
+      "image_sha256": [
+        "2a269dc4a4f8fd2eda277726e5159c459d942376458c169f820a881f25670e0f",
+        "816838f8b5f1f6307a5573b6f78e750903017118e56f5b371999e27250812b38"
+      ]
+    },
+    {
+      "sample_id": "D0/demo_16/14",
+      "augmentation": 1,
+      "image_sha256": [
+        "a1b810bc870acdadd7f22521e3bfbb26189cd7b235474a4cd8ad206a80d0b3be",
+        "0e5e58939a8873be174ab4e00d647f22522ea5a3de09f8beed9e71644430c81c"
+      ]
+    },
+    {
+      "sample_id": "D0/demo_24/27",
+      "augmentation": 2,
+      "image_sha256": [
+        "82c4af7ddc2b3fd34b9f67bdf59aa97a86f1e85fff998c2a1d4e701f3b76f45c",
+        "a68d4277f21a6c2f0f79ac82c2da7602f3d739aac8a7b2ce3655a0c58097996e"
+      ]
+    },
+    {
+      "sample_id": "D0/demo_38/87",
+      "augmentation": 3,
+      "image_sha256": [
+        "184114baff85bc9c9977d4a8b6bb76646f400f82ca7b8730292d80416b6204c0",
+        "b0d2d1bd65cc4b0a90e5720be8337697e3926b7944785c864cc3d0e63e202539"
+      ]
+    }
+  ],
+  "extra_train_augmentation": false
+}

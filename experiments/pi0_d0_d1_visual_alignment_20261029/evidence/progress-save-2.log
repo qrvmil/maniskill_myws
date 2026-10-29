@@ -1,0 +1,30 @@
+[exp/pi0-d0-d1-visual-alignment-20261029 f675af0] exp: bind aligned D0 protocol and preserve preflight progress
+ 25 files changed, 1993 insertions(+)
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/IMPLEMENTATION_PLAN.md
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/PREREGISTRATION.md
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/alignment-port-green.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/alignment-port-red.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/cuda_memtest.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/environment-install.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/fetch-preflight.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/gpu-telemetry.csv
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/historical_d0_3000_training.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/historical_expert_1500_training.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/historical_full_1500_training.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/historical_residual_final_training.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/historical_teacher_training.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/initial-hf-publication.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/pi0_preflight_telemetry.conf
+ create mode 100755 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/pi0_preflight_telemetry.sh
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/progress-save-1.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/progress-save-2.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/simulator-teacher-install.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/smoke-input-receipts.json
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/evidence/torch-cu128-install.log
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/tools/alignment_port.py
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/tools/fetch_preflight.py
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/tools/save_progress.py
+ create mode 100644 experiments/pi0_d0_d1_visual_alignment_20261029/tools/test_alignment_port.py
+To https://github.com/qrvmil/maniskill_myws.git
+   1dbe489..f675af0  HEAD -> exp/pi0-d0-d1-visual-alignment-20261029
+EVIDENCE_DURABLE {"utc": "20261029T101456Z", "github_commit": "f675af0907a647249b4286ef9ad18101e272d0cd", "hf_commit": "168c4fa554f42b3229c95d5b5a61a659c34c5d95", "files": 39, "full_readback": true}

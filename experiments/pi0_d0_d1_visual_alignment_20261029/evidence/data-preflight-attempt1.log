@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "/workspace/visual-alignment-repro-20261029/maniskill_myws/experiments/pi0_d0_d1_visual_alignment_20261029/tools/prepare_smoke_data.py", line 42, in <module>
+    np.testing.assert_allclose(item['image'][key],pixels.astype(np.float32)/127.5-1,rtol=0,atol=2e-7)
+  File "/workspace/visual-alignment-repro-20261029/maniskill_myws/third_party/openpi/.venv/lib/python3.11/site-packages/numpy/testing/_private/utils.py", line 1504, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "/.uv/python_install/cpython-3.11.17-linux-x86_64-gnu/lib/python3.11/contextlib.py", line 81, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/workspace/visual-alignment-repro-20261029/maniskill_myws/third_party/openpi/.venv/lib/python3.11/site-packages/numpy/testing/_private/utils.py", line 797, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=0, atol=2e-07
+
+Mismatched elements: 150528 / 150528 (100%)
+Max absolute difference: 254.
+Max relative difference: 32386.002
+ x: array([[[117, 114, 111],
+        [117, 114, 111],
+        [117, 114, 111],...
+ y: array([[[-0.082353, -0.105882, -0.129412],
+        [-0.082353, -0.105882, -0.129412],
+        [-0.082353, -0.105882, -0.129412],...
